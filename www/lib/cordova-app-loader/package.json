@@ -1,0 +1,60 @@
+{
+  "name": "cordova-app-loader",
+  "version": "0.18.0",
+  "description": "Cordova App Loader - remote update your cordova app",
+  "main": "index.js",
+  "scripts": {
+    "cordova-promise-fs": "npm run-script cordova-promise-fs prepublish && cp node_modules/cordova-file-cache/node_modules/cordova-promise-fs/dist/CordovaPromiseFS.js www/lib/CordovaPromiseFS.js",
+    "cordova-app-loader": "webpack index.js www/lib/CordovaAppLoader.js --output-library CordovaAppLoader --output-library-target var",
+    "bootstrap": "cp bootstrap.js www/bootstrap.js",
+    "copy-tests": "cp pegasus.js www/test/pegasus.js && cp node_modules/cordova-promise-fs/test/tests.js www/test/cordova-promise-fs-tests.js && cp node_modules/cordova-file-cache/test/tests.js www/test/cordova-file-cache-tests.js",
+    "autoupdate": "cp autoupdate.js www/autoupdate.js",
+    "bundle": " webpack bundle.js dist/cordova-app-loader-complete.js && cp dist/cordova-app-loader-complete.js www/lib/cordova-app-loader-complete.js",
+    "prepublish": "npm run copy-tests && npm run autoupdate && npm run bootstrap && npm run cordova-app-loader && npm run copy-to-dist && npm run bundle && npm run minify-dist",
+    "copy-to-dist": "cp www/lib/CordovaAppLoader.js dist/ && cp www/lib/CordovaPromiseFS.js dist/ && cp www/bootstrap.js dist/ && cp www/autoupdate.js dist/",
+    "minify-dist": " uglifyjs -c -m --screw-ie8 dist/bootstrap.js -o dist/bootstrap.min.js && uglifyjs -c -m --screw-ie8 dist/autoupdate.js -o dist/autoupdate.min.js && uglifyjs -c -m --screw-ie8 dist/CordovaPromiseFS.js -o dist/CordovaPromiseFS.min.js && uglifyjs -c -m --screw-ie8 dist/CordovaAppLoader.js -o dist/CordovaAppLoader.min.js && uglifyjs -c -m --screw-ie8 dist/cordova-app-loader-complete.js > dist/cordova-app-loader-complete.min.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "cordova",
+    "app",
+    "loader",
+    "remote",
+    "update"
+  ],
+  "author": {
+    "name": "Mark Marijnissen"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "cordova-file-cache": "^0.13.0",
+    "cordova-promise-fs": "^0.13.0"
+  },
+  "gitHead": "17fb568633a0643d318e8a833c576c89645ae1fc",
+  "_id": "cordova-app-loader@0.18.0",
+  "_shasum": "c95238b449b0218d6070032fd537c9cd22b792b9",
+  "_from": "cordova-app-loader@*",
+  "_npmVersion": "2.14.7",
+  "_nodeVersion": "4.2.2",
+  "_npmUser": {
+    "name": "markmarijnissen",
+    "email": "info@madebymark.nl"
+  },
+  "maintainers": [
+    {
+      "name": "markmarijnissen",
+      "email": "info@madebymark.nl"
+    },
+    {
+      "name": "objectivetruth",
+      "email": "Josemiguel.mendez@uoit.net"
+    }
+  ],
+  "dist": {
+    "shasum": "c95238b449b0218d6070032fd537c9cd22b792b9",
+    "tarball": "https://registry.npmjs.org/cordova-app-loader/-/cordova-app-loader-0.18.0.tgz"
+  },
+  "directories": {},
+  "_resolved": "https://registry.npmjs.org/cordova-app-loader/-/cordova-app-loader-0.18.0.tgz",
+  "readme": "ERROR: No README data found!"
+}

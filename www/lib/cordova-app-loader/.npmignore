@@ -1,0 +1,6 @@
+platforms/**/
+plugins/ios.json
+plugins/android.json
+plugins/**/
+node_modules
+npm-debug.log
