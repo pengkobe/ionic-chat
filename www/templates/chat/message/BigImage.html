@@ -1,0 +1,12 @@
+<ion-modal-view  style="background-color: rgba(0,0,0,0.8);">
+    <ion-header-bar>
+        <h1 class="title" style="color:white">图片</h1>
+        <!--<div class="buttons">
+            <button class="button button-clear" ng-click="closeModal()">关闭</button>
+        </div>-->
+    </ion-header-bar>
+    <ion-content ng-click="closeModal()" scroll="false"  
+    style="display: -webkit-flex;-webkit-flex-direction:column;justify-content: center; ">
+        <img  ng-src="{{imageData}}"  style="width: 100%;" />
+    </ion-content>
+</ion-modal-view>

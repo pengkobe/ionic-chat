@@ -1,0 +1,37 @@
+<ion-view view-title="个人资料">
+    <ion-content class="update">
+        <div class="list">
+            <a class="item item-icon-right person-image" ng-click='update(2)'  >
+                头像
+                <span class="item-note" >
+                    <img ng-src="{{ data.headimgurl }}" >
+                </span>
+                <i class="icon ion-ios-arrow-right"></i>
+            </a>
+            <a class="item item-icon-right" ng-click='update(3)'>
+                昵称
+                <span class="item-note">{{ data.nickname }} </span>
+                <i class="icon ion-ios-arrow-right"></i>
+            </a>
+            <a class="item item-icon-right" ng-click='update(4)'>
+                密码
+                <i class="icon ion-ios-arrow-right"></i>
+            </a>
+            <a class="item item-icon-right" ng-click='update(5)'>
+                手机号
+                <span class="item-note">{{ data.Mobile }} </span>
+                <i class="icon ion-ios-arrow-right"></i>
+            </a>
+            <a class="item item-icon-right" ng-click='update(7)'>
+                微信
+                <span class="item-note">  </span>
+                <i class="icon ion-ios-arrow-right"></i>
+            </a>
+            <a class="item item-icon-right" ng-click='update(8)'>
+                邮箱
+                <span class="item-note"> {{ data.EMail }} </span>
+                <i class="icon ion-ios-arrow-right"></i>
+            </a>
+        </div>
+    </ion-content>
+</ion-view>

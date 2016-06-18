@@ -1,0 +1,49 @@
+<ion-view view-title="群组信息">
+  <ion-content style="background-color:#EEE">
+    <ion-list>
+
+      <ion-item class="item item-divider" style="background-color:#fff">
+        成员列表
+      </ion-item>
+      <ion-item ng-repeat="member in members" class="rj-groupmember" 
+        href="#/EFOS/friendInfo/{{member.id}}/{{member.name}}/PRIVATE">
+        <div class="rj-contacts-pic">
+          <img ng-src="{{member.portrait||'img/personPhoto.png'}}" style="margin-left:0px;">
+        </div>
+        <h2>{{member.name}}</h2>
+      </ion-item>
+
+      <!--<ion-item class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap">
+        <!--<img ng-src="{{Target.portrait||'img/personPhoto.png'}}">
+        <h2>群名称:{{Target.name}}</h2>
+        <p class="subTitle">群成员{{Target.number}}人</p>
+      </ion-item>-->
+      <ion-item class="item-icon-right">
+        名称:{{Target.name}}
+        <i class="icon ion-chevron-right icon-accessory"></i>
+      </ion-item>
+      <ion-item class="item-icon-right">
+        人数:{{Target.number}}
+        <i class="icon ion-chevron-right icon-accessory"></i>
+      </ion-item>
+
+      <!--<ion-item ng-click='sendMsg()' class="item-icon-right">
+          发起群聊
+          <i class="icon ion-chevron-right icon-accessory"></i>
+        </ion-item>
+        <ion-item  class="item-icon-right">
+          添加新成员(待完成)
+          <i class="icon ion-chevron-right icon-accessory"></i>
+        <button class="button button-full button-balanced" style="margin:5px 0px">
+        </button>
+        -->
+      </ion-item>
+      <button class="button button-block button-balanced" ng-click='sendMsg()'>
+         发起群聊
+      </button>
+      <button class="button button-block" ng-click='addTeammate()'>
+         添加新成员
+      </button>
+    </ion-list>
+  </ion-content>
+</ion-view>

@@ -1,0 +1,21 @@
+<div class="modal">
+    <ion-header-bar class="bar-secondary">
+        <h1 class="title">新建工作组</h1>
+        <button class="button button-clear button-positive" ng-click="closeNewTask()">cancel</button>
+    </ion-header-bar>
+
+    <ion-content>
+        <form ng-submit="createTask(task)">
+            <div class="list">
+                <label class="item item-input">
+                    <input type="text" placeholder="工作组名称" ng-model="task.title">
+                </label>
+            </div>
+            <div class="padding">
+                <button type="submit" class="button button-block badge-positive">创建工作组</button>
+            </div>
+
+        </form>
+    </ion-content>
+
+</div>

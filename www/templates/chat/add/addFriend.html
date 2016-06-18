@@ -1,0 +1,27 @@
+<ion-view view-title="添加好友">
+    <ion-content class="padding" style="background-color: white;">
+        <div class="list ">
+            <label class="item item-input">
+                <i class="icon ion-search placeholder-icon"></i>
+                <input type="text" placeholder="手机号" ng-model="tel">
+            </label>
+        </div>
+        <div class="text-center"> 我的电话号为：{{ myTel }} </div>
+
+        <button class="button button-block button-balanced" ng-click="search(tel)">搜索</button>
+
+        <div ng-if="friend!=1&&friend!=0" class="row" style="margin-top: 50px;">
+            <span class="col col-center">{{ friend.UserName }}</span>
+            <span class="col col-center">{{ friend.Mobile }}</span>
+            <span class="col text-right">
+                <button class="button  button-small button-balanced" ng-click="add(friend.UserID)">添加</button>
+            </span>
+        </div>
+
+
+        <div ng-if='friend==1' class="text-center" style="margin-top: 50px;">
+             该手机号尚未注册！
+        </div>
+
+    </ion-content>
+</ion-view>

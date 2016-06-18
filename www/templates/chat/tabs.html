@@ -1,0 +1,48 @@
+<ion-side-menus>
+  <ion-side-menu-content >
+    <ion-nav-bar class="bar-dark nav-title-slide-ios7">
+      <ion-nav-back-button>
+      </ion-nav-back-button>
+
+      <ion-nav-buttons side="left" >
+        <button class="button  button-clear title_icon " menu-toggle="left" ng-show="TabState">
+          <i class="icon-uniE901" style="font-size: 18pt;line-height: 34px;"></i>
+        </button>
+      </ion-nav-buttons>
+
+    </ion-nav-bar>
+    <ion-nav-view name="SideMenuContent"></ion-nav-view>
+
+    <ion-tabs class="tabs-icon-top" ng-class="{'tabs-item-hide': hideTabsxietong}">
+      <!-- Chats Tab -->
+      <ion-tab title="聊一聊" badge="chatUnreadMessageNum"
+       badge-style="badge-assertive"
+      icon-off="icon-uniE904" icon-on="icon-uniE904" href="#/EFOS/contacts" >
+        <ion-nav-view name="efos-chat"></ion-nav-view>
+      </ion-tab>
+      <!--   task tab  -->
+      <ion-tab title="我" icon-off="icon-uniE903" icon-on="icon-uniE903" href="#/EFOS/person">
+        <ion-nav-view name="efos-person"></ion-nav-view>
+      </ion-tab>
+    </ion-tabs>
+
+  </ion-side-menu-content>
+
+  <ion-side-menu side="left" width="280">
+    <ion-content  class="menu-bg">
+      <div class="head"  menu-close >
+               {{ '你是: '+CurrentPName }}
+      </div>
+
+      <div class="row menu_Row">
+        <div class="col col-center">
+          <span>待定</span>
+        </div>
+      </div>
+
+      <ion-list >
+      <!-- 显示待定  -->
+      </ion-list>
+    </ion-content>
+  </ion-side-menu>
+</ion-side-menus>

@@ -1,0 +1,15 @@
+<p class="rj-message-time" ng-bind="message.sentTime"></p>
+<div class="rj-message-wrap" ng-if="message.senderUserId !== curUID ">
+    <div class="rj-head-div">
+       <img ng-src="img/personPhoto.png" class="rj-head-pic" />
+       <div class="rj-group-membername" >{{message.name}}</div>
+    </div>
+    <span class="rj-triangle-left"></span>
+    <p class="rj-message" ng-bind-html="message.content.text | trustHtml"></p>
+</div>
+<div class="rj-message-wrap" ng-if="message.senderUserId === curUID ">
+    <img src="img/me.png" class="rj-head-pic-right" />
+    <span class="rj-triangle-right"></span>
+    <p class="rj-message-right" ng-bind-html="message.content.text | trustHtml"></p>
+</div>
+
