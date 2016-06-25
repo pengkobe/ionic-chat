@@ -1,16 +1,12 @@
 /**
  * 设置首页
  */
-
 angular.module('starter.controllers')
     .controller('PersonCtrl', function (CacheFactory, $ionicModal, RequestUrl, $scope,
         $rootScope, $state, $ionicPopup, signaling, _appKey, Friends, $timeout, $ionicActionSheet) { //Friends初始化加载项目人员
 
         var cache = angular.fromJson(CacheFactory.get('UserAccount'));
-        $scope.GoToOrderPage = function () {
-            $state.go('EFOS.alarm');
-        };
-
+      
         $scope.UserName = cache.UserAccount || cache.Mobile;
 
         if (!!cache.RoleID) {
@@ -44,8 +40,6 @@ angular.module('starter.controllers')
                 });
                 // 融云服务初始化(需要提取为服务)
                 function initRong(token) {
-                    //alert('_appKey:'+_appKey);
-                    //return;
                     $rootScope.arrMsgs = new Array();
                     $rootScope.arrCons = new Array();
                     // 融云初始化
@@ -134,5 +128,5 @@ angular.module('starter.controllers')
         $scope.$on('$ionicView.beforeLeave', function () {
             $rootScope.$broadcast('ns:popover:Leave');
         });
- 
+
     })

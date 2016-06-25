@@ -50,7 +50,6 @@ angular.module('starter.controllers')
         };
 
         function createTeam(team) {
-
             HttpFactory.send({
                 url: RequestUrl + 'Action.ashx?Name=HYD.E3.Business.UserInfo_newBLL.createGroup',
                 data: {
@@ -64,22 +63,19 @@ angular.module('starter.controllers')
                 $timeout(function () {
                     $ionicHistory.goBack();
                 }, 3000);
-
             });
-
         }
 
         $scope.getAllContacts = function () {
             var options = {};
             options.multiple = true;
-
-            $cordovaContacts.find(options).then(function (allContacts) { //omitting parameter to .find() causes all contacts to be returned
+            $cordovaContacts.find(options).then(function (allContacts) { 
+                //omitting parameter to .find() causes all contacts to be returned
                 $scope.contacts = allContacts;
                 alert(angular.toJson($scope.contacts[0]));
             }, function (err) {
                 alert(err);
             });
-
         };
     })
     ;

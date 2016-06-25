@@ -9,11 +9,11 @@ angular.module('starter.controllers')
         // 发送群消息
         $scope.sendMsg = function () {
             // alert('p y is here ready to home:'+$stateParams.targetId+":"+$stateParams.conversationType);
-            $state.go('EFOS.chatDetail', { name: targetName, targetId: targetId, conversationType: conversationType });
+            $state.go('YIPENG.chatDetail', { name: targetName, targetId: targetId, conversationType: conversationType });
         }
         // 添加群成员
         $scope.addTeammate = function () {
-            $state.go('EFOS.addTeammate', { GroupID: targetId });
+            $state.go('YIPENG.addTeammate', { GroupID: targetId });
         }
         $scope.members = [];
         function getGroupMem() {

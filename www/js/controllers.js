@@ -1,6 +1,17 @@
-angular.module('starter.controllers')
+angular.module('starter.controllers', [])
     .controller('LoginCtrl', function ($timeout, $scope, HttpFactory, $state, $ionicPopup,
-                                       myNote, CacheFactory, $rootScope, signaling, RequestUrl, _appKey,currentUser) {
+        myNote, CacheFactory, $rootScope, signaling, RequestUrl, _appKey, currentUser) {
+        $scope.$on('$ionicView.beforeEnter', function () {
+            if (!!CacheFactory.get('Login')) {
+                var cache = angular.fromJson(CacheFactory.get('UserAccount'));
+                if (!cache.Mobile || cache.Mobile == 'null') {
+                    $state.go('checkMobile');
+                } else {
+                    $state.go('YIPENG.person');
+                }
+            }
+        });
+
         $scope.user = {};
         $scope.loginIn = function (valid) {
             if (valid) {
@@ -14,7 +25,6 @@ angular.module('starter.controllers')
                     },
                     method: 'post'
                 }).success(function (data) {
-                    // console.log(data);
                     if (data.data.length == 0) {
                         myNote.myNotice("用户名或密码错误!");
                     } else {
@@ -32,7 +42,11 @@ angular.module('starter.controllers')
                         CacheFactory.save('Login', true);
                         currentUser.setUserinfo(data.data[0]);
                         CacheFactory.save('UserAccount', data.data[0]);
-                        $state.go('EFOS.person');
+                        if (data.data[0].Mobile == null) {
+                            $state.go('checkMobile');
+                        } else {
+                            $state.go('YIPENG.person');
+                        }
                     }
                 });
             } else {
@@ -47,7 +61,6 @@ angular.module('starter.controllers')
                 }
             }
         };
-
         function setPhoneCode(userId, uuid) {
             HttpFactory.send({
                 url: RequestUrl + 'Action.ashx?Name=HYD.E3.Business.APP_CommonBLL.UpdateBindPhoneInfo',
@@ -63,16 +76,7 @@ angular.module('starter.controllers')
     })
 
     .controller('RegisterCtrl', function (CacheFactory, $scope, $state, myNote, HttpFactory, RequestUrl, $timeout, $interval) {
-        $scope.$on('$ionicView.beforeEnter', function () {
-            if (!!CacheFactory.get('Login')) {
-                $state.go('EFOS.person');
-
-            } else if (!!CacheFactory.get('token')) {
-                $state.go('login');
-            }
-        });
-
-        $scope.user = {state: true};
+        $scope.user = { state: true };
         $scope.canClick = false;
         $scope.buttonTitle = '获取验证码';
 
@@ -85,11 +89,10 @@ angular.module('starter.controllers')
                 myNote.myNotice('手机号码格式不正确');
                 return;
             }
-
             $scope.canClick = true;
-            $scope.buttonTitle =60;
+            $scope.buttonTitle = 60;
 
-            var itr=$interval(function () {
+            var itr = $interval(function () {
                 if ($scope.buttonTitle == 0) {
                     $scope.buttonTitle = '获取验证码';
                     $interval.cancel(itr);
@@ -98,11 +101,9 @@ angular.module('starter.controllers')
                     $scope.buttonTitle -= 1;
                 }
             }, 1000);
-
             AV.Cloud.requestSmsCode(mobPhone).then(function () {
                 //发送成功
                 console.log('success');
-
             }, function (err) {
                 //发送失败
                 myNote.myNotice(err.message);
@@ -111,8 +112,17 @@ angular.module('starter.controllers')
 
         $scope.toProtocol = function () {
         };
-
+        $scope.tip = true;
         $scope.register = function () {
+            if (!$scope.tip) {
+                return;
+            } else {
+                $scope.tip = false;
+                $timeout(function () {
+                    $scope.tip = true;
+                }, 5000);
+            }
+
             if ($scope.user.phone == null) {
                 myNote.myNotice('手机号不能为空!', 1000);
                 return;
@@ -160,82 +170,29 @@ angular.module('starter.controllers')
                         model: angular.toJson({
                             Mobile: phone,
                             Password: pwd,
-                            SunPoint: 50
+                            SumPoint: 50
                         })
                     },
                     method: 'post'
                 }).success(function (data) {
                     CacheFactory.save('token', true);
-
-                    if(data.data.length==0){
-                        myNote.myNotice('该号码已注册，请直接登录！',1500);
-                        $state.go('login');
-                    }else{
+                    console.log(data);
+                    if (data.data.length == 0) {
+                        myNote.myNotice('该号码已注册，请直接登录！', 2000);
+                        $timeout(function () {
+                            $state.go('login');
+                        }, 2000);
+                    } else {
                         CacheFactory.save('Login', true);
-                        CacheFactory.save('UserAccount',  data.data[0]);
-                        $state.go('EFOS.person');
+                        CacheFactory.save('UserAccount', data.data[0]);
+                        $state.go('YIPENG.person');
                     }
-
                 })
             }
         };
 
     })
-
-    .controller('EFosCtrl', function ($ionicModal, $state, myNote, $rootScope, $scope, CacheFactory,
-                                      HttpFactory, RequestUrl, $ionicLoading, newMessageEventService,currentUser) {
-
-        var cache= angular.fromJson(CacheFactory.get('UserAccount'));
-
-
-        $rootScope.TabState = cache.flag == 1;
-
-
-        if (!!$rootScope.TabState) {
-            HttpFactory.send({
-                url: RequestUrl + 'Action.ashx?Name=HYD.E3.Business.UserInfo_newBLL.GetProjectInfo',
-                data: {
-                    UserID: cache.UserID
-                },
-                method: 'post'
-            }).success(function (data) {
-                if (data.data.length == 0) {
-                    return;
-                }
-                $scope.ProjectInfo = data.data;
-                currentUser.setProjectinfo(data.data);
-                if (cache.PCode == null) {
-                    cache.PCode=data.data[0].PCode;
-                    CacheFactory.save('UserAccount',cache);
-                    currentUser.setUserinfo(cache);
-                    $scope.CurrentPName = data.data[0].PName;
-                } else {
-                    for (var p = 0, len = data.data.length; p < len; p++) {
-                        if (data.data[p].PCode == cache.PCode ) {
-                            $scope.CurrentPName = data.data[p].PName;
-                        }
-                    }
-                }
-            });
-        }
-
-        //切换项目
-        $scope.ChangeProject = function (PCode, PName) {
-            //判断PCode 是否有变化
-            if (cache.PCode == PCode) {
-                return;
-            }
-            cache.PCode=PCode;
-            CacheFactory.save('UserAccount',cache);
-            $scope.CurrentPName = PName;
-            $rootScope.$broadcast('change Project', PCode);
-            $ionicLoading.show({
-                template: '<ion-spinner icon="bubbles" class="spinner-balanced"></ion-spinner>'
-            });
-            $state.go('EFOS.index');
-        };
-
-
+    .controller('YIPENGCtrl', function ($rootScope, $scope, newMessageEventService) {
         /// ==== 协同相关, 全局监听消息(BEGIN) ====
         var chMsg = function (newValue, oldValue) {
             // alert('mainpage:来消息了！newValue:'+newValue +":oldValue:" + oldValue);
@@ -254,5 +211,4 @@ angular.module('starter.controllers')
             listener();
         });
         /// ==== 协同相关, 全局监听消息(END) ====
-
     });

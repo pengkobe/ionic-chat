@@ -7,6 +7,7 @@ angular.module('starter.controllers')
         $ionicPopup, newMessageEventService, CacheFactory,
         projectTeam, FindFriendsReq, findTeamsReq, ResFriend,
         ResTeam, unreadMessages, chatUnreadMessage, currentUser) {
+            debugger;
         $scope.data = {
             searchword: ''
         };
@@ -172,14 +173,14 @@ angular.module('starter.controllers')
         }
         // 添加团队与添加好友
         $scope.addTeam = function () {
-            $state.go('EFOS.addTeam');
+            $state.go('YIPENG.addTeam');
         };
         $scope.addFriend = function () {
-            $state.go('EFOS.addFriend');
+            $state.go('YIPENG.addFriend');
         };
 
         $scope.initTalk = function (friendID, username, type, $event) {
-            $state.go('EFOS.chatDetail', {
+            $state.go('YIPENG.chatDetail', {
                 messageId: '1', name: username, targetId: friendID,
                 conversationType: type
             });
@@ -331,7 +332,7 @@ angular.module('starter.controllers')
             }
             // 转到聊天主界面
             var name = target ? target.name : '[陌生人]';
-            $state.go("EFOS.chatDetail",
+            $state.go("YIPENG.chatDetail",
                 { targetId: friend.targetId, name: name, conversationType: friend.conversationType }
             );
         }

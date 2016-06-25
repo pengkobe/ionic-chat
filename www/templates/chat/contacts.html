@@ -23,7 +23,7 @@
                 工作组
             </ion-item>
             <ion-item class="rj-item"  style="padding-left:10px" ng-repeat="group in groups" 
-             ng-href="#/EFOS/groupInfo/{{group.id}}/{{group.name}}/{{group.type}}/GROUP">
+             ng-href="#/YIPENG/groupInfo/{{group.id}}/{{group.name}}/{{group.type}}/GROUP">
                 <div class="rj-groups-pic rj-green-bgc">
                     <i class="ion-android-contacts"></i>
                 </div>
@@ -40,7 +40,7 @@
                 联系人
             </ion-item>
             <ion-item ng-repeat="friend in friends" class="rj-item" 
-             href="#/EFOS/friendInfo/{{friend.id}}/{{friend.name}}/PRIVATE">
+             href="#/YIPENG/friendInfo/{{friend.id}}/{{friend.name}}/PRIVATE">
                 <a name="index_{{friend.alpha}}" scrollTop="{{friend.scrollHeight}}"
                  ng-if="cri.DataValue!=friend.alpha && 1?cri.DataValue=friend.alpha:0"
                     class="rj-contacts-index-bar">{{friend.alpha}}</a>

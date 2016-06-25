@@ -1,15 +1,14 @@
 // Ionic Starter App
 var db = null;
 
-angular.module('starter', ['ionic', 'starter.controllers', 
-  'starter.router', 'starter.services','starter.directive',
- 'starter.plugins', 'starter.config', 'nsPopover', 
- 'ngCordova', 'btford.socket-io', 'ionic-timepicker'])
-  .run(function (UpdateService, $cordovaSQLite, $ionicPlatform, $rootScope, 
-  $ionicLoading, $cordovaAppVersion, HttpFactory, RequestUrl, 
-  $cordovaFileTransfer, $cordovaFileOpener2, $timeout, $ionicPopup, $location, $ionicHistory) {
+angular.module('starter', ['ionic', 'starter.controllers','starter.router',
+ 'starter.services', 'starter.directive','starter.config', 'nsPopover',
+  'ngCordova', 'btford.socket-io'])
+  .run(function (UpdateService, $cordovaSQLite, $ionicPlatform, $rootScope,
+    $ionicLoading, $cordovaAppVersion, HttpFactory, RequestUrl,
+    $cordovaFileTransfer, $cordovaFileOpener2, $timeout, $ionicPopup, $location, $ionicHistory) {
     $ionicPlatform.ready(function () {
-      
+
       AV.initialize('Wh4uDtHcjEBw0KoQLyKNoqil-gzGzoHsz', 'RwFlHsCDtwTgcrdQiqUiq8vG');
 
       window.BOOTSTRAP_OK = true;
@@ -23,7 +22,7 @@ angular.module('starter', ['ionic', 'starter.controllers',
       if (window.StatusBar) {
         StatusBar.styleDefault();
       }
-      checkUpdate();
+      //checkUpdate();
     });
     function updateFiles() {
       var check = UpdateService.check();
@@ -81,9 +80,9 @@ angular.module('starter', ['ionic', 'starter.controllers',
             template: "已经下载：0%"
           });
           //可以从服务端获取更新APP的路径
-          var url = RequestUrl + "app_download/efos-black-beta.apk"; 
+          var url = RequestUrl + "app_download/efos-black-beta.apk";
           //APP下载存放的路径，可以使用cordova file插件进行相关配置
-          var targetPath = "file:///storage/sdcard0/Download/efos-black-beta.apk"; 
+          var targetPath = "file:///storage/sdcard0/Download/efos-black-beta.apk";
           var trustHosts = true;
           var options = {};
           $cordovaFileTransfer.download(url, targetPath, options, trustHosts).then(function (result) {
@@ -97,7 +96,7 @@ angular.module('starter', ['ionic', 'starter.controllers',
             $ionicLoading.hide();
 
           }, function (err) {
-              alert('下载失败');
+            alert('下载失败');
           }, function (progress) {
             $timeout(function () {
               var downloadProgress = (progress.loaded / progress.total) * 100;
@@ -114,7 +113,7 @@ angular.module('starter', ['ionic', 'starter.controllers',
         }
       });
     }
-   
+
     $rootScope.$on('loading:hide', function () {
       $ionicLoading.hide();
     });
@@ -136,7 +135,7 @@ angular.module('starter', ['ionic', 'starter.controllers',
           }
         });
       }
-      if ($location.path() == '/EFOS/index') {
+      if ($location.path() == '/YIPENG/index') {
         showConfirm();
       } else if ($ionicHistory.backView()) {
         $ionicHistory.goBack();
@@ -147,7 +146,7 @@ angular.module('starter', ['ionic', 'starter.controllers',
     }, 100);
   })
   // 全局监听PhoneRtc消息
-  .run(function ($state, signaling, $ionicLoading) { 
+  .run(function ($state, signaling, $ionicLoading) {
     signaling.on('messageReceived', function (name, message) {
       switch (message.type) {
         case 'call':
@@ -155,7 +154,7 @@ angular.module('starter', ['ionic', 'starter.controllers',
             return;
           }
           alert('收到视频通话请求，准备跳转！' + message.type);
-          $state.go('EFOS.call', { isCalling: false, contactName: name });
+          $state.go('YIPENG.call', { isCalling: false, contactName: name });
           break;
       }
     });

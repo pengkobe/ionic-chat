@@ -51,7 +51,7 @@ angular.module('starter.controllers')
         // 发送消息,跳转到聊天界面
         $scope.sendMsg = function () {
             //alert('p y is here ready to home:' + $stateParams.targetId + ":" + $stateParams.conversationType);
-            $state.go('EFOS.chatDetail', {
+            $state.go('YIPENG.chatDetail', {
                 messageId: '1', name: targetName, targetId: targetId,
                 conversationType: $stateParams.conversationType
             });
@@ -60,7 +60,7 @@ angular.module('starter.controllers')
         $scope.vedioChat = function () {
             //alert('chatdetial:' + $stateParams.targetId);
             var obj = { isCalling: true, contactName: $stateParams.targetId };
-            $state.go('EFOS.call', obj);
+            $state.go('YIPENG.call', obj);
         }
 
         // 添加陌生人为好友

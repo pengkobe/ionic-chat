@@ -103,12 +103,12 @@ angular.module('starter.controllers')
         $scope.onVoiceCall = function () {
             //alert('chatdetial:' + $stateParams.targetId);
             var obj = { isCalling: true, contactName: $stateParams.targetId };
-            $state.go('EFOS.call', obj);
+            $state.go('YIPENG.call', obj);
         }
         $scope.onVedioCall = function () {
             //alert('chatdetial:' + $stateParams.targetId);
             var obj = { isCalling: true, contactName: $stateParams.targetId };
-            $state.go('EFOS.call', obj);
+            $state.go('YIPENG.call', obj);
         }
         // === 视频/音频通话(END) ===
 

@@ -1,0 +1,11 @@
+{
+  "files":{
+    "style.css": {
+      "filename": "css/style.css",
+      "version": "3.31.2016"
+    }
+  },
+  "load":[
+    "css/style.css"
+  ]
+}

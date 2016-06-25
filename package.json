@@ -20,7 +20,10 @@
     "cordova-plugin-whitelist",
     "cordova-plugin-splashscreen",
     "cordova-plugin-statusbar",
-    "ionic-plugin-keyboard"
+    "ionic-plugin-keyboard",
+    "C:\\Users\\lenovo\\Desktop\\nativepagetransitions-0-6-5\\NativePageTransitions-0.6.5",
+    "E:\\cordova-plugins\\phonertc-master\\phonertc-master",
+    "cordova-plugin-contacts"
   ],
   "cordovaPlatforms": []
 }

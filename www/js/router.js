@@ -30,13 +30,12 @@ angular.module('starter.router', [])
         $ionicConfigProvider.platform.ios.views.transition('none');
         $ionicConfigProvider.platform.android.views.transition('none');
         $stateProvider
-
-            .state('EFOS', {
+            .state('YIPENG', {
                 cache: false,
-                url: '/EFOS',
+                url: '/YIPENG',
                 abstract: true,
                 templateUrl: 'templates/tabs.html',
-                controller: 'EFosCtrl'
+                controller: 'YIPENGCtrl'
             })
             .state('login', {
                 cache: false,
@@ -49,140 +48,112 @@ angular.module('starter.router', [])
                 templateUrl: 'templates/register.html',
                 controller: 'RegisterCtrl'
             })
-            .state('EFOS.index', {
-                url: '/index',
-                views: {
-                    'efos-index': {
-                        templateUrl: 'templates/index/index.html',
-                        controller: 'IndexCtrl'
-                    }
-                }
-            })
-            .state('EFOS.person', {
+            .state('YIPENG.person', {
                 url: '/person',
                 views: {
-                    'efos-person': {
-                        templateUrl: 'templates/person/person.html',
+                    'yipeng-person': {
+                        templateUrl: 'templates/setting/person.html',
                         controller: 'PersonCtrl'
                     }
                 }
             })
-            .state('EFOS.update', {
-                url: '/person/update',
-                cache:false,
-                views: {
-                    'efos-person': {
-                        templateUrl: 'templates/person/update.html',
-                        controller: 'UpdateCtrl'
-                    }
-                }
-            })
-            .state('EFOS.setting', {
+            .state('YIPENG.setting', {
                 url: '/person/setting',
                 views: {
-                    'efos-person': {
-                        templateUrl: 'templates/person/setting.html',
+                    'yipeng-person': {
+                        templateUrl: 'templates/setting/setting.html',
                         controller: 'SettingCtrl'
                     }
                 }
             })
-            .state('EFOS.integral', {
+            .state('YIPENG.integral', {
                 url: '/person/integral',
                 views: {
-                    'efos-person': {
-                        templateUrl: 'templates/person/integral.html',
+                    'yipeng-person': {
+                        templateUrl: 'templates/setting/integral.html',
                         controller: 'IntegralCtrl'
                     }
                 }
             })
-            .state('EFOS.contacts', {
+            .state('YIPENG.contacts', {
                 url: '/contacts',
                 views: {
-                    'efos-chat': {
+                    'yipeng-chat': {
                         templateUrl: 'templates/chat/contacts.html',
                         controller: 'contacts'
                     }
                 }
             })
-            .state('EFOS.friendInfo', {
+            .state('YIPENG.friendInfo', {
                 url: '/friendInfo/:targetId/:targetName/:conversationType',
                  cache:false,
                 views: {
-                    'efos-chat': {
+                    'yipeng-chat': {
                         templateUrl: 'templates/chat/friendinfo.html',
                         controller: 'friendInfoCtrl'
                     }
                 }
             })
-            .state('EFOS.groupInfo', {
+            .state('YIPENG.groupInfo', {
                 url: '/groupInfo/:targetId/:targetName/:groupType/:conversationType',
                  cache:false,
                 views: {
-                    'efos-chat': {
+                    'yipeng-chat': {
                         templateUrl: 'templates/chat/groupinfo.html',
                         controller: 'groupInfoCtrl'
                     }
                 }
             })
-            .state('EFOS.chatDetail', {
+            .state('YIPENG.chatDetail', {
                 url: '/chat-detail',
                 params: {messageId: null, name: null, targetId: null, conversationType: null},
                 views: {
-                    'efos-chat': {
+                    'yipeng-chat': {
                         templateUrl: 'templates/chat/chat-detail.html',
                         controller: 'chatDetail'
                     }
                 }
             })
-            .state('EFOS.call', {
+            .state('YIPENG.call', {
                 cache: false,
                 url: '/call/:contactName?isCalling',
                 views: {
-                    'efos-chat': {
+                    'yipeng-chat': {
                         controller: 'CallCtrl',
                         templateUrl: 'templates/chat/call.html'
                     }
                 }
             })
-              .state('EFOS.addTeam', {
+              .state('YIPENG.addTeam', {
                 url: '/addTeam',
                 views: {
-                    'efos-chat': {
+                    'yipeng-chat': {
                         templateUrl: 'templates/chat/add/addTeam.html',
                         controller: 'addTeamCtrl'
                     }
                 }
             })
-            .state('EFOS.addTeammate', {
+            .state('YIPENG.addTeammate', {
                 url: '/addTeammate',
                 params: {GroupID: null},
                 views: {
-                    'efos-chat': {
+                    'yipeng-chat': {
                         templateUrl: 'templates/chat/add/addTeammate.html',
                         controller: 'addTeammateCtrl'
                     }
                 }
             })
-            .state('EFOS.addFriend', {
+            .state('YIPENG.addFriend', {
                 url: '/addFriend',
                 views: {
-                    'efos-chat': {
+                    'yipeng-chat': {
                         templateUrl: 'templates/chat/add/addFriend.html',
                         controller: 'addFriendCtrl'
                     }
                 }
-            })
-            .state('EFOS.task', {
-                url: '/task',
-                views: {
-                    'efos-task': {
-                        templateUrl: 'templates/task/task.html',
-                        controller: 'taskCtrl'
-                    }
-                }
             });
             
-        $urlRouterProvider.otherwise('/register');
+        $urlRouterProvider.otherwise('/login');
 
         $httpProvider.interceptors.push(['UpdateService', function (UpdateService) {
             return {
