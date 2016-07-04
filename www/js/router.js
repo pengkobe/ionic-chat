@@ -48,6 +48,11 @@ angular.module('starter.router', [])
                 templateUrl: 'templates/register.html',
                 controller: 'RegisterCtrl'
             })
+            .state('checkMobile', {
+                url: '/checkMobile',
+                templateUrl: 'templates/checkMobile.html',
+                controller: 'checkMobileCtrl'
+            })
             .state('YIPENG.person', {
                 url: '/person',
                 views: {

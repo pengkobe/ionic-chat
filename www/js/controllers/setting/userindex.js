@@ -4,11 +4,8 @@
 angular.module('starter.controllers')
     .controller('PersonCtrl', function (CacheFactory, $ionicModal, RequestUrl, $scope,
         $rootScope, $state, $ionicPopup, signaling, _appKey, Friends, $timeout, $ionicActionSheet) { //Friends初始化加载项目人员
-
         var cache = angular.fromJson(CacheFactory.get('UserAccount'));
-      
         $scope.UserName = cache.UserAccount || cache.Mobile;
-
         if (!!cache.RoleID) {
             $scope.RoleName = cache.RoleID <= 6 ? '主管' : (cache.RoleID == 7 ? '维修工' : '客服');
         } else {

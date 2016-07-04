@@ -212,7 +212,7 @@ angular.module('starter.services', [])
                         obj.id = "prj_" + projectCode;
                         obj.number = dataLen;
                         obj.max_number = 10;
-                        obj.name = globalUser.getProjectinfo()[0].PName + '项目组';
+                        obj.name = '默认项目组';
                         obj.conversationType = 'GROUP';
                         obj.type = 'project';
                         obj.portrait = null;
@@ -586,6 +586,7 @@ angular.module('starter.services', [])
             }
         }
     })
+    // 热更新服务
     .factory('UpdateService', function ($log, $q) {
         var fs = new CordovaPromiseFS({
             Promise: Promise
@@ -646,6 +647,7 @@ angular.module('starter.services', [])
             }
         };
     })
+    // ajax请求服务
     .factory('HttpFactory', function ($http, $ionicPopup, $ionicLoading, myNote, $timeout) {
 
         /**
@@ -722,6 +724,22 @@ angular.module('starter.services', [])
             send: send
         }
     })
+    .factory('httpXhr', function (HttpFactory, baseUrl, $q) {
+        return {
+            getData: function (path, data) {
+                var defer = $q.defer();
+                HttpFactory.send({
+                    url: baseUrl + path,
+                    data: data,
+                    method: 'post'
+                }).success(function (data) {
+                    defer.resolve(data);
+                });
+                return defer.promise;
+            }
+        }
+    })
+    // 缓存服务
     .factory('CacheFactory', function ($window) {
         var save = function (key, value) {
             if (!!value && value != null) {
@@ -746,6 +764,7 @@ angular.module('starter.services', [])
             removeAll: removeAll
         };
     })
+    // 消息模态框
     .factory('myNote', function ($ionicLoading, $timeout) {
         return {
             myNotice: function (msg, timeout, prev, post) {

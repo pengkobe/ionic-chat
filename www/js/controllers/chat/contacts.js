@@ -397,9 +397,9 @@ angular.module('starter.controllers')
                 getConversationList();
             }, 3000);
         }
-        init();
+        //init();
         // init test
-        //initTest();
+        initTest();
         function initTest() {
             $scope.friends_message = [];
             var messageLen = 0;

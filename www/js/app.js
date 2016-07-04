@@ -8,13 +8,14 @@ angular.module('starter', ['ionic', 'starter.controllers','starter.router',
     $ionicLoading, $cordovaAppVersion, HttpFactory, RequestUrl,
     $cordovaFileTransfer, $cordovaFileOpener2, $timeout, $ionicPopup, $location, $ionicHistory) {
     $ionicPlatform.ready(function () {
-
+      // 发短信 id/key
       AV.initialize('Wh4uDtHcjEBw0KoQLyKNoqil-gzGzoHsz', 'RwFlHsCDtwTgcrdQiqUiq8vG');
 
       window.BOOTSTRAP_OK = true;
       if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
         cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
         cordova.plugins.Keyboard.disableScroll(true);
+        // 存聊天系统消息记录
         db = $cordovaSQLite.openDB({ name: "sqLite.db" });
       } else {
         db = window.openDatabase("sqLite.db", "1.0", "database", 5 * 1024 * 1024);
@@ -22,8 +23,11 @@ angular.module('starter', ['ionic', 'starter.controllers','starter.router',
       if (window.StatusBar) {
         StatusBar.styleDefault();
       }
+      // Android软件更新
       //checkUpdate();
     });
+
+    // 热更新
     function updateFiles() {
       var check = UpdateService.check();
       check.then(function (result) {
@@ -46,10 +50,11 @@ angular.module('starter', ['ionic', 'starter.controllers','starter.router',
         });
     }
 
+    // 大版本更新
     function checkUpdate() {
       var serverAppVersion = null;
       HttpFactory.send({
-        url: RequestUrl + 'Action.ashx?Name=HYD.E3.Business.AppVersionManageBLL.GetAppVersion',
+        url: RequestUrl + 'url',
         method: 'post'
       }).success(function (data) {
         serverAppVersion = data.data[0].Version;
@@ -67,10 +72,12 @@ angular.module('starter', ['ionic', 'starter.controllers','starter.router',
       });
     }
 
+    // 更新确认
     function showUpdateConfirm(updateContent) {
       var confirmPopup = $ionicPopup.confirm({
         title: '发现新版本',
-        template: updateContent, //从服务端获取更新的内容
+        //从服务端获取更新的内容
+        template: updateContent,
         cancelText: '以后再说',
         okText: '立即升级'
       });
@@ -94,7 +101,6 @@ angular.module('starter', ['ionic', 'starter.controllers','starter.router',
               // 错误
             });
             $ionicLoading.hide();
-
           }, function (err) {
             alert('下载失败');
           }, function (progress) {
@@ -117,7 +123,8 @@ angular.module('starter', ['ionic', 'starter.controllers','starter.router',
     $rootScope.$on('loading:hide', function () {
       $ionicLoading.hide();
     });
-    // 退出应用
+
+    // 退出应用/ 物理按键事件注册
     $ionicPlatform.registerBackButtonAction(function (e) {
       e.preventDefault();
       function showConfirm() {
@@ -145,6 +152,7 @@ angular.module('starter', ['ionic', 'starter.controllers','starter.router',
       return false;
     }, 100);
   })
+
   // 全局监听PhoneRtc消息
   .run(function ($state, signaling, $ionicLoading) {
     signaling.on('messageReceived', function (name, message) {
