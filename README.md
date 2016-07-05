@@ -13,23 +13,25 @@ a chat app based on ionic and rongyun
 
 
 ### how to debug on web browser
-1.  userindex.js
++ userindex.js
 ```
-  //initRong.init(user.rongyunToken);
+//initRong.init(user.rongyunToken);
 ```
-2. contacts
+  
++ contacts
 ```
  //init();
  initTest();
 ```
-
-3. chatDetail
+    
++ chatDetail
 ```
  //path = cordova.file.documentsDirectory;
  //path = cordova.file.externalApplicationStorageDirectory;
  //init();
 ```
-4. just run ionic serve under ionic-chat dir
+  
++ just run ionic serve under ionic-chat dir
 ```
 ionic serve 
 ```
