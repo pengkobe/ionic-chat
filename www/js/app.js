@@ -9,8 +9,6 @@ angular.module('starter', ['ionic', 'starter.controllers','starter.router',
     $cordovaFileTransfer, $cordovaFileOpener2, $timeout, $ionicPopup, $location, $ionicHistory) {
     $ionicPlatform.ready(function () {
       // 发短信 id/key
-      AV.initialize('Wh4uDtHcjEBw0KoQLyKNoqil-gzGzoHsz', 'RwFlHsCDtwTgcrdQiqUiq8vG');
-
       window.BOOTSTRAP_OK = true;
       if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
         cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
@@ -161,7 +159,7 @@ angular.module('starter', ['ionic', 'starter.controllers','starter.router',
           if ($state.current.name === 'call') {
             return;
           }
-          alert('收到视频通话请求，准备跳转！' + message.type);
+          // alert('收到视频通话请求，准备跳转！' + message.type);
           $state.go('YIPENG.call', { isCalling: false, contactName: name });
           break;
       }

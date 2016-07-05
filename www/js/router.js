@@ -48,11 +48,6 @@ angular.module('starter.router', [])
                 templateUrl: 'templates/register.html',
                 controller: 'RegisterCtrl'
             })
-            .state('checkMobile', {
-                url: '/checkMobile',
-                templateUrl: 'templates/checkMobile.html',
-                controller: 'checkMobileCtrl'
-            })
             .state('YIPENG.person', {
                 url: '/person',
                 views: {
@@ -68,15 +63,6 @@ angular.module('starter.router', [])
                     'yipeng-person': {
                         templateUrl: 'templates/setting/setting.html',
                         controller: 'SettingCtrl'
-                    }
-                }
-            })
-            .state('YIPENG.integral', {
-                url: '/person/integral',
-                views: {
-                    'yipeng-person': {
-                        templateUrl: 'templates/setting/integral.html',
-                        controller: 'IntegralCtrl'
                     }
                 }
             })

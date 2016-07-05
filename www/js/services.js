@@ -1,9 +1,13 @@
 angular.module('starter.services', [])
     // 用户全局引用
-    .service("currentUser", function (CacheFactory) {
+    .service("currentUser", function (CacheFactory, $rootScope) {
         var userinfo = null;
         var projectinfo = null;
-
+        // 项目切换
+        $rootScope.$on("change Project", function (evt, PCode, PName) {
+            userinfo.PCode = PCode;
+            projectinfo.PName = PName;
+        });
         var userservive = {
             getUserinfo: function () {
                 if (userinfo == null) {
@@ -19,7 +23,7 @@ angular.module('starter.services', [])
                 return projectinfo;
             },
             setProjectinfo: function (val) {
-                projectinfo = val;
+                projectinfo = val[0];
                 return;
             }
         }
@@ -32,6 +36,75 @@ angular.module('starter.services', [])
             ioSocket: myIoSocket
         });
         return mySocket;
+    })
+    .factory('initRong', function ($rootScope, $state, _appKey) { // 聊天服务
+        function initRong(token) {
+            $rootScope.arrMsgs = new Array();
+            $rootScope.arrCons = new Array();
+            // 融云初始化
+            RongCloudLibPlugin.init({
+                appKey: _appKey
+            },
+                function (ret, err) {
+                    if (ret) {
+                        // alert('init:' + JSON.stringify(ret));
+                    }
+                    if (err) {
+                        alert('init error:' + JSON.stringify(err));
+                    }
+                }
+            );
+            RongCloudLibPlugin.setConnectionStatusListener(
+                function (ret, err) {
+                    if (ret) {
+                        // 只允许单用户登录
+                        if (ret.result.connectionStatus == 'KICKED') {
+                            alert('您的帐号已在其他端登录!');
+                            $rootScope.hideTabs = false;
+                            //$ionicHistory.clearCache();
+                            $state.go('login');
+                        }
+                    }
+                    if (err) {
+                        alert('setConnectionStatusListener error:' + JSON.stringify(err));
+                    }
+                }
+            );
+            // 建立连接
+            RongCloudLibPlugin.connect({
+                token: token
+            },
+                function (ret, err) {
+                    if (ret) {
+                        $rootScope.$apply();
+                        // $state.go('mainpage.messagelist', {
+                        //     userId: ret.result.userId
+                        // }, {
+                        //         reload: true
+                        //     });
+                    }
+                    if (err) {
+                        alert('init error:' + JSON.stringify(err));
+                    }
+                }
+            );
+            // 消息接收
+            RongCloudLibPlugin.setOnReceiveMessageListener(
+                function (ret, err) {
+                    // 接收消息
+                    if (ret) {
+                        $rootScope.arrMsgs.push(JSON.stringify(ret.result.message));
+                        $rootScope.$apply();
+                    }
+                    if (err) {
+                        alert('setOnReceiveMessageListener error:' + JSON.stringify(err));
+                    }
+                }
+            );
+        }
+        return {
+            init: initRong
+        };
     })
     // 好友服务
     .factory('Friends', function (RequestUrl, getFriends, signaling, currentUser, $interval) {
@@ -53,7 +126,9 @@ angular.module('starter.services', [])
                     obj.alpha = makePy(obj.name)[0][0].toUpperCase();
                     obj.conversationType = 'PRIVATE';
                     obj.online = '0';
-                    obj.portrait = retdata[i].headimgurl ? RequestUrl + 'Images/Photo/' + retdata[i].headimgurl : null;
+                    obj.Mobile = retdata[i].Mobile;
+                    var portrait = retdata[i].headimgurl ? (retdata[i].headimgurl.indexOf("http") == -1 ? RequestUrl + 'Images/Photo/' + retdata[i].headimgurl : retdata[i].headimgurl) : null;
+                    obj.portrait = portrait;
                     friends.push(obj);
                 }
 
@@ -154,7 +229,7 @@ angular.module('starter.services', [])
         }
     })
     // 工作组服务
-    .factory('Groups', function (getTeams, RequestUrl, signaling, currentUser, projectTeam,
+    .factory('Groups', function (getTeams, RequestUrl, signaling, currentUser, projectTeam, $rootScope,
         getGroupMembers, $interval) {
         var groups = [];
         var groupsMenmberinfo = [];
@@ -162,8 +237,10 @@ angular.module('starter.services', [])
         var curUID = globalUser.getUserinfo().UserID;
         var projectCode = globalUser.getUserinfo().PCode;
 
+
         // 后台请求数据
         function loadData(callback) {
+            projectCode = globalUser.getUserinfo().PCode;
             getTeams(curUID, function (data) {
                 // ==此方法会造成一段时间无数据(加载数据会造成时延)==
                 groups = [];
@@ -178,7 +255,7 @@ angular.module('starter.services', [])
                     var tempdata = data[i];
                     var rawGroupID = tempdata.GroupID;
                     obj.id = 'cre_' + rawGroupID;
-                    obj.number = tempdata.Members.length + 1;// 群主
+                    obj.number = tempdata.Members.length;
                     obj.max_number = 30;
                     obj.name = tempdata.GroupName;
                     obj.conversationType = 'GROUP';
@@ -212,7 +289,7 @@ angular.module('starter.services', [])
                         obj.id = "prj_" + projectCode;
                         obj.number = dataLen;
                         obj.max_number = 10;
-                        obj.name = '默认项目组';
+                        obj.name = globalUser.getProjectinfo()?globalUser.getProjectinfo().PName+"" : '默认项目组';
                         obj.conversationType = 'GROUP';
                         obj.type = 'project';
                         obj.portrait = null;
@@ -245,6 +322,9 @@ angular.module('starter.services', [])
                     $interval(function () {
                         loadData(callback);
                     }, 10000);
+                    $rootScope.$on("change Project", function (evt, PCode, PName) {
+                        loadData(callback);
+                    });
                 }
             },
             set: function (val) {
@@ -354,6 +434,7 @@ angular.module('starter.services', [])
             httpXhr.getData('UserInfo_newBLL.FindFriendsReq', { UserID: userid }).then(function (data) {
                 var retData = data.data;
                 var dataLen = retData.length;
+                friendRquestList = [];
                 for (var i = 0; i < dataLen; i++) {
                     var friendRquest = {};
                     friendRquest.id = retData[i].UserID;
@@ -374,6 +455,7 @@ angular.module('starter.services', [])
                 } else {
                     FindFriendsReq(userid, callback);
                     clearInterval(intervalid);
+                    /// 10s
                     intervalid = $interval(function () {
                         FindFriendsReq(userid, callback);
                     }, 10000);
@@ -389,6 +471,7 @@ angular.module('starter.services', [])
         /// UserID
         function findTeamsReq(userid, callback) {
             httpXhr.getData('UserInfo_newBLL.findTeamsReq', { UserID: userid }).then(function (data) {
+                teamRquestList = [];
                 var retData = data.data;
                 var dataLen = retData.length;
                 for (var i = 0; i < dataLen; i++) {
@@ -419,7 +502,7 @@ angular.module('starter.services', [])
         };
         return teamsReqApi;
     })
-    // 过去团队成员
+    //团队成员
     .service("getGroupMembers", function ($http, httpXhr) {
         function getGroupMembers(groupID, callback) {
             if (!groupID) {
@@ -536,6 +619,30 @@ angular.module('starter.services', [])
                     }
                 }
                 return retIndex > -1 ? lists[retIndex] : null;
+            }
+        }
+    })
+    .factory('FormateRongyunErr', function (myNote) {
+        return {
+            formate: function (err) {
+                var errcode = 1;
+                if (err && err.code) {
+                    errcode = err.code;
+                } else if (err && err.result) {
+                    errcode = err.result.code;
+                }
+                switch (errcode) {
+                    case 30001:
+                        myNote.myNotice('网络出现问题，请检查网络! 30001');
+                        break;
+                    case -10000:
+                        myNote.myNotice('网络出现问题，请检查网络!-10000');
+                        break;
+                    case -1:
+                        myNote.myNotice('初始化失败！重启试试？! -1');
+                        break;
+                    default: break;
+                }
             }
         }
     })

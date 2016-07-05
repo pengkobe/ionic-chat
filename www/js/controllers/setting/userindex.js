@@ -2,8 +2,8 @@
  * 设置首页
  */
 angular.module('starter.controllers')
-    .controller('PersonCtrl', function (CacheFactory, $ionicModal, RequestUrl, $scope,
-        $rootScope, $state, $ionicPopup, signaling, _appKey, Friends, $timeout, $ionicActionSheet) { //Friends初始化加载项目人员
+    .controller('PersonCtrl', function (CacheFactory, $ionicModal,  $scope,
+        $rootScope, $state, $ionicPopup, signaling,  $timeout,$interval, $ionicActionSheet, initRong) { //Friends初始化加载项目人员
         var cache = angular.fromJson(CacheFactory.get('UserAccount'));
         $scope.UserName = cache.UserAccount || cache.Mobile;
         if (!!cache.RoleID) {
@@ -11,9 +11,10 @@ angular.module('starter.controllers')
         } else {
             $scope.RoleName = '未认证';
         }
-
-        $scope.phone = cache.headimgurl == null ? 'img/icon.png' : RequestUrl + 'Images/Photo/' + cache.headimgurl;
-
+        // 获取服务端图片
+        // $scope.phone = cache.headimgurl == null ? 'img/personPhoto.png' : RequestUrl + 'Images/Photo/' + cache.headimgurl;
+        $scope.phone = 'img/personPhoto.png';
+        var RongyuLogin = false;
         if (!$rootScope.curUID) {
             $timeout(function name(params) {
                 /// ==== 协同相关(BEGIN) ====
@@ -22,91 +23,40 @@ angular.module('starter.controllers')
                 var UserID = cacheUser.UserID;
                 var UserName = cacheUser.UserName ? cacheUser.UserName : cacheUser.UserAccount;
                 $rootScope.curUID = UserID;
+                var uname = UserName ? UserName : cacheUser.Mobile;
                 // 连接聊天服务[视频聊天]
-                signaling.emit('login', UserID, UserName, "");
+                signaling.emit('login', UserID, uname, "");
+                // 断线重连
+                var inid = $interval(function (params) {
+                    if (!RongyuLogin) {
+                        var uname = UserName ? UserName : cacheUser.Mobile;
+                        signaling.emit('login', UserID, uname, "");
+                    }
+                }, 2000);
                 signaling.on('login_error', function (message) {
+                    if (RongyuLogin) {
+                        clearInterval(inid);
+                        return;
+                    }
                     var alertPopup = $ionicPopup.alert({
                         title: 'Error',
                         template: JSON.stringify(message)
                     });
                 });
+
                 signaling.on('login_successful', function (user) {
                     // alert('rongyunToken' + user.rongyunToken);
                     // 初始化融云
-                    initRong(user.rongyunToken);
+                    if (!RongyuLogin) {
+                        RongyuLogin = true;
+                        clearInterval(inid);
+                        //initRong.init(user.rongyunToken);
+                    }
                 });
-                // 融云服务初始化(需要提取为服务)
-                function initRong(token) {
-                    $rootScope.arrMsgs = new Array();
-                    $rootScope.arrCons = new Array();
-                    // 融云初始化
-                    RongCloudLibPlugin.init({
-                        appKey: _appKey
-                    },
-                        function (ret, err) {
-                            if (ret) {
-                                // alert('init:' + JSON.stringify(ret));
-                            }
-                            if (err) {
-                                alert('init error:' + JSON.stringify(err));
-                            }
-                        }
-                    );
-                    RongCloudLibPlugin.setConnectionStatusListener(
-                        function (ret, err) {
-                            if (ret) {
-                                // alert('setConnectionStatusListener:' + JSON.stringify(ret));
-                                if (ret.result.connectionStatus == 'KICKED') {
-                                    alert('您的帐号已在其他端登录!');
-                                    $rootScope.hideTabs = false;
-                                    $ionicHistory.clearCache();
-                                    $state.go('login');
-                                }
-                            }
-                            if (err) {
-                                alert('setConnectionStatusListener error:' + JSON.stringify(err));
-                            }
-                        }
-                    );
-                    // 建立连接
-                    RongCloudLibPlugin.connect({
-                        token: token
-                    },
-                        function (ret, err) {
-                            if (ret) {
-                                //alert('connect:' + JSON.stringify(ret));
-                                $rootScope.$apply();
-                                $state.go('mainpage.messagelist', {
-                                    userId: ret.result.userId
-                                }, {
-                                        reload: true
-                                    });
-                            }
-                            if (err) {
-                                alert('init error:' + JSON.stringify(err));
-                            }
-                        }
-                    );
-                    // 消息接收
-                    RongCloudLibPlugin.setOnReceiveMessageListener(
-                        function (ret, err) {
-                            if (ret) {
-                                // alert('setOnReceiveMessageListener:' + JSON.stringify(ret));
-                                $rootScope.arrMsgs.push(JSON.stringify(ret.result.message));
-                                $rootScope.$apply();
-                            }
-                            if (err) {
-                                alert('setOnReceiveMessageListener error:' + JSON.stringify(err));
-                            }
-                        }
-                    );
-                }
-                // ==== 协同相关(END) =====
             }, 100);
         }
 
-
-        $ionicModal.fromTemplateUrl('html/person/about.html', {
+        $ionicModal.fromTemplateUrl('templates/setting/about.html', {
             scope: $scope,
             animation: 'slide-in-up'
         }).then(function (modal) {

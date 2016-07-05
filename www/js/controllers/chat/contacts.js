@@ -3,11 +3,9 @@ angular.module('starter.controllers')
     // todo：
     // 1. 根据项目编号切换联系人
     .controller('contacts', function ($scope, $state, $location, $ionicLoading,
-        $ionicScrollDelegate, $timeout, $interval, Friends, Groups, $rootScope,
-        $ionicPopup, newMessageEventService, CacheFactory,
-        projectTeam, FindFriendsReq, findTeamsReq, ResFriend,
-        ResTeam, unreadMessages, chatUnreadMessage, currentUser) {
-            debugger;
+        $ionicScrollDelegate, $timeout, $interval, Friends, Groups, $rootScope, ResFriend,
+        $ionicPopup, newMessageEventService, projectTeam, FindFriendsReq, findTeamsReq,
+        ResTeam, unreadMessages, chatUnreadMessage, currentUser, FormateRongyunErr) {
         $scope.data = {
             searchword: ''
         };
@@ -65,8 +63,6 @@ angular.module('starter.controllers')
             if (scrollTop) {
                 $ionicScrollDelegate.scrollTo(0, scrollTop, true);
             }
-            //$location.hash('index_' + letter);
-            //$ionicScrollDelegate.anchorScroll();
         }
 
         // === 融云 ===
@@ -96,8 +92,6 @@ angular.module('starter.controllers')
         findTeamsReq.all(curUID, function (data) {
             $scope.groupinviteList = data;
         });
-
-
         // 同意与拒绝请求
         $scope.responseReq = function (id, name, type, state, $index) {
             if (type == "PRIVATE") {
@@ -114,15 +108,7 @@ angular.module('starter.controllers')
                 if (type == "PRIVATE") {
                     if (state == '1') {
                         showMsg = "您已添加" + name + "为好友!";
-                        // 同步至融云(可选，现已在服务端做同步)
-                        //     RongCloudLibPlugin.joinGroup({
-                        //             groupId: id,
-                        //             groupName: name
-                        //         }, function (ret, err) {
-                        //              //if (ret.status == 'success')
-                        //              //else
-                        //              //alert(err.code);
-                        //    });
+                        // 同步至融云(可选，已在服务端做同步)
                     } else {
                         showMsg = "您已拒绝" + name + "的好友请求!";
                     }
@@ -230,7 +216,7 @@ angular.module('starter.controllers')
                     return;
                 }
             }
-            alert('NEW MEG push now');
+            // alert('NEW MEG push now');
             $scope.friends_message.push(jsonMsg);
         }
         newMessageEventService.listen(newMsgCallBack);
@@ -241,13 +227,14 @@ angular.module('starter.controllers')
             },
                 function (ret, err) {
                     if (ret) {
-                        alert("clearConversition success: " + result.status);
+                        alert("已清除所有会话: " + result.status);
                         $scope.$apply(function () {
                             $scope.friends_message = [];
                         });
                     }
                     if (err) {
-                        alert('clearConversition err:' + JSON.stringify(err));
+                        FormateRongyunErr.formate(err);
+                        //alert('clearConversition err:' + JSON.stringify(err));
                     }
                 }
             );
@@ -258,7 +245,11 @@ angular.module('starter.controllers')
                 conversationType: 'PRIVATE',
                 targetId: targetId
             }, function (ret, err) {
-                alert(ret.status);
+                // test succeed
+                //alert(ret.status);
+                if (err) {
+                    FormateRongyunErr.formate(err);
+                }
             });
         }
 
@@ -278,7 +269,7 @@ angular.module('starter.controllers')
         $scope.popupMessageOpthins = function (message) {
             $scope.popup.index = $scope.friends_message.indexOf(message);
             $scope.popup.optionsPopup = $ionicPopup.show({
-                templateUrl: "html/chat/popup.html",
+                templateUrl: "templates/chat/popup.html",
                 scope: $scope,
             });
             $scope.popup.isPopup = true;
@@ -383,7 +374,8 @@ angular.module('starter.controllers')
                         chatUnreadMessage.setUnreadMessage(messageLen);
                     }
                     if (err) {
-                        alert('getConversationList err:' + JSON.stringify(err));
+                        FormateRongyunErr.formate(err);
+                        // alert('getConversationList err:' + JSON.stringify(err));
                     }
                 }
             );

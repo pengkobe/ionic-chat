@@ -1,15 +1,44 @@
-angular.module('starter.controllers', [])
+angular.module('starter.controllers', [],function($httpProvider){
+        // Use x-www-form-urlencoded Content-Type
+        $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
+        var param = function(obj) {
+            var query = '', name, value, fullSubName, subName, subValue, innerObj, i;
+            for(name in obj) {
+                value = obj[name];
+                if(value instanceof Array) {
+                    for(i=0; i<value.length; ++i) {
+                        subValue = value[i];
+                        fullSubName = name + '[' + i + ']';
+                        innerObj = {};
+                        innerObj[fullSubName] = subValue;
+                        query += param(innerObj) + '&';
+                    }
+                }
+                else if(value instanceof Object) {
+                    for(subName in value) {
+                        subValue = value[subName];
+                        fullSubName = name + '[' + subName + ']';
+                        innerObj = {};
+                        innerObj[fullSubName] = subValue;
+                        query += param(innerObj) + '&';
+                    }
+                }
+                else if(value !== undefined && value !== null)
+                    query += encodeURIComponent(name) + '=' + encodeURIComponent(value) + '&';
+            }
+            return query.length ? query.substr(0, query.length - 1) : query;
+        };
+        // Override $http service's default transformRequest
+        $httpProvider.defaults.transformRequest = [function(data) {
+            return angular.isObject(data) && String(data) !== '[object File]' ? param(data) : data;
+        }];
+    })
     // 登录
     .controller('LoginCtrl', function ($timeout, $scope, HttpFactory, $state, $ionicPopup,
         myNote, CacheFactory, $rootScope, signaling, RequestUrl, currentUser) {
         $scope.$on('$ionicView.beforeEnter', function () {
             if (!!CacheFactory.get('Login')) {
-                var cache = angular.fromJson(CacheFactory.get('UserAccount'));
-                if (!cache.Mobile || cache.Mobile == 'null') {
-                    $state.go('checkMobile');
-                } else {
-                    $state.go('YIPENG.person');
-                }
+                $state.go('YIPENG.person');
             }
         });
 
@@ -77,41 +106,12 @@ angular.module('starter.controllers', [])
         }
     })
     // 注册
-    .controller('RegisterCtrl', function (CacheFactory, $scope, $state, myNote, HttpFactory, RequestUrl, $timeout, $interval) {
+    .controller('RegisterCtrl', function (CacheFactory, $scope, $state,
+        myNote, HttpFactory, RequestUrl, $timeout, $interval) {
         $scope.user = { state: true };
         $scope.canClick = false;
-        $scope.buttonTitle = '获取验证码';
+        $scope.buttonTitle = "注册";
 
-        $scope.SendMsgCode = function (mobPhone) {
-            if ($scope.user.phone == null) {
-                myNote.myNotice('手机号码不能为空', 2000);
-                return;
-            }
-            if (!/^1\d{10}$/.test(mobPhone)) {
-                myNote.myNotice('手机号码格式不正确');
-                return;
-            }
-            $scope.canClick = true;
-            $scope.buttonTitle = 60;
-            var itr = $interval(function () {
-                if ($scope.buttonTitle == 0) {
-                    $scope.buttonTitle = '获取验证码';
-                    $interval.cancel(itr);
-                    $scope.canClick = false;
-                } else {
-                    $scope.buttonTitle -= 1;
-                }
-            }, 1000);
-            AV.Cloud.requestSmsCode(mobPhone).then(function () {
-                //发送成功
-                console.log('success');
-            }, function (err) {
-                //发送失败
-                myNote.myNotice(err.message);
-            });
-        };
-        $scope.toProtocol = function () {
-        };
         $scope.tip = true;
         $scope.register = function () {
             if (!$scope.tip) {
@@ -122,16 +122,7 @@ angular.module('starter.controllers', [])
                     $scope.tip = true;
                 }, 5000);
             }
-            if ($scope.user.phone == null) {
-                myNote.myNotice('手机号不能为空!', 1000);
-                return;
-            } else if ($scope.user.smsCode == null) {
-                myNote.myNotice('验证码不能为空!', 1000);
-                return;
-            } else if ($scope.user.state == false) {
-                myNote.myNotice('请先同意协议！', 1000);
-                return;
-            } else if ($scope.user.pwd == null) {
+            if ($scope.user.pwd == null) {
                 myNote.myNotice('密码不能为空！', 1000);
                 return;
             }
@@ -146,18 +137,8 @@ angular.module('starter.controllers', [])
             } else if (!(reg2.test(pwd) && reg3.test(pwd) && reg4.test(pwd))) {
                 myNote.myNotice('密码格式不对！')
             } else {
-                var user = new AV.User();
-                user.signUpOrlogInWithMobilePhone({
-                    mobilePhoneNumber: $scope.user.phone,
-                    smsCode: $scope.user.smsCode
-                }).then(function (user) {
-                    //注册或者登录成功
-                    personData(phone, pwd);
-                    //console.log(user);
-                }, function (error) {
-                    // 失败
-                    myNote.myNotice(error.message);
-                });
+                // 直接注册
+                personData(phone, pwd);
             }
             function personData(phone, pwd) {
                 HttpFactory.send({
@@ -207,74 +188,4 @@ angular.module('starter.controllers', [])
             listener();
         });
         /// ==== 协同相关, 全局监听消息(END) ====
-    })
-    // 验证手机
-    .controller('checkMobileCtrl', function ($scope, $interval, myNote, CacheFactory, HttpFactory, baseUrl, $state) {
-        $scope.canClick = false;
-        $scope.buttonTitle = '获取验证码';
-        $scope.user = {};
-        $scope.SendMsgCode = function (tel) {
-            if (!/^1\d{10}$/.test(tel)) {
-                myNote.myNotice('手机号码格式不正确');
-                return;
-            }
-            $scope.canClick = true;
-            $scope.buttonTitle = 60;
-
-            var itr = $interval(function () {
-                if ($scope.buttonTitle == 0) {
-                    $scope.buttonTitle = '获取验证码';
-                    $interval.cancel(itr);
-                    $scope.canClick = false;
-                } else {
-                    $scope.buttonTitle -= 1;
-                }
-            }, 1000);
-
-            AV.Cloud.requestSmsCode(tel).then(function () {
-                //发送成功
-                console.log('success');
-            }, function (err) {
-                //发送失败
-                myNote.myNotice(err.message);
-            });
-        };
-
-        $scope.commit = function () {
-            var user = new AV.User();
-            user.signUpOrlogInWithMobilePhone({
-                mobilePhoneNumber: $scope.user.phone,
-                smsCode: $scope.user.smsCode
-            }).then(function (user) {
-                //注册或者登录成功
-                updateMobile()
-            }, function (error) {
-                // 失败
-                myNote.myNotice(error.message);
-            });
-        };
-
-        function updateMobile() {
-            var cache = angular.fromJson(CacheFactory.get('UserAccount'));
-
-            HttpFactory.send({
-                url: baseUrl + 'UserInfo_newBLL.UpdateMsg',
-                data: {
-                    UserID: cache.UserID,
-                    columnName: 'Mobile',
-                    value: $scope.user.phone
-                },
-                method: 'post'
-            }).success(function (data) {
-                console.log(data);
-                if (data == 'false') {
-                    myNote.myNotice('该号码已注册，无法绑定！');
-                } else {
-                    cache.Mobile = $scope.user.phone;
-                    CacheFactory.save('UserAccount', cache);
-                    $state.go('YIPENG.person');
-                }
-
-            });
-        }
     });

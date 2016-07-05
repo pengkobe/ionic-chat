@@ -38,11 +38,11 @@ angular.module('starter.controllers')
             }
         }
         if (isIOS) {
-            path = cordova.file.documentsDirectory;
+            //path = cordova.file.documentsDirectory;
             src = "cordovaIMVoice.wav";
         }
         else {
-            path = cordova.file.externalApplicationStorageDirectory;
+            //path = cordova.file.externalApplicationStorageDirectory;
         }
 
         var viewScroll = $ionicScrollDelegate.$getByHandle('messageDetailsScroll');
@@ -408,7 +408,7 @@ angular.module('starter.controllers')
                 });
             }
         }
-        $ionicModal.fromTemplateUrl('html/chat/message/BigImage.html', {
+        $ionicModal.fromTemplateUrl('templates/chat/message/BigImage.html', {
             scope: $scope,
             animation: 'slide-in-up'
         }).then(function (modal) {
@@ -629,7 +629,7 @@ angular.module('starter.controllers')
                 default:
 
             }
-            return 'html/chat/message/' + tmpName + '.html';
+            return 'templates/chat/message/' + tmpName + '.html';
         }
         // === 辅助方法(END) ===
 
@@ -686,7 +686,7 @@ angular.module('starter.controllers')
                 console.log('$ionicView.enter');
             });
         }
-        init();
+        //init();
         // === 初始化(END) ===
 
         // === TODO:垃圾回收(BEGIN) ===

@@ -10,23 +10,8 @@
             </label>
             <label class="item item-input item-floating-label">
                 <span class="input-label">密码</span>
-                <input type="password" placeholder="密码字母开头6-12位"  minlength="6"  maxlength="12" ng-model="user.pwd">
-            </label>
-
-            <label class="item item-input item-floating-label"  style="width: 80%;">
-                <span class="input-label" >短信验证码</span>
-                <input type="text" placeholder="短信验证码"  minlength="6"  maxlength="12" ng-model="user.smsCode">
-            </label>
-            <button style="float: right;margin-top: -67px;line-height:24px;height: 68px;width:20%;border: 2px solid rgba(0, 171, 255, 0.5);font-size: 15px;padding: 0 5px;" class="button button-outline button-positive ng-class:{button_disable:canClick}" ng-click="SendMsgCode(user.phone)">
-               {{ buttonTitle }}
-            </button>
-        </div>
-        <div  class="protocol">
-            <label>
-                <input type="checkbox"  ng-model="user.state">
-            </label>
-            <label>
-                我已阅读并接受 <a ng-click="toProtocol()">《EFOS平台网络服务协议》</a>
+                <input type="password" placeholder="密码字母开头6-12位"  
+                minlength="6"  maxlength="12" ng-model="user.pwd">
             </label>
         </div>
 

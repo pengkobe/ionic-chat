@@ -1,20 +1,14 @@
 <ion-view title="协同">
     <ion-nav-title>
         <div class="button-bar" style="margin-top: 5px">
-            <button class="button" ng-class="{ 'button\-calm': currentFeedsType == 'messagetab' }"
-             ng-click='tabswitch("messagetab")'><b>消息</b></button>
-             <button class="button" ng-class="{ 'button\-calm': currentFeedsType == 'contacttab' }" 
-            ng-click='tabswitch("contacttab")'><b>通讯录</b></button>
+            <button class="button" ng-class="{ 'button\-calm': currentFeedsType == 'messagetab' }" ng-click='tabswitch("messagetab")'><b>消息</b></button>
+            <button class="button" ng-class="{ 'button\-calm': currentFeedsType == 'contacttab' }" ng-click='tabswitch("contacttab")'><b>通讯录</b></button>
         </div>
     </ion-nav-title>
-    
-     <ion-nav-buttons side="right">
-        <button class="button button-clear  title_icon" ng-click="hidePopover()"
-                ns-popover
-                ns-popover-template="popover"
-                ns-popover-theme="ns-popover-list-theme"
-                ns-popover-placement="bottom|right"
-        ><i class="icon-uniE900" style="font-size: 18pt;line-height: 34px;"></i></button>
+
+    <ion-nav-buttons side="right">
+        <button class="button button-clear  title_icon" ng-click="hidePopover()" ns-popover ns-popover-template="popover" ns-popover-theme="ns-popover-list-theme"
+            ns-popover-placement="bottom|right"><i class="icon-uniE900" style="font-size: 18pt;line-height: 34px;"></i></button>
     </ion-nav-buttons>
 
     <ion-content style="background-color:#EEE">
@@ -22,14 +16,12 @@
             <ion-item class="item item-divider">
                 工作组
             </ion-item>
-            <ion-item class="rj-item"  style="padding-left:10px" ng-repeat="group in groups" 
-             ng-href="#/YIPENG/groupInfo/{{group.id}}/{{group.name}}/{{group.type}}/GROUP">
+            <ion-item class="rj-item" style="padding-left:10px" ng-repeat="group in groups" ng-href="#/YIPENG/groupInfo/{{group.id}}/{{group.name}}/{{group.type}}/GROUP">
                 <div class="rj-groups-pic rj-green-bgc">
                     <i class="ion-android-contacts"></i>
                 </div>
                 <h2>{{group.name}}({{group.number}})</h2>
-                 <button class="button button-small rj-inittalk" 
-                 ng-click='initTalk("{{group.id}}","{{group.name}}","GROUP",$event)'>
+                <button class="button button-small rj-inittalk" ng-click='initTalk("{{group.id}}","{{group.name}}","GROUP",$event)'>
                  发起聊天
                 </button>
             </ion-item>
@@ -39,16 +31,14 @@
             <ion-item class="item item-divider">
                 联系人
             </ion-item>
-            <ion-item ng-repeat="friend in friends" class="rj-item" 
-             href="#/YIPENG/friendInfo/{{friend.id}}/{{friend.name}}/PRIVATE">
-                <a name="index_{{friend.alpha}}" scrollTop="{{friend.scrollHeight}}"
-                 ng-if="cri.DataValue!=friend.alpha && 1?cri.DataValue=friend.alpha:0"
+            <ion-item ng-repeat="friend in friends" class="rj-item" href="#/YIPENG/friendInfo/{{friend.id}}/{{friend.name}}/PRIVATE">
+                <a name="index_{{friend.alpha}}" scrollTop="{{friend.scrollHeight}}" ng-if="cri.DataValue!=friend.alpha && 1?cri.DataValue=friend.alpha:0"
                     class="rj-contacts-index-bar">{{friend.alpha}}</a>
                 <div class="rj-contacts-pic">
                     <img ng-src="{{friend.portrait||'img/personPhoto.png'}}">
                 </div>
-                <h2>{{friend.name}} 
-                    <span style="font-size:12px"  ng-if="friend.online=='0'">[离线]</span>
+                <h2>{{friend.name}}
+                    <span style="font-size:12px" ng-if="friend.online=='0'">[离线]</span>
                     <span style="font-size:12px;color:green" ng-if="friend.online=='1'">[在线]</span>
                 </h2>
                 <button class="button button-small rj-inittalk" ng-click='initTalk("{{friend.id}}","{{friend.name}}","PRIVATE",$event)'>
@@ -56,54 +46,43 @@
                 </button>
             </ion-item>
         </ion-list>
-        
+
         <!-- 实时对话消息  data-id="{{friend.targetId}}"
          融云 demo  href="#/mainpage/chatDetail/{{friend.targetId}}/{{friend.conversationType}}" -->
         <ion-list rj-close-back-drop ng-if="currentFeedsType==messagetab">
-             <!-- 好友请求 -->
-            <ion-item rj-hold-active style="padding:10px 0px 0px 72px"
-             class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap"
+            <!-- 好友请求 -->
+            <ion-item rj-hold-active style="padding:10px 0px 0px 72px" class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap"
                 id="inviteinfo_{{message.id}}" ng-repeat="message in friendinviteList">
                 <img ng-src="{{message.portrait||'img/personPhoto.png'}}" width="30px">
-                <h2 class="rj-requst-title" >{{ message.info }}
+                <h2 class="rj-requst-title">{{ message.info }}
                 </h2>
-                <button class="button button-small rj-refuse" 
-                    ng-click='responseReq("{{message.id}}","{{message.name}}","{{message.type}}","-1",$index)'>
+                <button class="button button-small rj-refuse" ng-click='responseReq("{{message.id}}","{{message.name}}","{{message.type}}","-1",$index)'>
                  拒绝
                 </button>
-                 <button class="button button-small rj-agree" 
-                    ng-click='responseReq("{{message.id}}","{{message.name}}","{{message.type}}","1",$index)'>
+                <button class="button button-small rj-agree" ng-click='responseReq("{{message.id}}","{{message.name}}","{{message.type}}","1",$index)'>
                  同意
                 </button>
             </ion-item>
             <!-- 群组请求 -->
-            <ion-item rj-hold-active style="padding:10px 0px 0px 72px"
-             class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap"
+            <ion-item rj-hold-active style="padding:10px 0px 0px 72px" class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap"
                 id="inviteinfo_{{message.id}}" ng-repeat="message in groupinviteList">
                 <img ng-src="{{message.portrait||'img/personPhoto.png'}}" width="30px">
-                <h2 class="rj-requst-title" >{{ message.info }}
+                <h2 class="rj-requst-title">{{ message.info }}
                 </h2>
-                <button class="button button-small rj-refuse" 
-                    ng-click='responseReq("{{message.id}}","{{message.name}}","{{message.type}}","-1",$index)'>
+                <button class="button button-small rj-refuse" ng-click='responseReq("{{message.id}}","{{message.name}}","{{message.type}}","-1",$index)'>
                  拒绝
                 </button>
-                 <button class="button button-small rj-agree" 
-                    ng-click='responseReq("{{message.id}}","{{message.name}}","{{message.type}}","1",$index)'>
+                <button class="button button-small rj-agree" ng-click='responseReq("{{message.id}}","{{message.name}}","{{message.type}}","1",$index)'>
                  同意
                 </button>
             </ion-item>
-            
-            <ion-item rj-hold-active style="padding:10px 0px 0px 72px"
-                class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap"
-                data-type="{{friend.conversationType}}" 
-                ng-click="gotoChatDetils(friend, $index)"
-                on-hold="popupMessageOpthins(friend,$index)"
+
+            <ion-item rj-hold-active style="padding:10px 0px 0px 72px" class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap"
+                data-type="{{friend.conversationType}}" ng-click="gotoChatDetils(friend, $index)" on-hold="popupMessageOpthins(friend,$index)"
                 id="rongyun_{{friend.targetId}}" ng-repeat="friend in friends_message">
                 <img ng-src="{{friend.portrait||'img/personPhoto.png'}}" width="30px">
                 <h2>{{ friend.conversationTitle }}
-                <span style="flex-direction:column;top:23px"
-                    class="badge badge-assertive unreadcount" 
-                    ng-hide="friend.unreadMessageCount == '0'">{{ friend.unreadMessageCount }}
+                    <span style="flex-direction:column;top:23px" class="badge badge-assertive unreadcount" ng-hide="friend.unreadMessageCount == '0'">{{ friend.unreadMessageCount }}
                 </span>
                 </h2>
                 <p class="subTitle" ng-bind-html="friend.latestMessage"></p>
@@ -116,12 +95,12 @@
             {{letter}}
         </li>
     </ul>
-</ion-view>
 
-<script type="text/ng-template" id="popover">
+    <script type="text/ng-template" id="popover">
     <div class="triangle"></div>
     <ul class="tips">
         <li><a ng-click="addTeam()"><i class="icon  ion-chatbox-working"></i> 发起群聊 </a></li>
         <li><a ng-click="addFriend()"><i class="icon  ion-person-add"></i> 添加好友 </a></li>
     </ul>
 </script>
+</ion-view>
