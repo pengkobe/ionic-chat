@@ -3,7 +3,7 @@ a chat app based on ionic and rongyun
 
 ### how to run
 1. install node
-2. set up the enviroment for android
+2. set up the enviroment for android/ios
 3. install ionic. please follow the instrunction on [ionicframework](http://ionicframework.com/getting-started/)
 4. git clone https://github.com/pengkobe/ionic-chat.git
 5. cd /path/to/ionic-chat
@@ -36,7 +36,7 @@ a chat app based on ionic and rongyun
 ionic serve 
 ```
 
-### TODO
+### todo
 1. localstorage policy
 2. file transfer
 3. group vedio chat
@@ -44,5 +44,5 @@ ionic serve
 5. task
 4. make it beautiful and stable
 
-### Licence
+### licence
 MIT
