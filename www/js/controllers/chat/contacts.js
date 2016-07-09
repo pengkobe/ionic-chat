@@ -240,12 +240,24 @@ angular.module('starter.controllers')
             );
         }
         // 将某人消息设为已读
-        function clearSomeoneConversition(targetId) {
+        function clearSomeoneConversition(targetId,type) {
             RongCloudLibPlugin.clearMessagesUnreadStatus({
-                conversationType: 'PRIVATE',
+                conversationType: type,
                 targetId: targetId
             }, function (ret, err) {
                 // test succeed
+                //alert(ret.status);
+                if (err) {
+                    FormateRongyunErr.formate(err);
+                }
+            });
+        }
+        // 将某人消息删除
+        function removeSomeoneConversition(targetId,type) {
+            RongCloudLibPlugin.removeConversation({
+                conversationType:type,
+                targetId: targetId
+            }, function (ret, err) {
                 //alert(ret.status);
                 if (err) {
                     FormateRongyunErr.formate(err);
@@ -274,7 +286,7 @@ angular.module('starter.controllers')
             });
             $scope.popup.isPopup = true;
         };
-        // 设为已读
+       // 设为已读
         $scope.markMessage = function () {
             var index = $scope.popup.index;
             var message = $scope.friends_message[index];
@@ -282,10 +294,10 @@ angular.module('starter.controllers')
             message.unreadMessageCount = 0;
             $scope.popup.optionsPopup.close();
             $scope.popup.isPopup = false;
-            clearSomeoneConversition(message.targetId);
+            clearSomeoneConversition(message.targetId,message.conversationType);
         };
         // 删除消息
-        // TODO：需要清除消息状态，否则刷新后会再出来
+        // TODO：需要清除消息状态，否则刷新后会再出来(待测)
         $scope.deleteMessage = function () {
             var index = $scope.popup.index;
             var message = $scope.friends_message[index];
@@ -294,7 +306,7 @@ angular.module('starter.controllers')
             $scope.friends_message.splice(index, 1);
             $scope.popup.optionsPopup.close();
             $scope.popup.isPopup = false;
-            clearSomeoneConversition(message.targetId);
+            removeSomeoneConversition(message.targetId,message.conversationType);
         };
 
         $scope.gotoChatDetils = function (friend, $index) {

@@ -1,8 +1,8 @@
 // Ionic Starter App
 var db = null;
 
-angular.module('starter', ['ionic', 'starter.controllers','starter.router',
- 'starter.services', 'starter.directive','starter.config', 'nsPopover',
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.router',
+  'starter.services', 'starter.directive', 'starter.config', 'nsPopover',
   'ngCordova', 'btford.socket-io'])
   .run(function (UpdateService, $cordovaSQLite, $ionicPlatform, $rootScope,
     $ionicLoading, $cordovaAppVersion, HttpFactory, RequestUrl,
@@ -153,10 +153,11 @@ angular.module('starter', ['ionic', 'starter.controllers','starter.router',
 
   // 全局监听PhoneRtc消息
   .run(function ($state, signaling, $ionicLoading) {
-    signaling.on('messageReceived', function (name, message) {
+    signaling.on('messageReceived', function (name, message, signaling) {
       switch (message.type) {
         case 'call':
           if ($state.current.name === 'call') {
+            signaling.emit('sendMessage', name, { type: 'callInProgress' });
             return;
           }
           // alert('收到视频通话请求，准备跳转！' + message.type);

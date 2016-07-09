@@ -121,33 +121,6 @@ angular.module('starter.controllers')
             $scope.isStartRecord = true;
             $scope.recordWait = false;
             try {
-                // === v1(测试音频是否可以播放) ===
-                // // Audio player
-                // mediaRec = new Media(src, function () {
-                //     dialog.show('success');
-                //     mediaRec = new Media(src);
-                //     mediaRec.play();
-                // }, function (e) {
-                //     dialog.show('failed:' + e);
-                // });
-                // // Record audio
-                // mediaRec.startRecord();
-
-                // mediaTimer = setInterval(function () {
-                //     // get media amplitude
-                //     mediaRec.getCurrentAmplitude(
-                //         // success callback
-                //         function (amp) {
-                //             console.log(amp + "%");
-                //         },
-                //         // error callback
-                //         function (e) {
-                //             console.log("Error getting amp=" + e);
-                //         }
-                //     );
-                // }, 1000);
-
-                // === v2 ===
                 //实例化录音类
                 startRec();
                 //开始录音
@@ -213,7 +186,7 @@ angular.module('starter.controllers')
                     },
                         function (ret, err) {
                             mediaRec.release();
-                            // $cordovaFile api 已过时
+                            // TODO：$cordovaFile api 已过时
                             // $cordovaFile.removeFile(path, src)
                             //     .then(function (success) {
                             //         // success
@@ -249,29 +222,16 @@ angular.module('starter.controllers')
         }
         // 播放音频文件
         $scope.play = function (voiFile, type) {
-            console.log('start play!' + voiFile);
+            //console.log('start play!' + voiFile);
+            if (mediaRec) {
+                mediaRec.release();
+            }
             var target = angular.element(event.target).find("i");
             if (type == "you") {
                 target.addClass("web_wechat_voice_gray_playing");
             } else {
                 target.addClass("web_wechat_voice_playing");
             }
-
-            // 现有api不支持注入
-            // mediaRec = $cordovaMedia.newMedia(voiFile,
-            //     // 成功操作
-            //     function () {
-            //         console.log("play():Audio Success");
-            //         $cordovaMedia.release();
-            //     },
-            //     // 失败操作
-            //     function (err) {
-            //         console.log("play():Audio Error: " + JSON.stringify(err));
-            //     }
-            // );
-            // //开始播放录音
-            // mediaRec.play({ numberOfLoops: 1 });
-            // return false;
 
             mediaRec = new Media(voiFile,
                 // 成功操作
@@ -331,9 +291,35 @@ angular.module('starter.controllers')
         $scope.onShowPhonebar = function () {
             if (!$scope.showPhonebar) {
                 $scope.showPhonebar = true;
+                $scope.showWXFace = false;
                 viewScroll.scrollBottom(true);
-            } else {
+            } else if($scope.showPhonebar && $scope.showWXFace) {
+                $scope.showWXFace= false;
+            }else if($scope.showPhonebar && !$scope.showWXFace) {
                 $scope.showPhonebar = false;
+            }
+        }
+
+        $scope.showWXFace = false;
+        $scope.onShowWXFace = function () {
+            if (!$scope.showPhonebar) {
+                $scope.showPhonebar = true;
+                $scope.showWXFace = true;
+                viewScroll.scrollBottom(true);
+                document.querySelector("#text_content").focus();
+            }else if($scope.showPhonebar && !$scope.showWXFace){
+                $scope.showWXFace = true;
+                document.querySelector("#text_content").focus();
+            }else if($scope.showPhonebar && $scope.showWXFace){
+                $scope.showPhonebar = false;
+                $scope.showWXFace = false;
+            }
+        }
+        $scope.choseWXFace = function (event) {
+            if(event.srcElement.title){
+                  var  text_content = document.querySelector("#text_content");
+                   $scope.send_content = text_content.value + "["+event.srcElement.title +"]";
+                   document.querySelector("#text_content").focus();
             }
         }
         $scope.switchInputMethod = function (evtobj) {

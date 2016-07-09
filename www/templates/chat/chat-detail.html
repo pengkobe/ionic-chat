@@ -1,11 +1,12 @@
 <ion-view title="{{name}}" hide-tabsxietong>
-    
+
     <!-- 消息主体 -->
-    <ion-content class="rj-stable-content" delegate-handle="messageDetailsScroll" 
-    id="message-detail-content" ng-class="{'message-detail-height': showPhonebar}" style="background-color:#eee">
+    <ion-content class="rj-stable-content" delegate-handle="messageDetailsScroll" id="message-detail-content" ng-class="{'message-detail-height': showPhonebar}"
+        style="background-color:#eee">
         <ion-refresher pulling-text="加载中..." on-refresh="doRefresh()" pulling-icon=""></ion-refresher>
+        <div style="height:1px" ng-show="fixReflowtag"></div>
         <ol id="lstMessage">
-            <li ng-repeat="message in hisMsgs track by $index" id="msg_{{message.messageId}}" data-messageid="{{message.messageId}}">
+            <li ng-repeat="message in hisMsgs track by $index" class="rj-chatmessage-list" id="msg_{{message.messageId}}" data-messageid="{{message.messageId}}">
                 <div ng-include src="buildUrl(message.objectName)"></div>
             </li>
         </ol>
@@ -17,32 +18,27 @@
         <ion-spinner icon="spiral" ng-show="recordWait"></ion-spinner>
     </div>
 
-    <ion-footer-bar align-title="left" class="bar-light" resize-foot-bar 
-    style="flex-direction:column" ng-class="{'message-footer-height':showPhonebar}">
-        <section style="height:44px;display:flex;display:relative" ng-class="{'message-bar-height':showPhonebar}">
+    <ion-footer-bar align-title="left" class="bar-light xietong-foot-bar" resize-foot-bar style="flex-direction:column" ng-class="{'message-footer-height':showPhonebar}">
+        <section class="message-input-area" ng-class="{'message-bar-height':showPhonebar}">
             <!-- 切换输入方式(键盘vs音频) -->
             <div class="rj-footer-btn-wrap">
                 <span class="voice" ng-click="switchInputMethod($event)">
                     <i class="ic" ng-class="{'ic-voice': !isVoiceMethod, 'ic-keyboard-grey': isVoiceMethod}"></i>
                  </span>
             </div>
-            
-            <label class="item item-input rj-footer-input">
+
+            <div class="item item-input rj-footer-input">
                 <!-- 按住说话 -->
-                <span class="hold-tips"
-                    on-touch="onVoiceHold()"
-                    on-release="onVoiceRelease()"
-                    ng-class="{'active': isStartRecord}"
-                    ng-show="isVoiceMethod">按住我说话
+                <span class="hold-tips" on-touch="onVoiceHold()" on-release="onVoiceRelease()" ng-class="{'active': isStartRecord}" ng-show="isVoiceMethod">按住我说话
                 </span>
                 <!-- 文本输入框 -->
-                <textarea msd-elastic id="text_content" ng-model="send_content"  ng-show="!isVoiceMethod"></textarea>
+                <textarea msd-elastic id="text_content" ng-model="send_content" ng-show="!isVoiceMethod"></textarea>
                 <!-- 表情按钮 -->
                 <div class="buttons">
-                    <button class="rj-footer-btn button button-icon icon ion-happy-outline" ng-show="!isVoiceMethod" ></button>
+                    <button class="rj-footer-btn button button-icon icon ion-happy-outline" ng-click="onShowWXFace()" ng-show="!isVoiceMethod"></button>
                 </div>
-            </label>
-            
+            </div>
+
             <div class="rj-footer-btn-wrap">
                 <!-- 显示工具栏按钮+ -->
                 <div class="buttons" ng-show="!send_content || send_content === ''">
@@ -57,21 +53,55 @@
         </section>
 
         <!-- 工具栏 -->
-        <div ng-show="showPhonebar" class="chat-toolbar">
-            <div style="flex: 1;text-align: center;background: #fff; " ng-show="conversationType==='PRIVATE'">
+        <div ng-show="showPhonebar&& !showWXFace" class="chat-toolbar">
+            <div style="flex: 1;text-align: center;" ng-show="conversationType==='PRIVATE'">
                 <img src="img/icon/vediochat.png" style="width:45px;border-radius: 50%" ng-click="onVoiceCall()">
-                 <div>视频</div>
+                <div>视频</div>
             </div>
-            <div style="flex: 1;text-align: center;background: #fff; ">
+            <div style="flex: 1;text-align: center; ">
                 <img src="img/icon/camera.png" style="width:45px;border-radius: 50%" ng-click="takePic(0)">
-                 <div>拍照</div>
+                <div>拍照</div>
             </div>
-            <div style="flex: 1;text-align: center;background: #fff; ">
+            <div style="flex: 1;text-align: center;">
                 <img src="img/icon/photos.png" style="width:45px;border-radius: 50%" ng-click="takePic(1)">
                 <div>图片</div>
             </div>
-            <div style="flex: 1;text-align: center;background: #fff; ">
+            <div style="flex: 1;text-align: center; ">
             </div>
+        </div>
+
+        <!-- 表情 -->
+        <div class="qq_face " ng-show="showWXFace" ng-click="choseWXFace($event)">
+            <a title="微笑" type="qq" class="face qqface0">微笑</a>
+            <a title="撇嘴" type="qq" class="face qqface1">撇嘴</a>
+            <a title="色" type="qq" class="face qqface2">色</a>
+            <a title="发呆" type="qq" class="face qqface3">发呆</a>
+            <a title="得意" type="qq" class="face qqface4">得意</a>
+            <a title="流泪" type="qq" class="face qqface5">流泪</a>
+            <a title="害羞" type="qq" class="face qqface6">害羞</a>
+            <a title="闭嘴" type="qq" class="face qqface7">闭嘴</a>
+            <a title="睡" type="qq" class="face qqface8">睡</a>
+            <a title="大哭" type="qq" class="face qqface9">大哭</a>
+            <a title="尴尬" type="qq" class="face qqface10">尴尬</a>
+            <a title="发怒" type="qq" class="face qqface11">发怒</a>
+            <a title="调皮" type="qq" class="face qqface12">调皮</a>
+            <a title="呲牙" type="qq" class="face qqface13">呲牙</a>
+            <a title="惊讶" type="qq" class="face qqface14">惊讶</a>
+            <a title="难过" type="qq" class="face qqface15">难过</a>
+            <a title="酷" type="qq" class="face qqface16">酷</a>
+            <a title="冷汗" type="qq" class="face qqface17">冷汗</a>
+            <a title="抓狂" type="qq" class="face qqface18">抓狂</a>
+            <a title="吐" type="qq" class="face qqface19">吐</a>
+            <a title="偷笑" type="qq" class="face qqface20">偷笑</a>
+            <a title="愉快" type="qq" class="face qqface21">愉快</a>
+            <a title="白眼" type="qq" class="face qqface22">白眼</a>
+            <a title="傲慢" type="qq" class="face qqface23">傲慢</a>
+            <a title="饥饿" type="qq" class="face qqface24">饥饿</a> 
+            <a title="困" type="qq" class="face qqface25">困</a>
+            <a title="惊恐" type="qq" class="face qqface26">惊恐</a>
+            <a title="流汗" type="qq" class="face qqface27">流汗</a>
+            <a title="憨笑" type="qq" class="face qqface28">憨笑</a>
+            <a title="悠闲" type="qq" class="face qqface29">悠闲</a>
         </div>
     </ion-footer-bar>
 </ion-view>

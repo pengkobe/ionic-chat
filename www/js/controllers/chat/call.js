@@ -1,13 +1,25 @@
 angular.module('starter.controllers')
-   // 通话
+    // 通话
     .controller('CallCtrl', function ($scope, $state, $rootScope, $timeout, $interval, $ionicHistory,
-        $ionicModal, $stateParams, signaling,  CacheFactory, Friends) {
-        var duplicateMessages = [];
-
+        $ionicModal, $stateParams, signaling, CacheFactory, Friends) {
+       var duplicateMessages = [];
         // 是否通话中
         $scope.callInProgress = false;
+        //实例化录音类, src:需要播放的录音的路径
+        var ring = new Media(getPhoneGapPath(),
+            // 成功操作
+            function () {
+            },
+            // 失败操作
+            function (err) {
+            }
+        );
         // 是否主动发起 === false
         $scope.isCalling = $stateParams.isCalling === 'true';
+        if (!$scope.isCalling) {
+            //开始播放录音
+            ring.play();
+        }
         //alert('isCalling:'+ $scope.isCalling +"type:"+ typeof $scope.isCalling ); 
         $scope.contacts = {};
         $scope.muted = false;
@@ -24,11 +36,13 @@ angular.module('starter.controllers')
         //     $scope.contactName = contactName_c;
         // } else {
         var contactUser = Friends.get($stateParams.contactName);
+        if (!contactUser) {
+            return;
+        }
         $scope.contactUser = contactUser;
         $scope.contactName = contactUser.id;
         // }
         // === 仅供作为测试用 end====
-
 
         // === 联系人模块(BEGIN) ===
         // 在线用户列表
@@ -61,6 +75,9 @@ angular.module('starter.controllers')
 
         // session通话初始化
         function call(isInitiator, contactName) {
+            if (isInitiator) {
+                sendMessage('[发起视频通话]');
+            }
             console.log(new Date().toString() + ': calling to ' +
                 contactName + ', isInitiator: ' + isInitiator);
             // 国外服务器，网速慢！
@@ -125,8 +142,12 @@ angular.module('starter.controllers')
             signaling.emit('sendMessage', $scope.contactName, { type: 'call' });
         }
         // 忽略
-        $scope.ignore = function () {
+        $scope.ignore = function (msg) {
+            if (ring) {
+                ring.release();
+            }
             // alert('忽略');
+            sendMessage(msg);
             var contactNames = Object.keys($scope.contacts);
             if (contactNames.length > 0) {
                 $scope.contacts[contactNames[0]].disconnect();
@@ -139,6 +160,7 @@ angular.module('starter.controllers')
         // 结束通话
         $scope.end = function () {
             //alert('结束');
+            sendMessage('[结束通话]');
             Object.keys($scope.contacts).forEach(function (contact) {
                 $scope.contacts[contact].close();
                 delete $scope.contacts[contact];
@@ -150,11 +172,14 @@ angular.module('starter.controllers')
         };
         // 接听
         $scope.answer = function () {
+            if (ring) {
+                ring.release();
+            }
             //alert('接听');
-            $scope.showVedio = true;
             if ($scope.callInProgress) {
                 return;
             }
+            $scope.showVedio = true;
             $scope.callInProgress = true;
             // 1s 后显示视频
             $timeout($scope.updateVideoPosition, 1000);
@@ -234,7 +259,7 @@ angular.module('starter.controllers')
                     break;
                 // 结束通话
                 case 'end':
-                    alert('对方已经结束通话');
+                    // alert('对方已经结束通话');
                     Object.keys($scope.contacts).forEach(function (contact) {
                         $scope.contacts[contact].close();
                         delete $scope.contacts[contact];
@@ -268,6 +293,11 @@ angular.module('starter.controllers')
                         }
                     });
                     break;
+                case 'callInProgress':
+                    alert('对方正在通话中!');
+                    $ionicHistory.goBack(-1);
+                    break;
+                default: break;
             }
         }
         signaling.on('messageReceived', onMessageReceive);
@@ -276,4 +306,34 @@ angular.module('starter.controllers')
         $scope.$on('$destroy', function () {
             signaling.removeListener('messageReceived', onMessageReceive);
         });
+
+
+        function sendMessage(content) {
+            RongCloudLibPlugin.sendTextMessage({
+                conversationType: "PRIVATE",
+                targetId: contactUser.id,
+                text: content,
+                extra: "extra text"
+            },
+                function (ret, err) {
+                    if (ret) {
+                        if (ret.status == "prepare") {
+                            appendNewMsg(ret.result.message, true);
+                        }
+                        if (ret.status == "success") {
+                            // alert("success");
+                        }
+                    }
+                    if (err) {
+                        FormateRongyunErr.formate(err);
+                    }
+                }
+            );
+        }
+
+        function getPhoneGapPath() {
+            var path = window.location.pathname;
+            path = path.substr(path, path.length - 9);
+            return 'file://' + path + 'img/vedio-chat.mp3';
+        };
     });

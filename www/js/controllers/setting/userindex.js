@@ -34,22 +34,33 @@ angular.module('starter.controllers')
                     }
                 }, 2000);
                 signaling.on('login_error', function (message) {
-                    if (RongyuLogin) {
-                        clearInterval(inid);
-                        return;
-                    }
-                    var alertPopup = $ionicPopup.alert({
-                        title: 'Error',
-                        template: JSON.stringify(message)
-                    });
-                });
+					if (RongyuLogin) {
+						$interval.cancel(inid);
+						return;
+					}
+					// 用户名已存在
+					if (message == "用户名已存在.") {
+						var alertPopup = $ionicPopup.alert({
+							title: 'Error',
+							template: JSON.stringify(message)
+						});
+						$interval.cancel(inid);
+						CacheFactory.removeAll();
+ 						$state.go('login');
+					} else {
+						var alertPopup = $ionicPopup.alert({
+							title: 'Error',
+							template: JSON.stringify(message)
+						});
+					}
+				});
 
                 signaling.on('login_successful', function (user) {
                     // alert('rongyunToken' + user.rongyunToken);
                     // 初始化融云
                     if (!RongyuLogin) {
                         RongyuLogin = true;
-                        clearInterval(inid);
+                        $interval.cancel(inid);
                         //initRong.init(user.rongyunToken);
                     }
                 });
