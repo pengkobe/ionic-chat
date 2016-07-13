@@ -1,5 +1,5 @@
 angular.module('starter.controllers')
- // 聊天
+    // 聊天
     .controller('chatDetail', function ($scope, $rootScope, $stateParams, newMessageEventService, CacheFactory,
         $ionicScrollDelegate, $timeout, $state, $filter, Friends, Groups, $interval, $ionicModal, PhotoAndImages,
         getGroupMembers, projectTeam, currentUser) {
@@ -135,7 +135,7 @@ angular.module('starter.controllers')
             $scope.recordWait = true;
             $timeout(function () {
                 $scope.isStartRecord = false;
-            }, 2000);
+            }, 1000);
             if (mediaRec) {
                 //结束录音
                 mediaRec.stopRecord();
@@ -224,6 +224,7 @@ angular.module('starter.controllers')
         $scope.play = function (voiFile, type) {
             //console.log('start play!' + voiFile);
             if (mediaRec) {
+                mediaRec.stop();
                 mediaRec.release();
             }
             var target = angular.element(event.target).find("i");
@@ -232,7 +233,9 @@ angular.module('starter.controllers')
             } else {
                 target.addClass("web_wechat_voice_playing");
             }
-
+            if (isIOS) {
+                voiFile = voiFile.replace('file://', '');
+            }
             mediaRec = new Media(voiFile,
                 // 成功操作
                 function () {
@@ -266,11 +269,11 @@ angular.module('starter.controllers')
             mediaRec = new Media(getNewMediaURL(src),
                 // 录音执行函数
                 function () {
-                    console.log("start():Audio Success");
+                    //console.log("start():Audio Success");
                 },
                 // 录音失败执行函数
                 function (err) {
-                    console.log("start():Audio Error: " + JSON.stringify(err) + "----" + getMediaURL(src));
+                    //console.log("start():Audio Error: " + JSON.stringify(err) + "----" + getMediaURL(src));
                 }
             );
             // 模拟声音大小变化
@@ -293,9 +296,9 @@ angular.module('starter.controllers')
                 $scope.showPhonebar = true;
                 $scope.showWXFace = false;
                 viewScroll.scrollBottom(true);
-            } else if($scope.showPhonebar && $scope.showWXFace) {
-                $scope.showWXFace= false;
-            }else if($scope.showPhonebar && !$scope.showWXFace) {
+            } else if ($scope.showPhonebar && $scope.showWXFace) {
+                $scope.showWXFace = false;
+            } else if ($scope.showPhonebar && !$scope.showWXFace) {
                 $scope.showPhonebar = false;
             }
         }
@@ -307,19 +310,19 @@ angular.module('starter.controllers')
                 $scope.showWXFace = true;
                 viewScroll.scrollBottom(true);
                 document.querySelector("#text_content").focus();
-            }else if($scope.showPhonebar && !$scope.showWXFace){
+            } else if ($scope.showPhonebar && !$scope.showWXFace) {
                 $scope.showWXFace = true;
                 document.querySelector("#text_content").focus();
-            }else if($scope.showPhonebar && $scope.showWXFace){
+            } else if ($scope.showPhonebar && $scope.showWXFace) {
                 $scope.showPhonebar = false;
                 $scope.showWXFace = false;
             }
         }
         $scope.choseWXFace = function (event) {
-            if(event.srcElement.title){
-                  var  text_content = document.querySelector("#text_content");
-                   $scope.send_content = text_content.value + "["+event.srcElement.title +"]";
-                   document.querySelector("#text_content").focus();
+            if (event.srcElement.title) {
+                var text_content = document.querySelector("#text_content");
+                $scope.send_content = text_content.value + "[" + event.srcElement.title + "]";
+                document.querySelector("#text_content").focus();
             }
         }
         $scope.switchInputMethod = function (evtobj) {
@@ -455,7 +458,7 @@ angular.module('starter.controllers')
                 }
             );
         }
-        // 获取最新消息(未读)
+        // 获取最新消息
         function getLatestMsg(targetid, ctype) {
             RongCloudLibPlugin.getLatestMessages({
                 conversationType: ctype,
@@ -477,7 +480,12 @@ angular.module('starter.controllers')
                                 }
                             }
                             tmp = myUtil.resolveMsg(tmp);
-                            result.unshift(tmp);
+                            // 处理IOS倒序顺序bug
+                            if (isIOS) {
+                                result.push(tmp);
+                            } else {
+                                result.unshift(tmp);
+                            }
                         }
                         $scope.hisMsgs = result;
                         $timeout(function () {
