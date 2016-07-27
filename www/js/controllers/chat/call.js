@@ -2,17 +2,18 @@ angular.module('starter.controllers')
     // 通话
     .controller('CallCtrl', function ($scope, $state, $rootScope, $timeout, $interval, $ionicHistory,
         $ionicModal, $stateParams, signaling, CacheFactory, Friends) {
-       var duplicateMessages = [];
+        var duplicateMessages = [];
+        var isIOS = ionic.Platform.isIOS();
         // 是否通话中
         $scope.callInProgress = false;
-        $scope.contacts = {};
-        $scope.muted = false;
-        $scope.showVedio = false;
-
         //实例化录音类, src:需要播放的录音的路径
         var ring = new Media(getPhoneGapPath(),
-            // success
-            function () {}, function (err) {}
+            // 成功操作
+            function () {
+            },
+            // 失败操作
+            function (err) {
+            }
         );
         // 是否主动发起 === false
         $scope.isCalling = $stateParams.isCalling === 'true';
@@ -20,52 +21,66 @@ angular.module('starter.controllers')
             //开始播放录音
             ring.play();
         }
-
-         // === 联系人模块(BEGIN) ===
-        // 在线用户列表
-        $scope.hideFromContactList = [$scope.contactName];
-        // 联系人列表模板
-        // $ionicModal.fromTemplateUrl('templates/select_contact.html', {
-        //     scope: $scope,
-        //     animation: 'slide-in-up'
-        // }).then(function (modal) {
-        //     $scope.selectContactModal = modal;
-        // });
-        // $scope.openSelectContactModal = function () {
-        //     cordova.plugins.phonertc.hideVideoView();
-        //     $scope.selectContactModal.show();
-        // };
-        // $scope.closeSelectContactModal = function () {
-        //     cordova.plugins.phonertc.showVideoView();
-        //     $scope.selectContactModal.hide();
-        // };
-        // $scope.addContact = function (newContact) {
-        //     $scope.hideFromContactList.push(newContact);
-        //     signaling.emit('sendMessage', newContact, { type: 'call' });
-        //     cordova.plugins.phonertc.showVideoView();
-        //     $scope.selectContactModal.hide();
-        // };
-        // === 联系人模块(END) ===
-
-        
+        //alert('isCalling:'+ $scope.isCalling +"type:"+ typeof $scope.isCalling ); 
+        $scope.contacts = {};
+        $scope.muted = false;
+        $scope.showVedio = false;
         // 显示已通话时间
         // $scope.VedioTime = 0;
         // $interval(function () {
         //     $scope.VedioTime++;
         // }, 1000);
         $scope.contactUser = {};
+        // === 仅供作为测试用(注释部分) begin====
+        // var contactName_c = CacheFactory.get('onlyguy');
+        // if (contactName_c && $stateParams.contactName === "kobepeng") {
+        //     $scope.contactName = contactName_c;
+        // } else {
         var contactUser = Friends.get($stateParams.contactName);
         if (!contactUser) {
             return;
         }
         $scope.contactUser = contactUser;
         $scope.contactName = contactUser.id;
+        // }
+        // === 仅供作为测试用 end====
+
+        // === 联系人模块(BEGIN) ===
+        // 在线用户列表
+        $scope.hideFromContactList = [$scope.contactName];
+        // 联系人列表模板
+        $ionicModal.fromTemplateUrl('templates/select_contact.html', {
+            scope: $scope,
+            animation: 'slide-in-up'
+        }).then(function (modal) {
+            $scope.selectContactModal = modal;
+        });
+        // 显示联系人列表
+        $scope.openSelectContactModal = function () {
+            cordova.plugins.phonertc.hideVideoView();
+            $scope.selectContactModal.show();
+        };
+        // 关闭联系人列表
+        $scope.closeSelectContactModal = function () {
+            cordova.plugins.phonertc.showVideoView();
+            $scope.selectContactModal.hide();
+        };
+        // 添加联系人
+        $scope.addContact = function (newContact) {
+            $scope.hideFromContactList.push(newContact);
+            signaling.emit('sendMessage', newContact, { type: 'call' });
+            cordova.plugins.phonertc.showVideoView();
+            $scope.selectContactModal.hide();
+        };
+        // === 联系人模块(END) ===
 
         // session通话初始化
         function call(isInitiator, contactName) {
             if (isInitiator) {
                 sendMessage('[发起视频通话]');
             }
+            console.log(new Date().toString() + ': calling to ' +
+                contactName + ', isInitiator: ' + isInitiator);
             // 自个服务器 turn server
             var config = {
                 isInitiator: isInitiator,
@@ -91,7 +106,7 @@ angular.module('starter.controllers')
                 });
             });
             session.on('answer', function () {
-              
+                // console.log('Answered!');
             });
             session.on('disconnect', function () {
                 if ($scope.contacts[contactName]) {
@@ -113,11 +128,10 @@ angular.module('starter.controllers')
         }
         // 忽略
         $scope.ignore = function (msg) {
-             // alert('忽略');
             if (ring) {
-                ring.stop();
                 ring.release();
             }
+            // alert('忽略');
             sendMessage(msg);
             var contactNames = Object.keys($scope.contacts);
             if (contactNames.length > 0) {
@@ -143,10 +157,10 @@ angular.module('starter.controllers')
         };
         // 接听
         $scope.answer = function () {
-            //alert('接听');
             if (ring) {
                 ring.release();
             }
+            //alert('接听');
             if ($scope.callInProgress) {
                 return;
             }
@@ -157,6 +171,7 @@ angular.module('starter.controllers')
             call(false, $scope.contactName);
             // 1.5s 后接听
             setTimeout(function () {
+                console.log('sending answer');
                 signaling.emit('sendMessage', $scope.contactName, { type: 'answer' });
             }, 1500);
         };
@@ -170,11 +185,11 @@ angular.module('starter.controllers')
             });
         };
 
-        // 更新视频位置???
+        // 更新视频位置?
         $scope.updateVideoPosition = function () {
             $rootScope.$broadcast('videoView.updatePosition');
         };
-        // 隐藏自个
+        // 隐藏自个~~~
         $scope.hideCurrentUsers = function () {
             return function (item) {
                 return $scope.hideFromContactList.indexOf(item) === -1;
@@ -191,6 +206,7 @@ angular.module('starter.controllers')
                         $scope.callInProgress = true;
                         $timeout($scope.updateVideoPosition, 1000);
                     });
+
                     var existingContacts = Object.keys($scope.contacts);
                     if (existingContacts.length !== 0) {
                         signaling.emit('sendMessage', name, {
@@ -276,7 +292,7 @@ angular.module('starter.controllers')
             signaling.removeListener('messageReceived', onMessageReceive);
         });
 
-        // 融云消息提示
+
         function sendMessage(content) {
             RongCloudLibPlugin.sendTextMessage({
                 conversationType: "PRIVATE",
@@ -284,7 +300,7 @@ angular.module('starter.controllers')
                 text: content,
                 extra: "extra text"
             },
-            function (ret, err) {
+                function (ret, err) {
                     if (ret) {
                         if (ret.status == "prepare") {
                             appendNewMsg(ret.result.message, true);
@@ -303,10 +319,10 @@ angular.module('starter.controllers')
         function getPhoneGapPath() {
             var path = window.location.pathname;
             path = path.substr(path, path.length - 9);
-             if (isIOS) {
+            if (isIOS) {// ios
                 return 'img/vedio-chat.mp3';
-             } else {
-                return 'file://' + path+ 'img/vedio-chat.mp3';
+            } else {
+                return 'file://' + path + 'img/vedio-chat.mp3';
             }
         };
     });
