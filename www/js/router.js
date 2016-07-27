@@ -115,7 +115,7 @@ angular.module('starter.router', [])
                     }
                 }
             })
-              .state('YIPENG.addTeam', {
+            .state('YIPENG.addTeam', {
                 url: '/addTeam',
                 views: {
                     'yipeng-chat': {

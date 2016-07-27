@@ -7,8 +7,7 @@ var bodyParser = require('body-parser');
 
 var settings = require('./settings');
 // 路由
-var routes = require('./routes/index');
-var routes_app = require('./routes/route');
+var routes = require('./routes/route');
 
 var app = express();
 
@@ -17,12 +16,12 @@ app.all('*', function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
     res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
-    res.header("X-Powered-By",' hietech-nodejs')
+    res.header("X-Powered-By",' yipeng-nodejs')
     //res.header("Content-Type", "application/json;charset=utf-8");
     next();
 });
 
-// view engine setup
+// view engine setup(未启用)
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
@@ -49,10 +48,8 @@ app.use(session({
   })
 }));
 
-
 app.use(express.query());
 
-app.use('/app', routes_app);
 app.use('/', routes);
 
 /// 404

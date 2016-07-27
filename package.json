@@ -25,5 +25,7 @@
     "E:\\cordova-plugins\\phonertc-master\\phonertc-master",
     "cordova-plugin-contacts"
   ],
-  "cordovaPlatforms": []
+  "cordovaPlatforms": [
+    "android"
+  ]
 }
