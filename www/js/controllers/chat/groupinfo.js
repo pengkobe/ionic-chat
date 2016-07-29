@@ -6,6 +6,7 @@ angular.module('starter.controllers')
         var targetName = $stateParams.targetName;
         var conversationType = $stateParams.conversationType;
         var groupType = $stateParams.groupType;
+        
         // 发送群消息
         $scope.sendMsg = function () {
             // alert('p y is here ready to home:'+$stateParams.targetId+":"+$stateParams.conversationType);

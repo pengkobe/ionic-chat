@@ -100,7 +100,7 @@ module.exports = function (io) {
             //         socket.emit('checkOnline_suc', ret);
             //     }
             // }
-            // 方法2：直接使用服务端缓存在线列表
+            // 方法2：直接在node端缓存在线列表
             var useridLen = userids.length;
             var usersLen = users.length;
             var i ,j;
@@ -120,7 +120,7 @@ module.exports = function (io) {
         });
     });
 
-    // 监听服务端其它事件
+    // 监听服务端其它事件（服务端内网通信）
     function monitorEvent(io, socket) {
         var baseUrl = "http://192.168.3.97"; // EmployeeBLL
 

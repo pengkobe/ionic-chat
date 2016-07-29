@@ -26,7 +26,6 @@ chatGroupsSchema.statics.findGroup = function (groupid, groupname, userids, head
     // 第一步，查询 , groupname: groupname
     that.find({ groupid: groupid }, function (err, group) {
         console.log('groupid:' + group.length);
-      
         var needUpdate = false;
         if (group && group.length > 0) {
             var tempgroup = group[0];

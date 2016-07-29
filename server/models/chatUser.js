@@ -15,7 +15,14 @@ var chatUsersSchema = new Schema({
     // 融云token
     rongyunToken: { type: String, default: '' },
     // enum:[0,1]
-    isActivated: { type: Number, default: 0 }
+    isActivated: { type: Number, default: 0 },
+
+    // 正式好友
+    // 发起的好友请求
+    // 被邀请为好友
+    // 被邀请加群
+    // 邀请加群
+
 });
 
 // 融云toke

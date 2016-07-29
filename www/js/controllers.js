@@ -45,8 +45,6 @@ angular.module('starter.controllers', [],function($httpProvider){
         $scope.user = {};
         $scope.loginIn = function (valid) {
             if (valid) {
-                $scope.user.VerificationCode = {};
-                $scope.user.UseVerificationCode = false;
                 HttpFactory.send({
                     url: RequestUrl + 'Action.ashx?Name=HYD.E3.Business.UserInfo_newBLL.SignUp',
                     data: {
@@ -56,19 +54,9 @@ angular.module('starter.controllers', [],function($httpProvider){
                     method: 'post'
                 }).success(function (data) {
                     // console.log(data);
-                    if (data.data.length == 0) {
+                    if (data.length == 0) {
                         myNote.myNotice("用户名或密码错误!");
                     } else {
-                        var uuid = ionic.Platform.device().uuid;
-                        if (data.data[0].IsBindPhone == '1') {
-                            if (data.data[0].PhoneCode == null) {
-                                //写入uuid；
-                                setPhoneCode(data.data[0].UserID, uuid);
-                            } else if (data.data[0].PhoneCode != uuid) {
-                                myNote.myNotice('该账号不能在这个手机上登录！');
-                                return;
-                            }
-                        }
                         //存储登录信息
                         CacheFactory.save('Login', true);
                         currentUser.setUserinfo(data.data[0]);
@@ -92,62 +80,40 @@ angular.module('starter.controllers', [],function($httpProvider){
                 }
             }
         };
-        function setPhoneCode(userId, uuid) {
-            HttpFactory.send({
-                url: RequestUrl + 'Action.ashx?Name=HYD.E3.Business.APP_CommonBLL.UpdateBindPhoneInfo',
-                data: {
-                    UserID: userId,
-                    PhoneCode: uuid
-                },
-                method: 'post'
-            }).success(function (data) {
-                //手机绑定成功
-            })
-        }
     })
     // 注册
     .controller('RegisterCtrl', function (CacheFactory, $scope, $state,
         myNote, HttpFactory, RequestUrl, $timeout, $interval) {
-        $scope.user = { state: true };
-        $scope.canClick = false;
+        $scope.user = { };
         $scope.buttonTitle = "注册";
 
-        $scope.tip = true;
         $scope.register = function () {
-            if (!$scope.tip) {
-                return;
-            } else {
-                $scope.tip = false;
-                $timeout(function () {
-                    $scope.tip = true;
-                }, 5000);
-            }
-            if ($scope.user.pwd == null) {
+            if ($scope.user.password == null) {
                 myNote.myNotice('密码不能为空！', 1000);
                 return;
             }
-            var reg1 = /^1[3|4|5|7|8][0-9]{9}$/;
+            // 非全数字
             var reg2 = /\d/;
+            // 非全字母
             var reg3 = /[a-z]/;
-            var reg4 = /[a-z0-9]{6,12}/;
-            var phone = $scope.user.phone;
-            var pwd = $scope.user.pwd.toLowerCase();
-            if (!reg1.test(phone)) {
-                myNote.myNotice('手机号格式不对！')
-            } else if (!(reg2.test(pwd) && reg3.test(pwd) && reg4.test(pwd))) {
+            var reg4 = /[a-z0-9]{3,12}/;
+            var username = $scope.user.username;
+            var password = $scope.user.password.toLowerCase();
+            if (!reg4.test(username)) {
+                myNote.myNotice('用户名必须为大于3且小于12位的字母或数字！')
+            } else if (!(reg2.test(password) && reg3.test(password) && reg4.test(password))) {
                 myNote.myNotice('密码格式不对！')
             } else {
                 // 直接注册
-                personData(phone, pwd);
+                register(username, pwd);
             }
-            function personData(phone, pwd) {
+            function register(username, Password) {
                 HttpFactory.send({
-                    url: RequestUrl + 'Action.ashx?Name=HYD.E3.Business.UserInfo_newBLL.SignIn',
+                    url: RequestUrl + 'register',
                     data: {
                         model: angular.toJson({
-                            Mobile: phone,
-                            Password: pwd,
-                            SumPoint: 50
+                            username: username,
+                            Password: Password
                         })
                     },
                     method: 'post'
@@ -161,7 +127,7 @@ angular.module('starter.controllers', [],function($httpProvider){
                         }, 2000);
                     } else {
                         CacheFactory.save('Login', true);
-                        CacheFactory.save('UserAccount', data.data[0]);
+                        CacheFactory.save('UserAccount', data);
                         $state.go('YIPENG.person');
                     }
                 })

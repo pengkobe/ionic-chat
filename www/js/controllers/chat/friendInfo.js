@@ -5,6 +5,7 @@ angular.module('starter.controllers')
         var targetId = $stateParams.targetId;
         var targetName = $stateParams.targetName;
         $scope.isFriend = true;
+        
         // 非好友
         if ($scope.Target == null) {
             $scope.isFriend = false;
@@ -41,9 +42,6 @@ angular.module('starter.controllers')
             );
         }
         else {
-            // console.log('Blacklist:' + JSON.stringify(Blacklist.all()));
-            // console.log($stateParams.targetId);
-            // console.log(JSON.stringify(Blacklist.get($stateParams.targetId)));
             if (Blacklist.get($stateParams.targetId))
                 $scope.settings.inBlackList = true;
         }
@@ -85,13 +83,12 @@ angular.module('starter.controllers')
                 RongCloudLibPlugin.addToBlacklist({ userId: $stateParams.targetId },
                     function (ret, err) {
                         if (ret) {
-                            console.log('addToBlacklist:' + JSON.stringify(ret));
-                            var userinfo = Friends.get($stateParams.targetId);
-                            Blacklist.addOne({ id: $stateParams.targetId, username: userinfo.username, portrait: userinfo.portrait });
                             alert('加入黑名单成功!');
+                            var userinfo = Friends.get($stateParams.targetId);
+                            Blacklist.addOne({ id: $stateParams.targetId, username: userinfo.username, 
+                                portrait: userinfo.portrait });
                         }
                         if (err) {
-                            console.log('addToBlacklist error:' + JSON.stringify(err));
                             alert('addToBlacklist error:' + JSON.stringify(err));
                         }
                     }
@@ -101,12 +98,10 @@ angular.module('starter.controllers')
                 RongCloudLibPlugin.removeFromBlacklist({ userId: $stateParams.targetId },
                     function (ret, err) {
                         if (ret) {
-                            console.log('removeFromBlacklist:' + JSON.stringify(ret));
                             Blacklist.removeOne($stateParams.targetId);
                             alert('移出黑名单成功!');
                         }
                         if (err) {
-                            console.log('removeFromBlacklist error:' + JSON.stringify(err));
                             alert('removeFromBlacklist error:' + JSON.stringify(err));
                         }
                     }

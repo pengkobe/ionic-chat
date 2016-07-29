@@ -2,7 +2,8 @@ angular.module('starter.controllers')
     // 通话
     .controller('CallCtrl', function ($scope, $state, $rootScope, $timeout, $interval, $ionicHistory,
         $ionicModal, $stateParams, signaling, CacheFactory, Friends) {
-       var duplicateMessages = [];
+        var duplicateMessages = [];
+        var isIOS = ionic.Platform.isIOS();
         // 是否通话中
         $scope.callInProgress = false;
         //实例化录音类, src:需要播放的录音的路径
@@ -80,7 +81,6 @@ angular.module('starter.controllers')
             }
             console.log(new Date().toString() + ': calling to ' +
                 contactName + ', isInitiator: ' + isInitiator);
-            
             // 自个服务器 turn server
             var config = {
                 isInitiator: isInitiator,
@@ -129,7 +129,6 @@ angular.module('starter.controllers')
         // 忽略
         $scope.ignore = function (msg) {
             if (ring) {
-                ring.stop();
                 ring.release();
             }
             // alert('忽略');
@@ -301,7 +300,7 @@ angular.module('starter.controllers')
                 text: content,
                 extra: "extra text"
             },
-            function (ret, err) {
+                function (ret, err) {
                     if (ret) {
                         if (ret.status == "prepare") {
                             appendNewMsg(ret.result.message, true);
@@ -320,10 +319,10 @@ angular.module('starter.controllers')
         function getPhoneGapPath() {
             var path = window.location.pathname;
             path = path.substr(path, path.length - 9);
-             if (isIOS) {// ios
+            if (isIOS) {// ios
                 return 'img/vedio-chat.mp3';
-             } else {
-                return 'file://' + path+ 'img/vedio-chat.mp3';
+            } else {
+                return 'file://' + path + 'img/vedio-chat.mp3';
             }
         };
     });

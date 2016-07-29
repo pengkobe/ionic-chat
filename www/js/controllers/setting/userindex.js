@@ -17,7 +17,7 @@ angular.module('starter.controllers')
         var RongyuLogin = false;
         if (!$rootScope.curUID) {
             $timeout(function name(params) {
-                /// ==== 协同相关(BEGIN) ====
+                /// ==== 聊天相关(BEGIN) ====
                 // 将用户id保存至全局
                 var cacheUser = JSON.parse(CacheFactory.get("UserAccount"));
                 var UserID = cacheUser.UserID;
@@ -57,11 +57,11 @@ angular.module('starter.controllers')
 
                 signaling.on('login_successful', function (user) {
                     // alert('rongyunToken' + user.rongyunToken);
-                    // 初始化融云
                     if (!RongyuLogin) {
                         RongyuLogin = true;
                         $interval.cancel(inid);
-                        //initRong.init(user.rongyunToken);
+                        // 初始化融云
+                        initRong.init(user.rongyunToken);
                     }
                 });
             }, 100);
@@ -82,7 +82,6 @@ angular.module('starter.controllers')
         $scope.about = function () {
             $scope.modal.show();
         };
-
         $scope.$on('$ionicView.beforeLeave', function () {
             $rootScope.$broadcast('ns:popover:Leave');
         });

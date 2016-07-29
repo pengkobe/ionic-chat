@@ -3,15 +3,28 @@ angular.module('starter.controllers')
     .controller('chatDetail', function ($scope, $rootScope, $stateParams, newMessageEventService, CacheFactory,
         $ionicScrollDelegate, $timeout, $state, $filter, Friends, Groups, $interval, $ionicModal, PhotoAndImages,
         getGroupMembers, projectTeam, currentUser) {
-        // === 变量声明提前(BEGIN) ===
+
         var mediaRec;
         var isIOS = ionic.Platform.isIOS();
         var isAndroid = ionic.Platform.isAndroid();
-        var src = "cordovaIMVoice.amr";
         var path = "";
-        $scope.conversationType = $stateParams.conversationType;
         var members = [];
+        var viewScroll = $ionicScrollDelegate.$getByHandle('messageDetailsScroll');
         var targetId = $stateParams.targetId;
+        $scope.conversationType = $stateParams.conversationType;
+        $scope.name = $stateParams.name ? $stateParams.name : "";
+
+        // media路径处理
+        var src = "cordovaIMVoice.amr";
+        if (isIOS) {
+            path = cordova.file.documentsDirectory;
+            src = "cordovaIMVoice.wav";
+        }
+        else {
+            path = cordova.file.externalApplicationStorageDirectory;
+        }
+
+        // 获取组内用户（用于显示群成员名称）
         if ($scope.conversationType == "GROUP") {
             getGroupMem();
         }
@@ -26,28 +39,15 @@ angular.module('starter.controllers')
             function callback(data) {
                 var data = data.data;
                 var length = data.length;
-                //var userids = [];
                 for (var i = 0; i < length; i++) {
                     var obj = {};
                     obj.id = data[i].UserID;
                     obj.name = data[i].UserName;
                     members.push(obj);
                 }
-                // alert("members:" +JSON.stringify(members));
                 getLatestMsg(targetId, "GROUP");
             }
         }
-        if (isIOS) {
-            //path = cordova.file.documentsDirectory;
-            src = "cordovaIMVoice.wav";
-        }
-        else {
-            //path = cordova.file.externalApplicationStorageDirectory;
-        }
-
-        var viewScroll = $ionicScrollDelegate.$getByHandle('messageDetailsScroll');
-        $scope.name = $stateParams.name ? $stateParams.name : "";
-        // === 变量声明提前(END) ===
 
         // === $scope 初始化(BEGIN) ===
         $scope.$on("$ionicView.beforeEnter", function () {
@@ -60,14 +60,12 @@ angular.module('starter.controllers')
         });
         // 监听消息发送事件
         var newMsgCallBack = function (d, data) {
-            // console.log('CD新消息:' + data);
             var jsonMsg = JSON.parse(data);
             if ($stateParams.targetId == jsonMsg.targetId) {
                 // clearMessagesUnreadStatus();
                 // 本地测试
                 var target;
                 if (jsonMsg.conversationType == "PRIVATE") {
-                    // target = Friends.get(jsonMsg.targetId);
                 }
                 else if (jsonMsg.conversationType == "GROUP") {
                     if (members.length > 0) {
@@ -77,20 +75,14 @@ angular.module('starter.controllers')
                             }
                         }
                     }
-                    // target = Groups.get(jsonMsg.targetId);
                 }
                 else if (jsonMsg.conversationType == "CUSTOMER_SERVICE") {
-                    // target = Groups.get(jsonMsg.targetId);
                 }
                 else if (jsonMsg.conversationType == "CHATROOM") {
-                    // target = Groups.get(jsonMsg.targetId);
                 }
                 console.log('jsonMsg:', jsonMsg);
                 var tmpMsg = myUtil.resolveMsg(jsonMsg);
-                // console.log(tmpMsg);
                 $scope.hisMsgs.push(tmpMsg);
-                // $ionicFrostedDelegate.update();
-                // $ionicScrollDelegate.scrollBottom(true);
                 $timeout(function () {
                     viewScroll.scrollBottom(true);
                 }, 50);
@@ -126,7 +118,6 @@ angular.module('starter.controllers')
                 //开始录音
                 mediaRec.startRecord();
                 return false;
-
             } catch (err) {
                 dialog.show('err m:' + err)
             }
@@ -137,9 +128,7 @@ angular.module('starter.controllers')
                 $scope.isStartRecord = false;
             }, 1000);
             if (mediaRec) {
-                //结束录音
                 mediaRec.stopRecord();
-                //释放系统底层的音频播放资源
                 mediaRec.release();
             }
             //实例化录音类, src:需要播放的录音的路径
@@ -153,8 +142,6 @@ angular.module('starter.controllers')
                     console.log("touchend():Audio Error: " + err.code);
                 }
             );
-
-            //开始播放录音
             mediaRec.play();
             mediaRec.stop();
             //在html中显示当前状态
@@ -174,7 +161,6 @@ angular.module('starter.controllers')
                         tmpPath = path + src;
                     }
                     tmpPath = tmpPath.replace('file://', '');
-                    // alert('tmpPath:' + tmpPath);
 
                     // 发送语音消息
                     RongCloudLibPlugin.sendVoiceMessage({
@@ -182,35 +168,23 @@ angular.module('starter.controllers')
                         targetId: $stateParams.targetId,
                         voicePath: tmpPath,
                         duration: dur,
-                        extra: "语音消息"
+                        extra: ""
                     },
                         function (ret, err) {
                             mediaRec.release();
-                            // TODO：$cordovaFile api 已过时
-                            // $cordovaFile.removeFile(path, src)
-                            //     .then(function (success) {
-                            //         // success
-                            //         alert('removeFile2:' + JSON.stringify(success));
-                            //     }, function (error) {
-                            //         // error
-                            //         alert('removeFile2 err:' + JSON.stringify(error));
-                            //     });
                             if (ret) {
                                 $scope.lstResult = "sendVoiceMessage:" + JSON.stringify(ret);
+                                // TODO:消息此时未发送成功，可以加入样式标明；成功后更新样式
                                 if (ret.status == "prepare") {
-                                    // TODO:消息此时未发送成功，可以加入样式标明；成功后更新样式
-                                    // alert('语音发送成功！');
                                     // alert("sendVoiceMessage prepare2:" + JSON.stringify(ret));
                                     appendNewMsg(ret.result.message, true);
-                                    // alert("prepare");
                                 }
+                                // TODO:后续加入发送成功后修改显示样式
                                 if (ret.status == "success") {
                                     // alert("success");
-                                    // TODO:后续加入发送成功后修改显示样式
                                 }
                             }
-                            if (err) {
-                                // TODO:这里需要对错误状态进行判断并友好的提示用户
+                            if (err) { // TODO:这里需要对错误状态进行判断并友好的提示用户
                                 alert("语音消息输入过短! ");
                                 //alert("语音消息发送错误: " + JSON.stringify(err));
                             }
@@ -222,7 +196,6 @@ angular.module('starter.controllers')
         }
         // 播放音频文件
         $scope.play = function (voiFile, type) {
-            //console.log('start play!' + voiFile);
             if (mediaRec) {
                 mediaRec.stop();
                 mediaRec.release();
@@ -269,11 +242,9 @@ angular.module('starter.controllers')
             mediaRec = new Media(getNewMediaURL(src),
                 // 录音执行函数
                 function () {
-                    //console.log("start():Audio Success");
                 },
                 // 录音失败执行函数
                 function (err) {
-                    //console.log("start():Audio Error: " + JSON.stringify(err) + "----" + getMediaURL(src));
                 }
             );
             // 模拟声音大小变化
@@ -302,7 +273,6 @@ angular.module('starter.controllers')
                 $scope.showPhonebar = false;
             }
         }
-
         $scope.showWXFace = false;
         $scope.onShowWXFace = function () {
             if (!$scope.showPhonebar) {
@@ -340,15 +310,12 @@ angular.module('starter.controllers')
         $scope.doRefresh = function () {
             console.log('Refreshing!');
             $timeout(function () {
-                //simulate async response
                 getHistoryMsg($stateParams.targetId, $stateParams.conversationType);
                 //Stop the ion-refresher from spinning
                 $scope.$broadcast('scroll.refreshComplete');
             }, 200);
         };
         // === 工具栏交互(END) ===
-
-
 
         // === 文本消息(BEGIN) ===
         $scope.onSendTextMessage = function () {
@@ -367,8 +334,7 @@ angular.module('starter.controllers')
         // === 图片交互(BEGIN) ===
         $scope.takePic = function (way) {
             var options;
-            if (way) {
-                // 相册
+            if (way) {// 相册
                 options = {
                     quality: 80,
                     targetWidth: 320,
@@ -381,8 +347,7 @@ angular.module('starter.controllers')
                     //alert('相册成功' + data);
                     sendPhoto(data);
                 });
-            } else {
-                // 拍照 
+            } else { // 拍照 
                 options = {
                     quality: 80,
                     targetWidth: 320,
@@ -429,18 +394,18 @@ angular.module('starter.controllers')
             },
                 function (ret, err) {
                     if (ret) {
+                        //消息此时未发送成功，可以加入样式标明
                         if (ret.status == "prepare") {
-                            // $scope.lstResult = JSON.stringify(ret);
                             // alert('你发了文字消息：' +JSON.stringify(ret));
-                            //消息此时未发送成功，可以加入样式标明；成功后更新样式
                             appendNewMsg(ret.result.message, true);
                         }
+                        //成功后更新样式
                         if (ret.status == "success") {
                             // alert("success");
                         }
                     }
                     if (err) {
-                        alert("sendTextMessage error: " + JSON.stringify(err));
+                        alert("发送文本消息 error: " + JSON.stringify(err));
                     }
                 }
             );
@@ -453,7 +418,7 @@ angular.module('starter.controllers')
             },
                 function (ret, err) {
                     if (err) {
-                        alert("clearMessagesUnreadStatus error: " + JSON.stringify(err));
+                        alert("标为已读 error: " + JSON.stringify(err));
                     }
                 }
             );
@@ -498,16 +463,9 @@ angular.module('starter.controllers')
                 }
             );
         }
-        // 拉取历史数据(暂未启用，付费用户才能使用)
+        // 拉取历史数据(暂未启用，从云端加载时需要付费用户才能使用)
         function getHistoryMsg(targetid, ctype) {
-            // return;
-            // 找到最新信息！
-            var $tar = document.querySelectorAll("#lstMessage > li:first-child")[0];
-            if (!tar) {
-                return;
-            }
-            // alert($tar);
-            var oldestMessageId = $tar.getAttribute("data-messageid");
+            var oldestMessageId = 0;
             RongCloudLibPlugin.getHistoryMessages({
                 conversationType: ctype,
                 targetId: targetid,
@@ -516,7 +474,6 @@ angular.module('starter.controllers')
             },
                 function (ret, err) {
                     if (ret) {
-                        console.log("getHistoryMessages:" + JSON.stringify(ret));
                         var result = new Array(), tmp;
                         for (var i = ret.result.length - 1; i >= 0; i--) {
                             tmp = ret.result[i];
@@ -534,9 +491,7 @@ angular.module('starter.controllers')
         }
         // 发送图片
         function sendPhoto(imageURI) {
-            // console.log($stateParams.conversationType + '--' + imageURI);
             var picPath = imageURI;
-            console.log("getPicture:" + picPath);
             if (isIOS) {
                 picPath = imageURI.replace('file://', '');
             }
@@ -544,7 +499,6 @@ angular.module('starter.controllers')
                 if (imageURI.indexOf('?') !== -1) {
                     picPath = imageURI.substring(0, imageURI.indexOf('?'));
                 } else {
-
                 }
             }
             //alert('开始发送:' + picPath);
@@ -552,30 +506,51 @@ angular.module('starter.controllers')
                 conversationType: $stateParams.conversationType,
                 targetId: $stateParams.targetId,
                 imagePath: picPath,
-                extra: "extra text"
+                extra: ""
             },
                 function (ret, err) {
-                    // $scope.lstResult = JSON.stringify(ret);
                     if (ret) {
+                        //消息此时未发送成功，可以加入样式标明；成功后更新样式
                         if (ret.status == "prepare") {
-                            //消息此时未发送成功，可以加入样式标明；成功后更新样式
-                            appendNewMsg(ret.result.message, true);
                             // alert("prepare");
+                            appendNewMsg(ret.result.message, true);
                         }
                         if (ret.status == "success") {
                             //alert("success");
-                            // 后续加入发送成功后修改显示样式
                         }
                     }
                     if (err) {
                         alert("sendImageMessage error: " + JSON.stringify(err));
-                        console.log("sendImageMessage error: " + JSON.stringify(err));
                     }
                 }
             );
         };
         // ===  融云消息处理(END) ===
 
+        // === 初始化(BEGIN) ===
+        $scope.hisMsgs = [];
+        var init = function () {
+            // alert('p y is here in init $scope.curUID:'+$scope.curUID+"target:"+$scope.targetId);
+            if ($stateParams.conversationType == 'PRIVATE') {
+                getLatestMsg($stateParams.targetId, 'PRIVATE');
+            } else if ($stateParams.conversationType == 'GROUP') {
+            }
+            // 标为已读
+            clearMessagesUnreadStatus();
+            if ($stateParams.conversationType == "CUSTOMER_SERVICE") {// 客服
+            }
+            else if ($stateParams.conversationType == "CHATROOM") {// 聊天室
+            }
+            else if ($stateParams.conversationType == "DISCUSSION") {// 讨论组
+            }
+            $scope.$on("$ionicView.enter", function () {
+                // alert('p y is here  $ionicView.enter');
+                viewScroll.scrollBottom(true);
+                console.log('$ionicView.enter');
+            });
+        }
+        init();
+        // === 初始化(END) ===
 
         // === 辅助方法(BEGIN) ===
         // url辅助
@@ -598,7 +573,7 @@ angular.module('starter.controllers')
                 viewScroll.scrollBottom(true);
             }, 50);
         }
-        // 构建UI模板链接
+        // 构建消息UI模板
         $scope.buildUrl = function (type) {
             var tmpName;
             switch (type) {
@@ -627,63 +602,6 @@ angular.module('starter.controllers')
         }
         // === 辅助方法(END) ===
 
-        // === 初始化(BEGIN) ===
-        $scope.hisMsgs = [];
-        var init = function () {
-            // alert('p y is here in init $scope.curUID:'+$scope.curUID+"target:"+$scope.targetId);
-            if ($stateParams.conversationType == 'PRIVATE') {
-                getLatestMsg($stateParams.targetId, 'PRIVATE');
-                //$scope.target = Friends.get($stateParams.targetId);
-            } else if ($stateParams.conversationType == 'GROUP') {
-                // $scope.target = Groups.get($stateParams.targetId);
-            }
-            // 标为已读
-            clearMessagesUnreadStatus();
-            if ($stateParams.conversationType == "CUSTOMER_SERVICE") {// 客服
-                //  return;
-            }
-            else if ($stateParams.conversationType == "CHATROOM") {// 聊天室
-                // RongCloudLibPlugin.joinChatRoom({
-                //     chatRoomId: $stateParams.targetId,
-                //     defMessageCount: 20
-                // }, function (ret, err) {
-                //     if (ret) {
-                //         if (ret.status == 'success')
-                //             console.log("joinChatRoom", JSON.stringify(ret));
-                //     }
-                //     if (err) {
-                //         alert('joinChatRoom error:' + err.code);
-                //     }
-                // })
-                // return;
-            }
-            else if ($stateParams.conversationType == "DISCUSSION") {// 讨论组
-                // RongCloudLibPlugin.addMemberToDiscussion({
-                //     discussionId: $stateParams.targetId,
-                //     userIdList: [$scope.curUID]
-                // }, function (ret, err) {
-                //     if (ret) {
-                //         if (ret.status == 'success')
-                //             console.log("addMemberToDiscussion", JSON.stringify(ret));
-                //     }
-                //     if (err) {
-                //         console.log('addMemberToDiscussion error:' + err.code);
-                //     }
-                // })
-            }
-            // 获取15条最新消息
-            // getLatestMsg($stateParams.targetId, $stateParams.conversationType);
-
-            $scope.$on("$ionicView.enter", function () {
-                // alert('p y is here  $ionicView.enter');
-                viewScroll.scrollBottom(true);
-                console.log('$ionicView.enter');
-            });
-        }
-        //init();
-        // === 初始化(END) ===
-
         // === TODO:垃圾回收(BEGIN) ===
         // === TODO:垃圾回收(END) ===
-
     }) 
