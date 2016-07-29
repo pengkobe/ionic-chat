@@ -32,7 +32,8 @@
                 联系人
             </ion-item>
             <ion-item ng-repeat="friend in friends" class="rj-item" href="#/YIPENG/friendInfo/{{friend.id}}/{{friend.name}}/PRIVATE">
-                <a name="index_{{friend.alpha}}" scrollTop="{{friend.scrollHeight}}" ng-if="cri.DataValue!=friend.alpha && 1?cri.DataValue=friend.alpha:0"
+                <a name="index_{{friend.alpha}}" scrollTop="{{friend.scrollHeight}}"
+                   ng-if="cri.DataValue!=friend.alpha && 1?cri.DataValue=friend.alpha:0"
                     class="rj-contacts-index-bar">{{friend.alpha}}</a>
                 <div class="rj-contacts-pic">
                     <img ng-src="{{friend.portrait||'img/personPhoto.png'}}">
@@ -90,6 +91,8 @@
             </ion-item>
         </ion-list>
     </ion-content>
+
+
     <ul class="alpha_sidebar" ng-if="currentFeedsType==contacttab">
         <li ng-click="gotoList('{{letter}}')" ng-repeat="letter in alphabet">
             {{letter}}
