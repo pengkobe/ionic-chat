@@ -1,17 +1,3 @@
-@font-face {
-  font-family: 'Roboto Light';
-  src:url('font/Roboto-Light.ttf') format('TrueType');
-}
-
-@font-face {
-  font-family: 'Source Han Sans CN Light';
-  src:url('font/SourceHanSansCN-Light.otf') format('OpenType');
-}
-
-*{
-  font-family:'Roboto Light',"Source Han Sans CN Light", sans-serif !important;
-}
-
 .alpha_sidebar{
   position: fixed;
   top:90px;
