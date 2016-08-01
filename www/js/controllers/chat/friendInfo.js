@@ -5,7 +5,7 @@ angular.module('starter.controllers')
         var targetId = $stateParams.targetId;
         var targetName = $stateParams.targetName;
         $scope.isFriend = true;
-        
+
         // 非好友
         if ($scope.Target == null) {
             $scope.isFriend = false;
@@ -54,11 +54,13 @@ angular.module('starter.controllers')
                 conversationType: $stateParams.conversationType
             });
         }
+
+        //////////////////////////////////////ws////////////////////////////////////////////////
         // 直接视频聊天
         $scope.vedioChat = function () {
             //alert('chatdetial:' + $stateParams.targetId);
             var obj = { isCalling: true, contactName: $stateParams.targetId };
-            $state.go('YIPENG.call', obj);
+            $state.go('call', obj);
         }
 
         // 添加陌生人为好友
@@ -85,7 +87,7 @@ angular.module('starter.controllers')
                         if (ret) {
                             alert('加入黑名单成功!');
                             var userinfo = Friends.get($stateParams.targetId);
-                            Blacklist.addOne({ id: $stateParams.targetId, username: userinfo.username, 
+                            Blacklist.addOne({ id: $stateParams.targetId, username: userinfo.username,
                                 portrait: userinfo.portrait });
                         }
                         if (err) {
