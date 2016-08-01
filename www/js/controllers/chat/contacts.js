@@ -74,13 +74,13 @@ angular.module('starter.controllers')
         $scope.groupinviteList = [];
         var projectCode = currentUser.getUserinfo().PCode;
         var curUID = currentUser.getUserinfo().UserID;
-        // alert('projectCode:'+projectCode); 
+        // alert('projectCode:'+projectCode);
 
         // 加载好友列表
         Friends.all(function (data) {
             $scope.friends = data;
         });
-        // 加载群组 
+        // 加载群组
         Groups.all(function (data) {
             $scope.groups = data;
         });
@@ -121,7 +121,7 @@ angular.module('starter.controllers')
                     obj.alpha = makePy(obj.name)[0][0].toUpperCase();
                     obj.conversationType = 'PRIVATE';
                     obj.portrait = null;
-                    // 不能直接插入，需要进行排序                    
+                    // 不能直接插入，需要进行排序
                     $scope.friends.unshift(obj);
                     $timeout(function () {
                         $ionicLoading.hide();
@@ -396,7 +396,7 @@ angular.module('starter.controllers')
         var init = function () {
             $scope.friends_message = [];
             // TODO:立即加载在信息联系人未加载完成的情况下失效
-            // getConversationList(); 
+            // getConversationList();
             $interval(function () {
                 getConversationList();
             }, 3000);

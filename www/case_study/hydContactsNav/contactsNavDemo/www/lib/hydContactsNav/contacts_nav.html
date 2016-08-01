@@ -1,0 +1,4 @@
+<ul class="alpha_sidebar" on-drag="goList($event)" on-release="hidePromptBox()" on-touch="goListByTouch($event)">
+  <li ng-repeat="contacts in contactsData" data-id="{{contacts.id}}">{{contacts.firstCode}}</li>
+  <div class="promptBox-hydNav"><h3></h3></div>
+</ul>
