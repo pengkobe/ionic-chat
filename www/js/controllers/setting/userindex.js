@@ -3,7 +3,8 @@
  */
 angular.module('starter.controllers')
     .controller('PersonCtrl', function (CacheFactory, $ionicModal,  $scope,
-        $rootScope, $state, $ionicPopup, signaling,  $timeout,$interval, $ionicActionSheet, initRong) { //Friends初始化加载项目人员
+        $rootScope, $state, $ionicPopup, signaling,  $timeout,$interval, 
+        $ionicActionSheet, initRong) { //Friends初始化加载项目人员
         var cache = angular.fromJson(CacheFactory.get('UserAccount'));
         $scope.UserName = cache.UserAccount || cache.Mobile;
         if (!!cache.RoleID) {
@@ -15,6 +16,7 @@ angular.module('starter.controllers')
         // $scope.phone = cache.headimgurl == null ? 'img/personPhoto.png' : RequestUrl + 'Images/Photo/' + cache.headimgurl;
         $scope.phone = 'img/personPhoto.png';
         var RongyuLogin = false;
+        // IndexCtrl
         if (!$rootScope.curUID) {
             $timeout(function name(params) {
                 /// ==== 聊天相关(BEGIN) ====
@@ -85,5 +87,4 @@ angular.module('starter.controllers')
         $scope.$on('$ionicView.beforeLeave', function () {
             $rootScope.$broadcast('ns:popover:Leave');
         });
-
     })

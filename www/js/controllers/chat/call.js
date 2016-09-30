@@ -317,6 +317,8 @@ angular.module('starter.controllers')
         }
 
         function getPhoneGapPath() {
+
+            // bug
             var path = window.location.pathname;
             path = path.substr(path, path.length - 9);
             if (isIOS) {// ios

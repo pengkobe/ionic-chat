@@ -151,7 +151,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.router',
     }, 100);
   })
 
-  // 全局监听PhoneRtc消息
+  // 全局监听PhoneRtc消息()
   .run(function ($state, signaling, $ionicLoading) {
     signaling.on('messageReceived', function (name, message, signaling) {
       switch (message.type) {

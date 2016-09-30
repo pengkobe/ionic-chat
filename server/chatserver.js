@@ -10,15 +10,26 @@ module.exports = function (io) {
     io.of('/chat').on('connection', function (socket) {
         socket.on('login', function (userid, username, headImg) {
             // socket已存在
-            if (_.findIndex(users, { socket: socket.id }) !== -1) {
-                socket.emit('login_error', '你已经在线了！.');
-                return;
-            }
+            // if (_.findIndex(users, { socket: socket.id }) !== -1) {
+            //     socket.emit('login_error', '你已经在线了！.');
+            //     return;
+            // }
             // 用户名已存在
-            if (_.findIndex(users, { userid: userid }) !== -1) {
-                socket.emit('login_error', '用户名已存在.');
-                return;
+            // if (_.findIndex(users, { userid: userid }) !== -1) {
+            //     socket.emit('login_error', '用户名已存在！');
+            //     return;
+            // }
+
+            // 强制下线
+            var index = _.findIndex(users, { userid: userid }) 
+            if (index !== -1) {
+                // var contact = users[index];
+                // io.of('/chat').to(contact.socket).emit('logout', '你已在其他地方登陆！');
+                // console.log(contact.userid + ' 在其他地方登陆！');
+                // 删除索引
+                users.splice(index, 1);
             }
+
             // 查询token  userid, username, headImg, callback
             chatUser.getRongyunToken(userid, username, '', callback);
 
@@ -103,12 +114,12 @@ module.exports = function (io) {
             // 方法2：直接在node端缓存在线列表
             var useridLen = userids.length;
             var usersLen = users.length;
-            var i ,j;
-            var ret=[];
-            for (i= 0; i < useridLen; i++) {
-                for (j=0; j < usersLen; j++) {
+            var i, j;
+            var ret = [];
+            for (i = 0; i < useridLen; i++) {
+                for (j = 0; j < usersLen; j++) {
                     if (userids[i] == users[j].userid) {
-                       ret.push({id:userids[i], state:1});
+                        ret.push({ id: userids[i], state: 1 });
                     }
                 }
             }
