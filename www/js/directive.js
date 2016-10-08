@@ -46,8 +46,8 @@ angular.module('starter.directive', [])
                         cordova.plugins.phonertc.setVideoView({
                             container: element[0],
                             local: {
-                                position: [240, 240],
-                                size: [50, 50]
+                                position: [10, 10],
+                                size: [100, 100]
                             }
                         });
                     } catch (err) {

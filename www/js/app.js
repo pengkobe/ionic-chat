@@ -151,7 +151,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.router',
     }, 100);
   })
 
+<<<<<<< HEAD
   // 全局监听PhoneRtc消息()
+=======
+    ////////////////////////////////////ws/////////////////////////////////////////////
+  // 全局监听PhoneRtc消息
+>>>>>>> 9a2d085c030e5662cd39e6ccbe544a2ed53e0baa
   .run(function ($state, signaling, $ionicLoading) {
     signaling.on('messageReceived', function (name, message, signaling) {
       switch (message.type) {
@@ -161,7 +166,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.router',
             return;
           }
           // alert('收到视频通话请求，准备跳转！' + message.type);
-          $state.go('YIPENG.call', { isCalling: false, contactName: name });
+          $state.go('call', { isCalling: false, contactName: name });
           break;
       }
     });

@@ -43,6 +43,8 @@ angular.module('starter.router', [])
                 templateUrl: 'templates/login.html',
                 controller: 'LoginCtrl'
             })
+
+
             .state('register', {
                 url: '/register',
                 templateUrl: 'templates/register.html',
@@ -105,16 +107,24 @@ angular.module('starter.router', [])
                     }
                 }
             })
-            .state('YIPENG.call', {
-                cache: false,
-                url: '/call/:contactName?isCalling',
-                views: {
-                    'yipeng-chat': {
-                        controller: 'CallCtrl',
-                        templateUrl: 'templates/chat/call.html'
-                    }
-                }
-            })
+            // .state('YIPENG.call', {
+            //     cache: false,
+            //     url: '/call/:contactName?isCalling',
+            //     views: {
+            //         'yipeng-chat': {
+            //             controller: 'CallCtrl',
+            //             templateUrl: 'templates/chat/call.html'
+            //         }
+            //     }
+            // })
+
+          .state('call', {
+            cache: false,
+            url: '/call/:contactName?isCalling',
+            controller: 'CallCtrl',
+            templateUrl: 'templates/chat/call.html'
+          })
+
             .state('YIPENG.addTeam', {
                 url: '/addTeam',
                 views: {
@@ -143,7 +153,7 @@ angular.module('starter.router', [])
                     }
                 }
             });
-            
+
         $urlRouterProvider.otherwise('/login');
 
         $httpProvider.interceptors.push(['UpdateService', function (UpdateService) {
