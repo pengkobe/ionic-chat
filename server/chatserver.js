@@ -4,6 +4,10 @@ var _http = require('http');
 
 var users = [];
 
+/**
+ * 视频聊天中转服务器
+ * TODO:在线状态并不可信，手机端因为某些原因不一定会掉用户disconnect方法
+*/
 module.exports = function (io) {
     var chatUser = require('./models/chatUser.js');
     var chatGroup = require('./models/chatGroup.js');
@@ -11,25 +15,24 @@ module.exports = function (io) {
         socket.on('login', function (userid, username, headImg) {
             // socket已存在
             // if (_.findIndex(users, { socket: socket.id }) !== -1) {
-            //     socket.emit('login_error', '你已经在线了！.');
-            //     return;
+            //   socket.emit('login_error', '你已经在线了！.');
+            // return;
             // }
             // 用户名已存在
             // if (_.findIndex(users, { userid: userid }) !== -1) {
-            //     socket.emit('login_error', '用户名已存在！');
-            //     return;
+            //   socket.emit('login_error', '用户名已存在.');
+            // return;
             // }
 
             // 强制下线
-            var index = _.findIndex(users, { userid: userid }) 
+            var index = _.findIndex(users, { userid: userid })
             if (index !== -1) {
-                // var contact = users[index];
+                var contact = users[index];
                 // io.of('/chat').to(contact.socket).emit('logout', '你已在其他地方登陆！');
-                // console.log(contact.userid + ' 在其他地方登陆！');
+                console.log(contact.userid + ' 在其他地方登陆！');                              
                 // 删除索引
                 users.splice(index, 1);
             }
-
             // 查询token  userid, username, headImg, callback
             chatUser.getRongyunToken(userid, username, '', callback);
 
@@ -65,7 +68,7 @@ module.exports = function (io) {
                     contact = users[i];
                 }
             }
-            //   var contact = _.find(users, { userid: userid });
+            // var contact = _.find(users, { userid: userid });
             console.log('contact:' + JSON.stringify(contact));
             if (!contact) {
                 return;
@@ -111,7 +114,7 @@ module.exports = function (io) {
             //         socket.emit('checkOnline_suc', ret);
             //     }
             // }
-            // 方法2：直接在node端缓存在线列表
+            // 方法2,直接使用服务端维存的列表
             var useridLen = userids.length;
             var usersLen = users.length;
             var i, j;
@@ -131,10 +134,9 @@ module.exports = function (io) {
         });
     });
 
-    // 监听服务端其它事件（服务端内网通信）
+    // 监听服务端其它事件
     function monitorEvent(io, socket) {
         var baseUrl = "http://192.168.3.97"; // EmployeeBLL
-
         // 第一步，getFriends(string UserID)查找已确认好友
         var options = {
             hostname: baseUrl,

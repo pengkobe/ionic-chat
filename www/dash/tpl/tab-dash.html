@@ -1,0 +1,43 @@
+<ion-view view-title="Dashboard">
+  <ion-content class="padding" id="lala">
+
+    <ion-slide-box on-slide-changed="slideHasChanged($index)">
+      <ion-slide>
+        <div class="box blue">
+          <h1>公用模块1</h1>
+          <h2>Welcome to Ionic</h2>
+          <p>
+            This is the Ionic starter for tabs-based apps. For other starters and ready-made templates, check out the
+            <a
+              href="http://market.ionic.io/starters" target="_blank">Ionic Market</a>.
+          </p>
+        </div>
+      </ion-slide>
+      <ion-slide>
+        <div class="box yellow">
+          <h1>公用模块2</h1>
+          <p>
+            To edit the content of each tab, edit the corresponding template file in <code>www/templates/</code>. This template
+            is <code>www/templates/tab-dash.html</code>
+          </p>
+          <p>
+            If you need help with your app, join the Ionic Community on the <a href="http://forum.ionicframework.com" target="_blank">Ionic Forum</a>.
+            Make sure to <a href="http://twitter.com/ionicframework" target="_blank">follow us</a> on Twitter to get important
+            updates and announcements for Ionic developers.
+          </p>
+        </div>
+      </ion-slide>
+      <ion-slide>
+        <div class="box pink">
+          <h1>单独业务</h1>
+          <!-- 相对网站根目录 -->
+          <div ng-include src="buildTplUrl('aircondition')"></div>
+        </div>
+      </ion-slide>
+    </ion-slide-box>
+
+
+
+
+  </ion-content>
+</ion-view>

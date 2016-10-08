@@ -1,6 +1,68 @@
 # ionic-chat
 a chat app based on ionic and rongyun
 
+
+### file structure
+   ```
+   ProjectName/
+    ├── hooks/
+    ├── node_modules/  
+    ├── platforms/ 
+    ├── plugins/ 
+    ├── scss
+    │   ├── ionic.app.scss
+    │   └── ...
+    ├── www
+    │   ├── dist/
+    │   │    ├── js/
+    │   │    │    ├── dash.min.js
+    │   │    │    ├── account.min.js
+    │   │    │    ├── chat.min.js
+    │   │    │    └── ... 
+    │   │    └── css/
+    │   │    │    ├── dash.css
+    │   │    │    ├── account.css
+    │   │    │    ├── chat.css
+    │   │    │    └── ... 
+    │   ├── app/
+    │   ├── common/
+    │   ├── lib/
+    │   ├── account/ 
+    │   │    ├── business/ 
+    │   │    ├── css/
+    │   │    ├── js/
+    │   │    └── tpl/
+    │   ├── chat/
+    │   │    ├── business/ 
+    │   │    ├── css/
+    │   │    ├── js/
+    │   │    └── tpl/
+    │   ├── dash
+    │   │    ├── business/ 
+    │   │    ├── css/
+    │   │    ├── js/
+    │   │    └── tpl/
+    │   ├── autoupdate.js 
+    │   ├── bootstrap.js 
+    │   ├── index.html
+    │   ├── service-worker.js
+    │   └── manifest.json 
+    ├── config.xml
+    ├── ionic.project
+    ├── package.json
+    ├── gulpfile.js
+    ├── bower.json
+    ├── .bowerrc
+    ├── .editorconfig
+    ├── .gitignore
+    ├── README.md
+    └── LICENSE
+   ```
+
+### server tech
+1. node with express
+2. mongodb with mongoloose
+
 ### how to run
 1. install node
 2. set up the enviroment for android/ios
