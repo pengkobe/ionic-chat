@@ -1,4 +1,18 @@
-;angular.module('chat', ['chat.services'])
+/**
+ * chat模块服务
+ */
+; angular.module('chat', ['chat.services'])
+  .config(function (SignalingProvider) {
+    // 视频服务服务端配置
+    SignalingProvider.setBackendUrl("http://115.29.51.196:5000/chat");
+  })
+  /**
+   * 服务初始化
+   * @param  {[Object]} Signaling [socket.io实例]
+   */
+  .run(function(Signaling){ 
+
+  })
   .controller('ChatsCtrl', function ($scope, Chats) {
     // With the new view caching in Ionic, Controllers are only called
     // when they are recreated or on app start, instead of every page change.
