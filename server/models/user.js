@@ -6,8 +6,8 @@ app用户
 
 var mongoose = require('./db-moogoose');
 // 融云
-var rongcloudSDK = require( 'rongcloud-sdk' );
-rongcloudSDK.init( 'cpj2xarljnzkn', 'D1f3ELpD3Y74' );
+var rongcloudSDK = require('rongcloud-sdk' );
+rongcloudSDK.init( 'lmxuhwagxgt9d', 'NpbRLWPxB79');
 // 密码加密
 var crypto = require('crypto');
 
@@ -17,6 +17,8 @@ var objID = Schema.Types.ObjectId;
 var appUsersSchema = new Schema({
   // 用户名,使用电话登录时这个用不着
   username: {type: String, unique: true},
+    // 昵称
+  nickname:{type: String, default:''},
   // 密码
   password: {type: String, default:''},
 
@@ -25,8 +27,7 @@ var appUsersSchema = new Schema({
 
   // 头像
   headimg:{type: String, default: ''},
-  // 昵称
-  nickname:{type: String, default:''},
+
   // 真实姓名
   realName:{type: String, default:''},
   // 性别
@@ -35,10 +36,6 @@ var appUsersSchema = new Schema({
   age:{type: Number, default:0}, // , min:12, max:120
   // 公司
   company:{ type: objID, ref: 'company'},
-  // 身份
-  identity:{type: String, default:''},
-  // 电话
-  tel: { type: String, default:''}, // match: /^0\d{2,3}-?\d{7,8}$/
   // 手机
   mobile: { type: String, default:'' }, // match: /^1\d{10}$/
   // 邮箱
@@ -51,9 +48,6 @@ var appUsersSchema = new Schema({
   isBindWechat:{type: String, default:'否'}, // , enum:['是','否']
 
   isActivated:{type: Number, default:0},// , enum:[0,1]
-
-  invite:[{ type: objID, ref: 'invitations' }],
-  beinvited:[{ type: objID, ref: 'invitations' }],
   
   // 融云token
   rongyunToken:{type: String, default:''}

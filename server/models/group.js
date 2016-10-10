@@ -6,8 +6,7 @@ var mongoose = require('./db-moogoose');
 // 融云
 var rongcloudSDK = require('rongcloud-sdk');
 // 正式发布时用
-rongcloudSDK.init('pgyu6atqyw7hu', 'LM6UB6WiLb5');
-//rongcloudSDK.init('cpj2xarljnzkn', 'D1f3ELpD3Y74');
+rongcloudSDK.init('lmxuhwagxgt9d', 'NpbRLWPxB79');
 
 var Schema = mongoose.Schema;
 
