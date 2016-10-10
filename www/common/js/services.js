@@ -76,67 +76,7 @@ angular.module('chat.common.services', [])
             }
         }
     })
-    // 热更新服务
-    .factory('UpdateService', function ($log, $q) {
-        var fs = new CordovaPromiseFS({
-            Promise: Promise
-        });
-
-        var loader = new CordovaAppLoader({
-            fs: fs,
-            serverRoot: 'http://120.24.54.92:9111',
-            localRoot: 'www',
-            cacheBuster: true, // make sure we're not downloading cached files.
-            checkTimeout: 10000, // timeout for the "check" function - when you loose internet connection
-            mode: 'mirror',
-            manifest: 'manifest.json' + "?" + Date.now()
-        });
-
-        return {
-            // Check for new updates on js and css files
-            check: function () {
-                var defer = $q.defer();
-                loader.check().then(function (updateAvailable) {
-                    if (updateAvailable) {
-                        defer.resolve(updateAvailable);
-                    }
-                    else {
-                        defer.reject(updateAvailable);
-                    }
-                });
-                return defer.promise;
-            },
-            // Download new js/css files
-            download: function (onprogress) {
-                var defer = $q.defer();
-                loader.download(onprogress).then(function (manifest) {
-                    defer.resolve(manifest);
-                }, function (error) {
-                    defer.reject(error);
-                });
-                return defer.promise;
-            },
-            // Update the local files with a new version just downloaded
-            update: function (reload) {
-                alert('ok');
-                return loader.update(reload);
-            },
-            // Check wether the HTML file is cached
-            isFileCached: function (file) {
-                if (angular.isDefined(loader.cache)) {
-                    return loader.cache.isCached(file);
-                }
-                return false;
-            },
-            // returns the cached HTML file as a url for HTTP interceptor
-            getCachedUrl: function (url) {
-                if (angular.isDefined(loader.cache)) {
-                    return loader.cache.get(url);
-                }
-                return url;
-            }
-        };
-    })
+  
     // ajax请求服务
     .factory('HttpFactory', function ($http, $ionicPopup, $ionicLoading, myNote, $timeout) {
 
@@ -268,4 +208,198 @@ angular.module('chat.common.services', [])
             }
         }
     })
+    /**
+    * 热更新服务
+    */
+    .factory('HotUpdateService', ["$log","$q"],function ($log, $q) {
+        var fs = new CordovaPromiseFS({
+            Promise: Promise
+        });
+
+        var loader = new CordovaAppLoader({
+            fs: fs,
+            serverRoot: 'http://120.24.54.92:9111',
+            localRoot: 'www',
+            cacheBuster: true, // make sure we're not downloading cached files.
+            checkTimeout: 10000, // timeout for the "check" function - when you loose internet connection
+            mode: 'mirror',
+            manifest: 'manifest.json' + "?" + Date.now()
+        });
+
+        return {
+            // Check for new updates on js and css files
+            check: function () {
+                var defer = $q.defer();
+                loader.check().then(function (updateAvailable) {
+                    if (updateAvailable) {
+                        defer.resolve(updateAvailable);
+                    }
+                    else {
+                        defer.reject(updateAvailable);
+                    }
+                });
+                return defer.promise;
+            },
+            // Download new js/css files
+            download: function (onprogress) {
+                var defer = $q.defer();
+                loader.download(onprogress).then(function (manifest) {
+                    defer.resolve(manifest);
+                }, function (error) {
+                    defer.reject(error);
+                });
+                return defer.promise;
+            },
+            // Update the local files with a new version just downloaded
+            update: function (reload) {
+                alert('ok');
+                return loader.update(reload);
+            },
+            // Check wether the HTML file is cached
+            isFileCached: function (file) {
+                if (angular.isDefined(loader.cache)) {
+                    return loader.cache.isCached(file);
+                }
+                return false;
+            },
+            // returns the cached HTML file as a url for HTTP interceptor
+            getCachedUrl: function (url) {
+                if (angular.isDefined(loader.cache)) {
+                    return loader.cache.get(url);
+                }
+                return url;
+            }
+        };
+    })
+    /**
+    * 大版本更新
+    */
+    .factory('VersionUpdateService', ["$http", "Services", '$q', '$cordovaNetwork', '$cordovaAppVersion', 
+    '$ionicPopup', '$ionicLoading', '$cordovaFileTransfer', '$cordovaFileOpener2', '$timeout',
+        function ($http, Services, $q, $cordovaNetwork, $cordovaAppVersion, $ionicPopup, $ionicLoading,
+         $cordovaFileTransfer, $cordovaFileOpener2, $timeout) {
+            return {
+                checkVersionData: checkVersionData,
+                checkVersion: checkVersion,
+            };
+
+            function checkVersionData(data) {
+                var deferred = $q.defer();
+                $http({ method: 'GET', url: Services.CHECK_VERSION.url, params: data }).success(function (data) {
+                    deferred.resolve(data.data);
+                }).error(function (err) {
+                    deferred.reject(err);
+                });
+                return deferred.promise;
+            }
+
+            function checkVersion(scope) {
+                var deferred = $q.defer();
+                var params = {
+                    platform: 'android',
+                    version: ''
+                };
+                var networkType = $cordovaNetwork.getNetwork();
+
+                $cordovaAppVersion.getVersionNumber().then(function (version) {
+                    params.version = version;
+                    // 获取服务器版本信息
+                    checkVersionData(params)
+                        .then(function (data) {
+                            if (data.updateFlag) {
+                                var json = {
+                                    title: '',
+                                    subTitle: data.description
+                                };
+                                // 0.0.1 => 00001 => 1
+                                var nowVersionNum = parseInt(version.toString().replace(new RegExp(/(\.)/g), '0'));
+                                // 10000
+                                var newVersionNum = parseInt(data.version.toString().replace(new RegExp(/(\.)/g), '0'));
+                                if (newVersionNum > nowVersionNum) {
+
+                                    if (data.updateFlag == 1) {  // 普通更新
+                                        if (networkType == 'wifi') {
+                                            json.title = 'APP版本更新'
+                                        }
+                                        else {
+                                            json.title = 'APP版本更新（建议WIFI下升级）';
+                                        }
+                                        updateAppPopup(json, scope).then(function (res) {
+                                            if (res == 'update') {
+                                                UpdateForAndroid(data.url);
+                                            }
+                                        });
+                                    }
+                                    else if (data.updateFlag == 2 && networkType == 'wifi') {  // 强制更新
+                                        UpdateForAndroid(data.url);
+                                    }
+                                }
+                            }
+                            deferred.resolve(data.updateFlag);
+                        }, function (err) {
+                            deferred.reject(null);
+                        })
+                });
+
+                return deferred.promise;
+            }
+
+            function updateAppPopup(json, scope) {
+                return $ionicPopup.show({
+                    title: json.title,
+                    subTitle: json.subTitle,
+                    scope: scope,
+                    buttons: [
+                        {
+                            text: '取消',
+                            type: 'button-clear button-assertive',
+                            onTap: function () {
+                                return 'cancel';
+                            }
+                        },
+                        {
+                            text: '更新',
+                            type: 'button-clear button-assertive border-left',
+                            onTap: function (e) {
+                                return 'update';
+                            }
+                        }
+                    ]
+                });
+            }
+
+
+            function UpdateForAndroid(downloadUrl) {
+                $ionicLoading.show({
+                    template: "已经下载：0%"
+                });
+                var targetPath = "/sdcard/Download/tianmicaifu.apk";
+                var trustHosts = true;
+                var options = {};
+                $cordovaFileTransfer.download(downloadUrl, targetPath, options, trustHosts).then(function (result) {
+                    $cordovaFileOpener2.open(targetPath, 'application/vnd.android.package-archive'
+                    ).then(function () {
+                        // 成功
+                    }, function (err) {
+                        console.log(err);
+                    });
+                    $ionicLoading.hide();
+                }, function (err) {
+                    $ionicLoading.show({
+                        template: "下载失败"
+                    });
+                    $ionicLoading.hide();
+                }, function (progress) {
+                    $timeout(function () {
+                        var downloadProgress = (progress.loaded / progress.total) * 100;
+                        $ionicLoading.show({
+                            template: "已经下载：" + Math.floor(downloadProgress) + "%"
+                        });
+                        if (downloadProgress > 99) {
+                            $ionicLoading.hide();
+                        }
+                    });
+                });
+            }
+        }])
     ;

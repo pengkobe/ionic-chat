@@ -64,6 +64,84 @@ angular.module('starter', ['ionic', "oc.lazyLoad"].concat(aaa), function ($httpP
     });
   })
 
+/**
+ * 全局/平台样式配置
+ */
+  .config(function ($ionicConfigProvider, $urlRouterProvider, $cordovaInAppBrowserProvider) {
+    $ionicConfigProvider.platform.android.views.transition('android');
+    $ionicConfigProvider.platform.ios.tabs.style('standard');
+    $ionicConfigProvider.platform.ios.tabs.position('bottom');
+    $ionicConfigProvider.platform.android.tabs.style('standard');
+    $ionicConfigProvider.platform.android.tabs.position('standard');
+
+    $ionicConfigProvider.platform.ios.navBar.alignTitle('center');
+    $ionicConfigProvider.platform.android.navBar.alignTitle('center');
+
+    $ionicConfigProvider.platform.ios.backButton.previousTitleText('').icon('ion-ios-arrow-thin-left');
+    $ionicConfigProvider.platform.android.backButton.previousTitleText('').icon('ion-android-arrow-back');
+
+    $ionicConfigProvider.platform.ios.views.transition('ios');
+    $ionicConfigProvider.platform.android.views.transition('android');
+    $urlRouterProvider.otherwise('/index');
+
+    // 配置后退按钮文字消失
+    $ionicConfigProvider.backButton.previousTitleText(false);
+
+  })
+  /**
+   * 配置请求头/请求返回处理
+   */
+  .config(['$httpProvider', '$resourceProvider', function ($httpProvider, $resourceProvider) {
+    var interceptor = function ($q, $rootScope, Passport, $location, Config) {
+      return {
+        'request': function (request) {
+          $httpProvider.defaults.useXDomain = true;
+          delete $httpProvider.defaults.headers.common['X-Requested-With'];
+          $resourceProvider.defaults.stripTrailingSlashes = false;
+          $httpProvider.defaults.headers.common['platform'] = 'android';  // 添加platform
+
+          delete request.headers.Authorization;
+          var _token = Passport.getToken();
+          var _request_url = request.url.substr(0, 22);
+          if (_token) {
+            request.headers.Authorization = "Token " + _token;
+          }
+
+          request.params = request.params || {};
+          return request;
+        },
+        'requestError': function (requestError) {
+          return requestError;
+        },
+        'response': function (response) {
+          return response;
+        },
+        'responseError': function (rejection) {
+          switch (rejection.status) {
+            case 401:
+              // $location.path('login');
+              $rootScope.$broadcast('response', '401');
+              break;
+            case 403:
+              break;
+            case 404:
+              //清除Passport中的token
+              // Passport.logout();
+
+              break;
+            case 500:
+              // /!*$location.path('/500');*!/
+              break;
+          }
+          return $q.reject(rejection);
+        }
+      };
+    };
+    //声明interceptor 的注入依赖顺序
+    interceptor.$inject = ['$q', '$rootScope', 'Passport', '$location', 'Config'];
+    $httpProvider.interceptors.push(interceptor);
+  }])
+
   .config(function ($stateProvider, $urlRouterProvider) {
     // Ionic uses AngularUI Router which uses the concept of states
     // Learn more here: https://github.com/angular-ui/ui-router
