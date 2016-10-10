@@ -76,16 +76,14 @@ angular.module('starter', ['ionic', "oc.lazyLoad"].concat(aaa), function ($httpP
       manifest = JSON.parse(manifest)
       root = (manifest.root +'/') || '';
     }
-    
 
     $stateProvider
-
       // setup an abstract state for the tabs directive
       .state('tab', {
         url: '/tab',
         controller: 'tabCtrl',
         abstract: true,
-        templateUrl: 'app/tpl/tabs.html'
+        templateUrl: 'module/app/tpl/tabs.html'
       })
 
       // ===dash===
@@ -93,7 +91,7 @@ angular.module('starter', ['ionic', "oc.lazyLoad"].concat(aaa), function ($httpP
         url: '/dash',
         views: {
           'tab-dash': {
-            templateUrl: 'dash/tpl/tab-dash.html',
+            templateUrl: 'module/dash/tpl/tab-dash.html',
             controller: 'DashCtrl'
           }
         }
@@ -104,14 +102,14 @@ angular.module('starter', ['ionic', "oc.lazyLoad"].concat(aaa), function ($httpP
         url: '/chats',
         views: {
           'tab-chats': {
-            templateUrl: 'chat/tpl/tab-chats.html',
+            templateUrl: 'module/chat/tpl/tab-chats.html',
             controller: 'ChatsCtrl'
           }
         },
         resolve: { // Any property in resolve should return a promise and is executed before the view is loaded
           loadMyCtrl: ['$ocLazyLoad', function ($ocLazyLoad) {
             // you can lazy load files for an existing module
-            return $ocLazyLoad.load([root+ 'chat/chat.min.js']);
+            return $ocLazyLoad.load([root+ 'dist/js/chat.min.js']);
           }]
         }
       })
@@ -120,7 +118,7 @@ angular.module('starter', ['ionic', "oc.lazyLoad"].concat(aaa), function ($httpP
         url: '/chats/:chatId',
         views: {
           'tab-chats': {
-            templateUrl: 'chat/tpl/chat-detail.html',
+            templateUrl: 'module/chat/tpl/chat-detail.html',
             controller: 'ChatDetailCtrl'
           }
         }
@@ -131,14 +129,14 @@ angular.module('starter', ['ionic', "oc.lazyLoad"].concat(aaa), function ($httpP
         url: '/account',
         views: {
           'tab-account': {
-            templateUrl: 'chat/tpl/tab-account.html',
+            templateUrl: 'module/chat/tpl/tab-account.html',
             controller: 'AccountCtrl'
           }
         },
         resolve: { // Any property in resolve should return a promise and is executed before the view is loaded
           loadMyCtrl: ['$ocLazyLoad', function ($ocLazyLoad) {
             // you can lazy load files for an existing module
-            return $ocLazyLoad.load(root+'account/account.min.js');
+            return $ocLazyLoad.load(root+'dist/js/account.min.js');
           }]
         }
       });

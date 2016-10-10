@@ -151,24 +151,3 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.router',
     }, 100);
   })
   ////////////////////////////////////ws/////////////////////////////////////////////
-  // 全局监听PhoneRtc消息
-  .run(function ($state, signaling, $ionicLoading) {
-    signaling.on('messageReceived', function (name, message, signaling) {
-      switch (message.type) {
-        case 'call':
-          if ($state.current.name === 'call') {
-            signaling.emit('sendMessage', name, { type: 'callInProgress' });
-            return;
-          }
-          // alert('收到视频通话请求，准备跳转！' + message.type);
-          $state.go('call', { isCalling: false, contactName: name });
-          break;
-      }
-    });
-  })
-  /// 字符转码
-  .filter('trustHtml', function ($sce) {
-    return function (input) {
-      return $sce.trustAsHtml(input);
-    }
-  });
