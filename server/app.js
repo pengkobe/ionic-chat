@@ -7,9 +7,9 @@ var bodyParser = require('body-parser');
 
 var settings = require('./settings');
 // 路由
-var routes = require('./routes/index');
-var routes_app = require('./routes/app-server');
-var dealWechat = require('./routes/dealWechat');
+var route_default = require('./routes/index');
+var route_ionchat = require('./routes/ionchat');
+
 
 var app = express();
 //设置跨域访问
@@ -17,7 +17,7 @@ app.all('*', function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
     res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
-    res.header("X-Powered-By",' hietech-nodejs')
+    res.header("X-Powered-By",' yipeng-nodejs')
     //res.header("Content-Type", "application/json;charset=utf-8");
     next();
 });
@@ -65,9 +65,8 @@ var secret = 'd4624c36b6795d1d99dcf0547af5443d';
 
 app.use(express.query());
 
-app.use('/app', routes_app);
-app.use('/', routes);
-app.use('/wechat', wechat(config, dealWechat));
+app.use('/ionchat', route_ionchat);
+app.use('/', route_default);
 
 /// 404
 app.use(function (req, res, next) {

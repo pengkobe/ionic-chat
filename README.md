@@ -24,24 +24,27 @@ a chat app based on ionic and rongyun
     │   │    │    ├── account.css
     │   │    │    ├── chat.css
     │   │    │    └── ... 
-    │   ├── app/
     │   ├── common/
     │   ├── lib/
-    │   ├── account/ 
-    │   │    ├── business/ 
-    │   │    ├── css/
-    │   │    ├── js/
-    │   │    └── tpl/
-    │   ├── chat/
-    │   │    ├── business/ 
-    │   │    ├── css/
-    │   │    ├── js/
-    │   │    └── tpl/
-    │   ├── dash
-    │   │    ├── business/ 
-    │   │    ├── css/
-    │   │    ├── js/
-    │   │    └── tpl/
+    │   ├── module/
+    │   ├── module/
+    │   │    ├── app/ (entry)
+    │   │    ├── account/ 
+    │   │    │    ├── business/ 
+    │   │    │    ├── css/
+    │   │    │    ├── js/
+    │   │    │    └── tpl/
+    │   │    ├── chat/ 
+    │   │    │    ├── business/ 
+    │   │    │    ├── css/
+    │   │    │    ├── js/
+    │   │    │    └── tpl/
+    │   │    ├── dash
+    │   │    │    ├── business/ 
+    │   │    │    ├── css/
+    │   │    │    ├── js/
+    │   │    │    └── tpl/
+    │   ├── config.js 
     │   ├── autoupdate.js 
     │   ├── bootstrap.js 
     │   ├── index.html

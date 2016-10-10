@@ -1,5 +1,9 @@
 'use strict';
 
+/**
+ * 消息推送
+ */
+
 module.exports = function(io) {
 	// 加载model
 	var appUser = require('./models/appUser.js');

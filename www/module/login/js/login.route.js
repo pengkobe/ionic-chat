@@ -13,14 +13,14 @@ angular.module('com.tm.app.login.route', [])
      */
       .state('login', {
         url: '/login',
-        templateUrl: 'main/module/login/login.html',
+        templateUrl: 'module/login/login.html',
         controller: 'LoginController',
         data: {isPublic: true}
       })
       .state('footer.login', {
         views: {
           'product': {
-            templateUrl: 'main/module/login/login.html',
+            templateUrl: 'module/login/login.html',
             controller: 'LoginController'
           }
         },
@@ -30,7 +30,7 @@ angular.module('com.tm.app.login.route', [])
         url: '/register',
         views: {
           'product': {
-            templateUrl: 'main/module/login/register.html',
+            templateUrl: 'module/login/register.html',
             controller: 'RegisterController',
           }
         },
@@ -40,7 +40,7 @@ angular.module('com.tm.app.login.route', [])
         url: '/reset-password',
         views: {
           'product': {
-            templateUrl: 'main/module/login/reset-password.html',
+            templateUrl: 'module/login/reset-password.html',
             controller: 'ResetPasswordController'
           }
         },

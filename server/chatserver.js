@@ -1,4 +1,8 @@
 'use strict';
+/**
+ * 用户登录
+ * 视频聊天
+ */
 var _ = require('lodash-node');
 var _http = require('http');
 
@@ -133,40 +137,4 @@ module.exports = function (io) {
         socket.on('joinGroup', function (groupid, userid) {
         });
     });
-
-    // 监听服务端其它事件
-    function monitorEvent(io, socket) {
-        var baseUrl = "http://192.168.3.97"; // EmployeeBLL
-        // 第一步，getFriends(string UserID)查找已确认好友
-        var options = {
-            hostname: baseUrl,
-            port: 8099,
-            method: "POST",
-            path: '/Action.ashx?Name=HYD.E3.Business.EmployeeBLL.getFriends',
-            headers: {
-                'Accept': 'application/json',
-                "Content-Type": 'application/x-www-form-urlencoded',
-            }
-        };
-        _http.request(options, getFriendsCallback);
-        _http.write(data + "\n");
-        function getFriendsCallback(serverret) {
-            if (serverret.statusCode == 200) {
-                var body = "";
-                serverret.on('data', function (data) {
-                    body += data;
-                }).on('end', function () {
-                    // 推送至前端
-                    //res.send(200, body); 
-                });
-            }
-            else {
-                // 推送至前端
-                //res.send(500, "error");
-            }
-        }
-        // 第二步，FindFriendsReq(string UserID)查找好友请求
-        // 第三步，getTeams(string UserID) 查找已加入的团队列表
-        // 第四步，findTeamsReq(string UserID) 查找团队邀请
-    }
 }
