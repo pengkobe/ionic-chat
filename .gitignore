@@ -5,3 +5,4 @@ node_modules/
 platforms/
 plugins/
 case_study/
+server/node_modules

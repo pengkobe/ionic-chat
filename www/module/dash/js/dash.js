@@ -6,6 +6,8 @@ angular.module('dash', [])
   .controller('DashCtrl', function ($scope) {
     // 构建消息UI模板
     $scope.buildTplUrl = function (type) {
+
+      /** 业务类模板 */
       var tplUrl;
       switch (type) {
         case 'industry':
