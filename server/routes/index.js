@@ -45,7 +45,7 @@ router.post('/reg', function (req, res) {
 						.pipe(file(doc._id + '.png'));
 					// 获取融云token
 					console.log('获取融云token开始...id:'+doc._id +' username:'+ doc.username);
-					appUser.getRongyunToken(doc._id,doc.username,'http://yipeng.info/public/img/favicon.ico',
+					appUser.getRongyunToken(doc._id,doc.username,'http://chat.info/public/img/favicon.ico',
 					function(token){
 						console.log('token:'+ token);
 						user.update({rongyunToken: token }, null);

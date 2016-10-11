@@ -1,4 +1,4 @@
-angular.module('starter.controllers')
+angular.module('chat.controllers')
  .controller('addFriendCtrl', function ($scope, CacheFactory, myNote, HttpFactory, RequestUrl) {
 
         var cache = angular.fromJson(CacheFactory.get('UserAccount'));

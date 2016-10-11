@@ -1,4 +1,4 @@
-angular.module('starter.controllers')
+angular.module('chat.controllers')
     // 聊天
     .controller('chatDetail', function ($scope, $rootScope, $stateParams, newMessageEventService, CacheFactory,
         $ionicScrollDelegate, $timeout, $state, $filter, Friends, Groups, $interval, $ionicModal, PhotoAndImages,
@@ -95,12 +95,12 @@ angular.module('starter.controllers')
         $scope.onVoiceCall = function () {
             //alert('chatdetial:' + $stateParams.targetId);
             var obj = { isCalling: true, contactName: $stateParams.targetId };
-            $state.go('YIPENG.call', obj);
+            $state.go('chat.call', obj);
         }
         $scope.onVedioCall = function () {
             //alert('chatdetial:' + $stateParams.targetId);
             var obj = { isCalling: true, contactName: $stateParams.targetId };
-            $state.go('YIPENG.call', obj);
+            $state.go('chat.call', obj);
         }
         // === 视频/音频通话(END) ===
 

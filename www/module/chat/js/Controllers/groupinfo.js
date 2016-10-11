@@ -1,4 +1,4 @@
-angular.module('starter.controllers')
+angular.module('chat.controllers')
 .controller('groupInfoCtrl', function ($scope, Groups, $state,
         $stateParams, CacheFactory, getGroupMembers, projectTeam, RequestUrl,currentUser) {
         $scope.Target = Groups.get($stateParams.targetId);
@@ -10,12 +10,12 @@ angular.module('starter.controllers')
         // 发送群消息
         $scope.sendMsg = function () {
             // alert('p y is here ready to home:'+$stateParams.targetId+":"+$stateParams.conversationType);
-            $state.go('YIPENG.chatDetail', 
+            $state.go('chat.chatDetail', 
             { name: targetName, targetId: targetId, conversationType: conversationType });
         }
         // 添加群成员
         $scope.addTeammate = function () {
-            $state.go('YIPENG.addTeammate', 
+            $state.go('chat.addTeammate', 
             { GroupID: targetId });
         }
         $scope.members = [];

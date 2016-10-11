@@ -1,4 +1,4 @@
-angular.module('starter.controllers')
+angular.module('chat.controllers')
 .controller('friendInfoCtrl', function ($scope, Friends, Blacklist, $state, $ionicLoading,
      $stateParams, $timeout, ResFriend, currentUser) {
         $scope.Target = Friends.get($stateParams.targetId);
@@ -49,7 +49,7 @@ angular.module('starter.controllers')
         // 发送消息,跳转到聊天界面
         $scope.sendMsg = function () {
             //alert('p y is here ready to home:' + $stateParams.targetId + ":" + $stateParams.conversationType);
-            $state.go('YIPENG.chatDetail', {
+            $state.go('chat.chatDetail', {
                 messageId: '1', name: targetName, targetId: targetId,
                 conversationType: $stateParams.conversationType
             });

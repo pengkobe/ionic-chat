@@ -163,7 +163,6 @@ angular.module('starter', ['ionic', "oc.lazyLoad"].concat(aaa), function ($httpP
         abstract: true,
         templateUrl: 'module/app/tpl/tabs.html'
       })
-
       // ===dash===
       .state('tab.dash', {
         url: '/dash',
@@ -174,34 +173,6 @@ angular.module('starter', ['ionic', "oc.lazyLoad"].concat(aaa), function ($httpP
           }
         }
       })
-
-      // ===chats===
-      .state('tab.chats', {
-        url: '/chats',
-        views: {
-          'tab-chats': {
-            templateUrl: 'module/chat/tpl/tab-chats.html',
-            controller: 'ChatsCtrl'
-          }
-        },
-        resolve: { // Any property in resolve should return a promise and is executed before the view is loaded
-          loadMyCtrl: ['$ocLazyLoad', function ($ocLazyLoad) {
-            // you can lazy load files for an existing module
-            return $ocLazyLoad.load([root+ 'dist/js/chat.min.js']);
-          }]
-        }
-      })
-
-      .state('tab.chat-detail', {
-        url: '/chats/:chatId',
-        views: {
-          'tab-chats': {
-            templateUrl: 'module/chat/tpl/chat-detail.html',
-            controller: 'ChatDetailCtrl'
-          }
-        }
-      })
-
       // ===account===
       .state('tab.account', {
         url: '/account',

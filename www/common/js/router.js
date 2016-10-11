@@ -36,7 +36,7 @@ angular.module('starter.router', [])
                 templateUrl: 'templates/register.html',
                 controller: 'RegisterCtrl'
             })
-            .state('YIPENG.person', {
+            .state('chat.person', {
                 url: '/person',
                 views: {
                     'yipeng-person': {
@@ -45,7 +45,7 @@ angular.module('starter.router', [])
                     }
                 }
             })
-            .state('YIPENG.setting', {
+            .state('chat.setting', {
                 url: '/person/setting',
                 views: {
                     'yipeng-person': {
