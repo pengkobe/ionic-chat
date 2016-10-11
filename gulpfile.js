@@ -26,6 +26,9 @@ gulp.task('sass', function(done) {
     .on('end', done);
 });
 
+/**
+ * 监视文件变化，自动执行
+ */
 gulp.task('watch', function() {
   gulp.watch(paths.sass, ['sass']);
 });
@@ -60,6 +63,7 @@ gulp.task('buildchat', function (done) {
     'www/module/chat/js/chat.filter.js', 
     'www/module/chat/js/chat.route.js', 
     'www/module/chat/js/chat.service.js', 
+    'www/module/chat/js/chat.controller.js', 
     'www/module/chat/business/**/*.js', 
     'www/module/chat/js/Controllers/*.js', 
     'www/module/chat/js/chat.module.js', 

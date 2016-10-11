@@ -1,4 +1,4 @@
-angular.module('chat.call')
+angular.module('chat.call',[])
     // 通话
     .controller('CallCtrl', function ($scope, $state, $rootScope, $timeout, $interval, $ionicHistory,
         $ionicModal, $stateParams, signaling, CacheFactory, Friends) {

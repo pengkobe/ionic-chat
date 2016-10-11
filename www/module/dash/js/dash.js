@@ -23,7 +23,7 @@ angular.module('dash', [])
         default:
         // TODO：隐藏业务tab
       }
-      return 'dash/business/' + tplUrl + '/' + tplUrl + '.html';
+      return 'module/dash/business/' + tplUrl + '/' + tplUrl + '.html';
     };
 
     /**
