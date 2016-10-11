@@ -3,7 +3,7 @@ angular.module('chat.controllers')
     .controller('chatDetail', function ($scope, $rootScope, $stateParams, newMessageEventService, CacheFactory,
         $ionicScrollDelegate, $timeout, $state, $filter, Friends, Groups, $interval, $ionicModal, PhotoAndImages,
         getGroupMembers, projectTeam, currentUser) {
-
+            debugger;
         var mediaRec;
         var isIOS = ionic.Platform.isIOS();
         var isAndroid = ionic.Platform.isAndroid();

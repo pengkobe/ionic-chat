@@ -7,7 +7,9 @@
     </ion-nav-title>
 
     <ion-nav-buttons side="right">
-        <button class="button button-clear  title_icon" ng-click="hidePopover()" ns-popover ns-popover-template="popover" ns-popover-theme="ns-popover-list-theme"
+        <button class="button button-clear  title_icon" ng-click="hidePopover()" 
+        ns-popover ns-popover-template="popover" 
+        ns-popover-theme="ns-popover-list-theme"
             ns-popover-placement="bottom|right"><i class="icon-uniE900" style="font-size: 18pt;line-height: 34px;"></i></button>
     </ion-nav-buttons>
 
@@ -31,7 +33,7 @@
             <ion-item class="item item-divider">
                 联系人
             </ion-item>
-            <ion-item ng-repeat="friend in friends" class="rj-item" href="#/YIPENG/friendInfo/{{friend.id}}/{{friend.name}}/PRIVATE">
+            <ion-item ng-repeat="friend in friends" class="rj-item" href="#/tab/chat/friendInfo/{{friend.id}}/{{friend.name}}/PRIVATE">
                 <a name="index_{{friend.alpha}}" scrollTop="{{friend.scrollHeight}}"
                    ng-if="cri.DataValue!=friend.alpha && 1?cri.DataValue=friend.alpha:0"
                     class="rj-contacts-index-bar">{{friend.alpha}}</a>
