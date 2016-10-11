@@ -1,17 +1,17 @@
-;var chats = angular.module('chat.services');
+;var chats = angular.module('chat.services',[]);
 
 /**
  * signaling
  * socket.io视频服务实例
  */
 chats.provider('Signaling', function () {
-    this.backendUrl = "http://115.29.51.196:5000/chat";
+    this.backendUrl = "";
     this.setBackendUrl = function (newUrl) {
-        if (url) {
+        if (this.backendUrl == "") {
             this.backendUrl = newUrl;
         }
     }
-    this.$get = function ($http) { 
+    this.$get = function ($http,socketFactory) { 
         var self = this;
         var myIoSocket = io.connect(self.backendUrl);
         mySocket = socketFactory({

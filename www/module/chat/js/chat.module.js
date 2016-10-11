@@ -1,7 +1,10 @@
 /**
  * chat模块服务
 */
-; angular.module('chat', ['chat.services', 'chat.directive'])
+
+var chat_modules=['chat.route','chat.controllers','chat.services','chat.directive','chat.filter'];
+chat_modules.concat(["chat.call"]);
+; angular.module('chat', chat_modules)
   .config(function (SignalingProvider) {
     // 视频服务服务端配置
     SignalingProvider.setBackendUrl("http://115.29.51.196:5000/chat");
@@ -26,13 +29,11 @@
     };
     // watch items的变化
     var listener = $rootScope.$watch('arrMsgs', chMsg, true);
-
     $scope.$on('$destroy', function () {
       console.log('destroy');
       listener();
     });
     /// ==== 全局监听消息(END) ====
-
 
     Signaling.on('messageReceived', function (name, message, Signaling) {
       switch (message.type) {
@@ -46,23 +47,6 @@
           break;
       }
     });
-  })
-  .controller('ChatsCtrl', function ($scope, Chats) {
-    // With the new view caching in Ionic, Controllers are only called
-    // when they are recreated or on app start, instead of every page change.
-    // To listen for when this page is active (for example, to refresh data),
-    // listen for the $ionicView.enter event:
-    //
-    //$scope.$on('$ionicView.enter', function(e) {
-    //});
-
-    $scope.chats = Chats.all();
-    $scope.remove = function (chat) {
-      Chats.remove(chat);
-    };
-  })
-
-  .controller('ChatDetailCtrl', function ($scope, $stateParams, Chats) {
-    $scope.chat = Chats.get($stateParams.chatId);
-  })
+  });
+ 
 

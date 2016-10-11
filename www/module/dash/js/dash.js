@@ -23,14 +23,13 @@ angular.module('dash', [])
         default:
         // TODO：隐藏业务tab
       }
-      return 'dash/business/' + tplUrl + '/' + tplUrl + '.html';
+      return 'module/dash/business/' + tplUrl + '/' + tplUrl + '.html';
     };
 
     /**
      * 构建Aircondition业务
      */
-    function buildAircondition() {
-      $scope.expanders = [
+    $scope.expanders = [
         {
           title: 'Click me to expand',
           text: 'Hi there folks, I am the content that was hidden but is now shown.'
@@ -43,5 +42,7 @@ angular.module('dash', [])
           title: 'Test',
           text: 'test'
         }];
+    function buildAircondition() {
+      
     }
   })

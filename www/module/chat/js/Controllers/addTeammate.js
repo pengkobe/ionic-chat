@@ -1,4 +1,4 @@
-angular.module('starter.controllers')
+angular.module('chat.controllers')
  .controller('addTeammateCtrl', function ($scope, RequestUrl, CacheFactory, $stateParams,
         $ionicPopup, HttpFactory, $cordovaContacts, $ionicHistory, myNote, $timeout) {
         var cache = angular.fromJson(CacheFactory.get('UserAccount'));

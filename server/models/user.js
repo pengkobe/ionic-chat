@@ -72,7 +72,7 @@ appUsersSchema.statics.login = function (name,password,cb) {
 
 // 融云toke
 appUsersSchema.statics.getRongyunToken = function (userid,name,headImg,cb) {
-    // 融云token获取 'http://yipeng.info/public/img/favicon.ico'
+    // 融云token获取 'http://chat.info/public/img/favicon.ico'
     rongcloudSDK.user.getToken(userid, name, headImg, function( err, resultText ) {
         if( err ) {
           	console.log('获取融云token err:'+ err);

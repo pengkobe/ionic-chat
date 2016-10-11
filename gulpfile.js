@@ -26,6 +26,9 @@ gulp.task('sass', function(done) {
     .on('end', done);
 });
 
+/**
+ * 监视文件变化，自动执行
+ */
 gulp.task('watch', function() {
   gulp.watch(paths.sass, ['sass']);
 });
@@ -48,4 +51,34 @@ gulp.task('git-check', function(done) {
     process.exit(1);
   }
   done();
+});
+
+
+/**
+ * buildchat
+ */
+gulp.task('buildchat', function (done) {
+  gulp.src([
+    'www/module/chat/js/chat.directive.js', 
+    'www/module/chat/js/chat.filter.js', 
+    'www/module/chat/js/chat.route.js', 
+    'www/module/chat/js/chat.service.js', 
+    'www/module/chat/js/chat.controller.js', 
+    'www/module/chat/business/**/*.js', 
+    'www/module/chat/js/Controllers/*.js', 
+    'www/module/chat/js/chat.module.js', 
+  ])
+    // .pipe(uglify())
+    .pipe(concat('chat.min.js'))
+    .pipe(gulp.dest('www/dist/js'));
+});
+
+
+/**
+ * 全局打包css至common
+ */
+gulp.task('buildcss', function (done) {
+  gulp.src(['www/**/*.css', '!www/lib/**/*.css'])
+    .pipe(concat('style.css'))
+    .pipe(gulp.dest('www/dist/css'));
 });

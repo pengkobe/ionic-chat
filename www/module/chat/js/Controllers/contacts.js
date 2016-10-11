@@ -1,4 +1,4 @@
-angular.module('starter.controllers')
+angular.module('chat.controllers')
     // 协同主界面
     // todo：
     // 1. 根据项目编号切换联系人
@@ -159,14 +159,14 @@ angular.module('starter.controllers')
         }
         // 添加团队与添加好友
         $scope.addTeam = function () {
-            $state.go('YIPENG.addTeam');
+            $state.go('chat.addTeam');
         };
         $scope.addFriend = function () {
-            $state.go('YIPENG.addFriend');
+            $state.go('chat.addFriend');
         };
 
         $scope.initTalk = function (friendID, username, type, $event) {
-            $state.go('YIPENG.chatDetail', {
+            $state.go('chat.chatDetail', {
                 messageId: '1', name: username, targetId: friendID,
                 conversationType: type
             });
@@ -335,7 +335,7 @@ angular.module('starter.controllers')
             }
             // 转到聊天主界面
             var name = target ? target.name : '[陌生人]';
-            $state.go("YIPENG.chatDetail",
+            $state.go("chat.chatDetail",
                 { targetId: friend.targetId, name: name, conversationType: friend.conversationType }
             );
         }
