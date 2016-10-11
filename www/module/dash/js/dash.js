@@ -29,8 +29,7 @@ angular.module('dash', [])
     /**
      * 构建Aircondition业务
      */
-    function buildAircondition() {
-      $scope.expanders = [
+    $scope.expanders = [
         {
           title: 'Click me to expand',
           text: 'Hi there folks, I am the content that was hidden but is now shown.'
@@ -43,5 +42,7 @@ angular.module('dash', [])
           title: 'Test',
           text: 'test'
         }];
+    function buildAircondition() {
+      
     }
   })

@@ -70,7 +70,7 @@ angular.module('starter', ['ionic', 'chat.common.directive',
   /**
    * 全局/平台样式配置
    */
-  .config(function ($ionicConfigProvider, $urlRouterProvider) {
+  .config(function ($ionicConfigProvider) {
     $ionicConfigProvider.platform.android.views.transition('android');
     $ionicConfigProvider.platform.ios.tabs.style('standard');
     $ionicConfigProvider.platform.ios.tabs.position('bottom');
@@ -85,7 +85,6 @@ angular.module('starter', ['ionic', 'chat.common.directive',
 
     $ionicConfigProvider.platform.ios.views.transition('ios');
     $ionicConfigProvider.platform.android.views.transition('android');
-    $urlRouterProvider.otherwise('/index');
 
     // 配置后退按钮文字消失
     $ionicConfigProvider.backButton.previousTitleText(false);
@@ -145,5 +144,4 @@ angular.module('starter', ['ionic', 'chat.common.directive',
   * 抽象模块
   */
   .controller('tabCtrl', function ($scope, $stateParams) {
-    debugger;
   });

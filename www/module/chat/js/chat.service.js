@@ -11,7 +11,7 @@ chats.provider('Signaling', function () {
             this.backendUrl = newUrl;
         }
     }
-    this.$get = function ($http) { 
+    this.$get = function ($http,socketFactory) { 
         var self = this;
         var myIoSocket = io.connect(self.backendUrl);
         mySocket = socketFactory({
