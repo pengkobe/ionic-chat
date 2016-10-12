@@ -29,10 +29,10 @@ chat_modules.concat(["chat.call"]);
     };
     // watch items的变化
     var listener = $rootScope.$watch('arrMsgs', chMsg, true);
-    $scope.$on('$destroy', function () {
-      console.log('destroy');
-      listener();
-    });
+    // $scope.$on('$destroy', function () {
+    //   console.log('destroy');
+    //   listener();
+    // });
     /// ==== 全局监听消息(END) ====
 
     Signaling.on('messageReceived', function (name, message, Signaling) {

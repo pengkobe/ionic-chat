@@ -1,7 +1,7 @@
 ;var chats = angular.module('chat.services',[]);
 
 /**
- * signaling
+ * Signaling
  * socket.io视频服务实例
  */
 chats.provider('Signaling', function () {
@@ -92,7 +92,7 @@ chats.factory('initRong', function ($rootScope, $state, _appKey) {
         };
     })
     // 好友服务
-    .factory('Friends', function (RequestUrl, getFriends, signaling, currentUser, $interval) {
+    .factory('Friends', function (RequestUrl, getFriends, Signaling, currentUser, $interval) {
         var loaded = false;
         var friends = [];
         var userids = [];
@@ -149,14 +149,14 @@ chats.factory('initRong', function ($rootScope, $state, _appKey) {
                     userids.push(tmp.id);
                 }
                 // 获取在线列表
-                signaling.emit('checkOnline', userids);
+                Signaling.emit('checkOnline', userids);
                 checkOnlineCallback(callback);
             });
         }
         // 刷新在线列表(10s)
         $interval(function () {
             if (loaded) {
-                signaling.emit('checkOnline', userids);
+                Signaling.emit('checkOnline', userids);
             }
         }, 10000);
         // 获取在线列表
@@ -164,7 +164,7 @@ chats.factory('initRong', function ($rootScope, $state, _appKey) {
             // 确保事件只注册一次
             if (!loaded) {
                 loaded = true;
-                signaling.on('checkOnline_suc', function (ids) {
+                Signaling.on('checkOnline_suc', function (ids) {
                     var friendlistCount = friends.length;
                     for (var m = 0; m < friendlistCount; m++) {
                         var tmp = friends[m];
@@ -214,7 +214,7 @@ chats.factory('initRong', function ($rootScope, $state, _appKey) {
         }
     })
     // 工作组服务
-    .factory('Groups', function (getTeams, RequestUrl, signaling, currentUser, projectTeam, $rootScope,
+    .factory('Groups', function (getTeams, RequestUrl, Signaling, currentUser, projectTeam, $rootScope,
         getGroupMembers, $interval) {
         var groups = [];
         var groupsMenmberinfo = [];
@@ -248,7 +248,7 @@ chats.factory('initRong', function ($rootScope, $state, _appKey) {
                     obj.portrait = null;//'亿达别苑维修工_200.png';
                     groups.push(obj);
                     // 同步群
-                    signaling.emit('findGroup', obj.id, obj.name, tempdata.Members, '');
+                    Signaling.emit('findGroup', obj.id, obj.name, tempdata.Members, '');
                     (function (rid, compid) {
                         getGroupMembers(rid, function (data) {
                             groupsMenmberinfo.push({ id: compid, members: data.data });
@@ -280,7 +280,7 @@ chats.factory('initRong', function ($rootScope, $state, _appKey) {
                         obj.portrait = null;
                         groups.unshift(obj);
                         // 同步群(项目组)
-                        signaling.emit('findGroup', obj.id, obj.name, userids, '');
+                        Signaling.emit('findGroup', obj.id, obj.name, userids, '');
                         groupsMenmberinfo.push({ id: obj.id, members: data.data });
                         if (callback) {
                             callback(groups)

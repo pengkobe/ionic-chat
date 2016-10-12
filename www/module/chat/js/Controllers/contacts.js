@@ -159,14 +159,14 @@ angular.module('chat.controllers')
         }
         // 添加团队与添加好友
         $scope.addTeam = function () {
-            $state.go('chat.addTeam');
+            $state.go('tab.addTeam');
         };
         $scope.addFriend = function () {
-            $state.go('chat.addFriend');
+            $state.go('tab.addFriend');
         };
 
         $scope.initTalk = function (friendID, username, type, $event) {
-            $state.go('chat.chatDetail', {
+            $state.go('tab.chatDetail', {
                 messageId: '1', name: username, targetId: friendID,
                 conversationType: type
             });
@@ -335,7 +335,7 @@ angular.module('chat.controllers')
             }
             // 转到聊天主界面
             var name = target ? target.name : '[陌生人]';
-            $state.go("chat.chatDetail",
+            $state.go("tab.chatDetail",
                 { targetId: friend.targetId, name: name, conversationType: friend.conversationType }
             );
         }
@@ -401,9 +401,9 @@ angular.module('chat.controllers')
                 getConversationList();
             }, 3000);
         }
-        init();
+        //init();
         // init test
-        //initTest();
+        initTest();
         function initTest() {
             $scope.friends_message = [];
             var messageLen = 0;
