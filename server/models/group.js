@@ -5,27 +5,26 @@
 var mongoose = require('./db-moogoose');
 // 融云
 var rongcloudSDK = require('rongcloud-sdk');
-// 正式发布时用
 rongcloudSDK.init('lmxuhwagxgt9d', 'NpbRLWPxB79');
 
 var Schema = mongoose.Schema;
 
-var chatGroupsSchema = new Schema({
+var GroupsSchema = new Schema({
     // 用户编号
     groupid: { type: String, unique: true },
     // 用户名,使用电话登录时这个用不着
     groupname: { type: String },
-    // 头像
-    headimg: { type: String, default: '' },
     // 群成员[这里可以不要]
     userids: { type: Array, default: [] },
     // 是否激活
     // enum:[0,1]
     isActivated: { type: Number, default: 0 }
+
+    // 加群 from to time
 });
 
 // 获取或同步群
-chatGroupsSchema.statics.findGroup = function (groupid, groupname, userids, headImg, cb) {
+GroupsSchema.statics.findGroup = function (groupid, groupname, userids, headImg, cb) {
     var that = this;
     console.log('groupid11:' + groupid);
     // 第一步，查询 , groupname: groupname
@@ -84,6 +83,6 @@ chatGroupsSchema.statics.findGroup = function (groupid, groupname, userids, head
     });
 }
 
-var chatGroupsModel = mongoose.model('chatGroups', chatGroupsSchema);
+var chatGroupsModel = mongoose.model('Groups', GroupsSchema);
 
 module.exports = chatGroupsModel;

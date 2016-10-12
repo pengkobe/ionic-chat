@@ -141,7 +141,7 @@ angular.module('starter', ['ionic', 'chat.common.directive',
     $ionicConfigProvider.backButton.previousTitleText(false);
 
   })
-  .config(function ($stateProvider, $urlRouterProvider) {
+  .config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
     // Ionic uses AngularUI Router which uses the concept of states
     // Learn more here: https://github.com/angular-ui/ui-router
     // Set up the various states which the app can be in.
@@ -190,6 +190,22 @@ angular.module('starter', ['ionic', 'chat.common.directive',
       });
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/tab/dash');
+
+    // $httpProvider.interceptors.push(function ($rootScope, HotUpdateService) {
+    //   return {
+    //     request: function (config) {
+    //       if (HotUpdateService.isFileCached(config.url)) {
+    //         config.url = HotUpdateService.getCachedUrl(config.url);
+    //       }
+    //       $rootScope.$broadcast('loading:show');
+    //       return config;
+    //     },
+    //     response: function (response) {
+    //       $rootScope.$broadcast('loading:hide');
+    //       return response;
+    //     }
+    //   }
+    // });
   })
   /* 
   * 抽象模块

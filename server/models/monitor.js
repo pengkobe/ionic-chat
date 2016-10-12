@@ -10,7 +10,7 @@ var mongoose = require('./db-mongoose');
 var Schema = mongoose.Schema;
 var objID = Schema.Types.ObjectId;
 
-var company12Schema = new Schema({
+var MonitorSchema = new Schema({
   // 名称
   name:{type: String},
   // 地址
@@ -28,16 +28,16 @@ var company12Schema = new Schema({
 });
 
 // 
-company12Schema.statics.findByName = function (name,callback) {
+MonitorSchema.statics.findByName = function (name,callback) {
 	var cregex = new RegExp(name, 'i');
-　	company12Schema.find({ company12:cregex })
+　	MonitorSchema.find({ company12:cregex })
 	.limit(10)
 	.sort('-company12')
 	.exec(callback);
 }
 
 
-var company12Model = mongoose.model('company12',company12Schema);
+var company12Model = mongoose.model('company12',MonitorSchema);
 
 
 module.exports = company12Model; 
