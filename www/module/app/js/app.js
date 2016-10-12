@@ -1,7 +1,7 @@
 // Ionic Starter App
 
 // 主页
-var _aaa = ['dash','account','chat'];// ,
+var _aaa = ['dash', 'account', 'chat'];// ,
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
@@ -43,9 +43,9 @@ angular.module('starter', ['ionic', 'chat.common.directive',
       return angular.isObject(data) && String(data) !== '[object File]' ? param(data) : data;
     }];
   }
-  )
+)
 
-  .run(function ($ionicPlatform) {
+  .run(function ($ionicPlatform, $ionicPopup, $ionicHistory) {
     $ionicPlatform.ready(function () {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
@@ -65,6 +65,57 @@ angular.module('starter', ['ionic', 'chat.common.directive',
       // 开启动态更新
       window.BOOTSTRAP_OK = true;
     });
+
+    // 退出应用/ 物理按键事件注册
+    $ionicPlatform.registerBackButtonAction(function (e) {
+      e.preventDefault();
+      function showConfirm() {
+        var confirmPopup = $ionicPopup.confirm({
+          title: '<strong>退出应用?</strong>',
+          template: '你确定要退出应用吗?',
+          okText: '退出',
+          cancelText: '取消'
+        });
+        confirmPopup.then(function (res) {
+          if (res) {
+            ionic.Platform.exitApp();
+          } else {
+            return false;
+          }
+        });
+      }
+      if ($location.path() == '/chat/account') {
+        showConfirm();
+      } else if ($ionicHistory.backView()) {
+        $ionicHistory.goBack();
+      } else {
+        showConfirm();
+      }
+      return false;
+    }, 100);
+
+    // 热更新
+    function updateFiles() {
+      var check = HotUpdateService.check();
+      check.then(function (result) {
+        if (result === true) {
+          var download = HotUpdateService.download();
+          download.then(function () {
+            HotUpdateService.update(false);
+          },
+            function (error) {
+              console.log(JSON.stringify(error));
+            }
+          );
+        } else {
+          console.log('not update available');
+        }
+      },
+        function (error) {
+          console.log('no update available');
+          console.log(JSON.stringify(error));
+        });
+    }
   })
 
   /**
@@ -138,7 +189,7 @@ angular.module('starter', ['ionic', 'chat.common.directive',
         // }
       });
     // if none of the above states are matched, use this as the fallback
-     $urlRouterProvider.otherwise('/tab/dash');
+    $urlRouterProvider.otherwise('/tab/dash');
   })
   /* 
   * 抽象模块

@@ -1,5 +1,6 @@
 # ionic-chat
-a chat app based on ionic and rongyun
+a chat app based on ionic and rongyun  
+> This project is underdevelop and it is unrunnable for the time being. 
 
 
 ### file structure
@@ -26,7 +27,7 @@ a chat app based on ionic and rongyun
     │   │    │    └── ... 
     │   ├── common/
     │   ├── lib/
-    │   ├── module/
+    │   ├── assets/
     │   ├── module/
     │   │    ├── app/ (entry)
     │   │    ├── account/ 
@@ -45,8 +46,7 @@ a chat app based on ionic and rongyun
     │   │    │    ├── js/
     │   │    │    └── tpl/
     │   ├── config.js 
-    │   ├── autoupdate.js 
-    │   ├── bootstrap.js 
+    │   ├── gulp.chat.js
     │   ├── index.html
     │   ├── service-worker.js
     │   └── manifest.json 
@@ -62,7 +62,7 @@ a chat app based on ionic and rongyun
     └── LICENSE
    ```
 
-### server tech
+### back-end techs
 1. node with express
 2. mongodb with mongoloose
 
