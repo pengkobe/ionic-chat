@@ -14,7 +14,7 @@ var crypto = require('crypto');
 var Schema = mongoose.Schema;
 var objID = Schema.Types.ObjectId;
 
-var appUsersSchema = new Schema({
+var UsersSchema = new Schema({
   // 用户名,使用电话登录时这个用不着
   username: {type: String, unique: true},
     // 昵称
@@ -24,12 +24,8 @@ var appUsersSchema = new Schema({
 
   //----ROlE 在这里先定义为字符串-----
   role:{type: String, default: '职员'},
-
   // 头像
   headimg:{type: String, default: ''},
-
-  // 真实姓名
-  realName:{type: String, default:''},
   // 性别
   sex:{type: String, default:''}, // , enum:['男','女']
   // 年龄
@@ -42,19 +38,19 @@ var appUsersSchema = new Schema({
   email:{ type: String, default:''}, // match: /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/
   // 加入时间
   createTime:{ type: Date, default: Date.now},
-  // 微信openid
-  openid:{type: String, default:''},
   // 是否绑定微信
   isBindWechat:{type: String, default:'否'}, // , enum:['是','否']
 
-  isActivated:{type: Number, default:0},// , enum:[0,1]
+  // invited
+
+  // inviting
   
   // 融云token
   rongyunToken:{type: String, default:''}
 });
 
 // 密码加密
-appUsersSchema.path('password').set(function (v) {
+UsersSchema.path('password').set(function (v) {
 　var md5 = crypto.createHash('md5');
 　md5.update(v);
 　var d = md5.digest('hex');
@@ -63,7 +59,7 @@ appUsersSchema.path('password').set(function (v) {
 
 
 // 用户登录模块
-appUsersSchema.statics.login = function (name,password,cb) {
+UsersSchema.statics.login = function (name,password,cb) {
   var md5 = crypto.createHash('md5');
 　md5.update(password);
 　var d = md5.digest('hex');
@@ -71,7 +67,7 @@ appUsersSchema.statics.login = function (name,password,cb) {
 }
 
 // 融云toke
-appUsersSchema.statics.getRongyunToken = function (userid,name,headImg,cb) {
+UsersSchema.statics.getRongyunToken = function (userid,name,headImg,cb) {
     // 融云token获取 'http://chat.info/public/img/favicon.ico'
     rongcloudSDK.user.getToken(userid, name, headImg, function( err, resultText ) {
         if( err ) {
@@ -91,7 +87,7 @@ appUsersSchema.statics.getRongyunToken = function (userid,name,headImg,cb) {
 
 
 // 按照真实姓名与公司筛选
-appUsersSchema.statics.findByCompanyAndName = function (name,company,callback) {
+UsersSchema.statics.findByCompanyAndName = function (name,company,callback) {
 	var cregex = new RegExp('/cc/i');
 	var param=".*"+name+".*";
 	cregex.compile(param);
@@ -118,8 +114,8 @@ appUsersSchema.statics.findByCompanyAndName = function (name,company,callback) {
 //    return v != null;
 //});
 
-var appUsersModel = mongoose.model('appUsers',appUsersSchema);
+var UsersModel = mongoose.model('Users',UsersSchema);
 
-module.exports = appUsersModel;
+module.exports = UsersModel;
 
 

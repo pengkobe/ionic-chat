@@ -12,34 +12,33 @@
 	<!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
     <link href="css/ionic.app.css" rel="stylesheet">
     -->
-	<!-- ionic/angularjs js -->
+
+	<!-- lib -->
 	<script src="lib/ionic/js/ionic.bundle.js"></script>
 	<script src="lib/ngCordova/dist/ng-cordova.min.js"></script>
-
 	<script src="lib/nsPopover/src/nsPopover.js"></script>
-
 	<script src="lib/angular-socket-io/socket.min.js"></script>
 	<script src="lib/socket.io/socket.io.js"></script>
 
-
 	<!-- cordova script (this will be a 404 during development) -->
 	<script src="cordova.js"></script>
-	<script src="lib/cordova-app-loader/dist/cordova-app-loader-complete.min.js"></script>
-	<script type="text/javascript" timeout="5000" manifest="manifest.json" src="lib/cordova-app-loader/dist/bootstrap.js"></script>
 
+	<!-- hot update -->
+	<script src="lib/cordova-app-loader/dist/cordova-app-loader-complete.min.js"></script>
+	<script type="text/javascript" timeout="5000" manifest="manifest.json" 
+	src="lib/cordova-app-loader/dist/bootstrap.js"></script>
 
 	<!-- common -->
 	<script src="common/js/directive.js"></script>
 	<script src="common/js/services.js"></script>
 	<script src="common/js/Util.js"></script>
 
-	<!-- chat -->
+	<!-- modules -->
 	<script src="dist/js/chat.min.js"></script>
-	<script src="module/dash/js/dash.js"></script>
-	<script src="module/dash/business/aircondition/aircondition.js"></script>
-	<script src="module/dash/js/service.js"></script>
-	<script src="module/account/js/account.js"></script>
+	<script src="dist/js/dash.min.js"></script>
+	<script src="dist/js/account.min.js"></script>
 
+	<!-- entry -->
 	<script src="config.js"></script>
 	<script src="module/app/js/app.js"></script>
 	<!--<script src="http://192.168.3.175:8080/target/target-script-min.js#anonymous"></script>-->

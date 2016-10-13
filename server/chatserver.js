@@ -10,7 +10,7 @@ var users = [];
 
 /**
  * 视频聊天中转服务器
- * TODO:在线状态并不可信，手机端因为某些原因不一定会掉用户disconnect方法
+ * TODO:在线状态并不可信，手机端因为某些原因不一定会调用disconnect方法
 */
 module.exports = function (io) {
     var chatUser = require('./models/chatUser.js');

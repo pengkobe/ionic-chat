@@ -4,10 +4,10 @@
 var express = require('express');
 var router = express.Router();
 
-var appUser = require('../models/appUser.js');
-var companyModel = require('../models/company.js');
+var _User = require('../models/user.js');
+var _Company = require('../models/company.js');
 var invitations = require('../models/tests.js');
-// var invitations = require('../models/invitations.js');
+
 var qr = require('qr-image');
 var fs = require("fs");
 var ObjectID = require('mongodb').ObjectID;
@@ -24,7 +24,7 @@ router.post('/reg', function (req, res) {
 	var tel = req.body.tel;
 	var company = req.body.company;
 
-	companyModel.findByName(company, function (err, doc) {
+	_Company.findByName(company, function (err, doc) {
 		if (doc && doc.length > 0) {
 			// 身份暂未设置
 			var uobj = {
@@ -33,7 +33,7 @@ router.post('/reg', function (req, res) {
 				tel: tel,
 				company: doc[0]._id
 			};
-			var user = new appUser(uobj);
+			var user = new _User(uobj);
 			console.log('user:' + user);
 			// 二维码内容待究
 			var ustr = JSON.stringify(uobj);
@@ -45,7 +45,7 @@ router.post('/reg', function (req, res) {
 						.pipe(file(doc._id + '.png'));
 					// 获取融云token
 					console.log('获取融云token开始...id:'+doc._id +' username:'+ doc.username);
-					appUser.getRongyunToken(doc._id,doc.username,'http://chat.info/public/img/favicon.ico',
+					_User.getRongyunToken(doc._id,doc.username,'http://chat.info/public/img/favicon.ico',
 					function(token){
 						console.log('token:'+ token);
 						user.update({rongyunToken: token }, null);
@@ -62,16 +62,15 @@ router.post('/login', function (req, res) {
 	var username = req.body.username;
 	var password = req.body.password;
 
-	appUser.login(username, password, function (err, user) {
+	_User.login(username, password, function (err, user) {
 		res.json({ user: user });
 	});
 });
 
 // app 邀访
 router.post('/invite', function (req, res) {
-
 	// 测试：创建一家公司
-	//var cmodel = new companyModel({ name:'hyd',location:'xxx' });
+	//var cmodel = new _Company({ name:'hyd',location:'xxx' });
 	//cmodel.save(function(err,doc){
 	//	console.log('csaveu:'+doc);
 	// });
@@ -87,11 +86,11 @@ router.post('/invite', function (req, res) {
 	var company = req.body.company;
 
 	//console.log('to:'+to); 效率较低
-	appUser.findByCompanyAndName(to, '', function (err, doc) {
+	_User.findByCompanyAndName(to, '', function (err, doc) {
 		//console.log('u:'+doc);
 		if (doc && doc.length > 0) {
 			to = doc[0]._id;
-			companyModel.findByName(company, function (err, doc) {
+			_Company.findByName(company, function (err, doc) {
 				//console.log('c:'+doc);
 				if (doc && doc.length > 0) {
 					company = doc[0]._id;
@@ -110,18 +109,6 @@ router.post('/invite', function (req, res) {
 			});
 		}
 	});
-
-	//.populate('company')
-	/* 	appUser.findByCompanyAndName(to,company,function(err,doc){
-			to = doc[0]._id;
-			company.findByName(company, function(err,doc){
-				company=doc._id;
-				var invite = new invitations({ from:from,to:to,company:company,datetime:datetime,address:address,details:details});
-				invite.save(function(err,doc){
-					res.json({err: err,info:doc[0]});
-				});
-			});
-	}); */
 });
 
 // 获取所有访问user的人
@@ -175,7 +162,7 @@ router.get('/user/search', function (req, res) {
 	//　访问信息
 	var company = req.query.company;
 	var username = req.query.username;
-	appUser.findByCompanyAndName(username, company, function (err, doc) {
+	_User.findByCompanyAndName(username, company, function (err, doc) {
 		res.json(doc);
 	});
 });
@@ -206,27 +193,9 @@ router.post('/user/imgupload', function (req, res) {
 router.get('/company/search', function (req, res) {
 	//　访问公司
 	var company = req.query.company;
-	companyModel.findByName(company, function (err, doc) {
+	_Company.findByName(company, function (err, doc) {
 		res.json(doc);
 	});
-});
-
-// 获取被邀访列表
-router.post('/beinvitedlist/:role', function (req, res) {
-	var username = req.params.role;
-	var userid = req.body.userid;
-});
-
-// 及时提醒服务[位置]
-router.post('/remind/position/:role', function (req, res) {
-	var username = req.params.role;
-	var userid = req.body.userid;
-});
-
-// 及时提醒服务[时间]
-router.post('/remind/time/:role', function (req, res) {
-	var username = req.params.role;
-	var userid = req.body.userid;
 });
 
 // 个人设置服务

@@ -13,7 +13,7 @@ var paths = {
 
 gulp.task('default', ['sass']);
 
-gulp.task('sass', function(done) {
+gulp.task('sass', function (done) {
   gulp.src('./scss/ionic.app.scss')
     .pipe(sass())
     .on('error', sass.logError)
@@ -29,18 +29,18 @@ gulp.task('sass', function(done) {
 /**
  * 监视文件变化，自动执行
  */
-gulp.task('watch', function() {
+gulp.task('watch', function () {
   gulp.watch(paths.sass, ['sass']);
 });
 
-gulp.task('install', ['git-check'], function() {
+gulp.task('install', ['git-check'], function () {
   return bower.commands.install()
-    .on('log', function(data) {
+    .on('log', function (data) {
       gutil.log('bower', gutil.colors.cyan(data.id), data.message);
     });
 });
 
-gulp.task('git-check', function(done) {
+gulp.task('git-check', function (done) {
   if (!sh.which('git')) {
     console.log(
       '  ' + gutil.colors.red('Git is not installed.'),
@@ -58,19 +58,69 @@ gulp.task('git-check', function(done) {
  * buildchat
  */
 gulp.task('buildchat', function (done) {
+  // 打包js
   gulp.src([
-    'www/module/chat/js/chat.directive.js', 
-    'www/module/chat/js/chat.filter.js', 
-    'www/module/chat/js/chat.route.js', 
-    'www/module/chat/js/chat.service.js', 
-    'www/module/chat/js/chat.controller.js', 
-    'www/module/chat/business/**/*.js', 
-    'www/module/chat/js/Controllers/*.js', 
-    'www/module/chat/js/chat.module.js', 
+    'www/module/chat/js/chat.directive.js',
+    'www/module/chat/js/chat.filter.js',
+    'www/module/chat/js/chat.route.js',
+    'www/module/chat/js/chat.service.js',
+    'www/module/chat/js/chat.controller.js',
+    'www/module/chat/business/**/*.js',
+    'www/module/chat/js/Controllers/*.js',
+    'www/module/chat/js/chat.module.js',
   ])
     // .pipe(uglify())
     .pipe(concat('chat.min.js'))
     .pipe(gulp.dest('www/dist/js'));
+
+  // 打包css
+  gulp.src([
+    'www/module/chat/css/*.css',
+    'www/module/chat/business/**/*.css',
+  ])
+    .pipe(concat('chat.min.css'))
+    .pipe(gulp.dest('www/dist/css'));
+});
+
+/**
+ * builddash
+ */
+gulp.task('builddash', function (done) {
+  // 打包js
+  gulp.src([
+    'www/module/dash/js/dash.controller.js',
+    'www/module/dash/js/dash.service.js',
+    'www/module/dash/business/**/*.js',
+  ])
+    .pipe(concat('dash.min.js'))
+    .pipe(gulp.dest('www/dist/js'));
+
+  // 打包css
+  gulp.src([
+    'www/module/dash/css/*.css',
+     'www/module/dash/business/**/*.css',
+  ])
+    .pipe(concat('dash.min.css'))
+    .pipe(gulp.dest('www/dist/css'));
+});
+
+/**
+ * buildaccount
+ */
+gulp.task('buildaccount', function (done) {
+  // 打包js
+  gulp.src([
+    'www/module/account/js/account.controller.js',
+  ])
+    .pipe(concat('account.min.js'))
+    .pipe(gulp.dest('www/dist/js'));
+
+  // 打包css
+  gulp.src([
+    'www/module/account/css/*.css',
+  ])
+    .pipe(concat('account.min.css'))
+    .pipe(gulp.dest('www/dist/css'));
 });
 
 

@@ -9,10 +9,10 @@ var qr = require('qr-image');
 var fs = require("fs");
 var ObjectID = require('mongodb').ObjectID;
 
-
 router.post('/login', checkLogin);
 router.post('/login', function (req, res) {
-    var company = req.body.company;
-    var realName = req.body.realName;
+    var username = req.body.username;
+    var password = req.body.password;
+
 });
 module.exports = router;
