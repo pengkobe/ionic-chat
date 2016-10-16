@@ -96,10 +96,8 @@ angular.module('chat.controllers')
                 $state.go('chat.call', obj);
             }
             // === 视频/音频通话(END) ===
-
         // === 语音消息交互(BEGIN)  ===
         $scope.voiceImg = { url: 'assets/img/voice/recog000.png' };
-        $scope.isVoiceMethod = true;
         $scope.recordWait = false;
         $scope.isStartRecord = false;
         $scope.onVoiceHold = function() {
@@ -283,17 +281,7 @@ angular.module('chat.controllers')
             $scope.send_content = text_content;
             document.querySelector("#text_content").focus();
         }
-        $scope.switchInputMethod = function(evtobj) {
-                if ($scope.isVoiceMethod = !$scope.isVoiceMethod, $scope.isVoiceMethod) {
-                    var i = 1;
-                } else {
-                    var input = evtobj.currentTarget.parentNode.querySelector("textarea");
-                    $scope.isStartRecord = !1,
-                        $timeout(function() {
-                            // input.focus()
-                        }, 500);
-                }
-            }
+
             // 下拉刷新
         $scope.doRefresh = function() {
             console.log('Refreshing!');
