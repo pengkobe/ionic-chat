@@ -1,4 +1,4 @@
-   <div class="qq_face " ng-click="goListByTap($event)">
+   <div class="qq_face " ng-click="chooseFace($event)">
             <a title="微笑" type="qq" class="face qqface0">微笑</a>
             <a title="撇嘴" type="qq" class="face qqface1">撇嘴</a>
             <a title="色" type="qq" class="face qqface2">色</a>

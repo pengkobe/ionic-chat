@@ -318,38 +318,6 @@ angular.module('chat.controllers')
             }
             // === 文本消息(END) ===
 
-
-        // === 图片交互(BEGIN) ===
-        $scope.takePic = function(way) {
-            var options;
-            if (way) { // 相册
-                options = {
-                    quality: 80,
-                    targetWidth: 320,
-                    targetHeight: 320,
-                    saveToPhotoAlbum: false,
-                    sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
-                    destinationType: Camera.DestinationType.FILE_URI
-                };
-                PhotoAndImages.getImages(options).then(function(data) {
-                    //alert('相册成功' + data);
-                    sendPhoto(data);
-                });
-            } else { // 拍照
-                options = {
-                    quality: 80,
-                    targetWidth: 320,
-                    targetHeight: 320,
-                    saveToPhotoAlbum: false,
-                    sourceType: Camera.PictureSourceType.Camera,
-                    destinationType: Camera.DestinationType.FILE_URI
-                };
-                PhotoAndImages.getPhoto(options).then(function(data) {
-                    //alert('拍照成功' + data);
-                    sendPhoto(data);
-                });
-            }
-        }
         $ionicModal.fromTemplateUrl('module/chat/tpl/message/BigImage.html', {
             scope: $scope,
             animation: 'slide-in-up'
@@ -478,6 +446,7 @@ angular.module('chat.controllers')
                 }
             );
         }
+        $scope.sendPhoto = sendPhoto;
         // 发送图片
         function sendPhoto(imageURI) {
             var picPath = imageURI;

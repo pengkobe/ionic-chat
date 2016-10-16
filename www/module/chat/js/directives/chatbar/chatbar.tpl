@@ -1,20 +1,5 @@
-<ion-view title="{{name}}" hide-tabsxietong>
-    <!-- 消息主体 -->
-    <ion-content class="rj-stable-content" delegate-handle="messageDetailsScroll" id="message-detail-content" ng-class="{'message-detail-height': showPhonebar}" style="background-color:#eee">
-        <ion-refresher pulling-text="加载中..." on-refresh="doRefresh()" pulling-icon=""></ion-refresher>
-        <div style="height:1px" ng-show="fixReflowtag"></div>
-        <ol id="lstMessage">
-            <li ng-repeat="message in hisMsgs track by $index" class="rj-chatmessage-list" id="msg_{{message.messageId}}" data-messageid="{{message.messageId}}">
-                <div ng-include src="buildUrl(message.objectName)"></div>
-            </li>
-        </ol>
-    </ion-content>
-    <!-- 麦克风图标(TODO:根据声音大小调节) -->
-    <div class="microphone" ng-class="{'active':isStartRecord}">
-        <img ng-src="{{voiceImg.url}}" ng-show="!recordWait">
-        <ion-spinner icon="spiral" ng-show="recordWait"></ion-spinner>
-    </div>
-    <ion-footer-bar align-title="left" class="bar-light xietong-foot-bar" resize-foot-bar style="flex-direction:column" ng-class="{'message-footer-height':showPhonebar}">
+<ion-footer-bar align-title="left" class="bar-light xietong-foot-bar" resize-foot-bar
+ng-class="{'message-footer-height':showPhonebar}">
         <section class="message-input-area" ng-class="{'message-bar-height':showPhonebar}">
             <!-- 切换输入方式(键盘vs音频) -->
             <div class="rj-footer-btn-wrap">
@@ -22,22 +7,25 @@
                     <i class="ic" ng-class="{'ic-voice': !isVoiceMethod, 'ic-keyboard-grey': isVoiceMethod}"></i>
                  </span>
             </div>
+
             <div class="item item-input rj-footer-input">
                 <!-- 按住说话 -->
                 <span class="hold-tips" on-touch="onVoiceHold()" on-release="onVoiceRelease()" ng-class="{'active': isStartRecord}" ng-show="isVoiceMethod">按住我说话
                 </span>
                 <!-- 文本输入框 -->
-                <textarea msd-elastic id="text_content" ng-model="send_content" ng-show="!isVoiceMethod"></textarea>
+                <textarea msd-elastic id="text_content" ng-model="send_content" ng-show="!isVoiceMethod">
+                </textarea>
                 <!-- 表情按钮 -->
                 <div class="buttons">
                     <button class="rj-footer-btn button button-icon icon ion-happy-outline" ng-click="onShowWXFace()" ng-show="!isVoiceMethod"></button>
                 </div>
             </div>
+
             <div class="rj-footer-btn-wrap">
                 <!-- 显示工具栏按钮+ -->
                 <div class="buttons" ng-show="!send_content || send_content === ''">
                     <button class="button button-icon icon ion-ios-plus-outline rj-footer-btn-left" ng-click="onShowPhonebar()">
-                    </button>
+                </button>
                 </div>
                 <!-- 发送按钮 -->
                 <div class="rj-send-button" ng-hide="!send_content || send_content === ''" ng-click="onSendTextMessage()">
@@ -45,13 +33,30 @@
                 </div>
             </div>
         </section>
+helperbar
+        <!-- 工具栏 -->
+        <div ng-show="showPhonebar&& !showWXFace" class="chat-toolbar">
+            <div style="flex: 1;text-align: center;" ng-show="conversationType==='PRIVATE'">
+                <img src="assets/img/icon/vediochat.png" style="width:45px;border-radius: 50%"
+                ng-click="onVoiceCall()">
+                <div>视频</div>
+            </div>
+            <div style="flex: 1;text-align: center; ">
+                <img src="assets/img/icon/camera.png" style="width:45px;border-radius: 50%"
+                ng-click="takePic(0)">
+                <div>拍照</div>
+            </div>
+            <div style="flex: 1;text-align: center;">
+                <img src="assets/img/icon/photos.png" style="width:45px;border-radius: 50%"
+                ng-click="takePic(1)">
+                <div>图片</div>
+            </div>
+            <div style="flex: 1;text-align: center; ">
+            </div>
+        </div>
 
-         <!-- 表情 -->
+        <!-- 表情 -->
         <qq-face ng-show="showWXFace" select-qq-face="selectQQFace">
-        </qq-face>
-        <!-- 聊天辅助工具1-->
-        <chat-tool-bar ng-show="showPhonebar&& !showWXFace" conversationType="{{conversationType}}" send-photo="sendPhoto" >
-        </chat-tool-bar>
 
+        </qq-face>
     </ion-footer-bar>
-</ion-view>

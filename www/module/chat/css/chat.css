@@ -106,11 +106,7 @@ p.subTitle{
 .imageMsg{
   width: 100px;
 }
-.chat-toolbar{
-   height: 65px;width:100%;
-   position: absolute;top: 60px;
-   display: flex;flex-direction: row;align-items: center;
-}
+
 
 /* 联系人 */
 /*for alphabet sidebar*/

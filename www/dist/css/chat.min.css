@@ -29,9 +29,6 @@ p.subTitle{
   line-height: 30px;
 }
 
-
-
-
 /*wechat share*/
 .ic-weixin {
 	width: 22px;
@@ -109,11 +106,7 @@ p.subTitle{
 .imageMsg{
   width: 100px;
 }
-.chat-toolbar{
-   height: 65px;width:100%;
-   position: absolute;top: 60px;
-   display: flex;flex-direction: row;align-items: center;
-}
+
 
 /* 联系人 */
 /*for alphabet sidebar*/
@@ -150,25 +143,6 @@ p.subTitle{
   z-index: 3;
 }
 
-/*.calling-container {*/
-  /*text-align: center;*/
-  /*margin-top: 20px;*/
-/*}*/
-
-/*.calling-container p {*/
-  /*font-size: 20px;*/
-  /*margin-bottom: 20px;*/
-/*}*/
-
-/*.video-container {*/
-  /*width: 300px;*/
-  /*height: 300px;*/
-  /*background-color: #000;*/
-  /*margin-bottom: 20px;*/
-  /*margin-right: auto;*/
-  /*margin-left: auto;*/
-  /*margin-top: 20px;*/
-/*}*/
 /*phone rtc*/
 .progress-bar-icon {
   font-size: 36px;
@@ -183,10 +157,6 @@ p.subTitle{
   z-index: 3;
 }
 
-/*.calling-container {*/
-  /*text-align: center;*/
-  /*margin-top: 20px;*/
-/*}*/
 
 /**************************视频界面按键样式 ws START*********************/
 .calling-container {
@@ -584,6 +554,20 @@ flex-direction:column
   width: 100%;
   overflow: hidden;
   white-space:nowrap;
+}
+
+.chattoolbar-img {
+    width: 45px;
+    border-radius: 50%;
+}
+.chattoolbar-div {
+   flex: 1;
+   text-align: center;
+}
+.chat-toolbar{
+   height: 65px;width:100%;
+   position: absolute;top: 60px;
+   display: flex;flex-direction: row;align-items: center;
 }
 
 .chat-face{
