@@ -61,6 +61,7 @@ gulp.task('buildchat', function (done) {
   // 打包js
   gulp.src([
     'www/module/chat/js/chat.directive.js',
+    'www/module/chat/js/directives/qqface/qqface.js',
     'www/module/chat/js/chat.filter.js',
     'www/module/chat/js/chat.route.js',
     'www/module/chat/js/chat.service.js',
@@ -77,6 +78,7 @@ gulp.task('buildchat', function (done) {
   gulp.src([
     'www/module/chat/css/*.css',
     'www/module/chat/business/**/*.css',
+     'www/module/chat/js/**/*.css',
   ])
     .pipe(concat('chat.min.css'))
     .pipe(gulp.dest('www/dist/css'));

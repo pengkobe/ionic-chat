@@ -2,50 +2,46 @@
 <html>
 
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-	<title>Ionic-Chat-APP</title>
-	<link href="lib/ionic/css/ionic.css" rel="stylesheet">
-	<link href="dist/css/style.css" rel="stylesheet">
-	<link href="lib/nsPopover/src/nsPopover.css" rel="stylesheet">
-	<link href="font/iconfont.css" rel="stylesheet">
-	<!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>Ionic-Chat-APP</title>
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+     <link href="common/css/style.css" rel="stylesheet">
+    <link href="dist/css/chat.min.css" rel="stylesheet">
+    <link href="dist/css/account.min.css" rel="stylesheet">
+    <link href="dist/css/dash.min.css" rel="stylesheet">
+    <link href="lib/nsPopover/src/nsPopover.css" rel="stylesheet">
+    <link href="font/iconfont.css" rel="stylesheet">
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
     <link href="css/ionic.app.css" rel="stylesheet">
     -->
-
-	<!-- lib -->
-	<script src="lib/ionic/js/ionic.bundle.js"></script>
-	<script src="lib/ngCordova/dist/ng-cordova.min.js"></script>
-	<script src="lib/nsPopover/src/nsPopover.js"></script>
-	<script src="lib/angular-socket-io/socket.min.js"></script>
-	<script src="lib/socket.io/socket.io.js"></script>
-
-	<!-- cordova script (this will be a 404 during development) -->
-	<script src="cordova.js"></script>
-
-	<!-- hot update -->
-	<script src="lib/cordova-app-loader/dist/cordova-app-loader-complete.min.js"></script>
-	<script type="text/javascript" timeout="5000" manifest="manifest.json" 
-	src="lib/cordova-app-loader/dist/bootstrap.js"></script>
-
-	<!-- common -->
-	<script src="common/js/directive.js"></script>
-	<script src="common/js/services.js"></script>
-	<script src="common/js/Util.js"></script>
-
-	<!-- modules -->
-	<script src="dist/js/chat.min.js"></script>
-	<script src="dist/js/dash.min.js"></script>
-	<script src="dist/js/account.min.js"></script>
-
-	<!-- entry -->
-	<script src="config.js"></script>
-	<script src="module/app/js/app.js"></script>
-	<!--<script src="http://192.168.3.175:8080/target/target-script-min.js#anonymous"></script>-->
+    <!-- lib -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+    <script src="lib/ngCordova/dist/ng-cordova.min.js"></script>
+    <script src="lib/nsPopover/src/nsPopover.js"></script>
+    <script src="lib/angular-socket-io/socket.min.js"></script>
+    <script src="lib/socket.io/socket.io.js"></script>
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
+    <!-- hot update -->
+    <script src="lib/cordova-app-loader/dist/cordova-app-loader-complete.min.js"></script>
+    <script type="text/javascript" timeout="5000" manifest="manifest.json" src="lib/cordova-app-loader/dist/bootstrap.js"></script>
+    <!-- common -->
+    <script src="common/js/directive.js"></script>
+    <script src="common/js/services.js"></script>
+    <script src="common/js/Util.js"></script>
+    <!-- modules -->
+    <script src="dist/js/chat.min.js"></script>
+    <script src="dist/js/dash.min.js"></script>
+    <script src="dist/js/account.min.js"></script>
+    <!-- entry -->
+    <script src="config.js"></script>
+    <script src="module/app/js/app.js"></script>
+    <!--<script src="http://192.168.3.175:8080/target/target-script-min.js#anonymous"></script>-->
 </head>
 
 <body ng-app="starter">
-	<ion-nav-view> </ion-nav-view>
+    <ion-nav-view> </ion-nav-view>
 </body>
 
 </html>

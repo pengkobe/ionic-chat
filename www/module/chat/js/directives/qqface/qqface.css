@@ -1,0 +1,104 @@
+.chat-face{
+  width:29px;height:29px;
+  font-size:0;text-indent:-999em;
+  background:url(/assets/img/wxface.png) no-repeat;
+  vertical-align:text-bottom;
+  display: inline-block;
+}
+.qq_face a{
+  float:left;width:29px;height:29px;
+  font-size:0;text-indent:-999em;
+  border-bottom:1px solid #888;border-right:1px solid #888;
+  cursor:pointer;
+  background:url(/assets/img/wxface.png) no-repeat
+}
+a.qqface0{
+  background-position:0 0;
+}
+a.qqface1{
+  background-position:-29px 0;
+}
+a.qqface2{
+  background-position:-58px 0;
+}
+a.qqface3{
+  background-position:-87px 0;
+}
+a.qqface4{
+  background-position:-116px 0;
+}
+a.qqface5{
+  background-position:-145px 0;
+}
+a.qqface6{
+  background-position:-174px 0;
+}
+a.qqface7{
+  background-position:-203px 0;
+}
+a.qqface8{
+  background-position:-232px 0;
+}
+a.qqface9{
+  background-position:-261px 0;
+}
+a.qqface10{
+  background-position:-290px 0;
+}
+a.qqface11{
+  background-position:-319px 0;
+}
+a.qqface12{
+  background-position:-348px 0;
+}
+a.qqface13{
+  background-position:-377px 0;
+}
+a.qqface14{
+  background-position:-406px 0;
+}
+a.qqface15{
+  background-position:0 -29px;
+}
+a.qqface16{
+  background-position:-29px -29px;
+}
+a.qqface17{
+  background-position:-58px -29px;
+}
+a.qqface18{
+  background-position:-87px -29px;
+}
+a.qqface19{
+  background-position:-116px -29px;
+}
+a.qqface20{
+  background-position:-145px -29px;
+}
+a.qqface21{
+  background-position:-174px -29px;
+}
+a.qqface22{
+  background-position:-203px -29px;
+}
+a.qqface23{
+  background-position:-232px -29px;
+}
+a.qqface24{
+  background-position:-261px -29px;
+}
+a.qqface25{
+  background-position:-290px -29px;
+}
+a.qqface26{
+  background-position:-319px -29px;
+}
+a.qqface27{
+  background-position:-348px -29px;
+}
+a.qqface28{
+  background-position:-377px -29px;
+}
+a.qqface29{
+  background-position:-406px -29px;
+}

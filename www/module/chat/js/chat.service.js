@@ -221,7 +221,6 @@ chats.factory('initRong', function($rootScope, $state, _appKey) {
         function loadData(callback) {
             projectCode = globalUser.getUserinfo().PCode;
             getTeams.load(curUID).then(function(teamList) {
-                debugger;
                 // ==此方法会造成一段时间无数据(加载数据会造成时延)==
                 groups = [];
                 groupsMenmberinfo = [];
