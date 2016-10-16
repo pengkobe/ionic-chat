@@ -10,7 +10,6 @@ angular.module('chat.directive')
             link: function(scope, element, attrs, controller) {
                 // 表情选择事件
                 scope.goListByTap = function(evt) {
-                    debugger;
                     if (evt.srcElement.title) {
                         var text_content = document.querySelector("#text_content");
                         var ret = text_content.value + "[" + event.srcElement.title + "]";
