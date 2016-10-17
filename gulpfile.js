@@ -61,9 +61,7 @@ gulp.task('buildchat', function (done) {
   // 打包js
   gulp.src([
     'www/module/chat/js/chat.directive.js',
-    'www/module/chat/js/directives/qqface/qqface.js',
-    'www/module/chat/js/directives/chattoolbar/chattoolbar.js',
-    'www/module/chat/js/directives/chatinput/chatinput.js',
+    'www/module/chat/js/directives/**/*.js',
     'www/module/chat/js/chat.filter.js',
     'www/module/chat/js/chat.route.js',
     'www/module/chat/js/chat.service.js',

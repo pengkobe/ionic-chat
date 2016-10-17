@@ -96,6 +96,7 @@ angular.module('chat.controllers')
             $state.go('chat.call', obj);
         }
         // === 视频/音频通话(END) ===
+
         // === 语音消息交互(BEGIN)  ===
         $scope.voiceImg = { url: 'assets/img/voice/recog000.png' };
         $scope.recordWait = false;
@@ -185,45 +186,6 @@ angular.module('chat.controllers')
             }, 100);
             return false;
         }
-        // 播放音频文件
-        $scope.play = function (voiFile, type) {
-            if (mediaRec) {
-                mediaRec.stop();
-                mediaRec.release();
-            }
-            var target = angular.element(event.target).find("i");
-            if (type == "you") {
-                target.addClass("web_wechat_voice_gray_playing");
-            } else {
-                target.addClass("web_wechat_voice_playing");
-            }
-            if (isIOS) {
-                voiFile = voiFile.replace('file://', '');
-            }
-            mediaRec = new Media(voiFile,
-                // 成功操作
-                function () {
-                    if (type == "you") {
-                        target.removeClass("web_wechat_voice_gray_playing");
-                    } else {
-                        target.removeClass("web_wechat_voice_playing");
-                    }
-                    console.log("play():Audio Success");
-                },
-                // 失败操作
-                function (err) {
-                    if (type == "you") {
-                        target.removeClass("web_wechat_voice_gray_playing");
-                    } else {
-                        target.removeClass("web_wechat_voice_playing");
-                    }
-                    console.log("play():Audio Error: " + err.code);
-                }
-            );
-            //开始播放录音
-            mediaRec.play();
-            return false;
-        };
         //开始录音
         function startRec() {
             if (mediaRec) {
@@ -304,26 +266,6 @@ angular.module('chat.controllers')
             viewScroll.scrollBottom(true);
         }
         // === 文本消息(END) ===
-
-        $ionicModal.fromTemplateUrl('module/chat/tpl/message/BigImage.html', {
-            scope: $scope,
-            animation: 'slide-in-up'
-        }).then(function (modal) {
-            $scope.modal = modal;
-        });
-        $scope.openImage = function (data) {
-            $scope.imageData = data;
-            $scope.modal.show();
-        };
-        $scope.closeModal = function () {
-            $scope.modal.hide();
-        };
-        $scope.openImage = function (data) {
-            $scope.imageData = data;
-            $scope.modal.show();
-        };
-        // === 图片交互(END) ===
-
 
         // ===  融云消息处理(BEGIN) ===
         // 发送文本消息
@@ -514,33 +456,6 @@ angular.module('chat.controllers')
             $timeout(function () {
                 viewScroll.scrollBottom(true);
             }, 50);
-        }
-        // 构建消息UI模板
-        $scope.buildUrl = function (type) {
-            var tmpName;
-            switch (type) {
-                case 'RC:TxtMsg':
-                    tmpName = 'txt';
-                    break;
-                case 'RC:ImgMsg':
-                    tmpName = 'img';
-                    break;
-                case 'RC:DizNtf':
-                    tmpName = 'diz';
-                    break;
-                case 'RC:LBSMsg':
-                    tmpName = 'lbs';
-                    break;
-                case 'RC:ImgTextMsg':
-                    tmpName = 'imgtext';
-                    break;
-                case 'RC:VcMsg':
-                    tmpName = 'vc';
-                    break;
-                default:
-
-            }
-            return 'module/chat/tpl/message/' + tmpName + '.html';
         }
         // === 辅助方法(END) ===
     })

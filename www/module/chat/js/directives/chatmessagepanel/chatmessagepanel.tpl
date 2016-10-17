@@ -1,6 +1,6 @@
 <ol id="lstMessage">
 	<li 
-        ng-repeat="message in hisMsgs track by $index" 
+        ng-repeat="message in messageList track by $index" 
         class="rj-chatmessage-list" 
         id="msg_{{message.messageId}}" 
         data-messageid="{{message.messageId}}">
