@@ -658,7 +658,6 @@ chats.factory('initRong', function ($rootScope, $state, _appKey) {
                             if (ret.status == "prepare") {
                                 // alert('你发了文字消息：' +JSON.stringify(ret));
                                 promise.resolve(ret.result.message);
-                                appendNewMsg(, true);
                             }
                             //成功后更新样式
                             if (ret.status == "success") {

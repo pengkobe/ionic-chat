@@ -2,7 +2,7 @@ angular.module('chat.directive')
     .directive('qqFace', [function() {
         return {
             restrict: "E",
-            templateUrl: 'module/chat/js/directives/qqface/qqface.tpl',
+            templateUrl: 'module/chat/directives/qqface/qqface.tpl',
             replace: true,
             scope: {
                 selectQqFace: "&selectQqFace"

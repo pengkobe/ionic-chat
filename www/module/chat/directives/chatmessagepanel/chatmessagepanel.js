@@ -2,7 +2,7 @@ angular.module('chat.directive')
     .directive('chatMessagePanel', function ($ionicModal, $timeout) {
         return {
             restrict: "E",
-            templateUrl: 'module/chat/js/directives/chatmessagepanel/chatmessagepanel.tpl',
+            templateUrl: 'module/chat/directives/chatmessagepanel/chatmessagepanel.tpl',
             replace: true,
             scope: {
                 messageList: "=messageList",
