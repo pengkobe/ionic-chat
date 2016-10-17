@@ -5,14 +5,14 @@ var chats = angular.module('chat.services', []);
  * Signaling
  * socket.io视频服务实例
  */
-chats.provider('Signaling', function() {
+chats.provider('Signaling', function () {
     this.backendUrl = "";
-    this.setBackendUrl = function(newUrl) {
+    this.setBackendUrl = function (newUrl) {
         if (this.backendUrl == "") {
             this.backendUrl = newUrl;
         }
     }
-    this.$get = function($http, socketFactory) {
+    this.$get = function ($http, socketFactory) {
         var self = this;
         var myIoSocket = io.connect(self.backendUrl);
         mySocket = socketFactory({
@@ -23,72 +23,72 @@ chats.provider('Signaling', function() {
 });
 
 // 用户全局引用
-chats.factory('initRong', function($rootScope, $state, _appKey) {
-        function initRong(token) {
-            $rootScope.arrMsgs = new Array();
-            $rootScope.arrCons = new Array();
-            // 融云初始化
-            RongCloudLibPlugin.init({
-                    appKey: _appKey
-                },
-                function(ret, err) {
-                    if (ret) {
-                        // alert('init:' + JSON.stringify(ret));
-                    }
-                    if (err) {
-                        alert('init error:' + JSON.stringify(err));
+chats.factory('initRong', function ($rootScope, $state, _appKey) {
+    function initRong(token) {
+        $rootScope.arrMsgs = new Array();
+        $rootScope.arrCons = new Array();
+        // 融云初始化
+        RongCloudLibPlugin.init({
+            appKey: _appKey
+        },
+            function (ret, err) {
+                if (ret) {
+                    // alert('init:' + JSON.stringify(ret));
+                }
+                if (err) {
+                    alert('init error:' + JSON.stringify(err));
+                }
+            }
+        );
+        RongCloudLibPlugin.setConnectionStatusListener(
+            function (ret, err) {
+                if (ret) {
+                    // 只允许单用户登录
+                    if (ret.result.connectionStatus == 'KICKED') {
+                        alert('您的帐号已在其他端登录!');
+                        $rootScope.hideTabs = false;
+                        //$ionicHistory.clearCache();
+                        $state.go('login');
                     }
                 }
-            );
-            RongCloudLibPlugin.setConnectionStatusListener(
-                function(ret, err) {
-                    if (ret) {
-                        // 只允许单用户登录
-                        if (ret.result.connectionStatus == 'KICKED') {
-                            alert('您的帐号已在其他端登录!');
-                            $rootScope.hideTabs = false;
-                            //$ionicHistory.clearCache();
-                            $state.go('login');
-                        }
-                    }
-                    if (err) {
-                        alert('setConnectionStatusListener error:' + JSON.stringify(err));
-                    }
+                if (err) {
+                    alert('setConnectionStatusListener error:' + JSON.stringify(err));
                 }
-            );
-            // 建立连接
-            RongCloudLibPlugin.connect({
-                    token: token
-                },
-                function(ret, err) {
-                    if (ret) {
-                        $rootScope.$apply();
-                    }
-                    if (err) {
-                        alert('init error:' + JSON.stringify(err));
-                    }
+            }
+        );
+        // 建立连接
+        RongCloudLibPlugin.connect({
+            token: token
+        },
+            function (ret, err) {
+                if (ret) {
+                    $rootScope.$apply();
                 }
-            );
-            // 消息接收
-            RongCloudLibPlugin.setOnReceiveMessageListener(
-                function(ret, err) {
-                    // 接收消息
-                    if (ret) {
-                        $rootScope.arrMsgs.push(JSON.stringify(ret.result.message));
-                        $rootScope.$apply();
-                    }
-                    if (err) {
-                        alert('setOnReceiveMessageListener error:' + JSON.stringify(err));
-                    }
+                if (err) {
+                    alert('init error:' + JSON.stringify(err));
                 }
-            );
-        }
-        return {
-            init: initRong
-        };
-    })
+            }
+        );
+        // 消息接收
+        RongCloudLibPlugin.setOnReceiveMessageListener(
+            function (ret, err) {
+                // 接收消息
+                if (ret) {
+                    $rootScope.arrMsgs.push(JSON.stringify(ret.result.message));
+                    $rootScope.$apply();
+                }
+                if (err) {
+                    alert('setOnReceiveMessageListener error:' + JSON.stringify(err));
+                }
+            }
+        );
+    }
+    return {
+        init: initRong
+    };
+})
     // 好友服务
-    .factory('Friends', function(RequestUrl, getFriends, Signaling, currentUser, $interval) {
+    .factory('Friends', function (RequestUrl, getFriends, Signaling, currentUser, $interval) {
         var loaded = false;
         var friends = [];
         var userids = [];
@@ -96,7 +96,7 @@ chats.factory('initRong', function($rootScope, $state, _appKey) {
 
         // 后台请求数据
         function loadData(callback) {
-            getFriends(curUID, function(data) {
+            getFriends(curUID, function (data) {
                 friends = [];
                 var retdata = data.data;
                 var dataLen = retdata.length;
@@ -114,7 +114,7 @@ chats.factory('initRong', function($rootScope, $state, _appKey) {
                 }
 
                 // 按字母排序
-                friends = friends.sort(function(a, b) {
+                friends = friends.sort(function (a, b) {
                     var bool = a.alpha > b.alpha;
                     return bool ? 1 : -1;
                 });
@@ -150,7 +150,7 @@ chats.factory('initRong', function($rootScope, $state, _appKey) {
             });
         }
         // 刷新在线列表(10s)
-        $interval(function() {
+        $interval(function () {
             if (loaded) {
                 Signaling.emit('checkOnline', userids);
             }
@@ -160,7 +160,7 @@ chats.factory('initRong', function($rootScope, $state, _appKey) {
             // 确保事件只注册一次
             if (!loaded) {
                 loaded = true;
-                Signaling.on('checkOnline_suc', function(ids) {
+                Signaling.on('checkOnline_suc', function (ids) {
                     var friendlistCount = friends.length;
                     for (var m = 0; m < friendlistCount; m++) {
                         var tmp = friends[m];
@@ -179,18 +179,18 @@ chats.factory('initRong', function($rootScope, $state, _appKey) {
 
         return {
             // 获取好友列表
-            all: function(callback) {
+            all: function (callback) {
                 if (friends.length > 0) {
                     callback(friends);
                 } else {
                     loadData(callback);
-                    $interval(function() {
+                    $interval(function () {
                         loadData(callback);
                     }, 3000);
                 }
             },
             //（获取某好友）
-            get: function(friendId) {
+            get: function (friendId) {
                 var retIndex = -1;
                 for (var i = 0; i < friends.length; i++) {
                     if (friends[i].id == friendId) {
@@ -201,15 +201,15 @@ chats.factory('initRong', function($rootScope, $state, _appKey) {
                 return retIndex > -1 ? friends[retIndex] : null;
             },
             //（未启用）
-            set: function(val) {
+            set: function (val) {
                 friends = val;
             },
             //（未启用）
-            add: function(friend) {}
+            add: function (friend) { }
         }
     })
     // 工作组服务
-    .factory('Groups', function(getTeams, RequestUrl, Signaling, currentUser, projectTeam, $rootScope,
+    .factory('Groups', function (getTeams, RequestUrl, Signaling, currentUser, projectTeam, $rootScope,
         getGroupMembers, $interval) {
         var groups = [];
         var groupsMenmberinfo = [];
@@ -220,7 +220,7 @@ chats.factory('initRong', function($rootScope, $state, _appKey) {
         // 后台请求数据
         function loadData(callback) {
             projectCode = globalUser.getUserinfo().PCode;
-            getTeams.load(curUID).then(function(teamList) {
+            getTeams.load(curUID).then(function (teamList) {
                 // ==此方法会造成一段时间无数据(加载数据会造成时延)==
                 groups = [];
                 groupsMenmberinfo = [];
@@ -228,9 +228,9 @@ chats.factory('initRong', function($rootScope, $state, _appKey) {
                 for (var i = 0; i < dataLen; i++) {
                     teamList[i].conversationType = 'GROUP';
                     teamList[i].type = 'create';
-                    (function(compid) {
+                    (function (compid) {
                         var rid = compid.substr(4);
-                        getGroupMembers(rid, function(data) {
+                        getGroupMembers(rid, function (data) {
                             groupsMenmberinfo.push({ id: compid, members: data.data });
                         });
                     })(teamList[i].id);
@@ -241,28 +241,28 @@ chats.factory('initRong', function($rootScope, $state, _appKey) {
         }
 
         //TODO:组判重
-        function groupsIsExist() {}
+        function groupsIsExist() { }
         //TODO:组员判重
-        function menmberIsExist() {}
+        function menmberIsExist() { }
 
         return {
-            all: function(callback) {
+            all: function (callback) {
                 if (groups.length > 0) {
                     callback(groups);
                 } else {
                     loadData(callback);
-                    $interval(function() {
+                    $interval(function () {
                         loadData(callback);
                     }, 10000);
-                    $rootScope.$on("change Project", function(evt, PCode, PName) {
+                    $rootScope.$on("change Project", function (evt, PCode, PName) {
                         loadData(callback);
                     });
                 }
             },
-            set: function(val) {
+            set: function (val) {
                 groups = val;
             },
-            get: function(groupId) {
+            get: function (groupId) {
                 var retIndex = -1;
                 for (var i = 0; i < groups.length; i++) {
                     if (groups[i].id == groupId) {
@@ -273,7 +273,7 @@ chats.factory('initRong', function($rootScope, $state, _appKey) {
                 return retIndex > -1 ? groups[retIndex] : null;
             },
             // 获取组内成员
-            getGroupMember: function(groupId, userid) {
+            getGroupMember: function (groupId, userid) {
                 var retIndex = -1;
                 var arrLen = groupsMenmberinfo.length;
                 for (var i = 0; i < arrLen; i++) {
@@ -297,45 +297,45 @@ chats.factory('initRong', function($rootScope, $state, _appKey) {
         }
     })
     // 好友请求服务
-    .service("ResFriend", function($http, httpXhr, $timeout) {
+    .service("ResFriend", function ($http, httpXhr, $timeout) {
         ///UserID 自己
         ///FriendID:接收人
         ///state{0：发邀请，1:接受，-1：拒绝}
         function ResFriend(UserID, FriendID, state, callback) {
             var obj = { UserID: +UserID, FriendID: +FriendID, state: +state };
             var data = JSON.stringify(obj);
-            httpXhr.getData('UserInfo_newBLL.ResFriend', { model: data }).then(function(data) {
+            httpXhr.getData('UserInfo_newBLL.ResFriend', { model: data }).then(function (data) {
                 callback(data);
             });
         }
         return ResFriend;
     })
     // 群组请求服务
-    .service("ResTeam", function($http, httpXhr, $timeout) {
+    .service("ResTeam", function ($http, httpXhr, $timeout) {
         ///groupID 群组名称
         ///MemberID:自己
         ///state{0：发邀请，1:接受，-1：拒绝}
         function ResTeam(groupID, MemberID, state, callback) {
             var obj = { groupID: groupID.substr(4), MemberID: MemberID, state: state };
             var data = JSON.stringify(obj);
-            httpXhr.getData('UserInfo_newBLL.ResTeam', { model: data }).then(function(data) {
+            httpXhr.getData('UserInfo_newBLL.ResTeam', { model: data }).then(function (data) {
                 callback(data);
             });
         }
         return ResTeam;
     })
     // 加载好友
-    .service("getFriends", function($http, httpXhr, $timeout) {
+    .service("getFriends", function ($http, httpXhr, $timeout) {
         /// UserID
         function getFriends(userid, callback) {
-            httpXhr.getData('UserInfo_newBLL.getFriends', { UserID: userid }).then(function(data) {
+            httpXhr.getData('UserInfo_newBLL.getFriends', { UserID: userid }).then(function (data) {
                 callback(data);
             });
         }
         return getFriends;
     })
     // 加载团队
-    .service("getTeams", function($http, httpXhr, $timeout, $q) {
+    .service("getTeams", function ($http, httpXhr, $timeout, $q) {
         /// UserID
         // function getTeams(userid, callback) {
         //     httpXhr.getData('urk', { UserID: userid }).then(function (data) {
@@ -349,34 +349,34 @@ chats.factory('initRong', function($rootScope, $state, _appKey) {
             { id: 'prj_15', number: 12, max_number: 30, name: '有色大厦', portrait: null }
         ];
 
-        $timeout(function() {
+        $timeout(function () {
             defer.resolve(data);
         }, 2000);
-        this.load = function(userid) {
+        this.load = function (userid) {
             return defer.promise;
         }
     })
     // 加载项目组
-    .service("projectTeam", function($http, httpXhr) {
+    .service("projectTeam", function ($http, httpXhr) {
         function projectTeam(projectCode, callback) {
             // 项目编号有可能不存在
             if (!projectCode) {
                 return;
             }
-            httpXhr.getData('UserInfo_newBLL.GetUserInfoByPCode', { projectCode: projectCode }).then(function(data) {
+            httpXhr.getData('UserInfo_newBLL.GetUserInfoByPCode', { projectCode: projectCode }).then(function (data) {
                 callback(data);
             });
         }
         return projectTeam;
     })
     // 加载好友请求
-    .service("FindFriendsReq", function($http, httpXhr, $interval) {
+    .service("FindFriendsReq", function ($http, httpXhr, $interval) {
         /// UserID
         var friendRquestList = [];
         var intervalid = 0;
 
         function FindFriendsReq(userid, callback) {
-            httpXhr.getData('UserInfo_newBLL.FindFriendsReq', { UserID: userid }).then(function(data) {
+            httpXhr.getData('UserInfo_newBLL.FindFriendsReq', { UserID: userid }).then(function (data) {
                 var retData = data.data;
                 var dataLen = retData.length;
                 friendRquestList = [];
@@ -394,14 +394,14 @@ chats.factory('initRong', function($rootScope, $state, _appKey) {
         }
 
         var friendsReqApi = {
-            all: function(userid, callback) {
+            all: function (userid, callback) {
                 if (friendRquestList.length > 0) {
                     callback(friendRquestList);
                 } else {
                     FindFriendsReq(userid, callback);
                     clearInterval(intervalid);
                     /// 10s
-                    intervalid = $interval(function() {
+                    intervalid = $interval(function () {
                         FindFriendsReq(userid, callback);
                     }, 10000);
                 }
@@ -410,12 +410,12 @@ chats.factory('initRong', function($rootScope, $state, _appKey) {
         return friendsReqApi;
     })
     // 加载团队请求
-    .service("findTeamsReq", function($http, httpXhr, $interval) {
+    .service("findTeamsReq", function ($http, httpXhr, $interval) {
         var teamRquestList = [];
         var intervalid = 0;
         /// UserID
         function findTeamsReq(userid, callback) {
-            httpXhr.getData('UserInfo_newBLL.findTeamsReq', { UserID: userid }).then(function(data) {
+            httpXhr.getData('UserInfo_newBLL.findTeamsReq', { UserID: userid }).then(function (data) {
                 teamRquestList = [];
                 var retData = data.data;
                 var dataLen = retData.length;
@@ -433,13 +433,13 @@ chats.factory('initRong', function($rootScope, $state, _appKey) {
             });
         }
         var teamsReqApi = {
-            all: function(userid, callback) {
+            all: function (userid, callback) {
                 if (teamRquestList.length > 0) {
                     callback(teamRquestList);
                 } else {
                     findTeamsReq(userid, callback);
                     clearInterval(intervalid);
-                    intervalid = $interval(function() {
+                    intervalid = $interval(function () {
                         findTeamsReq(userid, callback);
                     }, 10000);
                 }
@@ -448,30 +448,30 @@ chats.factory('initRong', function($rootScope, $state, _appKey) {
         return teamsReqApi;
     })
     //团队成员
-    .service("getGroupMembers", function($http, httpXhr) {
+    .service("getGroupMembers", function ($http, httpXhr) {
         function getGroupMembers(groupID, callback) {
             if (!groupID) {
                 return;
             }
-            httpXhr.getData('UserInfo_newBLL.getGroupMembers', { groupID: groupID }).then(function(data) {
+            httpXhr.getData('UserInfo_newBLL.getGroupMembers', { groupID: groupID }).then(function (data) {
                 callback(data);
             });
         }
         return getGroupMembers;
     })
     // 协同全局未读消息计算
-    .service("chatUnreadMessage", function($rootScope) {
+    .service("chatUnreadMessage", function ($rootScope) {
         var messages = 0;
         var chatUnreadMessageservive = {
-            getUnreadMessage: function() {
+            getUnreadMessage: function () {
                 return messages;
             },
-            setUnreadMessage: function(val) {
+            setUnreadMessage: function (val) {
                 messages = val;
                 $rootScope.chatUnreadMessageNum = val;
                 return;
             },
-            addUnreadMessage: function(val) {
+            addUnreadMessage: function (val) {
                 messages += val;
                 $rootScope.chatUnreadMessageNum = messages;
                 return;
@@ -480,24 +480,24 @@ chats.factory('initRong', function($rootScope, $state, _appKey) {
         return chatUnreadMessageservive;
     })
     // 全局消息监听
-    .service("newMessageEventService", function($rootScope) {
+    .service("newMessageEventService", function ($rootScope) {
         var msgService = {
-            broadcast: function(data) {
+            broadcast: function (data) {
                 $rootScope.$broadcast("newMsg", data);
             },
-            listen: function(callback) {
+            listen: function (callback) {
                 $rootScope.$on("newMsg", callback);
             }
         };
         return msgService;
     })
     // 未读消息模拟（For PC）
-    .service("unreadMessages", function($http, $rootScope, $timeout) {
+    .service("unreadMessages", function ($http, $rootScope, $timeout) {
         var unreadMessages = [
             { unreadMessageCount: 2, latestMessage: 'ficl upi' },
         ];
         var util = {
-            getUnreadList: function() {
+            getUnreadList: function () {
                 var arr = [{
                     targetId: 11,
                     senderUserId: 1,
@@ -538,9 +538,9 @@ chats.factory('initRong', function($rootScope, $state, _appKey) {
                     latestMessage: 'i am bat!12',
                     conversationType: 'PRIVATE',
                     conversationTitle: '陌生人'
-                }, ];
+                },];
                 // 模拟新消息
-                $timeout(function() {
+                $timeout(function () {
                     $rootScope.$broadcast("newMsg", '{"targetId": 11, "senderUserId": 1, "sentTime":"2016-06-01 10:00", ' +
                         '"content": {"text":"new message"}, "conversationType": "PRIVATE", "objectName": "RC:TxtMsg"}');
                 }, 4000);
@@ -550,22 +550,22 @@ chats.factory('initRong', function($rootScope, $state, _appKey) {
         return util;
     })
     // 黑名单服务
-    .factory('Blacklist', function() {
+    .factory('Blacklist', function () {
         var lists = [
             { id: 'group1', username: 'group1', portrait: 'img/personPhoto.png' },
             // { id: 'grp6', username: 'grp6', portrait: 'img/personPhoto.png'}
         ];
         return {
-            all: function() {
+            all: function () {
                 return lists;
             },
-            set: function(val) {
+            set: function (val) {
                 lists = val;
             },
-            addOne: function(val) {
+            addOne: function (val) {
                 lists.push(val);
             },
-            removeOne: function(val) {
+            removeOne: function (val) {
                 for (var i = 0; i < lists.length; i++) {
                     if (lists[i].id == val) {
                         lists.splice(i, 1);
@@ -573,7 +573,7 @@ chats.factory('initRong', function($rootScope, $state, _appKey) {
                     }
                 }
             },
-            get: function(id) {
+            get: function (id) {
                 // Simple index lookup
                 var retIndex = -1;
                 for (var i = 0; i < lists.length; i++) {
@@ -586,9 +586,9 @@ chats.factory('initRong', function($rootScope, $state, _appKey) {
             }
         }
     })
-    .factory('FormateRongyunErr', function(myNote) {
+    .factory('FormateRongyunErr', function (myNote) {
         return {
-            formate: function(err) {
+            formate: function (err) {
                 var errcode = 1;
                 if (err && err.code) {
                     errcode = err.code;
@@ -609,5 +609,179 @@ chats.factory('initRong', function($rootScope, $state, _appKey) {
                         break;
                 }
             }
+        }
+    })
+    .factory('rongyunService', function ($q) {
+        return {
+            /**
+             * 获取历史数据
+             */
+            getHistoryMsg: function (targetid, ctype) {
+                var oldestMessageId = 0;
+                var promise = $q.defer();
+                RongCloudLibPlugin.getHistoryMessages({
+                    conversationType: ctype,
+                    targetId: targetid,
+                    count: 5,
+                    oldestMessageId: oldestMessageId
+                },
+                    function (ret, err) {
+                        if (ret) {
+                            var result = new Array(),
+                                tmp;
+                            for (var i = ret.result.length - 1; i >= 0; i--) {
+                                tmp = ret.result[i];
+                                tmp = myUtil.resolveMsg(tmp);
+                                result.push(tmp);
+                            }
+                            var hisArr = result.concat($scope.hisMsgs);
+                            promise.resolve(hisArr);
+
+                        }
+                        if (err) {
+                            alert("getHistoryMessages error: " + JSON.stringify(err));
+                        }
+                    }
+                );
+            },
+            sendMessage: function (ctype, target, content) {
+                var promise = $q.defer();
+                RongCloudLibPlugin.sendTextMessage({
+                    conversationType: ctype,
+                    targetId: target,
+                    text: content,
+                    extra: "extra text"
+                },
+                    function (ret, err) {
+                        if (ret) {
+                            //消息此时未发送成功，可以加入样式标明
+                            if (ret.status == "prepare") {
+                                // alert('你发了文字消息：' +JSON.stringify(ret));
+                                promise.resolve(ret.result.message);
+                                appendNewMsg(, true);
+                            }
+                            //成功后更新样式
+                            if (ret.status == "success") {
+                                // alert("success");
+                            }
+                        }
+                        if (err) {
+                            alert("发送文本消息 error: " + JSON.stringify(err));
+                        }
+                    }
+                );
+            },
+            clearMessagesUnreadStatus: function (conversationType, targetId) {
+                var promise = $q.defer();
+                RongCloudLibPlugin.clearMessagesUnreadStatus({
+                    conversationType: conversationType,
+                    targetId: targetId
+                },
+                    function (ret, err) {
+                        promise.resolve(ret);
+                        if (err) {
+                            alert("标为已读 error: " + JSON.stringify(err));
+                        }
+                    }
+                );
+            },
+            getLatestMsg: function (targetid, ctype) {
+                var promise = $q.defer();
+                RongCloudLibPlugin.getLatestMessages({
+                    conversationType: ctype,
+                    targetId: targetid,
+                    count: 15
+                },
+                    function (ret, err) {
+                        //alert("getLatestMessages ret:" + JSON.stringify(ret));
+                        if (ret) {
+                            var result = [];
+                            var tmp;
+                            for (var i = ret.result.length - 1; i >= 0; i--) {
+                                tmp = ret.result[i];
+                                if (ctype == "GROUP" && members.length > 0) {
+                                    for (var m = 0; m < members.length; m++) {
+                                        if (members[m].id == tmp.senderUserId) {
+                                            tmp.name = members[m].name;
+                                        }
+                                    }
+                                }
+                                tmp = myUtil.resolveMsg(tmp);
+                                // 处理IOS倒序顺序bug
+                                if (isIOS) {
+                                    result.push(tmp);
+                                } else {
+                                    result.unshift(tmp);
+                                }
+                            }
+                            promise.resolve(result);
+                        }
+                        if (err) {
+                            alert("getLatestMessages error: " + JSON.stringify(err));
+                        }
+                    }
+                );
+            },
+            sendImageMessage: function (ctype, targetId, picPath) {
+                var promise = $q.defer();
+                RongCloudLibPlugin.sendImageMessage({
+                    conversationType: ctype,
+                    targetId: targetId,
+                    imagePath: picPath,
+                    extra: ""
+                },
+                    function (ret, err) {
+                        if (ret) {
+                            //消息此时未发送成功，可以加入样式标明；成功后更新样式
+                            if (ret.status == "prepare") {
+                                // alert("prepare");
+                                promise.resolve(ret.result.message);
+
+                            }
+                            if (ret.status == "success") {
+                                //alert("success");
+                            }
+                        }
+                        if (err) {
+                            alert("sendImageMessage error: " + JSON.stringify(err));
+                        }
+                    }
+                );
+            },
+            sendVoiceMessage: function (ctype, targetId, tmpPath, dur) {
+                var promise = $q.defer();
+                // 发送语音消息
+                RongCloudLibPlugin.sendVoiceMessage({
+                    conversationType: ctype,
+                    targetId: targetId,
+                    voicePath: tmpPath,
+                    duration: dur,
+                    extra: ""
+                },
+                    function (ret, err) {
+                        if (ret) {
+                            $scope.lstResult = "sendVoiceMessage:" + JSON.stringify(ret);
+                            // TODO:消息此时未发送成功，可以加入样式标明；成功后更新样式
+                            if (ret.status == "prepare") {
+                                // alert("sendVoiceMessage prepare2:" + JSON.stringify(ret));
+                                promise.resolve(data);
+                            }
+                            // TODO:后续加入发送成功后修改显示样式
+                            if (ret.status == "success") {
+                                // alert("success");
+                            }
+                        }
+                        if (err) { // TODO:这里需要对错误状态进行判断并友好的提示用户
+                            alert("语音消息输入过短! ");
+                            //alert("语音消息发送错误: " + JSON.stringify(err));
+                        }
+                    }
+                );
+            }
+        }
+    })
+    .factory('mediaService', function () {
+        return {
+
         }
     })

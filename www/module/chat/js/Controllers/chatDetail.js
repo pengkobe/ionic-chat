@@ -1,8 +1,8 @@
 angular.module('chat.controllers')
     // 聊天
     .controller('chatDetail', function ($scope, $rootScope, $stateParams, newMessageEventService, CacheFactory,
-        $ionicScrollDelegate, $timeout, $state, $filter, Friends, Groups, $interval, $ionicModal, PhotoAndImages,
-        getGroupMembers, projectTeam, currentUser) {
+        $ionicScrollDelegate, $timeout, $state, Friends, Groups, $interval, $ionicModal, PhotoAndImages,
+        getGroupMembers, projectTeam, currentUser, rongyunService) {
         var mediaRec;
         var isIOS = ionic.Platform.isIOS();
         var isAndroid = ionic.Platform.isAndroid();
@@ -64,7 +64,8 @@ angular.module('chat.controllers')
                 // clearMessagesUnreadStatus();
                 // 本地测试
                 var target;
-                if (jsonMsg.conversationType == "PRIVATE") { } else if (jsonMsg.conversationType == "GROUP") {
+                if (jsonMsg.conversationType == "PRIVATE") { 
+                } else if (jsonMsg.conversationType == "GROUP") {
                     if (members.length > 0) {
                         for (var m = 0; m < members.length; m++) {
                             if (members[m].id == jsonMsg.senderUserId) {
@@ -72,7 +73,8 @@ angular.module('chat.controllers')
                             }
                         }
                     }
-                } else if (jsonMsg.conversationType == "CUSTOMER_SERVICE") { } else if (jsonMsg.conversationType == "CHATROOM") { }
+                } else if (jsonMsg.conversationType == "CUSTOMER_SERVICE") { 
+                } 
                 console.log('jsonMsg:', jsonMsg);
                 var tmpMsg = myUtil.resolveMsg(jsonMsg);
                 $scope.hisMsgs.push(tmpMsg);
@@ -154,34 +156,11 @@ angular.module('chat.controllers')
                     }
                     tmpPath = tmpPath.replace('file://', '');
 
-                    // 发送语音消息
-                    RongCloudLibPlugin.sendVoiceMessage({
-                        conversationType: $stateParams.conversationType,
-                        targetId: $stateParams.targetId,
-                        voicePath: tmpPath,
-                        duration: dur,
-                        extra: ""
-                    },
-                        function (ret, err) {
-                            mediaRec.release();
-                            if (ret) {
-                                $scope.lstResult = "sendVoiceMessage:" + JSON.stringify(ret);
-                                // TODO:消息此时未发送成功，可以加入样式标明；成功后更新样式
-                                if (ret.status == "prepare") {
-                                    // alert("sendVoiceMessage prepare2:" + JSON.stringify(ret));
-                                    appendNewMsg(ret.result.message, true);
-                                }
-                                // TODO:后续加入发送成功后修改显示样式
-                                if (ret.status == "success") {
-                                    // alert("success");
-                                }
-                            }
-                            if (err) { // TODO:这里需要对错误状态进行判断并友好的提示用户
-                                alert("语音消息输入过短! ");
-                                //alert("语音消息发送错误: " + JSON.stringify(err));
-                            }
-                        }
-                    );
+                    rongyunService.sendVoiceMessage($stateParams.conversationType,
+                    $stateParams.targetId,tmpPath,dur).then(function(data){
+                        mediaRec.release();
+                        appendNewMsg(data, true);
+                    });
                 }
             }, 100);
             return false;
@@ -211,10 +190,10 @@ angular.module('chat.controllers')
         }
         // ===  语音消息交互(END) ===
 
-       // === 工具栏交互 ===
-       $scope.send_content={
-            text:''
-        }; 
+        // === 工具栏交互 ===
+        $scope.send_content = {
+            text: ''
+        };
         $scope.showPhonebar = false;
         $scope.onShowPhonebar = function () {
             if (!$scope.showPhonebar) {
@@ -251,8 +230,11 @@ angular.module('chat.controllers')
         $scope.doRefresh = function () {
             console.log('Refreshing!');
             $timeout(function () {
-                getHistoryMsg($stateParams.targetId, $stateParams.conversationType);
-                //Stop the ion-refresher from spinning
+                // 拉取历史消息
+                rongyunService.getHistoryMsg($stateParams.targetId, $stateParams.conversationType)
+                    .then(function (data) {
+                        $scope.hisMsgs = data;
+                    });
                 $scope.$broadcast('scroll.refreshComplete');
             }, 200);
         };
@@ -262,7 +244,7 @@ angular.module('chat.controllers')
         $scope.onSendTextMessage = function () {
             var message = $scope.send_content.text;
             sendMessage($stateParams.conversationType, $stateParams.targetId, message);
-            $scope.send_content.text='';
+            $scope.send_content.text = '';
             viewScroll.scrollBottom(true);
         }
         // === 文本消息(END) ===
@@ -270,110 +252,25 @@ angular.module('chat.controllers')
         // ===  融云消息处理(BEGIN) ===
         // 发送文本消息
         function sendMessage(ctype, target, content) {
-            var curMsg;
-            RongCloudLibPlugin.sendTextMessage({
-                conversationType: ctype,
-                targetId: target,
-                text: content,
-                extra: "extra text"
-            },
-                function (ret, err) {
-                    if (ret) {
-                        //消息此时未发送成功，可以加入样式标明
-                        if (ret.status == "prepare") {
-                            // alert('你发了文字消息：' +JSON.stringify(ret));
-                            appendNewMsg(ret.result.message, true);
-                        }
-                        //成功后更新样式
-                        if (ret.status == "success") {
-                            // alert("success");
-                        }
-                    }
-                    if (err) {
-                        alert("发送文本消息 error: " + JSON.stringify(err));
-                    }
-                }
-            );
+            rongyunService.sendMessage(ctype, target, content).then(function (data) {
+                appendNewMsg(data, true);
+            })
         }
         // 标为已读
         function clearMessagesUnreadStatus() {
-            RongCloudLibPlugin.clearMessagesUnreadStatus({
-                conversationType: $stateParams.conversationType,
-                targetId: $stateParams.targetId
-            },
-                function (ret, err) {
-                    if (err) {
-                        alert("标为已读 error: " + JSON.stringify(err));
-                    }
-                }
-            );
+            var ctype = $stateParams.conversationType;
+            var targetid = $stateParams.targetId;
+            rongyunService.clearMessagesUnreadStatus(ctype, target).then(function (data) {
+            });
         }
         // 获取最新消息
         function getLatestMsg(targetid, ctype) {
-            RongCloudLibPlugin.getLatestMessages({
-                conversationType: ctype,
-                targetId: targetid,
-                count: 15
-            },
-                function (ret, err) {
-                    //alert("getLatestMessages ret:" + JSON.stringify(ret));
-                    if (ret) {
-                        var result = [];
-                        var tmp;
-                        for (var i = ret.result.length - 1; i >= 0; i--) {
-                            tmp = ret.result[i];
-                            if (ctype == "GROUP" && members.length > 0) {
-                                for (var m = 0; m < members.length; m++) {
-                                    if (members[m].id == tmp.senderUserId) {
-                                        tmp.name = members[m].name;
-                                    }
-                                }
-                            }
-                            tmp = myUtil.resolveMsg(tmp);
-                            // 处理IOS倒序顺序bug
-                            if (isIOS) {
-                                result.push(tmp);
-                            } else {
-                                result.unshift(tmp);
-                            }
-                        }
-                        $scope.hisMsgs = result;
-                        $timeout(function () {
-                            viewScroll.scrollBottom(true);
-                        }, 50);
-                    }
-                    if (err) {
-                        alert("getLatestMessages error: " + JSON.stringify(err));
-                    }
-                }
-            );
-        }
-        // 拉取历史数据(暂未启用，从云端加载时需要付费用户才能使用)
-        function getHistoryMsg(targetid, ctype) {
-            var oldestMessageId = 0;
-            RongCloudLibPlugin.getHistoryMessages({
-                conversationType: ctype,
-                targetId: targetid,
-                count: 5,
-                oldestMessageId: oldestMessageId
-            },
-                function (ret, err) {
-                    if (ret) {
-                        var result = new Array(),
-                            tmp;
-                        for (var i = ret.result.length - 1; i >= 0; i--) {
-                            tmp = ret.result[i];
-                            tmp = myUtil.resolveMsg(tmp);
-                            result.push(tmp);
-                        }
-                        var hisArr = result.concat($scope.hisMsgs);
-                        $scope.hisMsgs = hisArr;
-                    }
-                    if (err) {
-                        alert("getHistoryMessages error: " + JSON.stringify(err));
-                    }
-                }
-            );
+            rongyunService.getLatestMsg(targetid, ctype).then(function (data) {
+                $scope.hisMsgs = result;
+                $timeout(function () {
+                    viewScroll.scrollBottom(true);
+                }, 50);
+            });
         }
         $scope.sendPhoto = sendPhoto;
         // 发送图片
@@ -387,29 +284,9 @@ angular.module('chat.controllers')
                     picPath = imageURI.substring(0, imageURI.indexOf('?'));
                 } else { }
             }
-            //alert('开始发送:' + picPath);
-            RongCloudLibPlugin.sendImageMessage({
-                conversationType: $stateParams.conversationType,
-                targetId: $stateParams.targetId,
-                imagePath: picPath,
-                extra: ""
-            },
-                function (ret, err) {
-                    if (ret) {
-                        //消息此时未发送成功，可以加入样式标明；成功后更新样式
-                        if (ret.status == "prepare") {
-                            // alert("prepare");
-                            appendNewMsg(ret.result.message, true);
-                        }
-                        if (ret.status == "success") {
-                            //alert("success");
-                        }
-                    }
-                    if (err) {
-                        alert("sendImageMessage error: " + JSON.stringify(err));
-                    }
-                }
-            );
+            rongyunService.sendImageMessage($stateParams.conversationType,$stateParams.targetId,picPath).then(function(data){
+                 appendNewMsg(data, true);
+            });
         };
         // ===  融云消息处理(END) ===
 
@@ -422,12 +299,7 @@ angular.module('chat.controllers')
             } else if ($stateParams.conversationType == 'GROUP') { }
             // 标为已读
             clearMessagesUnreadStatus();
-            if ($stateParams.conversationType == "CUSTOMER_SERVICE") { // 客服
-            } else if ($stateParams.conversationType == "CHATROOM") { // 聊天室
-            } else if ($stateParams.conversationType == "DISCUSSION") { // 讨论组
-            }
             $scope.$on("$ionicView.enter", function () {
-                // alert('p y is here  $ionicView.enter');
                 viewScroll.scrollBottom(true);
                 console.log('$ionicView.enter');
             });
