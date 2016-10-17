@@ -12,8 +12,7 @@ angular.module('chat.directive')
                 scope.chooseFace = function(evt) {
                     if (evt.srcElement.title) {
                         var text_content = document.querySelector("#text_content");
-                        var ret = text_content.value + "[" + event.srcElement.title + "]";
-                        scope.selectQqFace()(ret);
+                        scope.selectQqFace()("[" + event.srcElement.title + "]");
                     }
                 }
             }

@@ -7,10 +7,11 @@
             </div>
             <div class="item item-input rj-footer-input">
                 <!-- 按住说话 -->
-                <span class="hold-tips" on-touch="onVoiceHold()" on-release="onVoiceRelease()" ng-class="{'active': isStartRecord}" ng-show="isVoiceMethod">按住我说话
+                <span class="hold-tips" on-touch="onVoiceHold()" on-release="onVoiceRelease()" 
+                ng-class="{'active': isStartRecord}" ng-show="isVoiceMethod">按住我说话
                 </span>
                 <!-- 文本输入框 -->
-                <textarea msd-elastic id="text_content" ng-model="send_content" ng-show="!isVoiceMethod"></textarea>
+                <textarea msd-elastic id="text_content" ng-model="sendmessage" ng-show="!isVoiceMethod"></textarea>
                 <!-- 表情按钮 -->
                 <div class="buttons">
                     <button class="rj-footer-btn button button-icon icon ion-happy-outline" ng-click="onShowFace()" ng-show="!isVoiceMethod"></button>
@@ -18,13 +19,13 @@
             </div>
             <div class="rj-footer-btn-wrap">
                 <!-- 显示工具栏按钮+ -->
-                <div class="buttons" ng-show="!send_content || send_content === ''">
+                <div class="buttons" ng-show="!sendmessage || sendmessage === ''">
                     <button class="button button-icon icon ion-ios-plus-outline rj-footer-btn-left"
                     ng-click="onShowPhonebar()">
                     </button>
                 </div>
                 <!-- 发送按钮 -->
-                <div class="rj-send-button" ng-hide="!send_content || send_content === ''" ng-click="onSendMessage()">
+                <div class="rj-send-button" ng-hide="!sendmessage || sendmessage === ''" ng-click="onSendMessage()">
                     <p>发送</p>
                 </div>
             </div>

@@ -1,5 +1,5 @@
 angular.module('chat.directive')
-    .directive('chatToolBar', [function(PhotoAndImages) {
+    .directive('chatToolBar', function(PhotoAndImages) {
         return {
             restrict: "E",
             templateUrl: 'module/chat/js/directives/chattoolbar/chattoolbar.tpl',
@@ -41,4 +41,4 @@ angular.module('chat.directive')
                 }
             }
         };
-    }]);
+    });
