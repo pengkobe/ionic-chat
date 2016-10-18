@@ -8,7 +8,7 @@ angular.module('chat.route', [])
                 controller: 'CallCtrl',
                 templateUrl: 'module/chat/business/call/call.html'
             })
-            .state('tab.chat', { //.contacts
+            .state('tab.chat', {
                 url: '/chat',
                 views: {
                     'tab-chat': {

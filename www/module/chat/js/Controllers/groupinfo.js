@@ -1,6 +1,6 @@
 angular.module('chat.controllers')
 .controller('groupInfoCtrl', function ($scope, Groups, $state,
-        $stateParams, CacheFactory, getGroupMembers, projectTeam, RequestUrl,currentUser) {
+        $stateParams, CacheFactory, getGroupMembers, RequestUrl,currentUser) {
         $scope.Target = Groups.get($stateParams.targetId);
         var targetId = $stateParams.targetId;
         var targetName = $stateParams.targetName;
@@ -22,10 +22,6 @@ angular.module('chat.controllers')
         function getGroupMem() {
             if (groupType == "create") {
                 getGroupMembers(targetId.substr(4), callback);
-            }
-            else {
-                var projectCode = currentUser.getUserinfo().PCode;
-                projectTeam(projectCode, callback);
             }
             function callback(data) {
                 var data = data.data;

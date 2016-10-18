@@ -4,7 +4,7 @@ angular.module('chat.controllers')
     // 1. 根据项目编号切换联系人
     .controller('contacts', function ($scope, $state, $location, $ionicLoading,
         $ionicScrollDelegate, $timeout, $interval, Friends, Groups, $rootScope, ResFriend,
-        $ionicPopup, newMessageEventService,FindFriendsReq, findTeamsReq,
+        $ionicPopup, newMessageEventService, FindFriendsReq, findTeamsReq, rongyunService,
         ResTeam, unreadMessages, chatUnreadMessage, currentUser, FormateRongyunErr) {
         $scope.data = {
             searchword: ''
@@ -222,46 +222,19 @@ angular.module('chat.controllers')
         newMessageEventService.listen(newMsgCallBack);
         // 清除所有会话
         $scope.clearConversition = function () {
-            RongCloudLibPlugin.clearConversations({
-                conversationTypes: ["PRIVATE", "GROUP"]
-            },
-                function (ret, err) {
-                    if (ret) {
-                        alert("已清除所有会话: " + result.status);
-                        $scope.$apply(function () {
-                            $scope.friends_message = [];
-                        });
-                    }
-                    if (err) {
-                        FormateRongyunErr.formate(err);
-                    }
-                }
-            );
+            rongyunService.clearConversations().then(function () {
+                $scope.$apply(function () {
+                    $scope.friends_message = [];
+                });
+            });
         }
         // 将某人消息设为已读
-        function clearSomeoneConversition(targetId,type) {
-            RongCloudLibPlugin.clearMessagesUnreadStatus({
-                conversationType: type,
-                targetId: targetId
-            }, function (ret, err) {
-                // test succeed
-                //alert(ret.status);
-                if (err) {
-                    FormateRongyunErr.formate(err);
-                }
-            });
+        function clearSomeoneConversition(targetId, type) {
+            rongyunService.clearMessagesUnreadStatus(targetId, type).then(function () { });
         }
         // 将某人消息删除
-        function removeSomeoneConversition(targetId,type) {
-            RongCloudLibPlugin.removeConversation({
-                conversationType:type,
-                targetId: targetId
-            }, function (ret, err) {
-                //alert(ret.status);
-                if (err) {
-                    FormateRongyunErr.formate(err);
-                }
-            });
+        function removeSomeoneConversition(targetId, type) {
+            rongyunService.removeConversation(targetId, type).then(function () { });
         }
 
         // 是否已存在消息
@@ -285,7 +258,7 @@ angular.module('chat.controllers')
             });
             $scope.popup.isPopup = true;
         };
-       // 设为已读
+        // 设为已读
         $scope.markMessage = function () {
             var index = $scope.popup.index;
             var message = $scope.friends_message[index];
@@ -293,19 +266,18 @@ angular.module('chat.controllers')
             message.unreadMessageCount = 0;
             $scope.popup.optionsPopup.close();
             $scope.popup.isPopup = false;
-            clearSomeoneConversition(message.targetId,message.conversationType);
+            clearSomeoneConversition(message.targetId, message.conversationType);
         };
         // 删除消息
         // TODO：需要清除消息状态，否则刷新后会再出来(待测)
         $scope.deleteMessage = function () {
             var index = $scope.popup.index;
             var message = $scope.friends_message[index];
-
             chatUnreadMessage.addUnreadMessage(-message.unreadMessageCount);
             $scope.friends_message.splice(index, 1);
             $scope.popup.optionsPopup.close();
             $scope.popup.isPopup = false;
-            removeSomeoneConversition(message.targetId,message.conversationType);
+            removeSomeoneConversition(message.targetId, message.conversationType);
         };
 
         $scope.gotoChatDetils = function (friend, $index) {
@@ -340,49 +312,39 @@ angular.module('chat.controllers')
         }
         // 获取消息列表
         var getConversationList = function () {
-            RongCloudLibPlugin.getConversationList(
-                function (ret, err) {
-                    if (ret) {
-                        // alert('getConversationList:' + JSON.stringify(ret));
-                        var result = ret.result;
-                        var resultLen = result.length;
-                        var target;
-                        var groupMemberinfo = null;
-                        for (var i = 0; i < resultLen; i++) {
-                            if (result[i].conversationType == "PRIVATE") {
-                                target = Friends.get(result[i].targetId);
-                            }
-                            else if (result[i].conversationType == "GROUP") {
-                                target = Groups.get(result[i].targetId);
-                                try {
-                                    groupMemberinfo = Groups.getGroupMember(result[i].targetId, result[i].senderUserId);
-                                } catch (e) {
-                                    alert('groupMemberinfo err:' + JSON.stringify(e));
-                                    break;
-                                }
-                                // alert('groupMemberinfo_ret:' + JSON.stringify(groupMemberinfo));
-                            }
-                            result[i] = myUtil.resolveCon(result[i], 0, target, groupMemberinfo);
-                        }
-                        var messageLen = 0;
-                        for (var j = 0; j < resultLen; j++) {
-                            var index = findInFriends(result[j].targetId);
-                            if (index == -1) {
-                                $scope.friends_message.push(result[j]);
-                                messageLen += result[j].unreadMessageCount;
-                            } else {
-                                $scope.friends_message[index].unreadMessageCount = result[j].unreadMessageCount;
-                                $scope.friends_message[index].latestMessage = result[j].latestMessage;
-                                messageLen += result[j].unreadMessageCount;
-                            }
-                        }
-                        chatUnreadMessage.setUnreadMessage(messageLen);
+            rongyunService.getConversationList().then(function (result) {
+                var resultLen = result.length;
+                var target;
+                var groupMemberinfo = null;
+                for (var i = 0; i < resultLen; i++) {
+                    if (result[i].conversationType == "PRIVATE") {
+                        target = Friends.get(result[i].targetId);
                     }
-                    if (err) {
-                        FormateRongyunErr.formate(err);
+                    else if (result[i].conversationType == "GROUP") {
+                        target = Groups.get(result[i].targetId);
+                        try {
+                            groupMemberinfo = Groups.getGroupMember(result[i].targetId, result[i].senderUserId);
+                        } catch (e) {
+                            alert('groupMemberinfo err:' + JSON.stringify(e));
+                            break;
+                        }
+                    }
+                    result[i] = myUtil.resolveCon(result[i], 0, target, groupMemberinfo);
+                }
+                var messageLen = 0;
+                for (var j = 0; j < resultLen; j++) {
+                    var index = findInFriends(result[j].targetId);
+                    if (index == -1) {
+                        $scope.friends_message.push(result[j]);
+                        messageLen += result[j].unreadMessageCount;
+                    } else {
+                        $scope.friends_message[index].unreadMessageCount = result[j].unreadMessageCount;
+                        $scope.friends_message[index].latestMessage = result[j].latestMessage;
+                        messageLen += result[j].unreadMessageCount;
                     }
                 }
-            );
+                chatUnreadMessage.setUnreadMessage(messageLen);
+            });
         }
         // 融云初始化
         var init = function () {
