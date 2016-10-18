@@ -541,9 +541,9 @@ chats.factory('initRong', function ($rootScope, $state, _appKey) {
                 },];
                 // 模拟新消息
                 $timeout(function () {
-                    $rootScope.$broadcast("newMsg", 
-                    '{"targetId": 11, "senderUserId": 1, "sentTime":"2016-06-01 10:00", ' 
-                    +'"content": {"text":"new message"}, "conversationType": "PRIVATE", "objectName": "RC:TxtMsg"}');
+                    $rootScope.$broadcast("newMsg",
+                        '{"targetId": 11, "senderUserId": 1, "sentTime":"2016-06-01 10:00", '
+                        + '"content": {"text":"new message"}, "conversationType": "PRIVATE", "objectName": "RC:TxtMsg"}');
                 }, 4000);
                 return arr;
             },
@@ -612,7 +612,7 @@ chats.factory('initRong', function ($rootScope, $state, _appKey) {
             }
         }
     })
-    .factory('rongyunService', function ($q,FormateRongyunErr) {
+    .factory('rongyunService', function ($q, FormateRongyunErr) {
         return {
             /**
              * 获取历史数据
@@ -722,7 +722,18 @@ chats.factory('initRong', function ($rootScope, $state, _appKey) {
                     }
                 );
             },
-            sendImageMessage: function (ctype, targetId, picPath) {
+            sendImageMessage: function (ctype, targetId, imageURI) {
+                var isIOS = ionic.Platform.isIOS();
+                var isAndroid = ionic.Platform.isAndroid();
+                var picPath = imageURI;
+                if (isIOS) {
+                    picPath = imageURI.replace('file://', '');
+                }
+                if (isAndroid) {
+                    if (imageURI.indexOf('?') !== -1) {
+                        picPath = imageURI.substring(0, imageURI.indexOf('?'));
+                    } else { }
+                }
                 var promise = $q.defer();
                 RongCloudLibPlugin.sendImageMessage({
                     conversationType: ctype,
@@ -781,12 +792,111 @@ chats.factory('initRong', function ($rootScope, $state, _appKey) {
         }
     })
     .factory('mediaService', function () {
+        var isIOS = ionic.Platform.isIOS();
+        var isAndroid = ionic.Platform.isAndroid();
+        var mediaRec;
+        var path = "";
+        // media路径处理
+        var src = "cordovaIMVoice.amr";
+        if (isIOS) {
+            // path = cordova.file.documentsDirectory;
+            src = "cordovaIMVoice.wav";
+        } else {
+            // path = cordova.file.externalApplicationStorageDirectory;
+        }
+        // url辅助方法
+        function getMediaURL(s) {
+            if (device.platform.toLowerCase() === "android") return path + s;
+            return (path + s).replace('file://', '');
+        }
+        function getNewMediaURL(s) {
+            if (device.platform.toLowerCase() === "android") return path + s;
+            return "documents://" + s;
+        }
+        function getPhoneGapPath() {
+            // bug
+            var path = window.location.pathname;
+            path = path.substr(path, path.length - 9);
+            if (isIOS) {// ios
+                return 'img/vedio-chat.mp3';
+            } else {
+                //alert('file://' + path + 'img/vedio-chat.mp3');
+                //路径有问题
+                return 'file://' + path + 'img/vedio-chat.mp3';
+            }
+        };
         return {
+            playSound: function () {
+                //实例化录音类, src:需要播放的录音的路径
+                var ring = new Media(getPhoneGapPath(),
+                    // 成功操作
+                    function () {
+                    },
+                    // 失败操作
+                    function (err) {
+                    }
+                );
+                //开始播放录音
+                ring.play();
+            },
+            startRecord: function () {
+                if (mediaRec) {
+                    mediaRec.release();
+                }
+                //实例化录音类
+                mediaRec = new Media(getNewMediaURL(src),
+                    // 录音执行函数
+                    function () { },
+                    // 录音失败执行函数
+                    function (err) { }
+                );
+                //开始录音
+                mediaRec.startRecord();
+            },
+            finishRecord: function () {
+                var promise = $q.defer();
+                if (mediaRec) {
+                    mediaRec.stopRecord();
+                    mediaRec.release();
+                }
+                //实例化录音类, src:需要播放的录音的路径
+                mediaRec = new Media(getMediaURL(src),
+                    // 成功操作
+                    function () {
+                        console.log("touchend():Audio Success");
+                    },
+                    // 失败操作
+                    function (err) {
+                        console.log("touchend():Audio Error: " + err.code);
+                    }
+                );
+                mediaRec.play();
+                mediaRec.stop();
 
+                //在html中显示当前状态
+                var counter = 0;
+                var timerDur = setInterval(function () {
+                    counter = counter + 100;
+                    if (counter > 2000) {
+                        clearInterval(timerDur);
+                    }
+                    var dur = mediaRec.getDuration();
+                    if (dur > 0) {
+                        clearInterval(timerDur);
+                        // alert('mediaRec.getDuration():' + dur);
+                        // alert('mediaRec.src:' + mediaRec.src);
+                        var tmpPath = mediaRec.src;
+                        if (isIOS) {
+                            tmpPath = path + src;
+                        }
+                        tmpPath = tmpPath.replace('file://', '');
+                        promise.resolve(tmpPath, mediaRec);
+                    }
+                }, 100);
+            }
         }
     })
-     .factory('vedioCallService', function () {
+    .factory('vedioCallService', function () {
         return {
-
         }
     });

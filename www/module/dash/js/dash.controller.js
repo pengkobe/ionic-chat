@@ -1,7 +1,6 @@
 /*
  * controller负责数据对接与权限控制
  */
-
 angular.module('dash', [])
   .controller('DashCtrl', function ($scope) {
     // 构建消息UI模板
@@ -30,19 +29,19 @@ angular.module('dash', [])
      * 构建Aircondition业务
      */
     $scope.expanders = [
-        {
-          title: 'Click me to expand',
-          text: 'Hi there folks, I am the content that was hidden but is now shown.'
-        },
-        {
-          title: 'Click this',
-          text: 'I am even better text than you have seen previously'
-        },
-        {
-          title: 'Test',
-          text: 'test'
-        }];
+      {
+        title: 'Click me to expand',
+        text: 'Hi there folks, I am the content that was hidden but is now shown.'
+      },
+      {
+        title: 'Click this',
+        text: 'I am even better text than you have seen previously'
+      },
+      {
+        title: 'Test',
+        text: 'test'
+      }];
     function buildAircondition() {
-      
+
     }
   })

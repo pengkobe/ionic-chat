@@ -1,25 +1,15 @@
 angular.module('chat.call',[])
     // 通话
     .controller('CallCtrl', function ($scope, $state, $rootScope, $timeout, $interval, $ionicHistory,
-        $ionicModal, $stateParams, signaling, CacheFactory, Friends,rongyunService) {
+        $ionicModal, $stateParams, signaling, CacheFactory, Friends,rongyunService,mediaService) {
         var duplicateMessages = [];
-        var isIOS = ionic.Platform.isIOS();
         // 是否通话中
         $scope.callInProgress = false;
-        //实例化录音类, src:需要播放的录音的路径
-        var ring = new Media(getPhoneGapPath(),
-            // 成功操作
-            function () {
-            },
-            // 失败操作
-            function (err) {
-            }
-        );
         // 是否主动发起 === false
         $scope.isCalling = $stateParams.isCalling === 'true';
         if (!$scope.isCalling) {
             //开始播放录音
-            ring.play();
+            mediaService.playSound();
         }
         //alert('isCalling:'+ $scope.isCalling +"type:"+ typeof $scope.isCalling );
         $scope.contacts = {};
@@ -306,23 +296,9 @@ angular.module('chat.call',[])
             signaling.removeListener('messageReceived', onMessageReceive);
         });
 
-
         function sendMessage(content) {
             rongyunService.sendMessage("PRIVATE", contactUser.id,content).then(function(data){
                  appendNewMsg(data, true);
             });
         }
-
-        function getPhoneGapPath() {
-            // bug
-            var path = window.location.pathname;
-            path = path.substr(path, path.length - 9);
-            if (isIOS) {// ios
-                return 'img/vedio-chat.mp3';
-            } else {
-              //alert('file://' + path + 'img/vedio-chat.mp3');
-              //路径有问题
-                return 'file://' + path + 'img/vedio-chat.mp3';
-            }
-        };
     });
