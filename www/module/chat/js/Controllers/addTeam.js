@@ -1,6 +1,6 @@
 angular.module('chat.controllers')
- .controller('addTeamCtrl', function ($scope, RequestUrl, CacheFactory, $ionicPopup, HttpFactory, 
-    $ionicHistory,$cordovaContacts, myNote, $timeout) {
+    .controller('addTeamCtrl', function ($scope, RequestUrl, CacheFactory, $ionicPopup, HttpFactory,
+        $ionicHistory, $cordovaContacts, myNote, $timeout) {
         var cache = angular.fromJson(CacheFactory.get('UserAccount'));
         $scope.task = {};
         var myPopup = $ionicPopup.show({
@@ -69,7 +69,7 @@ angular.module('chat.controllers')
         $scope.getAllContacts = function () {
             var options = {};
             options.multiple = true;
-            $cordovaContacts.find(options).then(function (allContacts) { 
+            $cordovaContacts.find(options).then(function (allContacts) {
                 //omitting parameter to .find() causes all contacts to be returned
                 $scope.contacts = allContacts;
                 alert(angular.toJson($scope.contacts[0]));

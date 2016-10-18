@@ -541,8 +541,9 @@ chats.factory('initRong', function ($rootScope, $state, _appKey) {
                 },];
                 // 模拟新消息
                 $timeout(function () {
-                    $rootScope.$broadcast("newMsg", '{"targetId": 11, "senderUserId": 1, "sentTime":"2016-06-01 10:00", ' +
-                        '"content": {"text":"new message"}, "conversationType": "PRIVATE", "objectName": "RC:TxtMsg"}');
+                    $rootScope.$broadcast("newMsg", 
+                    '{"targetId": 11, "senderUserId": 1, "sentTime":"2016-06-01 10:00", ' 
+                    +'"content": {"text":"new message"}, "conversationType": "PRIVATE", "objectName": "RC:TxtMsg"}');
                 }, 4000);
                 return arr;
             },
@@ -611,7 +612,7 @@ chats.factory('initRong', function ($rootScope, $state, _appKey) {
             }
         }
     })
-    .factory('rongyunService', function ($q) {
+    .factory('rongyunService', function ($q,FormateRongyunErr) {
         return {
             /**
              * 获取历史数据
@@ -784,3 +785,8 @@ chats.factory('initRong', function ($rootScope, $state, _appKey) {
 
         }
     })
+     .factory('vedioCallService', function () {
+        return {
+
+        }
+    });

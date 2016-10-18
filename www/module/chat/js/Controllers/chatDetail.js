@@ -64,7 +64,7 @@ angular.module('chat.controllers')
                 // clearMessagesUnreadStatus();
                 // 本地测试
                 var target;
-                if (jsonMsg.conversationType == "PRIVATE") { 
+                if (jsonMsg.conversationType == "PRIVATE") {
                 } else if (jsonMsg.conversationType == "GROUP") {
                     if (members.length > 0) {
                         for (var m = 0; m < members.length; m++) {
@@ -73,8 +73,8 @@ angular.module('chat.controllers')
                             }
                         }
                     }
-                } else if (jsonMsg.conversationType == "CUSTOMER_SERVICE") { 
-                } 
+                } else if (jsonMsg.conversationType == "CUSTOMER_SERVICE") {
+                }
                 console.log('jsonMsg:', jsonMsg);
                 var tmpMsg = myUtil.resolveMsg(jsonMsg);
                 $scope.hisMsgs.push(tmpMsg);
@@ -157,10 +157,10 @@ angular.module('chat.controllers')
                     tmpPath = tmpPath.replace('file://', '');
 
                     rongyunService.sendVoiceMessage($stateParams.conversationType,
-                    $stateParams.targetId,tmpPath,dur).then(function(data){
-                        mediaRec.release();
-                        appendNewMsg(data, true);
-                    });
+                        $stateParams.targetId, tmpPath, dur).then(function (data) {
+                            mediaRec.release();
+                            appendNewMsg(data, true);
+                        });
                 }
             }, 100);
             return false;
@@ -225,7 +225,8 @@ angular.module('chat.controllers')
             $scope.send_content.text = $scope.send_content.text + text_content;
             document.querySelector("#text_content").focus();
         }
-
+        // === 工具栏交互(END) ===
+        
         // 下拉刷新
         $scope.doRefresh = function () {
             console.log('Refreshing!');
@@ -238,7 +239,7 @@ angular.module('chat.controllers')
                 $scope.$broadcast('scroll.refreshComplete');
             }, 200);
         };
-        // === 工具栏交互(END) ===
+
 
         // === 文本消息(BEGIN) ===
         $scope.onSendTextMessage = function () {
@@ -273,7 +274,7 @@ angular.module('chat.controllers')
             });
         }
         $scope.sendPhoto = sendPhoto;
-        // 发送图片
+        // 发送图片(chattoolbar发起)
         function sendPhoto(imageURI) {
             var picPath = imageURI;
             if (isIOS) {
@@ -284,8 +285,8 @@ angular.module('chat.controllers')
                     picPath = imageURI.substring(0, imageURI.indexOf('?'));
                 } else { }
             }
-            rongyunService.sendImageMessage($stateParams.conversationType,$stateParams.targetId,picPath).then(function(data){
-                 appendNewMsg(data, true);
+            rongyunService.sendImageMessage($stateParams.conversationType, $stateParams.targetId, picPath).then(function (data) {
+                appendNewMsg(data, true);
             });
         };
         // ===  融云消息处理(END) ===

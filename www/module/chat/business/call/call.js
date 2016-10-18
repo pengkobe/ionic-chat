@@ -1,7 +1,7 @@
 angular.module('chat.call',[])
     // 通话
     .controller('CallCtrl', function ($scope, $state, $rootScope, $timeout, $interval, $ionicHistory,
-        $ionicModal, $stateParams, signaling, CacheFactory, Friends) {
+        $ionicModal, $stateParams, signaling, CacheFactory, Friends,rongyunService) {
         var duplicateMessages = [];
         var isIOS = ionic.Platform.isIOS();
         // 是否通话中
@@ -308,30 +308,12 @@ angular.module('chat.call',[])
 
 
         function sendMessage(content) {
-            RongCloudLibPlugin.sendTextMessage({
-                conversationType: "PRIVATE",
-                targetId: contactUser.id,
-                text: content,
-                extra: "extra text"
-            },
-                function (ret, err) {
-                    if (ret) {
-                        if (ret.status == "prepare") {
-                            appendNewMsg(ret.result.message, true);
-                        }
-                        if (ret.status == "success") {
-                            // alert("success");
-                        }
-                    }
-                    if (err) {
-                        FormateRongyunErr.formate(err);
-                    }
-                }
-            );
+            rongyunService.sendMessage("PRIVATE", contactUser.id,content).then(function(data){
+                 appendNewMsg(data, true);
+            });
         }
 
         function getPhoneGapPath() {
-
             // bug
             var path = window.location.pathname;
             path = path.substr(path, path.length - 9);
