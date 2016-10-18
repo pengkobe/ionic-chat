@@ -2,8 +2,7 @@
 a chat app based on ionic and rongyun  
 > This project is underdevelop and it is unrunnable for the time being. 
 
-
-### file structure
+## file structure
    ```
    ProjectName/
     ├── hooks/
@@ -14,70 +13,109 @@ a chat app based on ionic and rongyun
     │   ├── ionic.app.scss
     │   └── ...
     ├── www
-    │   ├── dist/
-    │   │    ├── js/
-    │   │    │    ├── dash.min.js
-    │   │    │    ├── account.min.js
-    │   │    │    ├── chat.min.js
-    │   │    │    └── ... 
-    │   │    └── css/
-    │   │    │    ├── dash.css
-    │   │    │    ├── account.css
-    │   │    │    ├── chat.css
-    │   │    │    └── ... 
-    │   ├── common/
     │   ├── lib/
     │   ├── assets/
+    │   ├── dist/
+    │   │    ├── js/
+    │   │    │    ├── modulename.min.js
+    │   │    │    └── ... 
+    │   │    └── css/
+    │   │    │    ├── modulename.min.css
+    │   │    │    └── ... 
+    │   ├── common/
+    │   │    ├── css/
+    │   │    ├── js/
+    │   │    └── tpl/
     │   ├── module/
     │   │    ├── app/ (entry)
-    │   │    ├── account/ 
+    │   │    ├── modulename/ 
     │   │    │    ├── business/ 
+    │   │    │    ├── directives/ 
     │   │    │    ├── css/
     │   │    │    ├── js/
+    │   │    │    │    ├── modulename.controller.js
+    │   │    │    │    ├── modulename.directive.js
+    │   │    │    │    ├── modulename.filter.js
+    │   │    │    │    ├── modulename.module.js
+    │   │    │    │    ├── modulename.route.js
+    │   │    │    │    └── modulename.service.js
     │   │    │    └── tpl/
-    │   │    ├── chat/ 
-    │   │    │    ├── business/ 
-    │   │    │    ├── css/
-    │   │    │    ├── js/
-    │   │    │    └── tpl/
-    │   │    ├── dash
-    │   │    │    ├── business/ 
-    │   │    │    ├── css/
-    │   │    │    ├── js/
-    │   │    │    └── tpl/
+    │   │    └── ... 
     │   ├── config.js 
-    │   ├── gulp.chat.js
     │   ├── index.html
-    │   ├── service-worker.js
+    │   ├── service-worker.js (todo)
     │   └── manifest.json 
-    ├── config.xml
-    ├── ionic.project
-    ├── package.json
-    ├── gulpfile.js
-    ├── bower.json
+    ├──  config.xml
+    ├──  ionic.project
+    ├──  package.json
+    ├──  gulpfile.js
+    ├──  bower.json
     ├── .bowerrc
     ├── .editorconfig
     ├── .gitignore
-    ├── README.md
-    └── LICENSE
+    ├──  README.md
+    └──  LICENSE
    ```
 
-### back-end techs
+## how to build module
+In gulpfile you can see this:
+```
+// chat module for example：
+gulp.task('buildchat', function (done) {
+  // pack js
+  gulp.src([
+    'www/module/chat/js/chat.directive.js',
+    'www/module/chat/directives/**/*.js',
+    'www/module/chat/js/chat.filter.js',
+    'www/module/chat/js/chat.route.js',
+    'www/module/chat/js/chat.service.js',
+    'www/module/chat/js/chat.controller.js',
+    'www/module/chat/business/**/*.js',
+    'www/module/chat/js/Controllers/*.js',
+    'www/module/chat/js/chat.module.js',
+  ])
+    // .pipe(uglify())
+    .pipe(concat('chat.min.js'))
+    .pipe(gulp.dest('www/dist/js'));
+
+  // pack css
+  gulp.src([
+    'www/module/chat/css/*.css',
+    'www/module/chat/business/**/*.css',
+    'www/module/chat/directives/**/*.css',
+  ])
+    .pipe(concat('chat.min.css'))
+    .pipe(gulp.dest('www/dist/css'));
+});
+```   
+
+just run 
+```
+gulp buildchat
+```
+you can get what you want
+
+## back-end dependency
 1. node with express
 2. mongodb with mongoloose
+3. rongyuncloud
+4. turn/stun server
+5. socket.io
 
-### how to run
+## how to run
 1. install node
 2. set up the enviroment for android/ios
 3. install ionic. please follow the instrunction on [ionicframework](http://ionicframework.com/getting-started/)
 4. git clone https://github.com/pengkobe/ionic-chat.git
 5. cd /path/to/ionic-chat
 6. ionic platform add android/ios
-7. ionic build  android/ios
-8. ionic emulate  android/ios
+7. ionic build android/ios
+8. ionic emulate android/ios
 
 
-### how to debug on web browser
+## how to debug on web browser
+looks a little complicated here. just for your purpose of ajusting styles. 
+will support one key set soon.
 + userindex.js
 ```
 //initRong.init(user.rongyunToken);
@@ -91,9 +129,9 @@ a chat app based on ionic and rongyun
     
 + chatDetail
 ```
- //path = cordova.file.documentsDirectory;
- //path = cordova.file.externalApplicationStorageDirectory;
- //init();
+ // path = cordova.file.documentsDirectory;
+ // path = cordova.file.externalApplicationStorageDirectory;
+ // init();
 ```
   
 + just run ionic serve under ionic-chat dir
@@ -101,13 +139,11 @@ a chat app based on ionic and rongyun
 ionic serve 
 ```
 
-### todo
+## todo
 1. localstorage policy
-2. file transfer
-3. group vedio chat
-4. red packets
-5. task
-4. make it beautiful and stable
+2. lazy load
+3. hot update
+5. make it beautiful and stable
 
-### licence
-MIT
+## licence
+MIT@[pengkobe](yipeng.info)

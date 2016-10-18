@@ -15,11 +15,6 @@ angular.module('chat.call',[])
         $scope.contacts = {};
         $scope.muted = false;
         $scope.showVedio = false;
-        // 显示已通话时间
-        // $scope.VedioTime = 0;
-        // $interval(function () {
-        //     $scope.VedioTime++;
-        // }, 1000);
         $scope.contactUser = {};
         // === 仅供作为测试用(注释部分) begin====
         // var contactName_c = CacheFactory.get('onlyguy');
@@ -291,7 +286,6 @@ angular.module('chat.call',[])
         }
         signaling.on('messageReceived', onMessageReceive);
         // === socket.io消息分类处理(END) ===
-
         $scope.$on('$destroy', function () {
             signaling.removeListener('messageReceived', onMessageReceive);
         });
