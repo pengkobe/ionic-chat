@@ -51,7 +51,7 @@ angular.module('chat.controllers')
 
         function createTeam(team) {
             HttpFactory.send({
-                url: RequestUrl + 'Action.ashx?Name=HYD.E3.Business.UserInfo_newBLL.createGroup',
+                url: RequestUrl + 'createGroup',
                 data: {
                     title: team.title,
                     UserID: cache.UserID,

@@ -4,7 +4,7 @@ angular.module('chat.controllers')
     // 1. 根据项目编号切换联系人
     .controller('contacts', function ($scope, $state, $location, $ionicLoading,
         $ionicScrollDelegate, $timeout, $interval, Friends, Groups, $rootScope, ResFriend,
-        $ionicPopup, newMessageEventService, projectTeam, FindFriendsReq, findTeamsReq,
+        $ionicPopup, newMessageEventService,FindFriendsReq, findTeamsReq,
         ResTeam, unreadMessages, chatUnreadMessage, currentUser, FormateRongyunErr) {
         $scope.data = {
             searchword: ''
@@ -234,7 +234,6 @@ angular.module('chat.controllers')
                     }
                     if (err) {
                         FormateRongyunErr.formate(err);
-                        //alert('clearConversition err:' + JSON.stringify(err));
                     }
                 }
             );
@@ -365,12 +364,6 @@ angular.module('chat.controllers')
                             }
                             result[i] = myUtil.resolveCon(result[i], 0, target, groupMemberinfo);
                         }
-                        // 讨论组
-                        // result.unshift(Discussion.all()[0]);
-                        // 聊天室
-                        // result.unshift(Chatroom.all()[0]);
-                        // 客服
-                        //result.unshift(CustomerService.all()[0]);
                         var messageLen = 0;
                         for (var j = 0; j < resultLen; j++) {
                             var index = findInFriends(result[j].targetId);
@@ -387,7 +380,6 @@ angular.module('chat.controllers')
                     }
                     if (err) {
                         FormateRongyunErr.formate(err);
-                        // alert('getConversationList err:' + JSON.stringify(err));
                     }
                 }
             );

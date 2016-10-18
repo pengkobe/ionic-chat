@@ -209,7 +209,7 @@ chats.factory('initRong', function ($rootScope, $state, _appKey) {
         }
     })
     // 工作组服务
-    .factory('Groups', function (getTeams, RequestUrl, Signaling, currentUser, projectTeam, $rootScope,
+    .factory('Groups', function (getTeams, RequestUrl, Signaling, currentUser, $rootScope,
         getGroupMembers, $interval) {
         var groups = [];
         var groupsMenmberinfo = [];
@@ -328,9 +328,8 @@ chats.factory('initRong', function ($rootScope, $state, _appKey) {
     .service("getFriends", function ($http, httpXhr, $timeout) {
         /// UserID
         function getFriends(userid, callback) {
-            httpXhr.getData('UserInfo_newBLL.getFriends', { UserID: userid }).then(function (data) {
-                callback(data);
-            });
+            var data =JSON.parse('{"data":[{"UserID":16,"IsProject":true,"UserName":"亿达别苑维修工","UserAccount":"ydwxg","headimgurl":"nxt.png"},{"UserID":17,"IsProject":true,"UserName":"亿达别苑客服","UserAccount":"ydkf","headimgurl":"nxt.png"},{"UserID":18,"IsProject":true,"UserName":"亿达别苑工程主管","UserAccount":"ydgczg","headimgurl":"nxt.png"},{"UserID":384,"IsProject":true,"UserName":"彭奕","UserAccount":"py","headimgurl":"15602452846-201609051736.png"},{"UserID":386,"IsProject":true,"UserName":"刘新琼","UserAccount":"lxq","headimgurl":"lxq-20161010177.png"},{"UserID":388,"IsProject":true,"UserName":"袁晓勇","UserAccount":"yxy","headimgurl":"13760425110-201609191259.png"},{"UserID":412,"IsProject":true,"UserName":"何总","UserAccount":"heyc","headimgurl":"heyc-201609142139.png"},{"UserID":414,"IsProject":true,"UserName":"万华利","UserAccount":"wanhuali","headimgurl":null},{"UserID":415,"IsProject":true,"UserName":"李建民","UserAccount":"lijm","headimgurl":"lijm-201609220947.png"},{"UserID":417,"IsProject":true,"UserName":"肖荣界","UserAccount":"xiaorj","headimgurl":null},{"UserID":419,"IsProject":true,"UserName":"李文帅","UserAccount":"liws","headimgurl":null},{"UserID":420,"IsProject":true,"UserName":"陈国辉","UserAccount":"chengh","headimgurl":null},{"UserID":421,"IsProject":true,"UserName":"叶昱君","UserAccount":"yeyj","headimgurl":null},{"UserID":422,"IsProject":true,"UserName":"郭仲春","UserAccount":"guozc","headimgurl":null},{"UserID":423,"IsProject":true,"UserName":"李斌","UserAccount":"lib","headimgurl":null},{"UserID":424,"IsProject":true,"UserName":"周文","UserAccount":"zhouw","headimgurl":"zhouw-201609202117.png"},{"UserID":425,"IsProject":true,"UserName":"田克清","UserAccount":"tiankq","headimgurl":null},{"UserID":426,"IsProject":true,"UserName":"戴白露","UserAccount":"daibl","headimgurl":null},{"UserID":427,"IsProject":true,"UserName":"黄金云","UserAccount":"haungjy","headimgurl":null},{"UserID":428,"IsProject":true,"UserName":"高明霞","UserAccount":"gaomx","headimgurl":null},{"UserID":431,"IsProject":true,"UserName":"钟盛樱","UserAccount":"zhongsy","headimgurl":null},{"UserID":432,"IsProject":true,"UserName":"朱雷","UserAccount":"zhul","headimgurl":null},{"UserID":433,"IsProject":true,"UserName":"戴露","UserAccount":"dl","headimgurl":"dl-201609191259.png"},{"UserID":434,"IsProject":true,"UserName":"黄健","UserAccount":"hj","headimgurl":"hj-201609202146.png"},{"UserID":435,"IsProject":true,"UserName":"周枫","UserAccount":"zf","headimgurl":"zf-201609202116.png"},{"UserID":436,"IsProject":true,"UserName":"蔡强","UserAccount":"cq","headimgurl":null},{"UserID":437,"IsProject":true,"UserName":"宋细辉","UserAccount":"sxh","headimgurl":"sxh-201609191313.png"},{"UserID":438,"IsProject":true,"UserName":"关观海","UserAccount":"ggh","headimgurl":null},{"UserID":439,"IsProject":true,"UserName":"安志强","UserAccount":"azq","headimgurl":null},{"UserID":440,"IsProject":true,"UserName":"欧阳德才","UserAccount":"oydc","headimgurl":null},{"UserID":441,"IsProject":true,"UserName":"卢蝶","UserAccount":"ld","headimgurl":"ld-201609201557.png"},{"UserID":442,"IsProject":true,"UserName":"李萍","UserAccount":"lp","headimgurl":"lp-201609200945.png"},{"UserID":443,"IsProject":true,"UserName":"胡小振","UserAccount":"hxz","headimgurl":null},{"UserID":444,"IsProject":true,"UserName":"林志章","UserAccount":"lzz","headimgurl":null}]}');
+            callback(data);
         }
         return getFriends;
     })
@@ -355,19 +354,6 @@ chats.factory('initRong', function ($rootScope, $state, _appKey) {
         this.load = function (userid) {
             return defer.promise;
         }
-    })
-    // 加载项目组
-    .service("projectTeam", function ($http, httpXhr) {
-        function projectTeam(projectCode, callback) {
-            // 项目编号有可能不存在
-            if (!projectCode) {
-                return;
-            }
-            httpXhr.getData('UserInfo_newBLL.GetUserInfoByPCode', { projectCode: projectCode }).then(function (data) {
-                callback(data);
-            });
-        }
-        return projectTeam;
     })
     // 加载好友请求
     .service("FindFriendsReq", function ($http, httpXhr, $interval) {
