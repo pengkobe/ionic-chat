@@ -16,11 +16,6 @@ angular.module('chat.call',[])
         $scope.muted = false;
         $scope.showVedio = false;
         $scope.contactUser = {};
-        // === 仅供作为测试用(注释部分) begin====
-        // var contactName_c = CacheFactory.get('onlyguy');
-        // if (contactName_c && $stateParams.contactName === "kobepeng") {
-        //     $scope.contactName = contactName_c;
-        // } else {
         var contactUser = Friends.get($stateParams.contactName);
         if (!contactUser) {
             return;

@@ -4,8 +4,8 @@ angular.module('chat.controllers')
     // 1. 根据项目编号切换联系人
     .controller('contacts', function ($scope, $state, $location, $ionicLoading,
         $ionicScrollDelegate, $timeout, $interval, Friends, Groups, $rootScope, ResFriend,
-        $ionicPopup, newMessageEventService, FindFriendsReq, findTeamsReq, rongyunService,
-        ResTeam, unreadMessages, chatUnreadMessage, currentUser, FormateRongyunErr) {
+        newMessageEventService, FindFriendsReq, findTeamsReq, rongyunService,
+        ResTeam, unreadMessages, chatUnreadMessage, currentUser) {
         $scope.data = {
             searchword: ''
         };
@@ -14,11 +14,7 @@ angular.module('chat.controllers')
         }
         // 初始化
         $scope.$on("$ionicView.beforeEnter", function () {
-            // todo
-            $scope.popup = {
-                isPopup: false,
-                index: 0
-            };
+
         });
         // === tab切换 ===
         if (!$scope.currentFeedsType) {
@@ -92,69 +88,19 @@ angular.module('chat.controllers')
         findTeamsReq.all(curUID, function (data) {
             $scope.groupinviteList = data;
         });
-        // 同意与拒绝请求
-        $scope.responseReq = function (id, name, type, state, $index) {
+        // 同意与拒绝请求,成功后删掉记录并刷新好友列表
+        function responseReq(obj, $index, type) {
             if (type == "PRIVATE") {
-                // 好友请求 UserID, FriendID, state
-                ResFriend(curUID, id, state, callback);
+                // 不能直接插入，需要进行排序
+                $scope.friends.unshift(obj);
+                $timeout(function () {
+                    $scope.friendinviteList.splice($index, 1);
+                }, 400);
             } else {
-                // 团队邀请 groupID, MemberID, state
-                ResTeam(id, curUID, state, callback);
-            }
-            var showMsg = '';
-            function callback(data) {
-                // 成功后删掉记录并刷新好友列表
-                var obj = {};
-                if (type == "PRIVATE") {
-                    if (state == '1') {
-                        showMsg = "您已添加" + name + "为好友!";
-                        // 同步至融云(可选，已在服务端做同步)
-                    } else {
-                        showMsg = "您已拒绝" + name + "的好友请求!";
-                    }
-                    $ionicLoading.show({
-                        template: showMsg
-                    });
-                    // 添加到通讯录
-                    obj.id = id;
-                    obj.name = name;
-                    obj.alpha = makePy(obj.name)[0][0].toUpperCase();
-                    obj.conversationType = 'PRIVATE';
-                    obj.portrait = null;
-                    // 不能直接插入，需要进行排序
-                    $scope.friends.unshift(obj);
-                    $timeout(function () {
-                        $ionicLoading.hide();
-                    }, 750);
-                    $timeout(function () {
-                        $scope.friendinviteList.splice($index, 1);
-                    }, 400);
-                } else {
-                    if (state == '1') {
-                        showMsg = "您已加入群" + name + "!";
-                    } else {
-                        showMsg = "您已拒绝加入群" + name + "!";
-                    }
-                    $ionicLoading.show({
-                        template: showMsg
-                    });
-                    // 添加到通讯录
-                    obj.id = 'cre_' + id;
-                    obj.number = 10;
-                    obj.max_number = 30;
-                    obj.name = name;
-                    obj.conversationType = 'GROUP';
-                    obj.type = 'create';
-                    obj.portrait = null;//'亿达别苑维修工_200.png';
-                    $scope.groups.unshift(obj);
-                    $timeout(function () {
-                        $ionicLoading.hide();
-                    }, 750);
-                    $timeout(function () {
-                        $scope.groupinviteList.splice($index, 1);
-                    }, 400);
-                }
-
+                $scope.groups.unshift(obj);
+                $timeout(function () {
+                    $scope.groupinviteList.splice($index, 1);
+                }, 400);
             }
         }
         // 添加团队与添加好友
@@ -249,34 +195,19 @@ angular.module('chat.controllers')
             return -1;
         }
 
-        // 弹出框
-        $scope.popupMessageOpthins = function (message) {
-            $scope.popup.index = $scope.friends_message.indexOf(message);
-            $scope.popup.optionsPopup = $ionicPopup.show({
-                templateUrl: "templates/chat/popup.html",
-                scope: $scope,
-            });
-            $scope.popup.isPopup = true;
-        };
         // 设为已读
-        $scope.markMessage = function () {
-            var index = $scope.popup.index;
+        $scope.markMessage = function (index) {
             var message = $scope.friends_message[index];
             chatUnreadMessage.addUnreadMessage(-message.unreadMessageCount);
             message.unreadMessageCount = 0;
-            $scope.popup.optionsPopup.close();
-            $scope.popup.isPopup = false;
             clearSomeoneConversition(message.targetId, message.conversationType);
         };
         // 删除消息
         // TODO：需要清除消息状态，否则刷新后会再出来(待测)
-        $scope.deleteMessage = function () {
-            var index = $scope.popup.index;
+        $scope.deleteMessage = function (index) {
             var message = $scope.friends_message[index];
             chatUnreadMessage.addUnreadMessage(-message.unreadMessageCount);
             $scope.friends_message.splice(index, 1);
-            $scope.popup.optionsPopup.close();
-            $scope.popup.isPopup = false;
             removeSomeoneConversition(message.targetId, message.conversationType);
         };
 

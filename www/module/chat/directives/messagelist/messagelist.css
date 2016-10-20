@@ -1,0 +1,6 @@
+.message-list-item {
+     padding:10px 0px 0px 72px
+}
+.message-list-item-unreadcount{
+    flex-direction:column;top:23px
+}
