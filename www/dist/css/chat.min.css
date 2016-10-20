@@ -242,6 +242,95 @@ p.subTitle{
 .voice .ic-voice, .voice .ic-keyboard-grey {
     margin: 5px;
 }
+.chattoolbar-img {
+    width: 45px;
+    border-radius: 50%;
+}
+.chattoolbar-div {
+   flex: 1;
+   text-align: center;
+}
+.chat-toolbar{
+   height: 65px;width:100%;
+   position: absolute;top: 60px;
+   display: flex;flex-direction: row;align-items: center;
+}
+
+.message-list-item {
+     padding:10px 0px 0px 72px
+}
+.message-list-item-unreadcount{
+    flex-direction:column;top:23px
+}
+/* 消息样式切换 */
+.message-detail-height  {
+  bottom:125px !important;
+}
+.message-bar-height  {
+  bottom:75px !important;
+}
+.message-footer-height {
+  height: 125px !important;
+}
+/* 融云消息 */
+.portrait{
+  width:40px !important;
+}
+.message {
+    display:block;
+    clear:both;
+    max-width:50%;
+    margin:0 0 1rem 0;
+    border-radius:.75rem;
+    background:#e6e5eb;
+    color:#383641;
+    padding:.6875rem;
+    font-size:.875rem;
+}
+.message img {
+    display:block;
+    max-width:65%;
+    border-radius:.75rem;
+}
+
+.me {
+  background:#b3eeb6;
+  color:#fff;
+  float:right;
+}
+.web_wechat_voice_gray{
+  background: url(/assets/img/icon/icon_sprite.png) 0 -2427px;
+  display: inline-block;
+  width: 23px;
+  height: 23px;
+  vertical-align: middle;
+}
+.web_wechat_voice_gray_playing{
+  background:url(/assets/img/icon/voice_play.gif);
+  display: inline-block;
+  width: 23px;
+  height: 23px;
+  vertical-align: middle;
+}
+
+.web_wechat_voice_green{
+    background: url(/assets/img/icon/icon_sprite.png) 0 -2450px;
+    display: inline-block;
+    width: 23px;
+    height: 23px;
+    vertical-align: middle;
+}
+.web_wechat_voice_playing{
+    background: url(/assets/img/icon/voice_play_me.gif);
+    display: inline-block;
+    width: 23px;
+    height: 23px;
+    vertical-align: middle;
+}
+.message-duration{
+    line-height: 38px;
+}
+
 .xietong-foot-bar {
   flex-direction: column
 }
@@ -398,95 +487,6 @@ p.subTitle{
   padding-bottom: 3px;
 }
 
-
-.message-list-item {
-     padding:10px 0px 0px 72px
-}
-.message-list-item-unreadcount{
-    flex-direction:column;top:23px
-}
-/* 消息样式切换 */
-.message-detail-height  {
-  bottom:125px !important;
-}
-.message-bar-height  {
-  bottom:75px !important;
-}
-.message-footer-height {
-  height: 125px !important;
-}
-/* 融云消息 */
-.portrait{
-  width:40px !important;
-}
-.message {
-    display:block;
-    clear:both;
-    max-width:50%;
-    margin:0 0 1rem 0;
-    border-radius:.75rem;
-    background:#e6e5eb;
-    color:#383641;
-    padding:.6875rem;
-    font-size:.875rem;
-}
-.message img {
-    display:block;
-    max-width:65%;
-    border-radius:.75rem;
-}
-
-.me {
-  background:#b3eeb6;
-  color:#fff;
-  float:right;
-}
-.web_wechat_voice_gray{
-  background: url(/assets/img/icon/icon_sprite.png) 0 -2427px;
-  display: inline-block;
-  width: 23px;
-  height: 23px;
-  vertical-align: middle;
-}
-.web_wechat_voice_gray_playing{
-  background:url(/assets/img/icon/voice_play.gif);
-  display: inline-block;
-  width: 23px;
-  height: 23px;
-  vertical-align: middle;
-}
-
-.web_wechat_voice_green{
-    background: url(/assets/img/icon/icon_sprite.png) 0 -2450px;
-    display: inline-block;
-    width: 23px;
-    height: 23px;
-    vertical-align: middle;
-}
-.web_wechat_voice_playing{
-    background: url(/assets/img/icon/voice_play_me.gif);
-    display: inline-block;
-    width: 23px;
-    height: 23px;
-    vertical-align: middle;
-}
-.message-duration{
-    line-height: 38px;
-}
-
-.chattoolbar-img {
-    width: 45px;
-    border-radius: 50%;
-}
-.chattoolbar-div {
-   flex: 1;
-   text-align: center;
-}
-.chat-toolbar{
-   height: 65px;width:100%;
-   position: absolute;top: 60px;
-   display: flex;flex-direction: row;align-items: center;
-}
 
 .rj-contacts-item {
   padding: 0px !important;

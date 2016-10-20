@@ -5,9 +5,9 @@ angular.module('chat.directive')
             templateUrl: 'module/chat/directives/resfriendteam/resfriendteam.tpl',
             replace: true,
             scope: {
-                friendsMessage_local: "=friendsMessage_local",
-                groupinviteList_local: "=groupinviteList_local",
-                responseReq_local: "&responseReq_local",
+                friendsMessage_local: "=friendsMessagel",
+                groupinviteList_local: "=groupinviteList",
+                responseReq_local: "&responseReq",
             },
             link: function (scope, element, attrs, controller) {
                 scope.responseReq_local = function (id, name, type, state, $index) {

@@ -36,22 +36,18 @@ angular.module('chat.controllers')
             $scope.currentFeedsType = feedsType;
         } // tabswitch
         // === 融云 ===
-        //$scope.friends = [];
         $scope.groups = [];
         $scope.friends_message = [];
         $scope.friends_list = [];
+        var dataL=[];
         // 好友/团队邀请
         $scope.friendinviteList = [];
         $scope.groupinviteList = [];
         var projectCode = currentUser.getUserinfo().PCode;
         var curUID = currentUser.getUserinfo().UserID;
-        // alert('projectCode:'+projectCode);
-
         // 加载好友列表
         Friends.all(function (data) {
-            $scope.$apply(function () {
-                $scope.friends_list = data;
-            });
+          $scope.friends_list = data;
         });
         // 加载群组
         Groups.all(function (data) {

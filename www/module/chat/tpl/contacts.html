@@ -36,16 +36,16 @@
         <!-- 融云 -->
         <ion-list ng-if="currentFeedsType==contacttab" class="rj-list">
             <phone-contact
-                friends-list_local="friends_list">
+                friends-list="friends_list">
             </phone-contact>
         </ion-list>
 
         <!-- 实时对话消息 -->
         <ion-list rj-close-back-drop ng-if="currentFeedsType==messagetab">
             <res-friend-team  
-                friends-message_local="friendsMessage"
-                groupinvite-list_local="groupinviteList"
-                response-req_local="responseReq" >
+                friends-message="friendsMessage"
+                groupinvite-list="groupinviteList"
+                response-req="responseReq" >
             </res-friend-team>
             <message-list 
                 friends-message="friends_message"
