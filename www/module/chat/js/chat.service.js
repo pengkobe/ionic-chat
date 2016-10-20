@@ -603,7 +603,7 @@ chats.factory('initRong', function ($rootScope, $state, _appKey) {
             /**
              * 获取历史数据
              */
-            getConversationList:function (targetid, ctype) {
+            getConversationList: function (targetid, ctype) {
                 var oldestMessageId = 0;
                 var promise = $q.defer();
                 RongCloudLibPlugin.getConversationList(
@@ -812,7 +812,7 @@ chats.factory('initRong', function ($rootScope, $state, _appKey) {
                     targetId: targetId
                 }, function (ret, err) {
                     // test succeed
-                     promise.resolve();
+                    promise.resolve();
                     if (err) {
                         FormateRongyunErr.formate(err);
                     }
@@ -938,7 +938,32 @@ chats.factory('initRong', function ($rootScope, $state, _appKey) {
             }
         }
     })
-    .factory('vedioCallService', function () {
+    .factory('phoneRTCService', function () {
         return {
+            createSession: function (isInitiator) {
+                if (isInitiator) {
+                    sendMessage('[发起视频通话]');
+                }
+                console.log(new Date().toString() + ': calling to ' +
+                    contactName + ', isInitiator: ' + isInitiator);
+                // 自个服务器 turn server
+                var config = {
+                    isInitiator: isInitiator,
+                    stun: {
+                        host: 'stun:115.29.51.196'
+                    },
+                    turn: {
+                        host: 'turn:115.29.51.196',
+                        username: 'test',
+                        password: 'test'
+                    },
+                    streams: {
+                        audio: true, // 支持音频
+                        video: true, // 支持视频
+                    }
+                };
+
+                var session = new cordova.plugins.phonertc.Session(config);
+            }
         }
     });

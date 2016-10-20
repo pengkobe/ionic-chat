@@ -17,28 +17,11 @@
     </ion-nav-buttons> 
 
     <ion-content>
-        <ion-list ng-if="currentFeedsType==contacttab">
-            <ion-item class="item item-divider">
-                工作组
-            </ion-item>
-            <ion-item class="rj-item" style="padding-left:10px" ng-repeat="group in groups" 
-             ng-href="#/tab/groupInfo/{{group.id}}/{{group.name}}/{{group.type}}/GROUP">
-                <div class="rj-groups-pic rj-green-bgc">
-                    <i class="ion-android-contacts"></i>
-                </div>
-                <h2>{{group.name}}({{group.number}})</h2>
-                <button class="button button-small rj-inittalk" 
-                ng-click='initTalk("{{group.id}}","{{group.name}}","GROUP",$event)'>
-                 发起聊天
-                </button>
-            </ion-item>
-        </ion-list>
-        <!-- 融云 -->
-        <ion-list ng-if="currentFeedsType==contacttab" class="rj-list">
-            <phone-contact
-                friends-list="friends_list">
-            </phone-contact>
-        </ion-list>
+         <!-- 通讯录 -->
+        <phone-contact ng-if="currentFeedsType==contacttab"
+            friends-list="friends_list"
+            groups-list="groups">
+        </phone-contact>
 
         <!-- 实时对话消息 -->
         <ion-list rj-close-back-drop ng-if="currentFeedsType==messagetab">
@@ -57,10 +40,10 @@
     </ion-content>
 
     <script type="text/ng-template" id="popover">
-    <div class="triangle"></div>
-    <ul class="tips">
-        <li><a ng-click="addTeam()"><i class="icon  ion-chatbox-working"></i> 发起群聊 </a></li>
-        <li><a ng-click="addFriend()"><i class="icon  ion-person-add"></i> 添加好友 </a></li>
-    </ul>
-</script>
+        <div class="triangle"></div>
+        <ul class="tips">
+            <li><a ng-click="addTeam()"><i class="icon  ion-chatbox-working"></i> 发起群聊 </a></li>
+            <li><a ng-click="addFriend()"><i class="icon  ion-person-add"></i> 添加好友 </a></li>
+        </ul>
+    </script>
 </ion-view>

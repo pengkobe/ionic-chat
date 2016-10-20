@@ -1,0 +1,33 @@
+.call-portrait-div {
+    top: 20%;
+    text-align: center;
+    width: 100%;
+    position: absolute;
+    background-color: transparent
+}
+
+.call-portrait-img {
+    width: 40px;
+}
+
+.call-calling {
+    top: 30%;
+    text-align: center;
+    width: 100%;
+    position: absolute;
+    background-color: transparent;
+}
+
+.call-calling > p {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #4d4d4d
+}
+
+.call-hangup, .call-answer, .call-ignore {
+    margin-top: 10px
+}
+
+.call-end {
+    width: 160px;
+}

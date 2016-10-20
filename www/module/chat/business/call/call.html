@@ -8,33 +8,34 @@
   <!--</ion-nav-buttons>-->
   <!--<ion-content on-scroll="updateVideoPosition()" on-scroll-complete="updateVideoPosition()" style="background-color:#eee">-->
    <ion-content scroll="false">
-     <div style="top:20%;text-align: center;width:100%;position:absolute;background-color: transparent">
-       <p> <img ng-src="{{contactUser.portrait||'img/personPhoto.png'}}" width="40px"></p>
+     <div class="call-portrait-div">
+       <p> 
+         <img class="call-portrait-img" 
+            ng-src="{{contactUser.portrait||'img/personPhoto.png'}}">
+         </p>
      </div>
-     <div style="top:30%;text-align: center;width:100%;position:absolute;background-color: transparent">
-       <p style="margin-top:10px;font-size:14px;color: #4d4d4d">正在呼叫{{ contactUser.username }}...</p>
+     <div class="call-calling">
+       <p>正在呼叫{{ contactUser.username }}...</p>
      </div>
     <div class="calling-container" ng-show="isCalling && !callInProgress">
-      <button style="margin-top:10px" class="button button-assertive ion-android-close" ng-click="ignore()">
+      <button class="call-hangup" 
+      class="button button-assertive ion-android-close call-hangup" ng-click="ignore()">
          挂断
       </button>
-      <!--<p>{{VedioTime}}</p>-->
     </div>
     <div class="calling-container" ng-show="!isCalling && !callInProgress">
       <p><span class="balanced">{{ contactUser.username }}</span> 邀请你视频聊天</p>
-      <button style="margin-top:10px" class="button button-balanced ion-android-call" ng-click="answer()">
+      <button  class="button button-balanced ion-android-call call-answer" ng-click="answer()">
         接听
       </button>
-      <button style="margin-top:10px" class="button button-assertive ion-android-close" ng-click="ignore()">
+      <button  class="button button-assertive ion-android-close call-ignore" ng-click="ignore()">
         忽略
       </button>
     </div>
-    <!--  ng-show="{{showVedio}}" -->
     <video-view></video-view>
-
     <div class="calling-container1" ng-show="callInProgress">
       <p>通话中...</p>
-      <button class="button button-assertive" ng-click="end()" style="width:160px">
+      <button class="button button-assertive" ng-click="end()" >
         结束
       </button>
     </div>

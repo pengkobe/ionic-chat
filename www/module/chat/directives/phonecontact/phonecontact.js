@@ -5,7 +5,8 @@ angular.module('chat.directive')
             templateUrl: 'module/chat/directives/phonecontact/phonecontact.tpl',
             replace: true,
             scope: {
-                friendsList_local: "=friendsList"
+                friendsList_local: "=friendsList",
+                groupsList_local:"=groupsList",
             },
             link: function (scope, element, attrs, controller) {
                 scope.initTalk = function (friendID, username, type, $event) {
