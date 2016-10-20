@@ -7,13 +7,10 @@ angular.module('chat.controllers')
          * bugfix purpose
          */
         $scope.fixReflowtag = false;
-
         var targetId = $stateParams.targetId;
         var conversationType = $stateParams.conversationType;
-
         $scope.name = $stateParams.name ? $stateParams.name : "";
         $scope.conversationType = conversationType;
-
         // 加载成员，用于显示姓名
         if ($scope.conversationType == "GROUP") {
             getGroupMem();
@@ -35,29 +32,6 @@ angular.module('chat.controllers')
                 getLatestMsg(targetId, "GROUP");
             }
         }
-
-        // 监听消息发送事件(实时刷新消息)
-        var newMsgCallBack = function (d, data) {
-            var jsonMsg = JSON.parse(data);
-            if (targetId == jsonMsg.targetId) {
-                // clearMessagesUnreadStatus();
-                // 获取群成员姓名
-                if (jsonMsg.conversationType == "GROUP") {
-                    if (members.length > 0) {
-                        for (var m = 0; m < members.length; m++) {
-                            if (members[m].id == jsonMsg.senderUserId) {
-                                jsonMsg.name = members[m].name;
-                            }
-                        }
-                    }
-                }
-                console.log('jsonMsg:', jsonMsg);
-                var tmpMsg = myUtil.resolveMsg(jsonMsg);
-                $scope.hisMsgs.push(tmpMsg);
-                scrolltoBottom();
-            }
-        };
-        newMessageEventService.listen(newMsgCallBack);
 
         // 语音消息交互(BEGIN)
         $scope.recordWait = false;
@@ -123,7 +97,7 @@ angular.module('chat.controllers')
             $scope.send_content.text = $scope.send_content.text + text_content;
             document.querySelector("#text_content").focus();
         }
-        // 下拉刷新交互
+        // 拉取历史消息
         $scope.doRefresh = function () {
             console.log('Refreshing!');
             $timeout(function () {
@@ -148,7 +122,6 @@ angular.module('chat.controllers')
             }
             clearMessagesUnreadStatus();
         }
-        // 初始化加载消息
         //init();
 
         // ===  融云消息处理(BEGIN) ===
@@ -230,4 +203,27 @@ angular.module('chat.controllers')
         window.addEventListener("native.keyboardshow", function (e) {
             scrolltoBottom();
         });
+
+        // 监听消息发送事件(实时刷新消息)
+        var newMsgCallBack = function (d, data) {
+            var jsonMsg = JSON.parse(data);
+            if (targetId == jsonMsg.targetId) {
+                // clearMessagesUnreadStatus();
+                // 获取群成员姓名
+                if (jsonMsg.conversationType == "GROUP") {
+                    if (members.length > 0) {
+                        for (var m = 0; m < members.length; m++) {
+                            if (members[m].id == jsonMsg.senderUserId) {
+                                jsonMsg.name = members[m].name;
+                            }
+                        }
+                    }
+                }
+                console.log('jsonMsg:', jsonMsg);
+                var tmpMsg = myUtil.resolveMsg(jsonMsg);
+                $scope.hisMsgs.push(tmpMsg);
+                scrolltoBottom();
+            }
+        };
+        newMessageEventService.listen(newMsgCallBack);
     })

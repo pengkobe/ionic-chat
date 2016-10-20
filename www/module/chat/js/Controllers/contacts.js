@@ -2,27 +2,22 @@ angular.module('chat.controllers')
     // 协同主界面
     // todo：
     // 1. 根据项目编号切换联系人
-    .controller('contacts', function ($scope, $state, $location, $ionicLoading,
-        $ionicScrollDelegate, $timeout, $interval, Friends, Groups, $rootScope, ResFriend,
+    .controller('contacts', function ($scope, $state,
+        $ionicScrollDelegate, $timeout, $interval, Friends, Groups, $rootScope,
         newMessageEventService, FindFriendsReq, findTeamsReq, rongyunService,
-        ResTeam, unreadMessages, chatUnreadMessage, currentUser) {
+        unreadMessages, chatUnreadMessage, currentUser) {
         $scope.data = {
             searchword: ''
         };
         $scope.clearKeyword = function (data) {
             data.scorearchword = '';
         }
-        // 初始化
-        $scope.$on("$ionicView.beforeEnter", function () {
-
-        });
         // === tab切换 ===
         if (!$scope.currentFeedsType) {
-            $scope.currentFeedsType = "messagetab";
+            $scope.currentFeedsType = "contacttab";
         }
         $scope.messagetab = "messagetab";
         $scope.contacttab = "contacttab";
-
         var scrollPositonRec = { 'top': 0, 'left': 0 };
         var scrollPositonJob = { 'top': 0, 'left': 0 };
         $scope.tabswitch = function (feedsType) {
@@ -40,31 +35,11 @@ angular.module('chat.controllers')
 
             $scope.currentFeedsType = feedsType;
         } // tabswitch
-
-        // 联系人右边导航栏
-        $scope.cri = { DataValue: '' };
-        $scope.alphabet = ['↑', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I',
-            'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
-        $scope.gotoList = function (letter) {
-            var showBox = $ionicLoading.show({ template: letter });
-            $timeout(function () {
-                $ionicLoading.hide();
-            }, 550);
-            if (letter == '↑')
-                letter = "top";
-            // 导航至对应字幕开头的[这里改做一个操作，匹配最近的！]
-            var index_alpha = document.querySelector("a[name=index_" + letter + "]");
-            index_alpha = angular.element(index_alpha);
-            var scrollTop = index_alpha.attr("scrollTop");
-            if (scrollTop) {
-                $ionicScrollDelegate.scrollTo(0, scrollTop, true);
-            }
-        }
-
         // === 融云 ===
-        $scope.friends = [];
+        //$scope.friends = [];
         $scope.groups = [];
         $scope.friends_message = [];
+        $scope.friends_list = [];
         // 好友/团队邀请
         $scope.friendinviteList = [];
         $scope.groupinviteList = [];
@@ -74,7 +49,9 @@ angular.module('chat.controllers')
 
         // 加载好友列表
         Friends.all(function (data) {
-            $scope.friends = data;
+            $scope.$apply(function () {
+                $scope.friends_list = data;
+            });
         });
         // 加载群组
         Groups.all(function (data) {
@@ -110,15 +87,6 @@ angular.module('chat.controllers')
         $scope.addFriend = function () {
             $state.go('tab.addFriend');
         };
-
-        $scope.initTalk = function (friendID, username, type, $event) {
-            $state.go('tab.chatDetail', {
-                messageId: '1', name: username, targetId: friendID,
-                conversationType: type
-            });
-            $event.stopPropagation();
-            $event.preventDefault();
-        } // initTalk
 
         // === 融云消息监听 ===
         var newMsgCallBack = function (d, data) {

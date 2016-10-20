@@ -1,64 +1,52 @@
 <ion-view title="协同">
     <ion-nav-title>
         <div class="button-bar" style="margin-top: 5px">
-            <button class="button" ng-class="{ 'button\-calm': currentFeedsType == 'messagetab' }" ng-click='tabswitch("messagetab")'><b>消息</b></button>
-            <button class="button" ng-class="{ 'button\-calm': currentFeedsType == 'contacttab' }" ng-click='tabswitch("contacttab")'><b>通讯录</b></button>
+            <button class="button" ng-class="{ 'button\-calm': currentFeedsType == 'messagetab' }"
+             ng-click='tabswitch("messagetab")'><b>消息</b></button>
+            <button class="button" ng-class="{ 'button\-calm': currentFeedsType == 'contacttab' }" 
+             ng-click='tabswitch("contacttab")'><b>通讯录</b></button>
         </div>
     </ion-nav-title>
 
-  <!--   <ion-nav-buttons side="right">
+   <ion-nav-buttons side="right">
         <button class="button button-clear  title_icon" ng-click="hidePopover()"
         ns-popover ns-popover-template="popover"
         ns-popover-theme="ns-popover-list-theme"
             ns-popover-placement="bottom|right">
             <i class="icon-uniE900" style="font-size: 18pt;line-height: 34px;"></i></button>
-    </ion-nav-buttons> -->
+    </ion-nav-buttons> 
 
-    <ion-content style="background-color:#EEE">
+    <ion-content>
         <ion-list ng-if="currentFeedsType==contacttab">
             <ion-item class="item item-divider">
                 工作组
             </ion-item>
-            <ion-item class="rj-item" style="padding-left:10px" ng-repeat="group in groups" ng-href="#/tab/groupInfo/{{group.id}}/{{group.name}}/{{group.type}}/GROUP">
+            <ion-item class="rj-item" style="padding-left:10px" ng-repeat="group in groups" 
+             ng-href="#/tab/groupInfo/{{group.id}}/{{group.name}}/{{group.type}}/GROUP">
                 <div class="rj-groups-pic rj-green-bgc">
                     <i class="ion-android-contacts"></i>
                 </div>
                 <h2>{{group.name}}({{group.number}})</h2>
-                <button class="button button-small rj-inittalk" ng-click='initTalk("{{group.id}}","{{group.name}}","GROUP",$event)'>
+                <button class="button button-small rj-inittalk" 
+                ng-click='initTalk("{{group.id}}","{{group.name}}","GROUP",$event)'>
                  发起聊天
                 </button>
             </ion-item>
         </ion-list>
         <!-- 融云 -->
         <ion-list ng-if="currentFeedsType==contacttab" class="rj-list">
-            <ion-item class="item item-divider">
-                联系人
-            </ion-item>
-            <ion-item ng-repeat="friend in friends" class="rj-item" href="#/tab/friendInfo/{{friend.id}}/{{friend.name}}/PRIVATE">
-                <a name="index_{{friend.alpha}}" scrollTop="{{friend.scrollHeight}}"
-                   ng-if="cri.DataValue!=friend.alpha && 1?cri.DataValue=friend.alpha:0"
-                    class="rj-contacts-index-bar">{{friend.alpha}}</a>
-                <div class="rj-contacts-pic">
-                    <img ng-src="{{friend.portrait||'/assets/img/personPhoto.png'}}">
-                </div>
-                <h2>{{friend.name}}
-                    <span style="font-size:12px" ng-if="friend.online=='0'">[离线]</span>
-                    <span style="font-size:12px;color:green" ng-if="friend.online=='1'">[在线]</span>
-                </h2>
-                <button class="button button-small rj-inittalk" ng-click='initTalk("{{friend.id}}","{{friend.name}}","PRIVATE",$event)'>
-                 发起聊天
-                </button>
-            </ion-item>
+            <phone-contact
+                friends-list_local="friends_list">
+            </phone-contact>
         </ion-list>
 
-        <!-- 实时对话消息  data-id="{{friend.targetId}}"
-         融云 demo  href="#/mainpage/chatDetail/{{friend.targetId}}/{{friend.conversationType}}" -->
+        <!-- 实时对话消息 -->
         <ion-list rj-close-back-drop ng-if="currentFeedsType==messagetab">
             <res-friend-team  
                 friends-message_local="friendsMessage"
                 groupinvite-list_local="groupinviteList"
                 response-req_local="responseReq" >
-            </res-friend-team  >
+            </res-friend-team>
             <message-list 
                 friends-message="friends_message"
                 goto-chat-detils2="gotoChatDetils"
@@ -67,13 +55,6 @@
             </message-list>
         </ion-list>
     </ion-content>
-
-
-    <ul class="alpha_sidebar" ng-if="currentFeedsType==contacttab">
-        <li ng-click="gotoList('{{letter}}')" ng-repeat="letter in alphabet">
-            {{letter}}
-        </li>
-    </ul>
 
     <script type="text/ng-template" id="popover">
     <div class="triangle"></div>
