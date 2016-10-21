@@ -2,39 +2,6 @@
  * 指令集
  */
 angular.module('chat.common.directive', [])
-    // 进入时隐藏tab，退出时显示(用于聊天)
-    .directive('hideTabsxietong', function ($rootScope) {
-        return {
-            restrict: 'A',
-            link: function ($scope, $el) {
-                $scope.$on("$ionicView.beforeEnter", function () {
-                    $rootScope.hideTabsxietong = true;
-                });
-                $scope.$on("$ionicView.beforeLeave", function () {
-                    $rootScope.hideTabsxietong = false;
-                });
-            }
-        };
-    })
-    // 弹框背景
-    .directive('rjCloseBackDrop', [function () {
-        return {
-            scope: false,
-            restrict: 'A',
-            replace: false,
-            link: function (scope, iElm, iAttrs, controller) {
-                var htmlEl = angular.element(document.querySelector('html'));
-                htmlEl.on("click", function (event) {
-                    if (event.target.nodeName === "HTML" &&
-                        scope.popup.optionsPopup && scope.popup.isPopup) {
-                        scope.popup.optionsPopup.close();
-                        scope.popup.isPopup = false;
-                    }
-                });
-            }
-        };
-    }])
-  
     // 微信分享
     .directive("clickShare", ["$ionicActionSheet", function ($ionicActionSheet) {
         return {
@@ -77,20 +44,18 @@ angular.module('chat.common.directive', [])
                         buttons: [{
                             text: '<i class="ic ic-weixin"></i>微信好友'
                         },
-                            {
-                                text: '<i class="ic ic-weixin-moment"></i>发朋友圈'
-                            }],
+                        {
+                            text: '<i class="ic ic-weixin-moment"></i>发朋友圈'
+                        }],
                         cssClass: "share-sheet",
                         cancelText: "取消",
                         cancel: function () { },
                         buttonClicked: function (e) {
                             // 0：会话，1:朋友圈，2: 收藏
                             switch (e) {
-                                // 分享至微信好友
                                 case 0:
                                     share(0, "send-text");
                                     break;
-                                // 分享至朋友圈
                                 case 1:
                                     share(1, "send-text");
                                     break;

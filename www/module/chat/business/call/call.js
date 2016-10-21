@@ -5,60 +5,30 @@ angular.module('chat.call', [])
         var duplicateMessages = [];
         // 是否通话中
         $scope.callInProgress = false;
-        // 是否主动发起 === false
+        // 是否主动发起
         $scope.isCalling = $stateParams.isCalling === 'true';
+        // 响铃
         if (!$scope.isCalling) {
-            //开始播放录音
             mediaService.playSound();
         }
+
         //alert('isCalling:'+ $scope.isCalling +"type:"+ typeof $scope.isCalling );
+        // 获取联系人
         $scope.contacts = {};
         $scope.muted = false;
-        $scope.showVedio = false;
-        $scope.contactUser = {};
         var contactUser = Friends.get($stateParams.contactName);
         if (!contactUser) {
             return;
         }
         $scope.contactUser = contactUser;
         $scope.contactName = contactUser.id;
-        // }
-        // === 仅供作为测试用 end====
 
-        // === 联系人模块(BEGIN):用于多然聊天 ===
-        // 在线用户列表
-        $scope.hideFromContactList = [$scope.contactName];
-        // 联系人列表模板
-        $ionicModal.fromTemplateUrl('templates/select_contact.html', {
-            scope: $scope,
-            animation: 'slide-in-up'
-        }).then(function (modal) {
-            $scope.selectContactModal = modal;
-        });
-        // 显示联系人列表
-        $scope.openSelectContactModal = function () {
-            cordova.plugins.phonertc.hideVideoView();
-            $scope.selectContactModal.show();
-        };
-        // 关闭联系人列表
-        $scope.closeSelectContactModal = function () {
-            cordova.plugins.phonertc.showVideoView();
-            $scope.selectContactModal.hide();
-        };
-        // 添加联系人
-        $scope.addContact = function (newContact) {
-            $scope.hideFromContactList.push(newContact);
-            signaling.emit('sendMessage', newContact, { type: 'call' });
-            cordova.plugins.phonertc.showVideoView();
-            $scope.selectContactModal.hide();
-        };
-        // === 联系人模块(END) ===
-        // session通话初始化
         function call(isInitiator, contactName) {
             if (isInitiator) {
                 sendMessage('[发起视频通话]');
             }
-            var session = phoneRTCService.createSession
+            // session通话初始化
+            var session = phoneRTCService.createSession();
             session.on('sendMessage', function (data) {
                 signaling.emit('sendMessage', contactName, {
                     type: 'phonertc_handshake',
@@ -74,7 +44,7 @@ angular.module('chat.call', [])
                 }
                 if (Object.keys($scope.contacts).length === 0) {
                     signaling.emit('sendMessage', contactName, { type: 'ignore' });
-                    //$ionicHistory.goBack(-1);
+                    //junmback();
                     alert('************disconnects*************');
                 }
             });
@@ -84,7 +54,7 @@ angular.module('chat.call', [])
         }
         // 拨号[发起]
         if ($scope.isCalling) {
-            //alert('发起聊天：' + $scope.contactName + 'isCalling:' + $scope.isCalling);
+            //alert('发起聊天：' + $scope.contactName + 'is Calling:' + $scope.isCalling);
             signaling.emit('sendMessage', $scope.contactName, { type: 'call' });
         }
 
@@ -94,7 +64,6 @@ angular.module('chat.call', [])
             if (ring) {
                 ring.release();
             }
-            // alert('忽略');
             sendMessage(msg);
             var contactNames = Object.keys($scope.contacts);
             if (contactNames.length > 0) {
@@ -102,13 +71,13 @@ angular.module('chat.call', [])
             } else {
                 signaling.emit('sendMessage', $scope.contactName, { type: 'ignore' });
                 $scope.callInProgress = false;
-                $ionicHistory.goBack(-1);
+                junmback();
             }
         };
 
         // 结束通话
         $scope.end = function () {
-            //alert('结束');
+            alert('结束');
             sendMessage('[结束通话]');
             Object.keys($scope.contacts).forEach(function (contact) {
                 $scope.contacts[contact].close();
@@ -116,22 +85,19 @@ angular.module('chat.call', [])
             });
             signaling.emit('sendMessage', $scope.contactName, { type: 'end' });
             $scope.callInProgress = false;
-            // 跳转回聊天页面
-            $ionicHistory.goBack(-1);
+            junmback();
         };
 
         // 接听
         $scope.answer = function () {
-            // alert('************按了接听呀*************');
+            //alert('接听');
             if (ring) {
                 ring.release();
             }
-            //alert('接听');
             if ($scope.callInProgress) {
                 alert('*****正在通话中哦*****');
                 return;
             }
-            $scope.showVedio = true;
             $scope.callInProgress = true;
             // 1s 后显示视频
             $timeout($scope.updateVideoPosition, 1000);
@@ -141,6 +107,7 @@ angular.module('chat.call', [])
                 signaling.emit('sendMessage', $scope.contactName, { type: 'answer' });
             }, 1500);
         };
+
         // 静音
         // $scope.toggleMute = function () {
         //     $scope.muted = !$scope.muted;
@@ -151,24 +118,15 @@ angular.module('chat.call', [])
         //     });
         // };
 
-        // 更新视频位置?
         $scope.updateVideoPosition = function () {
             $rootScope.$broadcast('videoView.updatePosition');
-        };
-        // 隐藏自个~~~
-        $scope.hideCurrentUsers = function () {
-            return function (item) {
-                return $scope.hideFromContactList.indexOf(item) === -1;
-            };
         };
 
         // === socket.io消息分类处理(BEGIN) ===
         function onMessageReceive(name, message) {
-            // alert('在call里onMessageReceive!');
             switch (message.type) {
                 case 'answer':
                     // alert('************别人点了接听呀*************');
-                    $scope.showVedio = true;
                     $scope.$apply(function () {
                         $scope.callInProgress = true;
                         $timeout($scope.updateVideoPosition, 1000);
@@ -193,35 +151,30 @@ angular.module('chat.call', [])
                             $scope.contacts[name].close();
                             delete $scope.contacts[name];
                         }
-
                         var i = $scope.hideFromContactList.indexOf(name);
                         if (i > -1) {
                             $scope.hideFromContactList.splice(i, 1);
                         }
 
                         if (Object.keys($scope.contacts).length === 0) {
-                            // 跳转回聊天页面
                             $scope.callInProgress = false;
-                            $ionicHistory.goBack(-1);
+                            junmback();
                         }
                     } else {
-                        // 跳转回聊天页面
                         $scope.callInProgress = false;
-                        $ionicHistory.goBack(-1);
+                        junmback();
                     }
                     break;
                 // 结束通话
                 case 'end':
                     // alert('对方已经结束通话');
-                    // alert('end视频');
                     Object.keys($scope.contacts).forEach(function (contact) {
                         $scope.contacts[contact].close();
                         delete $scope.contacts[contact];
                     });
-                    // 跳转回聊天页面
                     $timeout(function () {
                         $scope.callInProgress = false;
-                        $ionicHistory.goBack(-1);
+                        junmback();
                     }, 1000);
                     break;
                 case 'phonertc_handshake':
@@ -250,20 +203,21 @@ angular.module('chat.call', [])
                     break;
                 case 'callInProgress':
                     alert('对方正在通话中!');
-                    $ionicHistory.goBack(-1);
+                    junmback();
                     break;
                 default: break;
             }
         }
         signaling.on('messageReceived', onMessageReceive);
-        // === socket.io消息分类处理(END) ===
         $scope.$on('$destroy', function () {
             signaling.removeListener('messageReceived', onMessageReceive);
         });
-
         function sendMessage(content) {
             rongyunService.sendMessage("PRIVATE", contactUser.id, content).then(function (data) {
                 appendNewMsg(data, true);
             });
+        }
+        function junmback() {
+            $ionicHistory.goBack(-1);
         }
     });

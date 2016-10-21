@@ -26,6 +26,24 @@ angular.module('chat.directive', [])
             }
         }
     })
+    // 弹框背景
+    .directive('rjCloseBackDrop', [function () {
+        return {
+            scope: false,
+            restrict: 'A',
+            replace: false,
+            link: function (scope, iElm, iAttrs, controller) {
+                var htmlEl = angular.element(document.querySelector('html'));
+                htmlEl.on("click", function (event) {
+                    if (event.target.nodeName === "HTML" &&
+                        scope.popup.optionsPopup && scope.popup.isPopup) {
+                        scope.popup.optionsPopup.close();
+                        scope.popup.isPopup = false;
+                    }
+                });
+            }
+        };
+    }])
     // 长按弹出框
     .directive('rjHoldActive', ['$ionicGesture', '$timeout', '$ionicBackdrop',
         function ($ionicGesture, $timeout, $ionicBackdrop) {
@@ -44,3 +62,17 @@ angular.module('chat.directive', [])
             };
         }
     ])
+    // 进入时隐藏tab，退出时显示(用于聊天)
+    .directive('hideTabsxietong', function ($rootScope) {
+        return {
+            restrict: 'A',
+            link: function ($scope, $el) {
+                $scope.$on("$ionicView.beforeEnter", function () {
+                    $rootScope.hideTabsxietong = true;
+                });
+                $scope.$on("$ionicView.beforeLeave", function () {
+                    $rootScope.hideTabsxietong = false;
+                });
+            }
+        };
+    })
