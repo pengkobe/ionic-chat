@@ -212,14 +212,14 @@ angular.module('chat.common.services', [])
     /**
     * 热更新服务
     */
-    .factory('HotUpdateService', ["$log", "$q"], function ($log, $q) {
+    .factory('HotUpdateService', function ($log, $q) {
         var fs = new CordovaPromiseFS({
             Promise: Promise
         });
 
         var loader = new CordovaAppLoader({
             fs: fs,
-            serverRoot: 'http://120.24.54.92:9111',
+            serverRoot: 'http://115.29.51.196:4321/www/',
             localRoot: 'www',
             cacheBuster: true, // make sure we're not downloading cached files.
             checkTimeout: 10000, // timeout for the "check" function - when you loose internet connection

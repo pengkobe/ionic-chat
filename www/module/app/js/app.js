@@ -1,13 +1,13 @@
 // Ionic Starter App
-
-// 主页
 var _aaa = ['dash', 'account', 'chat'];// ,
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('starter', ['ionic', 'chat.common.directive',
-  'chat.common.services', "ionchat.config", 'nsPopover',
-  'ngCordova', 'btford.socket-io'].concat(_aaa),
+angular.module('starter', [
+  'ionic', 
+  'chat.common.directive', 'chat.common.services', 
+  "ionchat.config", 
+  'nsPopover','ngCordova', 'btford.socket-io'].concat(_aaa),
   function ($httpProvider) {
     // AngularJS默认为JSON，这里全局修改为:x-www-form-urlencoded
     $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
@@ -45,7 +45,7 @@ angular.module('starter', ['ionic', 'chat.common.directive',
   }
 )
 
-  .run(function ($ionicPlatform, $ionicPopup, $ionicHistory) {
+  .run(function ($ionicPlatform, $ionicPopup, $ionicHistory,HotUpdateService) {
     $ionicPlatform.ready(function () {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
@@ -93,7 +93,7 @@ angular.module('starter', ['ionic', 'chat.common.directive',
       }
       return false;
     }, 100);
-
+    updateFiles();
     // 热更新
     function updateFiles() {
       var check = HotUpdateService.check();
@@ -177,7 +177,7 @@ angular.module('starter', ['ionic', 'chat.common.directive',
         url: '/account',
         views: {
           'tab-account': {
-            templateUrl: 'module/chat/tpl/tab-account.html',
+            templateUrl: 'module/account/tpl/tab-account.html',
             controller: 'AccountCtrl'
           }
         },
