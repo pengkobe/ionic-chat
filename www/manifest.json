@@ -20,7 +20,6 @@
   "load": [
     "dist/js/account.min.js",
     "dist/css/account.min.css",
-    "dist/js/chat.min.js",
     "dist/css/chat.min.css"
   ]
 }

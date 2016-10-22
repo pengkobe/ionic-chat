@@ -16,11 +16,12 @@
             </ion-item>
         </ion-list>
         <!-- 融云 -->
-        <ion-list class="rj-list">
+        <ion-list class="rj-list" id="contactsScroll" >
            <ion-item class="item item-divider">
             联系人
             </ion-item>
             <ion-item 
+                id="_{{friend.id}}"
                 class="rj-item" 
                 href="#/tab/friendInfo/{{friend.id}}/{{friend.name}}/PRIVATE"
                 ng-repeat="friend in friendsList_local" >
@@ -40,11 +41,16 @@
                     发起聊天
                 </button>
             </ion-item>
-            <!-- 通讯录导航 -->
+            <!-- 通讯录导航 
             <ul class="alpha_sidebar" ng-if="currentFeedsType==contacttab">
                 <li ng-click="gotoList('{{letter}}')" ng-repeat="letter in alphabet">
                     {{letter}}
                 </li>
-            </ul>
+            </ul>-->
+            <contact-nav 
+                delegate-handle-name="contactsScroll" 
+                char-click-cb="navCallBack" 
+                nav-char-list="navCharArray">
+            </contact-nav>
         </ion-list>
 </div>
