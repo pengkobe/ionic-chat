@@ -4,9 +4,9 @@ var _aaa = ['dash', 'account', 'chat'];// ,
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 angular.module('starter', [
-  'ionic', 
-  'chat.common.directive', 'chat.common.services', 
-  "ionchat.config", 
+  'ionic',
+  'chat.common.directive', 'chat.common.services',
+  "ionchat.config",
   'nsPopover','ngCordova', 'btford.socket-io'].concat(_aaa),
   function ($httpProvider) {
     // AngularJS默认为JSON，这里全局修改为:x-www-form-urlencoded
@@ -93,7 +93,7 @@ angular.module('starter', [
       }
       return false;
     }, 100);
-    updateFiles();
+    //updateFiles();
     // 热更新
     function updateFiles() {
       var check = HotUpdateService.check();
@@ -207,7 +207,7 @@ angular.module('starter', [
     //   }
     // });
   })
-  /* 
+  /*
   * 抽象模块
   */
   .controller('tabCtrl', function ($scope, $stateParams) {

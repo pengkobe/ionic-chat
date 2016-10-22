@@ -5,10 +5,10 @@ angular.module('chat.directive')
             templateUrl: 'module/chat/directives/messagelist/messagelist.tpl',
             replace: true,
             scope: {
-                friendsMessage: "=friendinviteList",
-                gotoChatDetils2: "&responseReq",
-                markMessage2: "&markMessage2",
-                deleteMessage2: "&deleteMessage2",
+                friendsMessage: "=friendsMessage",
+                gotoChatDetils: "&gotoChatDetils2",
+                markMessage: "&markMessage2",
+                deleteMessage: "&deleteMessage2",
             },
             link: function (scope, element, attrs, controller) {
                 scope.popup = {
@@ -29,18 +29,18 @@ angular.module('chat.directive')
                     var index = scope.popup.index;
                     scope.popup.optionsPopup.close();
                     scope.popup.isPopup = false;
-                    scope.markMessage2()(index);
+                    scope.markMessage()(index);
                 };
                 // 删除消息
                 scope.deleteMessage_local = function () {
                     var index = scope.popup.index;
                     scope.popup.optionsPopup.close();
                     scope.popup.isPopup = false;
-                    scope.deleteMessage2()(index);
+                    scope.deleteMessage()(index);
                 };
 
                 scope.gotoChatDetils_local = function (friend, $index) {
-                    scope.gotoChatDetils2()(friend, $index);
+                    scope.gotoChatDetils()(friend, $index);
                 }
             }
         };

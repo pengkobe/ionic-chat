@@ -3,7 +3,7 @@
         <div class="button-bar" style="margin-top: 5px">
             <button class="button" ng-class="{ 'button\-calm': currentFeedsType == 'messagetab' }"
              ng-click='tabswitch("messagetab")'><b>消息</b></button>
-            <button class="button" ng-class="{ 'button\-calm': currentFeedsType == 'contacttab' }" 
+            <button class="button" ng-class="{ 'button\-calm': currentFeedsType == 'contacttab' }"
              ng-click='tabswitch("contacttab")'><b>通讯录</b></button>
         </div>
     </ion-nav-title>
@@ -14,9 +14,9 @@
         ns-popover-theme="ns-popover-list-theme"
             ns-popover-placement="bottom|right">
             <i class="icon-uniE900" style="font-size: 18pt;line-height: 34px;"></i></button>
-    </ion-nav-buttons> 
+    </ion-nav-buttons>
 
-    <ion-content>
+    <ion-content id="contactsScroll" >
          <!-- 通讯录 -->
         <phone-contact ng-if="currentFeedsType==contacttab"
             friends-list="friends_list"
@@ -25,19 +25,26 @@
 
         <!-- 实时对话消息 -->
         <ion-list rj-close-back-drop ng-if="currentFeedsType==messagetab">
-            <res-friend-team  
+            <res-friend-team
                 friends-message="friendsMessage"
                 groupinvite-list="groupinviteList"
                 response-req="responseReq" >
             </res-friend-team>
-            <message-list 
+            <message-list
                 friends-message="friends_message"
                 goto-chat-detils2="gotoChatDetils"
                 mark-message2="markMessage"
                 delete-message2="deleteMessage" >
             </message-list>
         </ion-list>
+
     </ion-content>
+
+     <contact-nav ng-if="currentFeedsType==contacttab"
+                delegate-handle-name="contactsScroll"
+                char-click-cb="navCallBack"
+                nav-char-list="navCharArray">
+     </contact-nav>
 
     <script type="text/ng-template" id="popover">
         <div class="triangle"></div>

@@ -6,22 +6,15 @@ angular.module('chat.directive')
             replace: true,
             scope: {
                 sendmessage: "=textMessage",
-
                 onShowFace: "=onShowFace",
                 onShowPhonebar: "=onShowPhonebar",
                 onSendTextMessage: "&onSendTextMessage",
                 onVoiceHold: "&onVoiceHold",
                 onVoiceRelease: "&onVoiceRelease",
-
-                // isVoiceMethod: "=isVoiceMethod",
-                
-                // isStartRecord: "=isStartRecord",
-                // showPhonebar: "=showPhonebar",
             },
             link: function (scope, element, attrs, controller) {
                 scope.isVoiceMethod = true;
                 scope.isStartRecord = 0,
-                //scope.sendmessage = '';
 
                 scope.switchInputMethod = function (evtobj) {
                     if (scope.isVoiceMethod = !scope.isVoiceMethod, scope.isVoiceMethod) {
