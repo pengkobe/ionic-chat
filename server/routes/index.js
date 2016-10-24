@@ -1,5 +1,4 @@
 /* restful api for mobile & web app
-*  session用不上，需要改变验证方式
 */
 var express = require('express');
 var router = express.Router();
@@ -34,36 +33,26 @@ router.post('/reg', function (req, res) {
 				company: doc[0]._id
 			};
 			var user = new _User(uobj);
-			console.log('user:' + user);
+			// console.log('user:' + user);
 			// 二维码内容待究
 			var ustr = JSON.stringify(uobj);
 			user.save(function (err, doc) {
-				console.log('save:' + doc);
-				if (doc) {
+				// console.log('save:' + doc);
+				if (doc){
 					// 生成二维码名片,默认为png
 					qr.image(ustr, { type: 'png', ec_level: 'Q', parse_url: false, margin: 1 })
 						.pipe(file(doc._id + '.png'));
 					// 获取融云token
-					console.log('获取融云token开始...id:'+doc._id +' username:'+ doc.username);
+					// console.log('获取融云token开始...id:'+doc._id +' username:'+ doc.username);
 					_User.getRongyunToken(doc._id,doc.username,'http://chat.info/public/img/favicon.ico',
 					function(token){
-						console.log('token:'+ token);
+						// console.log('token:'+ token);
 						user.update({rongyunToken: token }, null);
 					});
 				}
 				res.json({ err: err, info: doc });
 			});
 		}
-	});
-});
-
-// app login [短信登录 &&　用户名＼密码登录]
-router.post('/login', function (req, res) {
-	var username = req.body.username;
-	var password = req.body.password;
-
-	_User.login(username, password, function (err, user) {
-		res.json({ user: user });
 	});
 });
 
@@ -115,13 +104,13 @@ router.post('/invite', function (req, res) {
 router.post('/user/bevisited', function (req, res) {
 
 	var userid = req.body.userid;
-	console.log('invitations' + userid);
+	// console.log('invitations' + userid);
 
 	/* 方式1 */
 	invitations.find({ to: new ObjectID(userid) })
 		.populate('from to company', '-_id')
 		.exec(function (err, doc) {
-			console.log('populatedDocs:' + doc[0]);
+			// console.log('populatedDocs:' + doc[0]);
 			res.json(doc);
 		});
 
@@ -147,7 +136,7 @@ router.post('/user/visit', function (req, res) {
 		invitations.find({ from: new ObjectID(userid) })
 			.populate('from to company', '-_id')
 			.exec(function (err, doc) {
-				console.log('populatedDocs:' + doc[0]);
+				// console.log('populatedDocs:' + doc[0]);
 				res.json(doc);
 			});
 	}
@@ -171,20 +160,20 @@ router.get('/user/search', function (req, res) {
 router.post('/user/imgupload', function (req, res) {
 	var userid = req.body.userid;
 	var imgData = req.body.imgData;
-	console.log('上传中:' + userid);
+	// console.log('上传中:' + userid);
 	// 过滤data:URL,已经在前端过滤
 	//var base64Data = imgData.replace(/^data:image\/\w+;base64,/, "");
 	var dataBuffer = new Buffer(imgData, 'base64');
 	// 头像存储路径[相对路径]
 	var imgPath = '../public/headimg/' + userid + '.png';
-	console.log('上传中(path):' + imgPath);
+	// console.log('上传中(path):' + imgPath);
 	fs.writeFile(imgPath, dataBuffer, function (err) {
 		if (err) {
 			res.send(err);
-			console.log(err);
+			// console.log(err);
 		} else {
 			res.send("保存成功！");
-			console.log("保存成功！");
+			// console.log("保存成功！");
 		}
 	});
 });
