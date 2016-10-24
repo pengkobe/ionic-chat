@@ -46,7 +46,7 @@ GroupsSchema.statics.findGroup = function (groupid, groupname, userids, headImg,
 
         if (!group || group.length == 0 || needUpdate) {
             // 第二步，创建群组
-            var chatgroup = new chatGroupsModel({
+            var chatgroup = new groupsModel({
                 groupid: groupid,
                 groupname: groupname,
                 headimg: '',
@@ -83,6 +83,6 @@ GroupsSchema.statics.findGroup = function (groupid, groupname, userids, headImg,
     });
 }
 
-var chatGroupsModel = mongoose.model('Groups', GroupsSchema);
+var groupsModel = mongoose.model('Groups', GroupsSchema);
 
-module.exports = chatGroupsModel;
+module.exports = groupsModel;
