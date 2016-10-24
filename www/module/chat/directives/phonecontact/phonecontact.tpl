@@ -46,8 +46,8 @@
                 <li ng-click="gotoList('{{letter}}')" ng-repeat="letter in alphabet">
                     {{letter}}
                 </li>
-            </ul>-->
+            </ul>
             <div ng-transclude></div>
-
+            -->
         </ion-list>
 </div>

@@ -1,5 +1,5 @@
 angular.module('chat.directive')
-    .directive('qqFace', [function() {
+    .directive('qqFace',function() {
         return {
             restrict: "E",
             templateUrl: 'module/chat/directives/qqface/qqface.tpl',
@@ -17,4 +17,4 @@ angular.module('chat.directive')
                 }
             }
         };
-    }]);
+    });

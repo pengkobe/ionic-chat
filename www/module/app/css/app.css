@@ -1,0 +1,5 @@
+/* 隐藏菜单栏 */
+.tabs-item-hide > .tabs,
+.tabs.tabs-item-hide {
+  display: none;
+}

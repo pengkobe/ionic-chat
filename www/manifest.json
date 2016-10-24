@@ -19,7 +19,6 @@
   },
   "load": [
     "dist/js/account.min.js",
-    "dist/css/account.min.css",
-    "dist/css/chat.min.css"
+    "dist/css/account.min.css"
   ]
 }
