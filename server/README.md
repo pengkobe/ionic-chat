@@ -2,7 +2,9 @@
 > record build process
 
 ## 数据库设计
-> 设计参考: http://yipeng.info/p/56d06eed9f0894e066cf8c91   
+设计参考: 
+1. MONGODB使用记录 http://yipeng.info/p/56d06eed9f0894e066cf8c91   
+2. MONGOOSE遇坑记 http://yipeng.info/p/56e145aa04c316d64b566763
 
 ``` 
 个人(0-数千)：Users
@@ -20,5 +22,7 @@
 群消息(100万+) GroupMessage(from,group,time,content,type)
 系统消息(100+) SystemMessage(to,time,content,type)
 ``` 
+
+
 
 

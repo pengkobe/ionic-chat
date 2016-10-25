@@ -24,7 +24,7 @@ var UserSchema = new Schema({
   // 年龄
   age: { type: Number, default: 0 }, // , min:12, max:120
   // 公司
-  company: { type: objID},
+  company: { type: objID },
   // 手机
   mobile: { type: String, default: '' }, // match: /^1\d{10}$/
   // 邮箱
@@ -34,32 +34,66 @@ var UserSchema = new Schema({
   // 签名
   notes: { type: String, default: '' },
   // 微信信息
-  wechat: Schema.Types.Mixed,
+  wechat: {},
   // 好友
-  friends: [Schema.Types.Mixed],
+  friends: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   // 群
-  groups: [{ type: Schema.Types.ObjectId, ref: 'group' }],
+  groups: [{ type: Schema.Types.ObjectId, ref: 'Group' }],
   // 邀请对方添加好友
-  requset_friends: [Schema.Types.Mixed],
+  requset_friends: [{}],
   // 被邀请添加好友
-  response_friends: [Schema.Types.Mixed],
+  response_friends: [{}],
   // 邀请对方加群
-  requset_groups: [Schema.Types.Mixed],
+  requset_groups: [{}],
   // 被邀请加群
-  response_groups: [Schema.Types.Mixed],
+  response_groups: [{}],
   // 融云token
   rongyunToken: { type: String, default: '' },
   // 设置
   setting: Schema.Types.Mixed
 });
 
-// 登录
-UserSchema.statics.login = function (name, password, cb) {
+// 登录 (methods定义实例方法，依赖与与model实现)
+UserSchema.methods.login = function (cb) {
   var md5 = crypto.createHash('md5');
-  md5.update(password);
+  md5.update(this.password);
   var md5pwd = md5.digest('hex');
-  return this.find({ username: name, password: md5pwd }, cb);
+  return this.model('User').find({ password: md5pwd, username: this.username }, cb);
 }
+
+// 查找所有好友 
+UserSchema.methods.loadFriendsAndGroups = function (cb) {
+  User.findOne({ username: this.username })
+    .populate('friends groups', '-_id')
+    .exec(function (err, user) {
+      if (err) { }
+      console.log('The first:', user.friends[0].username);
+    });
+}
+
+// 添加好友
+UserSchema.statics.addFriend = function (username,friendid, cb) {
+  var query = { username: username };
+  User.findOne(query)
+    .exec(function (err, doc) {
+      var friends = [];
+      friends.concat(doc.friends);
+      // 类型转换
+      var friendid = mongoose.Types.ObjectId(friendid);
+      friends.push(friendid);
+      UserModel.update(
+        { username: username },   // condition
+        { friends: friends },     // doc
+        { multi: false },         // option
+        function (err, raw) {     // callback
+          if (err) {
+            // todo
+          }
+          console.log('ret:', raw);
+        });
+    });
+}
+
 // 密码MD5加密
 UserSchema.path('password').set(function (rawpwd) {
   var md5 = crypto.createHash('md5');
@@ -67,53 +101,26 @@ UserSchema.path('password').set(function (rawpwd) {
   var pwd = md5.digest('hex');
   return pwd;
 });
-// 融云toke
+
+
+// 融云toke(statics定义实例方法，可直接在Model级使用)
 UserSchema.statics.getRongyunToken = function (userid, name, headImg, cb) {
-  // 融云token获取
-  rongcloudSDK.user.getToken(userid, name, headImg, function (err, resultText) {
-    if (err) {
-      // Handle the error
-      // console.log('获取融云token err:'+ err);
-    }
-    else {
-      var result = JSON.parse(resultText);
-      if (result.code === 200) {
-        // Handle the result.token
-        // console.log('获取融云token suceess:'+ result.token);
-        cb(result.token);
+  rongcloudSDK.user.getToken(userid, name, headImg,
+    function (err, resultText) {
+      if (err) {
+        console.log('获取融云token err:' + err);
       }
-    }
-  });
-}
-// 按照真实姓名与公司筛选
-UserSchema.statics.findByCompanyAndName = function (name, company, callback) {
-  var cregex = new RegExp('/cc/i');
-  var param = ".*" + name + ".*";
-  cregex.compile(param);
-
-  this.find({ username: { $regex: cregex } })
-    .populate('company', '-_id')
-    .exec(function (err, doc) {
-      var company = ".*" + company + ".*";
-      cregex.compile(company);
-
-      var ret = [];
-      for (var i = 0; i < doc.length; i++) {
-        if (doc[i].company && cregex.test(doc[i].company.name)) {
-          ret.push(i, 1);
+      else {
+        var result = JSON.parse(resultText);
+        if (result.code === 200) {
+          console.log('获取融云token suceess:' + result.token);
+          cb(result.token);
         }
       }
-      callback(null, ret);
     });
 }
 
-// 自己验证
-//schema.set('validateBeforeSave', false);
-//schema.path('name').validate(function (value) {
-//    return v != null;
-//});
-
-var UsersModel = mongoose.model('Users', UserSchema);
+var UsersModel = mongoose.model('User', UserSchema);
 
 module.exports = UsersModel;
 

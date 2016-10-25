@@ -7,7 +7,6 @@ var rongcloudSDK = require('rongcloud-sdk');
 rongcloudSDK.init('lmxuhwagxgt9d', 'NpbRLWPxB79');
 
 var Schema = mongoose.Schema;
-
 var GroupSchema = new Schema({
     // 编号
     groupid: { type: String, unique: true },
@@ -18,12 +17,14 @@ var GroupSchema = new Schema({
         from:String,
         invitetime:Date,
      }*/
-    members: [Schema.Types.Mixed],
+    members: [Schema.Types.ObjectId],
     // 是否激活
     isActivated: { type: Number, default: 0 }
 });
 
-// 获取或同步群
+/**
+ * 获取或同步群
+ */
 GroupSchema.statics.findGroup = function (groupid, groupname, userids, headImg, cb) {
     var that = this;
     //console.log('groupid:' + groupid);
