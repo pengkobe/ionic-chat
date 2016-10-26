@@ -1,12 +1,30 @@
 /**
- * constant
+ * 全局常量
  */
 angular.module('ionchat.config', [])
-    // 基地址
-    .constant('VedioBackEndUrl', 'http://115.29.51.196:5000/')
+    // 请求基地址
+    .constant('RequestUrl', 'http://120.24.54.92:9102/')
     // 融云appkey
-    .constant('_appKey', 'lmxuhwagxgt9d')
-
-	.constant('RequestUrl', 'http://120.24.54.92:9102/')
-	.constant('baseUrl', 'http://120.24.54.92:9102/Action.ashx?Name=HYD.E3.Business.');
-     
+    .constant('RONGYUN_APPKEY', 'lmxuhwagxgt9d')
+    // 基地址
+    .constant('BASE_URL', 'http://115.29.51.196:5000/')
+    // 视频聊天基地址
+    .constant('VEDIO_CHAT_URL', 'http://115.29.51.196:5000/vediochat')
+    // 热更新地址
+    .constant('HOT_UPDATE_URL', 'http://115.29.51.196:4321/www/')
+    // 加载好友列表
+    .constant('LOAD_FRIENDS_URL', 'http://115.29.51.196:5000/loadfriends')
+    // 加载群组列表
+    .constant('LOAD_GROUPS_URL', 'http://115.29.51.196:5000/loadgroups')
+    // 添加好友
+    .constant('ADD_FRIEND_URL', 'http://115.29.51.196:5000/addfriend')
+    // 回复好友请求
+    .constant('RES_FRIEND_REQUEST', 'http://115.29.51.196:5000/res_addfriend')
+    // 删除好友
+    .constant('REMOVE_FRIEND_URL', 'http://115.29.51.196:5000/removefriend')
+    // 添加群成员
+    .constant('ADD_GROUP_MEMBER_URL', 'http://115.29.51.196:5000/addgroupmember')
+    // 回复加群
+    .constant('RES_GROUP_REQUEST', 'http://115.29.51.196:5000/res_addgroupmember')
+    // 退群
+    .constant('REMOVE_GROUP_URL', 'http://115.29.51.196:5000/removegroup');

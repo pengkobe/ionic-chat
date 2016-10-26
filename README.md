@@ -130,8 +130,6 @@ will support one key set soon.
     
 + chatDetail
 ```
- // path = cordova.file.documentsDirectory;
- // path = cordova.file.externalApplicationStorageDirectory;
  // init();
 ```
   

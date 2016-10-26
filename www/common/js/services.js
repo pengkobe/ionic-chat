@@ -125,25 +125,25 @@ angular.module('chat.common.services', [])
                         myNote.myNotice('网络出现问题，请检查网络');
                     }
                 }
-                // else if (status == 403 ) {
-                //        error.data = {
-                //            template: '/(ㄒoㄒ)/~~403'
-                //        }
-                //    } else {
-                //        error.data = {
-                //            template: '错误信息都在这了：' + JSON.stringify(error.data)
-                //        }
-                //    }
-                //    $ionicPopup.alert({
-                //        title: '悲剧了...',
-                //        template: error.data.template,
-                //        buttons: [
-                //            {
-                //                text: '算了',
-                //                type: 'button-balanced'
-                //            }
-                //        ]
-                //    });
+                else if (status == 403) {
+                    error.data = {
+                        template: '/(ㄒoㄒ)/~~403'
+                    }
+                } else {
+                    error.data = {
+                        template: '错误信息都在这了：' + JSON.stringify(error.data)
+                    }
+                }
+                // $ionicPopup.alert({
+                //     title: '悲剧了...',
+                //     template: error.data.template,
+                //     buttons: [
+                //         {
+                //             text: '算了',
+                //             type: 'button-balanced'
+                //         }
+                //     ]
+                // });
             });
             http.finally(function () {
                 !!config.scope && (config.scope.loading = false);
@@ -155,13 +155,28 @@ angular.module('chat.common.services', [])
             send: send
         }
     })
-    .factory('httpXhr', function (HttpFactory, baseUrl, $q) {
+    .factory('httpXhr', function (HttpFactory, BASE_URL, $q) {
         return {
             getData: function (path, data) {
                 var defer = $q.defer();
                 HttpFactory.send({
-                    url: baseUrl + path,
+                    url: BASE_URL + path,
                     data: data,
+                    method: 'post'
+                }).success(function (data) {
+                    defer.resolve(data);
+                });
+                return defer.promise;
+            }
+        }
+    })
+    .factory('HttpPromiseService', function (HttpFactory, BASE_URL, $q) {
+        return {
+            getData: function (url, params) {
+                var defer = $q.defer();
+                HttpFactory.send({
+                    url:url,
+                    data: params,
                     method: 'post'
                 }).success(function (data) {
                     defer.resolve(data);
@@ -212,14 +227,14 @@ angular.module('chat.common.services', [])
     /**
     * 热更新服务
     */
-    .factory('HotUpdateService', function ($log, $q) {
+    .factory('HotUpdateService', function ($log, $q, HOT_UPDATE_URL) {
         var fs = new CordovaPromiseFS({
             Promise: Promise
         });
 
         var loader = new CordovaAppLoader({
             fs: fs,
-            serverRoot: 'http://115.29.51.196:4321/www/',
+            serverRoot: HOT_UPDATE_URL,
             localRoot: 'www',
             cacheBuster: true, // make sure we're not downloading cached files.
             checkTimeout: 10000, // timeout for the "check" function - when you loose internet connection

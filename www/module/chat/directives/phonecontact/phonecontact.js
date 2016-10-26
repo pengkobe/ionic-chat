@@ -1,6 +1,6 @@
 angular.module('chat.directive')
     .directive('phoneContact', function ($state, $ionicLoading,
-        $ionicScrollDelegate, $timeout, Friends) {
+        $ionicScrollDelegate, $timeout) {
         return {
             restrict: "E",
             templateUrl: 'module/chat/directives/phonecontact/phonecontact.tpl',

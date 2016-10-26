@@ -1,13 +1,12 @@
 /**
  * chat模块服务
 */
-
 var chat_modules=['chat.route','chat.controllers','chat.services','chat.directive','chat.filter'];
 chat_modules.concat(["chat.call"]);
 ; angular.module('chat', chat_modules)
-  .config(function (SignalingProvider) {
-    // 视频服务服务端配置
-    SignalingProvider.setBackendUrl("http://115.29.51.196:5000/chat");
+  // 视频服务配置
+  .config(function (SignalingProvider,VEDIO_CHAT_URL) {
+    SignalingProvider.setBackendUrl(VEDIO_CHAT_URL);
   })
   /**
    * 服务初始化
