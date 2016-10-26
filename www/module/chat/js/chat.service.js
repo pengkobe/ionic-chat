@@ -93,32 +93,57 @@ chats.factory('initRong', function ($rootScope, $state, RONGYUN_APPKEY) {
         var friends = [];
         var userids = [];
         var curUID = currentUser.getUserinfo().UserID;
-
+        // mock data
         function getFriends(userid, callback) {
-            var data = JSON.parse('{"data":[{"UserID":16,"IsProject":true,"UserName":"亿达别苑维修工","UserAccount":"ydwxg","headimgurl":"nxt.png"},{"UserID":17,"IsProject":true,"UserName":"亿达别苑客服","UserAccount":"ydkf","headimgurl":"nxt.png"},{"UserID":18,"IsProject":true,"UserName":"亿达别苑工程主管","UserAccount":"ydgczg","headimgurl":"nxt.png"},{"UserID":384,"IsProject":true,"UserName":"彭奕","UserAccount":"py","headimgurl":"15602452846-201609051736.png"},{"UserID":386,"IsProject":true,"UserName":"刘新琼","UserAccount":"lxq","headimgurl":"lxq-20161010177.png"},{"UserID":388,"IsProject":true,"UserName":"袁晓勇","UserAccount":"yxy","headimgurl":"13760425110-201609191259.png"},{"UserID":412,"IsProject":true,"UserName":"何总","UserAccount":"heyc","headimgurl":"heyc-201609142139.png"},{"UserID":414,"IsProject":true,"UserName":"万华利","UserAccount":"wanhuali","headimgurl":null},{"UserID":415,"IsProject":true,"UserName":"李建民","UserAccount":"lijm","headimgurl":"lijm-201609220947.png"},{"UserID":417,"IsProject":true,"UserName":"肖荣界","UserAccount":"xiaorj","headimgurl":null},{"UserID":419,"IsProject":true,"UserName":"李文帅","UserAccount":"liws","headimgurl":null},{"UserID":420,"IsProject":true,"UserName":"陈国辉","UserAccount":"chengh","headimgurl":null},{"UserID":421,"IsProject":true,"UserName":"叶昱君","UserAccount":"yeyj","headimgurl":null},{"UserID":422,"IsProject":true,"UserName":"郭仲春","UserAccount":"guozc","headimgurl":null},{"UserID":423,"IsProject":true,"UserName":"李斌","UserAccount":"lib","headimgurl":null},{"UserID":424,"IsProject":true,"UserName":"周文","UserAccount":"zhouw","headimgurl":"zhouw-201609202117.png"},{"UserID":425,"IsProject":true,"UserName":"田克清","UserAccount":"tiankq","headimgurl":null},{"UserID":426,"IsProject":true,"UserName":"戴白露","UserAccount":"daibl","headimgurl":null},{"UserID":427,"IsProject":true,"UserName":"黄金云","UserAccount":"haungjy","headimgurl":null},{"UserID":428,"IsProject":true,"UserName":"高明霞","UserAccount":"gaomx","headimgurl":null},{"UserID":431,"IsProject":true,"UserName":"钟盛樱","UserAccount":"zhongsy","headimgurl":null},{"UserID":432,"IsProject":true,"UserName":"朱雷","UserAccount":"zhul","headimgurl":null},{"UserID":433,"IsProject":true,"UserName":"戴露","UserAccount":"dl","headimgurl":"dl-201609191259.png"},{"UserID":434,"IsProject":true,"UserName":"黄健","UserAccount":"hj","headimgurl":"hj-201609202146.png"},{"UserID":435,"IsProject":true,"UserName":"周枫","UserAccount":"zf","headimgurl":"zf-201609202116.png"},{"UserID":436,"IsProject":true,"UserName":"蔡强","UserAccount":"cq","headimgurl":null},{"UserID":437,"IsProject":true,"UserName":"宋细辉","UserAccount":"sxh","headimgurl":"sxh-201609191313.png"},{"UserID":438,"IsProject":true,"UserName":"关观海","UserAccount":"ggh","headimgurl":null},{"UserID":439,"IsProject":true,"UserName":"安志强","UserAccount":"azq","headimgurl":null},{"UserID":440,"IsProject":true,"UserName":"欧阳德才","UserAccount":"oydc","headimgurl":null},{"UserID":441,"IsProject":true,"UserName":"卢蝶","UserAccount":"ld","headimgurl":"ld-201609201557.png"},{"UserID":442,"IsProject":true,"UserName":"李萍","UserAccount":"lp","headimgurl":"lp-201609200945.png"},{"UserID":443,"IsProject":true,"UserName":"胡小振","UserAccount":"hxz","headimgurl":null},{"UserID":444,"IsProject":true,"UserName":"林志章","UserAccount":"lzz","headimgurl":null}]}');
+            var data = [
+                { _id: 16, username: 'ydwxg', nickname: "亿达别苑维修工", headimg: null },
+                { _id: 17, username: 'ydkf', nickname: "亿达别苑客服", headimg: null },
+                { _id: 18, username: 'ydgczg', nickname: "亿达别苑工程主管", headimg: null },
+                { _id: 384, username: 'py', nickname: "彭奕", headimg: "15602452846-201609051736.png" },
+                { _id: 386, username: 'lxq', nickname: "刘新琼", headimg: null },
+                { _id: 388, username: 'yxy', nickname: "袁晓勇", headimg: "13760425110-201609191259.png" },
+                { _id: 412, username: 'heyc', nickname: "何总", headimg: "15602452846-201609051736.png" },
+                { _id: 414, username: 'wanhuali', nickname: "万华利", headimg: null },
+                { _id: 415, username: 'lijm', nickname: "李建民", headimg: "lijm-201609220947.png" },
+                { _id: 417, username: 'xiaorj', nickname: "肖荣界", headimg: null },
+                { _id: 419, username: 'liws', nickname: "李文帅", headimg: null },
+                { _id: 420, username: 'chengh', nickname: "陈国辉", headimg: null },
+                { _id: 421, username: 'yeyj', nickname: "叶昱君", headimg: null },
+                { _id: 422, username: 'guozc', nickname: "郭仲春", headimg: null },
+                { _id: 423, username: 'lib', nickname: "李斌", headimg: null },
+                { _id: 424, username: 'zhouw', nickname: "周文", headimg: "zhouw-201609202117.png" },
+                { _id: 425, username: 'tiankq', nickname: "田克清", headimg: null },
+                { _id: 426, username: 'daibl', nickname: "戴白露", headimg: null },
+                { _id: 427, username: 'haungjy', nickname: "黄金云", headimg: null },
+                { _id: 428, username: 'gaomx', nickname: "高明霞", headimg: null },
+                { _id: 431, username: 'zhongsy', nickname: "钟盛樱", headimg: null },
+                { _id: 432, username: 'zhul', nickname: "朱雷", headimg: null },
+                { _id: 433, username: 'dl', nickname: "戴露", headimg: "dl-201609191259.png" },
+                { _id: 434, username: 'hj', nickname: "黄健", headimg: "hj-201609202146.png" },
+                { _id: 435, username: 'zf', nickname: "周枫", headimg: "zf-201609202116.png" },
+                { _id: 437, username: 'sxh', nickname: "宋细辉", headimg: "sxh-201609191313.png" },
+                { _id: 441, username: 'ld', nickname: "卢蝶", headimg: "ld-201609201557.png" },
+                { _id: 442, username: 'lp', nickname: "李萍", headimg: "lp-201609200945.png" },
+            ];
             callback(data);
         }
-
-        // 后台请求数据
         function loadData(callback) {
-            getFriends(curUID, function (data) {
+            getFriends(curUID, function (retdata) {
                 friends = [];
-                var retdata = data.data;
                 var dataLen = retdata.length;
                 for (var i = 0; i < dataLen; i++) {
                     var obj = {};
-                    obj.id = retdata[i].UserID;
-                    obj.name = retdata[i].UserName == null ? "无名(" + retdata[i].UserID + ")" : retdata[i].UserName;
+                    obj.id = retdata[i]._id;
+                    obj.name = retdata[i].nickname == null ? retdata[i].username : retdata[i].nickname;
                     obj.alpha = makePy(obj.name)[0][0].toUpperCase();
                     obj.conversationType = 'PRIVATE';
                     obj.online = '0';
-                    obj.Mobile = retdata[i].Mobile;
-                    var portrait = retdata[i].headimgurl ? (retdata[i].headimgurl.indexOf("http") == -1 ? RequestUrl + 'Images/Photo/' + retdata[i].headimgurl : retdata[i].headimgurl) : null;
-                    obj.portrait = portrait;
+                    obj.Mobile = "212312312222";//测试
+                    obj.portrait = retdata[i].headimg ? (RequestUrl + 'Images/Photo/' + retdata[i].headimg) : null;
                     friends.push(obj);
                 }
 
-                // 按字母排序
+                // 按首字母排序
                 friends = friends.sort(function (a, b) {
                     var bool = a.alpha > b.alpha;
                     return bool ? 1 : -1;
@@ -146,10 +171,9 @@ chats.factory('initRong', function ($rootScope, $state, RONGYUN_APPKEY) {
                         nowalpha = obj.alpha;
                         alphaCount++;
                     }
-                    friends[m].scrollHeight = m * 42 + alphaCount * 20;
                     userids.push(tmp.id);
                 }
-                // 获取在线列表
+                callback(friends);
                 Signaling.emit('checkOnline', userids);
                 checkOnlineCallback(callback);
             });
@@ -162,7 +186,6 @@ chats.factory('initRong', function ($rootScope, $state, RONGYUN_APPKEY) {
         }, 10000);
         // 获取在线列表
         function checkOnlineCallback(callback) {
-            // 确保事件只注册一次
             if (!loaded) {
                 loaded = true;
                 Signaling.on('checkOnline_suc', function (ids) {
@@ -194,7 +217,7 @@ chats.factory('initRong', function ($rootScope, $state, RONGYUN_APPKEY) {
                     }, 3000);
                 }
             },
-            //（获取某好友）
+            // 获取单个好友
             get: function (friendId) {
                 var retIndex = -1;
                 for (var i = 0; i < friends.length; i++) {
@@ -309,9 +332,10 @@ chats.factory('initRong', function ($rootScope, $state, RONGYUN_APPKEY) {
         function ResFriend(UserID, FriendID, state, callback) {
             var obj = { UserID: +UserID, FriendID: +FriendID, state: +state };
             var data = JSON.stringify(obj);
-            httpXhr.getData('UserInfo_newBLL.ResFriend', { model: data }).then(function (data) {
-                callback(data);
-            });
+            callback([]);
+            // httpXhr.getData('UserInfo_newBLL.ResFriend', { model: data }).then(function (data) {
+            //     callback(data);
+            // });
         }
         return ResFriend;
     })
@@ -323,9 +347,10 @@ chats.factory('initRong', function ($rootScope, $state, RONGYUN_APPKEY) {
         function ResTeam(groupID, MemberID, state, callback) {
             var obj = { groupID: groupID.substr(4), MemberID: MemberID, state: state };
             var data = JSON.stringify(obj);
-            httpXhr.getData('UserInfo_newBLL.ResTeam', { model: data }).then(function (data) {
-                callback(data);
-            });
+            callback([]);
+            // httpXhr.getData('UserInfo_newBLL.ResTeam', { model: data }).then(function (data) {
+            //     callback(data);
+            // });
         }
         return ResTeam;
     })
@@ -358,21 +383,22 @@ chats.factory('initRong', function ($rootScope, $state, RONGYUN_APPKEY) {
         var intervalid = 0;
 
         function FindFriendsReq(userid, callback) {
-            httpXhr.getData('UserInfo_newBLL.FindFriendsReq', { UserID: userid }).then(function (data) {
-                var retData = data.data;
-                var dataLen = retData.length;
-                friendRquestList = [];
-                for (var i = 0; i < dataLen; i++) {
-                    var friendRquest = {};
-                    friendRquest.id = retData[i].UserID;
-                    friendRquest.name = retData[i].UserName;
-                    friendRquest.info = "[" + retData[i].UserName + "]" + "请求添加您为好友！";
-                    friendRquest.portrait = retData[i].headimgurl;
-                    friendRquest.type = "PRIVATE";
-                    friendRquestList.push(friendRquest);
-                }
-                callback(friendRquestList);
-            });
+            callback([]);
+            // httpXhr.getData('UserInfo_newBLL.FindFriendsReq', { UserID: userid }).then(function (data) {
+            //     var retData = data.data;
+            //     var dataLen = retData.length;
+            //     friendRquestList = [];
+            //     for (var i = 0; i < dataLen; i++) {
+            //         var friendRquest = {};
+            //         friendRquest.id = retData[i].UserID;
+            //         friendRquest.name = retData[i].UserName;
+            //         friendRquest.info = "[" + retData[i].UserName + "]" + "请求添加您为好友！";
+            //         friendRquest.portrait = retData[i].headimgurl;
+            //         friendRquest.type = "PRIVATE";
+            //         friendRquestList.push(friendRquest);
+            //     }
+            //     callback(friendRquestList);
+            // });
         }
 
         var friendsReqApi = {
@@ -397,22 +423,23 @@ chats.factory('initRong', function ($rootScope, $state, RONGYUN_APPKEY) {
         var intervalid = 0;
         /// UserID
         function findTeamsReq(userid, callback) {
-            httpXhr.getData('UserInfo_newBLL.findTeamsReq', { UserID: userid }).then(function (data) {
-                teamRquestList = [];
-                var retData = data.data;
-                var dataLen = retData.length;
-                for (var i = 0; i < dataLen; i++) {
-                    var groupRquest = {};
-                    var tempdata = retData[i];
-                    groupRquest.id = 'cre_' + tempdata.GroupID;
-                    groupRquest.name = tempdata.GroupName;
-                    groupRquest.info = (tempdata.UserName == null ? "(无名)" : tempdata.UserName) + "邀您加入群:" + "[" + tempdata.GroupName + "]";
-                    groupRquest.portrait = null;
-                    groupRquest.type = "GROUP";
-                    teamRquestList.push(groupRquest);
-                }
-                callback(teamRquestList);
-            });
+            callback([]);
+            // httpXhr.getData('UserInfo_newBLL.findTeamsReq', { UserID: userid }).then(function (data) {
+            //     teamRquestList = [];
+            //     var retData = data.data;
+            //     var dataLen = retData.length;
+            //     for (var i = 0; i < dataLen; i++) {
+            //         var groupRquest = {};
+            //         var tempdata = retData[i];
+            //         groupRquest.id = 'cre_' + tempdata.GroupID;
+            //         groupRquest.name = tempdata.GroupName;
+            //         groupRquest.info = (tempdata.UserName == null ? "(无名)" : tempdata.UserName) + "邀您加入群:" + "[" + tempdata.GroupName + "]";
+            //         groupRquest.portrait = null;
+            //         groupRquest.type = "GROUP";
+            //         teamRquestList.push(groupRquest);
+            //     }
+            //     callback(teamRquestList);
+            // });
         }
         var teamsReqApi = {
             all: function (userid, callback) {
@@ -429,15 +456,16 @@ chats.factory('initRong', function ($rootScope, $state, RONGYUN_APPKEY) {
         };
         return teamsReqApi;
     })
-    //团队成员
+    // 团队成员
     .service("getGroupMembers", function ($http, httpXhr) {
         function getGroupMembers(groupID, callback) {
             if (!groupID) {
                 return;
             }
-            httpXhr.getData('UserInfo_newBLL.getGroupMembers', { groupID: groupID }).then(function (data) {
-                callback(data);
-            });
+            callback([]);
+            // httpXhr.getData('UserInfo_newBLL.getGroupMembers', { groupID: groupID }).then(function (data) {
+            //     callback(data);
+            // });
         }
         return getGroupMembers;
     })
@@ -569,6 +597,7 @@ chats.factory('initRong', function ($rootScope, $state, RONGYUN_APPKEY) {
             }
         }
     })
+    // 格式化融云错误
     .factory('FormateRongyunErr', function (myNote) {
         return {
             formate: function (err) {
@@ -594,6 +623,7 @@ chats.factory('initRong', function ($rootScope, $state, RONGYUN_APPKEY) {
             }
         }
     })
+    // 融云服务
     .factory('rongyunService', function ($q, FormateRongyunErr) {
         return {
             /**
@@ -829,6 +859,7 @@ chats.factory('initRong', function ($rootScope, $state, RONGYUN_APPKEY) {
             }
         }
     })
+    // 媒体服务(音频)
     .factory('mediaService', function () {
         var isIOS = ionic.Platform.isIOS();
         var isAndroid = ionic.Platform.isAndroid();
@@ -836,10 +867,10 @@ chats.factory('initRong', function ($rootScope, $state, RONGYUN_APPKEY) {
         var path = "";
         var src = "cordovaIMVoice.amr";
         if (window.cordova && isIOS) {
-             path = cordova.file.documentsDirectory;
+            path = cordova.file.documentsDirectory;
             src = "cordovaIMVoice.wav";
-        } else if(window.cordova){
-             path = cordova.file.externalApplicationStorageDirectory;
+        } else if (window.cordova) {
+            path = cordova.file.externalApplicationStorageDirectory;
         }
         function getMediaURL(s) {
             if (device.platform.toLowerCase() === "android") return path + s;
@@ -865,7 +896,7 @@ chats.factory('initRong', function ($rootScope, $state, RONGYUN_APPKEY) {
                 //实例化录音类, src:需要播放的录音的路径
                 var ring = new Media(getPhoneGapPath(),
                     function () {
-                    },function (err) {
+                    }, function (err) {
                     }
                 );
                 //开始播放录音
@@ -924,6 +955,7 @@ chats.factory('initRong', function ($rootScope, $state, RONGYUN_APPKEY) {
             }
         }
     })
+    // phonertc服务
     .factory('phoneRTCService', function () {
         return {
             createSession: function (isInitiator) {

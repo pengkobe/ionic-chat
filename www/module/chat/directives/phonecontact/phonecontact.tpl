@@ -15,7 +15,7 @@
                 </button>
             </ion-item>
         </ion-list>
-        <!-- 融云 -->
+      
         <ion-list class="rj-list">
            <ion-item class="item item-divider">
             联系人
@@ -41,13 +41,5 @@
                     发起聊天
                 </button>
             </ion-item>
-            <!-- 通讯录导航
-            <ul class="alpha_sidebar" ng-if="currentFeedsType==contacttab">
-                <li ng-click="gotoList('{{letter}}')" ng-repeat="letter in alphabet">
-                    {{letter}}
-                </li>
-            </ul>
-            <div ng-transclude></div>
-            -->
         </ion-list>
 </div>

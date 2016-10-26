@@ -47,8 +47,6 @@ angular.module('chat.route', [])
                     }
                 }
             })
-
-
             .state('tab.addTeam', {
                 url: '/addTeam',
                 views: {

@@ -1,11 +1,11 @@
 /**
  * chat模块服务
 */
-var chat_modules=['chat.route','chat.controllers','chat.services','chat.directive','chat.filter'];
+var chat_modules = ['chat.route', 'chat.controllers', 'chat.services', 'chat.directive', 'chat.filter'];
 chat_modules.concat(["chat.call"]);
-; angular.module('chat', chat_modules)
+angular.module('chat', chat_modules)
   // 视频服务配置
-  .config(function (SignalingProvider,VEDIO_CHAT_URL) {
+  .config(function (SignalingProvider, VEDIO_CHAT_URL) {
     SignalingProvider.setBackendUrl(VEDIO_CHAT_URL);
   })
   /**
@@ -17,7 +17,6 @@ chat_modules.concat(["chat.call"]);
    * @param  {[Object]} newMessageEventService [新消息事件服务]
    */
   .run(function ($state, Signaling, $ionicLoading, $rootScope, newMessageEventService) {
-    /// ==== 全局监听消息(BEGIN) ====
     var chMsg = function (newValue, oldValue) {
       if (newValue !== oldValue) {
         var jsonMsg = newValue.pop();
@@ -32,8 +31,6 @@ chat_modules.concat(["chat.call"]);
     //   console.log('destroy');
     //   listener();
     // });
-    /// ==== 全局监听消息(END) ====
-
     Signaling.on('messageReceived', function (name, message, Signaling) {
       switch (message.type) {
         case 'call':
@@ -47,5 +44,5 @@ chat_modules.concat(["chat.call"]);
       }
     });
   });
- 
+
 
