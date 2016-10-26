@@ -1,7 +1,7 @@
 /*
  * controller负责数据对接与权限控制
  */
-angular.module('dash', [])
+angular.module('dash', ["dash.service"])
   .controller('DashCtrl', function ($scope) {
     // 构建消息UI模板
     $scope.buildTplUrl = function (type) {
@@ -44,4 +44,15 @@ angular.module('dash', [])
     function buildAircondition() {
 
     }
+    
+    $scope.addNewUser = function () {
+      alert('xx');
+      console.log("测试添加用户...");
+    };
+    $scope.addNewGroup = function () {
+      console.log("测试发起群聊...");
+    };
+    $scope.addGroupMember = function () {
+      console.log("测试添加群成员...");
+    };
   })

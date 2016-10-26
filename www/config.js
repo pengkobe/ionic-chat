@@ -16,6 +16,10 @@ angular.module('ionchat.config', [])
     .constant('LOAD_FRIENDS_URL', 'http://115.29.51.196:5000/loadfriends')
     // 加载群组列表
     .constant('LOAD_GROUPS_URL', 'http://115.29.51.196:5000/loadgroups')
+    // 加载添加好友请求
+    .constant('LOAD_FRIEND_REQUEST_URL', 'http://115.29.51.196:5000/loadfriendrequest')
+    // 加载入群好友请求
+    .constant('LOAD_GROUP_REQUEST_URL', 'http://115.29.51.196:5000/loadgrouprequesst')
     // 添加好友
     .constant('ADD_FRIEND_URL', 'http://115.29.51.196:5000/addfriend')
     // 回复好友请求

@@ -4,3 +4,10 @@
  */
 
 angular.module('dash.service', [])
+    // 好友服务
+    .factory('AddNewUserService', function () {
+        return {};
+    })
+    .factory('AddNewGroupService', function () {
+        return {};
+    })

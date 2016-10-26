@@ -67,12 +67,17 @@ UserSchema.methods.login = function (cb) {
 /**
  * 查找所有好友
  */
-UserSchema.methods.loadFriends = function (cb) {
-  UsersModel.findOne({ username: this.username })
+UserSchema.statics.loadFriends = function (username, cb) {
+  UsersModel.findOne({ username: username })
     .populate('friends')
-    .exec(function (err, user) {
+    .exec(function (err, users) {
       if (err) { }
-      console.log('The first friend:', user.friends[0].username);
+      if (users.length == 0) {
+        console.log('no friend yet!');
+      } else {
+        console.log('The first friend:', users.friends[0].username);
+        cb(users);
+      }
     });
 }
 

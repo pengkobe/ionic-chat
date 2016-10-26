@@ -112,6 +112,7 @@ gulp.task('builddash', function (done) {
 gulp.task('buildaccount', function (done) {
   // 打包js
   gulp.src([
+    'www/module/account/js/account.service.js',
     'www/module/account/js/account.controller.js',
   ])
     .pipe(concat('account.min.js'))

@@ -30,6 +30,24 @@ router.post('/login', function (req, res) {
   });
 });
 
+// 用户头像上传
+router.post('/user/headimg', function (req, res) {
+	var userid = req.body.userid;
+	var imgData = req.body.imgData;
+	// 过滤data:URL,已经在前端过滤
+	// var base64Data = imgData.replace(/^data:image\/\w+;base64,/, "");
+	var dataBuffer = new Buffer(imgData, 'base64');
+	// 头像存储路径[相对路径]
+	var imgPath = '../public/headimg/' + userid + '.png';
+	fs.writeFile(imgPath, dataBuffer, function (err) {
+		if (err) {
+			res.send(err);
+		} else {
+			res.send("保存成功！");
+		}
+	});
+});
+
 
 // 更新密码
 router.post('/update', function (req, res) {
@@ -51,13 +69,47 @@ router.post('/update', function (req, res) {
 
 
 // 拉取好友列表
+router.post('/loadfriends', function (req, res) {
+   var username = req.body.username;
+    UserModel.loadFriends(username,function(friends){
+      	res.send(friends);
+    })
+});
+
 // 拉取群列表
+router.post('/loadgroups', function (req, res) {
+
+});
 
 // 拉取好友请求
-// 拉取好友邀请进群请求
+router.post('/loadfriendrequest', function (req, res) {
+
+});
+
+// 拉取好友进群请求
+router.post('/loadgrouprequesst', function (req, res) {
+
+});
+
+// 添加好友请求
+router.post('/addfriend', function (req, res) {
+
+});
+
+// 添加好友进群
+router.post('/addgroupmember', function (req, res) {
+
+});
 
 // 同意/拒绝好友邀请
+router.post('/res_addfriend', function (req, res) {
+
+});
+
 // 同意/拒绝进群
+router.post('/res_addgroupmember', function (req, res) {
+
+});
 
 
 module.exports = router;

@@ -1,5 +1,5 @@
-angular.module('account', [])
-  .controller('AccountCtrl', function ($scope) {
+angular.module('account', ['account.servive'])
+  .controller('AccountCtrl', function ($scope, AddNewUserService, AddNewGroupService) {
     $scope.settings = {
       enableFriends: true
     };

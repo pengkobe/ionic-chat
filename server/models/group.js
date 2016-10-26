@@ -35,15 +35,15 @@ GroupSchema.methods.loadMembers = function (cb) {
 /**
  * 获取或同步群
  */
-GroupSchema.statics.findGroup = function (groupid, groupname, userids, headImg, cb) {
+GroupSchema.statics.findGroup = function (groupid, groupname, members, headImg, cb) {
     var that = this;
     that.find({ groupid: groupid }, function (err, group) {
         var needUpdate = false;
         if (group && group.length > 0) {
             var tempgroup = group[0];
-            for (var i = 0; i < tempgroup.userids.length; i++) {
-                for (var j = 0; j < userids.length; j++) {
-                    if (tempgroup.userids[i] != userids[j]) {
+            for (var i = 0; i < tempgroup.members.length; i++) {
+                for (var j = 0; j < members.length; j++) {
+                    if (tempgroup.members[i] != members[j]) {
                         needUpdate = true;
                     }
                 }
@@ -55,18 +55,18 @@ GroupSchema.statics.findGroup = function (groupid, groupname, userids, headImg, 
                 groupid: groupid,
                 groupname: groupname,
                 headimg: '',
-                userids: userids,
+                members: members,
                 isActivated: 1
             });
             // 同步群信息(群名)
-            rongcloudSDK.group.create(userids, groupid, groupname, 'json', function (err, data) {
+            rongcloudSDK.group.create(members, groupid, groupname, 'json', function (err, data) {
                 if (err) {
                     cb(err, null);
                 } else {
                     var data = JSON.parse(data);
                     if (data.code == 200) {
                         if (needUpdate) {
-                            that.where({ _id: group._id }).update({ $set: { userids: userids } });
+                            that.where({ _id: group._id }).update({ $set: { members: members } });
                         } else {
                             chatgroup.save(function (err, doc) {
                                 if (doc && doc.length > 0) {

@@ -243,11 +243,9 @@ chats.factory('initRong', function ($rootScope, $state, RONGYUN_APPKEY) {
         var groupsMenmberinfo = [];
         var globalUser = currentUser;
         var curUID = globalUser.getUserinfo().UserID;
-        var projectCode = globalUser.getUserinfo().PCode;
 
         // 后台请求数据
         function loadData(callback) {
-            projectCode = globalUser.getUserinfo().PCode;
             getTeams.load(curUID).then(function (teamList) {
                 // ==此方法会造成一段时间无数据(加载数据会造成时延)==
                 groups = [];
@@ -362,6 +360,7 @@ chats.factory('initRong', function ($rootScope, $state, RONGYUN_APPKEY) {
         //         callback(data);
         //     });
         // }
+        // mock data
         var defer = $q.defer();
         var data = [
             { id: 'prj_8', number: 12, max_number: 30, name: '香年广场', portrait: null },
