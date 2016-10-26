@@ -1,7 +1,7 @@
 'use strict';
 /**
- * 用户登录
- * 视频聊天
+ * 1. 用户登录
+ * 2. 视频聊天
  */
 var _ = require('lodash-node');
 var _http = require('http');
@@ -13,32 +13,21 @@ var users = [];
  * TODO:在线状态并不可信，手机端因为某些原因不一定会调用disconnect方法
 */
 module.exports = function (io) {
-    var chatUser = require('./models/chatUser.js');
-    var chatGroup = require('./models/chatGroup.js');
+    var UserModel = require('./models/userid.js');
+    var GroupModel = require('./models/group.js');
     io.of('/chat').on('connection', function (socket) {
+        /**
+         *  用户登录
+         */
         socket.on('login', function (userid, username, headImg) {
-            // socket已存在
-            // if (_.findIndex(users, { socket: socket.id }) !== -1) {
-            //   socket.emit('login_error', '你已经在线了！.');
-            // return;
-            // }
-            // 用户名已存在
-            // if (_.findIndex(users, { userid: userid }) !== -1) {
-            //   socket.emit('login_error', '用户名已存在.');
-            // return;
-            // }
-
-            // 强制下线
             var index = _.findIndex(users, { userid: userid })
             if (index !== -1) {
                 var contact = users[index];
-                // io.of('/chat').to(contact.socket).emit('logout', '你已在其他地方登陆！');
                 console.log(contact.userid + ' 在其他地方登陆！');                              
-                // 删除索引
                 users.splice(index, 1);
             }
             // 查询token  userid, username, headImg, callback
-            chatUser.getRongyunToken(userid, username, '', callback);
+            UserModel.getRongyunToken(userid, username, '', callback);
 
             function callback(err, info) {
                 if (err) {
@@ -48,7 +37,6 @@ module.exports = function (io) {
                         userid: info.userid,
                         socket: socket.id
                     });
-                    // _.pluck(users, 'userid') 
                     socket.emit('login_successful', info);
                     socket.broadcast.emit('online', info.userid);
                     console.log(userid + ' logged in');
@@ -56,7 +44,10 @@ module.exports = function (io) {
             }
         });
 
-        // 视频/音频消息中转服务
+
+        /**
+         *  视频/音频消息中转服务
+         */
         socket.on('sendMessage', function (userid, message) {
             console.log('send message to:' + userid);
             var currentUser = _.find(users, { socket: socket.id });
@@ -79,11 +70,12 @@ module.exports = function (io) {
             }
             console.log('send message to(finded):' + userid +
                 'currentUser.userid:' + userid + 'socket:' + contact.socket);
-
             io.of('/chat').to(contact.socket).emit('messageReceived', currentUser.userid, message);
         });
 
-        // 离线处理
+        /**
+         *  离线处理
+         */
         socket.on('disconnect', function () {
             var index = _.findIndex(users, { socket: socket.id });
             if (index !== -1) {
@@ -93,11 +85,12 @@ module.exports = function (io) {
             }
         });
 
-        // 创建群组
+        /**
+         *  创建群组
+         */
         socket.on('findGroup', function (groupid, groupname, userids, headImg) {
-            chatGroup.findGroup(groupid, groupname, userids, headImg, callback);
+            GroupModel.findGroup(groupid, groupname, userids, headImg, callback);
             function callback(err, ret) {
-                // emit方法需要再做处理
                 if (err) {
                     socket.emit('findGroup_err', err);
                 } else {
@@ -106,10 +99,12 @@ module.exports = function (io) {
             }
         });
 
-        // 检查用户在线状态(官方接口只能检查单个)
+        /**
+         *  检查用户在线状态(融云接口只能检查单个)
+         */
         socket.on('checkOnline', function (userids) {
             // 方法1：使用融云判断
-            // chatGroup.checkOnline(userids, callback);
+            // GroupModel.checkOnline(userids, callback);
             // function callback(err, ret) {
             //     // TODO:emit方法需要再做处理
             //     if (err) {
@@ -133,7 +128,9 @@ module.exports = function (io) {
             socket.emit('checkOnline_suc', ret);
         });
 
-        // 加入群组
+        /**
+         *  加入群组
+         */
         socket.on('joinGroup', function (groupid, userid) {
         });
     });

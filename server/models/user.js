@@ -1,7 +1,7 @@
 /*-----
 用户
 ------*/
-var mongoose = require('./db-moogoose');
+var mongoose = require('../db-moogoose');
 // 融云
 var rongcloudSDK = require('rongcloud-sdk');
 rongcloudSDK.init('lmxuhwagxgt9d', 'NpbRLWPxB79');
@@ -53,7 +53,10 @@ var UserSchema = new Schema({
   setting: Schema.Types.Mixed
 });
 
-// 登录 (methods定义实例方法，依赖与与model实现)
+var UsersModel = mongoose.model('User', UserSchema);
+/**
+ * 登录 (methods定义实例方法，依赖与与model实现)
+ */
 UserSchema.methods.login = function (cb) {
   var md5 = crypto.createHash('md5');
   md5.update(this.password);
@@ -61,40 +64,60 @@ UserSchema.methods.login = function (cb) {
   return this.model('User').find({ password: md5pwd, username: this.username }, cb);
 }
 
-// 查找所有好友 
-UserSchema.methods.loadFriendsAndGroups = function (cb) {
-  User.findOne({ username: this.username })
-    .populate('friends groups', '-_id')
+/**
+ * 查找所有好友
+ */
+UserSchema.methods.loadFriends = function (cb) {
+  UsersModel.findOne({ username: this.username })
+    .populate('friends')
     .exec(function (err, user) {
       if (err) { }
-      console.log('The first:', user.friends[0].username);
+      console.log('The first friend:', user.friends[0].username);
     });
 }
 
-// 添加好友
-UserSchema.statics.addFriend = function (username,friendid, cb) {
+/**
+ * 查找所有群
+ */
+UserSchema.methods.loadGroups = function (cb) {
+  UsersModel.findOne({ username: this.username })
+    .populate('groups')
+    .exec(function (err, user) {
+      if (err) { }
+      console.log('The first group:', user.friends[0].username);
+    });
+}
+
+/**
+ * 添加好友
+ */
+UserSchema.statics.addFriend = function (username, friendid, cb) {
   var query = { username: username };
-  User.findOne(query)
+  UsersModel.findOne(query)
     .exec(function (err, doc) {
-      var friends = [];
-      friends.concat(doc.friends);
-      // 类型转换
-      var friendid = mongoose.Types.ObjectId(friendid);
-      friends.push(friendid);
-      UserModel.update(
-        { username: username },   // condition
-        { friends: friends },     // doc
-        { multi: false },         // option
-        function (err, raw) {     // callback
-          if (err) {
-            // todo
-          }
-          console.log('ret:', raw);
-        });
+      if (doc && doc.length > 0) {
+        var friends = [];
+        friends.concat(doc.friends);
+        // 类型转换
+        var friendid = mongoose.Types.ObjectId(friendid);
+        friends.push(friendid);
+        UserModel.update(
+          { username: username },   // condition
+          { friends: friends },     // doc
+          { multi: false },         // option
+          function (err, raw) {     // callback
+            if (err) {
+              // todo
+            }
+            console.log('ret:', raw);
+          });
+      }
     });
 }
 
-// 密码MD5加密
+/**
+ * 密码MD5加密
+ */
 UserSchema.path('password').set(function (rawpwd) {
   var md5 = crypto.createHash('md5');
   md5.update(v);
@@ -102,8 +125,9 @@ UserSchema.path('password').set(function (rawpwd) {
   return pwd;
 });
 
-
-// 融云toke(statics定义实例方法，可直接在Model级使用)
+/**
+ * 融云toke(statics定义实例方法，可直接在Model级使用)
+ */
 UserSchema.statics.getRongyunToken = function (userid, name, headImg, cb) {
   rongcloudSDK.user.getToken(userid, name, headImg,
     function (err, resultText) {
@@ -119,8 +143,6 @@ UserSchema.statics.getRongyunToken = function (userid, name, headImg, cb) {
       }
     });
 }
-
-var UsersModel = mongoose.model('User', UserSchema);
 
 module.exports = UsersModel;
 
