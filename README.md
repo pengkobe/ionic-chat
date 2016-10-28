@@ -99,8 +99,8 @@ you can get what you want
 you may click [build notes](server/README.md) for more information.   
    
 1. node with express
-2. mongodb with mongoloose
-3. rongyuncloud
+2. mongodb with mongoose
+3. rongyun cloud cordova plugin
 4. turn/stun server
 5. socket.io
 

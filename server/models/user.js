@@ -54,6 +54,9 @@ var UserSchema = new Schema({
 });
 
 var UsersModel = mongoose.model('User', UserSchema);
+
+
+
 /**
  * 登录 (methods定义实例方法，依赖与与model实现)
  */
@@ -64,21 +67,39 @@ UserSchema.methods.login = function (cb) {
   return this.model('User').find({ password: md5pwd, username: this.username }, cb);
 }
 
+
+
+/**
+ * 按用户名搜索
+ */
+UserSchema.statics.loadAllUsers = function (cb) {
+  // UsersModel.find()
+  //   .exec(function (err, users) {
+  //     if (err) { }
+  //     if (users.length == 0) {
+  //       console.log('no user yet!');
+  //     } else {
+  //       console.log('The first user:', users[0].username);
+  //       cb(users);
+  //     }
+  //   });
+}
+
 /**
  * 查找所有好友
  */
 UserSchema.statics.loadFriends = function (username, cb) {
-  UsersModel.findOne({ username: username })
-    .populate('friends')
-    .exec(function (err, users) {
-      if (err) { }
-      if (users.length == 0) {
-        console.log('no friend yet!');
-      } else {
-        console.log('The first friend:', users.friends[0].username);
-        cb(users);
-      }
-    });
+  // UsersModel.findOne({ username: username })
+  //   .populate('friends')
+  //   .exec(function (err, users) {
+  //     if (err) { }
+  //     if (users.length == 0) {
+  //       console.log('no friend yet!');
+  //     } else {
+  //       console.log('The first friend:', users.friends[0].username);
+  //       cb(users);
+  //     }
+  //   });
 }
 
 /**
@@ -98,26 +119,26 @@ UserSchema.methods.loadGroups = function (cb) {
  */
 UserSchema.statics.addFriend = function (username, friendid, cb) {
   var query = { username: username };
-  UsersModel.findOne(query)
-    .exec(function (err, doc) {
-      if (doc && doc.length > 0) {
-        var friends = [];
-        friends.concat(doc.friends);
-        // 类型转换
-        var friendid = mongoose.Types.ObjectId(friendid);
-        friends.push(friendid);
-        UserModel.update(
-          { username: username },   // condition
-          { friends: friends },     // doc
-          { multi: false },         // option
-          function (err, raw) {     // callback
-            if (err) {
-              // todo
-            }
-            console.log('ret:', raw);
-          });
-      }
-    });
+  // UsersModel.findOne(query)
+  //   .exec(function (err, doc) {
+  //     if (doc && doc.length > 0) {
+  //       var friends = [];
+  //       friends.concat(doc.friends);
+  //       // 类型转换
+  //       var friendid = mongoose.Types.ObjectId(friendid);
+  //       friends.push(friendid);
+  //       UserModel.update(
+  //         { username: username },   // condition
+  //         { friends: friends },     // doc
+  //         { multi: false },         // option
+  //         function (err, raw) {     // callback
+  //           if (err) {
+  //             // todo
+  //           }
+  //           console.log('ret:', raw);
+  //         });
+  //     }
+  //   });
 }
 
 /**

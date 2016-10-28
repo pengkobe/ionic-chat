@@ -34,4 +34,8 @@ angular.module('ionchat.config', [])
     // 回复加群
     .constant('RES_GROUP_REQUEST', 'http://localhost:54321/res_addgroupmember')
     // 退群
-    .constant('REMOVE_GROUP_URL', 'http://localhost:54321/removegroup');
+    .constant('REMOVE_GROUP_URL', 'http://localhost:54321/removegroup')
+    
+    // =========测试用=============
+    .constant('LOAD_ALL_USER_URL', 'http://localhost:54321/loadallusers');
+
