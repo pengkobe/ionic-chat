@@ -170,7 +170,7 @@ angular.module('chat.common.services', [])
             }
         }
     })
-    .factory('HttpPromiseService', function (HttpFactory, BASE_URL, $q) {
+    .factory('HttpPromiseService', function (HttpFactory,$q) {
         return {
             getData: function (url, params) {
                 var defer = $q.defer();

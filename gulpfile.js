@@ -90,8 +90,8 @@ gulp.task('buildchat', function (done) {
 gulp.task('builddash', function (done) {
   // 打包js
   gulp.src([
-    'www/module/dash/js/dash.controller.js',
     'www/module/dash/js/dash.service.js',
+    'www/module/dash/js/dash.controller.js',
     'www/module/dash/business/**/*.js',
   ])
     .pipe(concat('dash.min.js'))

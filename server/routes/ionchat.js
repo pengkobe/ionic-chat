@@ -16,7 +16,13 @@ router.post('/register', function (req, res) {
   var username = req.body.username;
   var password = req.body.password;
   var UserEntity = new UserModel({ username: username, password: password });
-  UserEntity.save();
+  UserEntity.save(function(err,doc){
+    if(err){
+      console.log(err)
+    }
+      console.log(doc)
+     res.json({ user: doc });
+  });
 });
 
 
@@ -110,6 +116,18 @@ router.post('/res_addfriend', function (req, res) {
 router.post('/res_addgroupmember', function (req, res) {
 
 });
+
+
+
+// ==========FOR TEST ===========
+// router.post('/addusers', function (req, res) {
+
+// });
+
+// router.post('/addgroups', function (req, res) {
+
+// });
+
 
 
 module.exports = router;

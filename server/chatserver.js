@@ -13,7 +13,7 @@ var users = [];
  * TODO:在线状态并不可信，手机端因为某些原因不一定会调用disconnect方法
 */
 module.exports = function (io) {
-    var UserModel = require('./models/userid.js');
+    var UserModel = require('./models/user.js');
     var GroupModel = require('./models/group.js');
     io.of('/chat').on('connection', function (socket) {
         /**

@@ -4,7 +4,7 @@ var debug = require('debug')('ionic-chat');
 var app = require('../app');
 var http = require('http');
 
-var port = normalizePort(process.env.PORT || '5000');
+var port = normalizePort(process.env.PORT || '54321');
 app.set('port', port);
 
 // Create HTTP server.

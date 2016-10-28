@@ -2,7 +2,7 @@
  * controller负责数据对接与权限控制
  */
 angular.module('dash', ["dash.service"])
-  .controller('DashCtrl', function ($scope) {
+  .controller('DashCtrl', function ($scope,AddNewUserService,AddNewGroupService) {
     // 构建消息UI模板
     $scope.buildTplUrl = function (type) {
 
@@ -47,6 +47,7 @@ angular.module('dash', ["dash.service"])
     
     $scope.addNewUser = function () {
       alert('xx');
+      AddNewUserService.init();
       console.log("测试添加用户...");
     };
     $scope.addNewGroup = function () {

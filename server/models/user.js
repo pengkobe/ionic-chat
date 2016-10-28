@@ -125,7 +125,7 @@ UserSchema.statics.addFriend = function (username, friendid, cb) {
  */
 UserSchema.path('password').set(function (rawpwd) {
   var md5 = crypto.createHash('md5');
-  md5.update(v);
+  md5.update(rawpwd);
   var pwd = md5.digest('hex');
   return pwd;
 });

@@ -5,9 +5,21 @@
 
 angular.module('dash.service', [])
     // 好友服务
-    .factory('AddNewUserService', function () {
-        return {};
+    .factory('AddNewUserService', function (HttpPromiseService, REGISTER_URL) {
+        return {
+            init: function () {
+                debugger;
+                var params = {
+                    usename: 'pengyi',
+                    password: '123'
+                };
+                HttpPromiseService.getData(REGISTER_URL, params).then(function (data) {
+                    console.log(data);
+                    debugger;
+                });
+            }
+        };
     })
-    .factory('AddNewGroupService', function () {
+    .factory('AddNewGroupService', function (HttpPromiseService) {
         return {};
     })

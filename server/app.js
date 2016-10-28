@@ -6,10 +6,9 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var settings = require('./settings');
-// 路由
-var route_default = require('./routes/index');
-var route_ionchat = require('./routes/ionchat');
 
+// 路由
+var route_ionchat = require('./routes/ionchat');
 
 var app = express();
 //设置跨域访问
@@ -34,39 +33,22 @@ app.use(bodyParser.urlencoded({limit: '2mb', extended: true}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public'), {maxAge : 86400000}));
 
-// session mongodb
-var session = require('express-session');
-var MongoStore = require('connect-mongo')(session);
+// 不开启 session/mongodb
+// var session = require('express-session');
+// var MongoStore = require('connect-mongo')(session);
 
-app.use(session({
-  secret: settings.cookieSecret,
-  key: settings.db,//cookie name
-  cookie: {maxAge: 1000 * 60 * 60 * 24 * 30},//30 days
-  store: new MongoStore({
-    url: settings.dbUrl
-  })
-}));
-
-var wechat = require('wechat');
-
-//var config = {
-//  token: 'pengyi_kobepeng',
-//  appid: 'wx73c22f5b3c841dd2',
-//  encodingAESKey: 'xkFi3jisAGd7iNbYkftRly0UicQsAL953a2BNyV3B3d'
-//};
-//var secret = '136c70fe1c4698a3508a26d6de12bb25';
-
-var config = {
-  token: 'kobepeng',
-  appid: 'wx888300469dbe9436',
-  encodingAESKey: 'xkFi3jisAGd7iNbYkftRly0UicQsAL953a2BNyV3B3d'
-};
-var secret = 'd4624c36b6795d1d99dcf0547af5443d';
+// app.use(session({
+//   secret: settings.cookieSecret,
+//   key: settings.db,//cookie name
+//   cookie: {maxAge: 1000 * 60 * 60 * 24 * 30},//30 days
+//   store: new MongoStore({
+//     url: settings.dbUrl
+//   })
+// }));
 
 app.use(express.query());
 
-app.use('/ionchat', route_ionchat);
-app.use('/', route_default);
+app.use('/', route_ionchat);
 
 /// 404
 app.use(function (req, res, next) {

@@ -96,7 +96,8 @@ gulp buildchat
 you can get what you want
 
 ## back-end dependency
-you may click [build notes](server/README.md) for more information.  
+you may click [build notes](server/README.md) for more information.   
+   
 1. node with express
 2. mongodb with mongoloose
 3. rongyuncloud
