@@ -1,44 +1,35 @@
-<!-- the current view will be rendered in the <ion-nav-view> directive 
- 这个页面做得还是不错的 http://www.17sucai.com/pins/21190.html
-  -->
 <ion-view view-title="注册" class="container" hide-tabs="">
-  <ion-content scroll="false">
-    <form name="myForm" w5c-form-validate="validateOptions" novalidate>
-      <div class="login-banner">
-        <img src="main/assets/images/login/register-banner.png" alt="" class="ion-image">
-      </div>
-      <div class="tm-form-item item-text-wrap">
-        <label class="item-input tm-item-input">
-          <input type="tel" name="username" ng-model="user.username" placeholder="请输入手机号码"
-          required ng-maxlength="11"  ng-pattern="/1[3|4|5|7|8|][0-9]{9}/"
-          >
-        </label>
-      </div>
-      <div class="tm-form-item item-text-wrap clearfix">
-        <label class="item-input tm-item-input tm-item-input-inset">
-          <input type="text" name="sms_code" ng-model="user.sms_code" placeholder="请输入短信验证码"
-          required
-          >
-        </label>
-        <label class="item-input tm-item-input tm-item-button-inset assertive" ng-if="!smsCodeStatus" ng-click="getSmsCode(user.username)">{{smsCodeText}}</label>
-        <label class="item-input tm-item-input tm-item-button-inset stable" ng-if="smsCodeStatus">{{smsCodeText}}</label>
-      </div>
-      <div class="tm-form-item item-text-wrap">
-        <label class="item-input tm-item-input">
-          <input type="password" name="password" ng-model="user.password" placeholder="请输入密码（含数字和字母且在6~20位）"
-          required ng-pattern="/^(?=.*[0-9].*)(?=.*[A-Za-z].*).{6,20}$/"
-          >
-        </label>
-      </div>
-      <div class="item-padding assertive forgot-password"></div>
-      <div class="item-padding">
-        <button class="button button-block button-assertive login-button" w5c-form-submit="register()">注册</button>
-      </div>
-      <div class="item-padding login-divider">
+	<ion-content scroll="false">
+		<form name="myForm" w5c-form-validate="validateOptions" novalidate>
+			<div class="register-icon">
+				<img src="assets/img/personPhoto.png" alt="" class="ion-image">
+			</div>
 
-      </div>
-      <div class="text-center assertive" ng-click="goBack()">登录</div>
-      <form-error time="2000" ng-if="myForm.$errors.length > 0 "></form-error>
-    </form>
-  </ion-content>
+			<div class="weui-cells__title">请输入账号</div>
+			<div class="weui-cells">
+				<div class="weui-cell">
+					<div class="weui-cell__bd">
+						<input class="weui-input" name="username" type="text" ng-model="user.username" 
+            required ng-maxlength="11" ng-minlength="11"
+							placeholder="请输入账号" />
+					</div>
+				</div>
+			</div>
+
+			<div class="weui-cells__title">请输入密码</div>
+			<div class="weui-cells">
+				<div class="weui-cell">
+					<div class="weui-cell__bd">
+						<input class="weui-input" name="password" type="password" ng-model="user.password" 
+            required ng-pattern="/^(?=.*[0-9].*)(?=.*[A-Za-z].*).{6,20}$/"
+							placeholder="请输入密码" />
+					</div>
+				</div>
+			</div>
+
+			<div class="item-padding login-divider"></div>
+      <a  href="#" class="weui-btn weui-btn_plain-default" ng-click="goBack()">返回登录</a>
+			<form-error time="2000" ng-if="myForm.$errors.length > 0 "></form-error>
+		</form>
+	</ion-content>
 </ion-view>

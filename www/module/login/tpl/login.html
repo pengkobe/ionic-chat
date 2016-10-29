@@ -1,44 +1,37 @@
 <!-- the current view will be rendered in the <ion-nav-view> directive -->
 <ion-view view-title="登录" class="container" hide-tabs="">
-  <!--本视图可见时，ion-nav-buttons将被导航框架载入导航栏-->
-  <!--<ion-nav-buttons side="right">
-    <button class="button" ng-click="doSomething()">
-      register
-    </button>
-  </ion-nav-buttons>-->
-  <ion-content scroll="false">
-    <form name="myForm" w5c-form-validate="validateOptions" novalidate>
-      <div class="login-banner">
-        <img src="assets/images/login/login-banner.png" alt="" class="ion-image">
-      </div>
-      <div class="tm-form-item item-text-wrap">
-        <label class="item-input tm-item-input">
-          <input name="username" type="tel" ng-model="user.username" placeholder="请输入手机号码"
-                 required ng-maxlength="11" ng-minlength="11" >
-        </label>
-      </div>
-      <div class="tm-form-item item-text-wrap">
-        <label class="item-input tm-item-input">
-          <input type="password" name="password" ng-model="user.password" placeholder="请输入密码"
-                 required>
-        </label>
-      </div>
-      <!--<div class="tm-form-item item-text-wrap clearfix">
-        <label class="item-input tm-item-input tm-item-input-inset">
-          <input type="password" placeholder="请输入密码">
-        </label>
-        <label class="item-input tm-item-input tm-item-button-inset assertive">验证码</label>
-      </div>-->
 
-      <div class="item-padding assertive forgot-password" ui-sref="footer.reset-password">忘记密码</div>
-      <div class="item-padding">
-        <button class="button button-block button-assertive login-button" w5c-form-submit="login()">登录</button>
-      </div>
+	<ion-content scroll="false">
+		<form name="myForm" w5c-form-validate="validateOptions" novalidate>
+			<div class="login-icon">
+				<img src="assets/img/icon.png" alt="" class="ion-image">
+			</div>
 
-      <div class="item-padding login-divider">
-      </div>
-      <div class="text-center assertive" ui-sref="footer.register">注册</div>
-      <form-error time="1500" ng-if="myForm.$errors.length > 0 "></form-error>
-    </form>
-  </ion-content>
+			<div class="weui-cells__title">请输入账号</div>
+			<div class="weui-cells">
+				<div class="weui-cell">
+					<div class="weui-cell__bd">
+						<input class="weui-input" name="username" type="tel" ng-model="user.username" required ng-maxlength="11" ng-minlength="11"
+							placeholder="请输入账号" />
+					</div>
+				</div>
+			</div>
+
+			<div class="weui-cells__title">请输入密码</div>
+			<div class="weui-cells">
+				<div class="weui-cell">
+					<div class="weui-cell__bd">
+						<input class="weui-input" name="password" type="password" ng-model="user.password" required placeholder="请输入密码" />
+					</div>
+				</div>
+			</div>
+
+			<div class="weui-btn-area">
+				<a class="weui-btn weui-btn_primary" ng-click="login()">登录</a>
+			</div>
+
+			<a class="weui-btn weui-btn_default" ui-sref="register">注册</a>
+			<form-error time="1500" ng-if="myForm.$errors.length > 0 "></form-error>
+		</form>
+	</ion-content>
 </ion-view>
