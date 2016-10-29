@@ -2,7 +2,7 @@
  * controller负责数据对接与权限控制
  */
 angular.module('dash', ["dash.service"])
-  .controller('DashCtrl', function ($scope, Mocking_Users, Mocking_Friends, loadAllFriend) {
+  .controller('DashCtrl', function ($scope) {
     // 构建消息UI模板
     $scope.buildTplUrl = function (type) {
 
@@ -43,19 +43,5 @@ angular.module('dash', ["dash.service"])
 
     }
 
-    $scope.mockingUsers = function () {
-      alert('模拟用户数据');
-      Mocking_Users.init();
-      console.log("模拟用户数据...");
-    };
-    $scope.mockingFriends = function () {
-      alert('模拟添加用户好友数据');
-      Mocking_Friends.init();
-      console.log("模拟添加用户好友数据...");
-    };
-    $scope.testLoadAllFriends = function () {
-      alert('测试Loadfriends');
-      loadAllFriend.init();
-      console.log("测试Loadfriends...");
-    };
+  
   })

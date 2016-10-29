@@ -1,13 +1,13 @@
 // Ionic Starter App
-var _aaa = ['dash', 'account', 'chat'];// ,
+var _aaa = ['dash', 'account', 'chat','devtest'];// ,
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 angular.module('starter', [
   'ionic',
   'chat.common.directive', 'chat.common.services',
-  "ionchat.config",
-  'nsPopover','ngCordova', 'btford.socket-io'].concat(_aaa),
+  "ionchat.config", "oc.lazyLoad",
+  'nsPopover', 'ngCordova', 'btford.socket-io'].concat(_aaa),
   function ($httpProvider) {
     // AngularJS默认为JSON，这里全局修改为:x-www-form-urlencoded
     $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
@@ -45,7 +45,7 @@ angular.module('starter', [
   }
 )
 
-  .run(function ($ionicPlatform, $ionicPopup, $ionicHistory,HotUpdateService) {
+  .run(function ($ionicPlatform, $ionicPopup, $ionicHistory, HotUpdateService) {
     $ionicPlatform.ready(function () {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
@@ -121,7 +121,7 @@ angular.module('starter', [
   /**
    * 全局/平台样式配置
    */
-  .config(function ($ionicConfigProvider) {
+  .config(function ($ionicConfigProvider,$ocLazyLoadProvider) {
     $ionicConfigProvider.platform.android.views.transition('android');
     $ionicConfigProvider.platform.ios.tabs.style('standard');
     $ionicConfigProvider.platform.ios.tabs.position('bottom');
@@ -139,7 +139,6 @@ angular.module('starter', [
 
     // 配置后退按钮文字消失
     $ionicConfigProvider.backButton.previousTitleText(false);
-
   })
   .config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
     // Ionic uses AngularUI Router which uses the concept of states
@@ -180,14 +179,26 @@ angular.module('starter', [
             templateUrl: 'module/account/tpl/tab-account.html',
             controller: 'AccountCtrl'
           }
-        },
+        }
+      })
+      // ===account===
+      .state('tab.devtest', {
+        cache: false,
+        url: '/devtest',views: {
+          'tab-devtest': {
+            templateUrl: 'module/devtest/devtest.html',
+            controller: 'DevTestCtrl'
+          }
+        }
         // resolve: { // Any property in resolve should return a promise and is executed before the view is loaded
         //   loadMyCtrl: ['$ocLazyLoad', function ($ocLazyLoad) {
         //     // you can lazy load files for an existing module
-        //     return $ocLazyLoad.load(root+'dist/js/account.min.js');
+        //     return $ocLazyLoad.load(root + 'dist/js/devtest.min.js');
         //   }]
         // }
-      });
+      })
+
+      ;
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/tab/dash');
 
