@@ -3,6 +3,8 @@ var router = express.Router();
 var https = require('https');
 var settings = require('../settings');
 
+var mongoose = require('../db-moogoose');
+
 var UserModel = require('../models/user.js');
 var GroupModel = require('../models/group.js');
 
@@ -94,11 +96,34 @@ router.post('/loadfriends', function (req, res) {
 
 // 拉取群列表
 router.post('/loadgroups', function (req, res) {
-
+  var username = req.body.username;
+  UserModel.findOne({ username: username })
+    .populate('groups')
+    .exec(function (err, users) {
+      if (err) { console.log('loadfgroups err!'); }
+      if (users.length == 0) {
+        console.log('no group yet!');
+      } else {
+        console.log('The first group:', users.groups[0].groupname);
+        res.json(users.groups);
+      }
+    });
 });
 
 // 拉取好友请求
 router.post('/loadfriendrequest', function (req, res) {
+  var username = req.body.username;
+  UserModel.findOne({ username: username })
+    .populate('response_friends')
+    .exec(function (err, users) {
+      if (err) { console.log('loadfgroups err!'); }
+      if (users.length == 0) {
+        console.log('no group yet!');
+      } else {
+        console.log('The first group:', users.response_friends[0].groupname);
+        res.json(users.response_friends);
+      }
+    });
 
 });
 
@@ -108,7 +133,6 @@ router.post('/loadgrouprequesst', function (req, res) {
 });
 
 // 添加好友请求
-var mongoose = require('../db-moogoose');
 router.post('/addfriend', function (req, res) {
   var username = req.body.username;
   var _ids = req.body._ids.split(";");
@@ -153,13 +177,6 @@ router.post('/addfriend', function (req, res) {
         console.log('addfriend 0 ret:', doc);
       }
     });
-  // UserModel.addFriend(username, _id, function (err, doc) {
-  //   if (err) {
-  //     res.json("err...");
-  //   } else {
-  //     res.json("succeed...");
-  //   }
-  // })
 });
 
 // 添加好友进群

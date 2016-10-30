@@ -40,9 +40,9 @@ var UserSchema = new Schema({
   // 群
   groups: [{ type: Schema.Types.ObjectId, ref: 'Group' }],
   // 邀请对方添加好友
-  requset_friends: [{}],
+  requset_friends: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   // 被邀请添加好友
-  response_friends: [{}],
+  response_friends: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   // 邀请对方加群
   requset_groups: [{}],
   // 被邀请加群
