@@ -1,7 +1,3 @@
-/**
- * Created by superman on 2016/6/12.
- * todo：移植密码加密服务
- */
   angular.module('login.service', [])
     .factory('LogoutService', ['$state', '$ionicHistory', 
     function ( $state, $ionicHistory) {

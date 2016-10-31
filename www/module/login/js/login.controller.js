@@ -1,9 +1,8 @@
-
 angular.module('login.controller', [])
   .controller('LoginController', LoginController)
   .controller('RegisterController', RegisterController)
 
-function LoginController($scope, $ionicPopup, $rootScope, $ionicLoading, $state) {
+function LoginController($scope, $rootScope, $ionicLoading, $state, LOGIN_URL, HttpPromiseService,currentUser) {
   $scope.submitting = false;
   $scope.user = {};
   $scope.validateOptions = {
@@ -13,16 +12,26 @@ function LoginController($scope, $ionicPopup, $rootScope, $ionicLoading, $state)
   };
 
   $scope.login = function () {
-    $state.go('tab.chat');
+    var params = {
+      username: $scope.user.username,
+      password: $scope.user.password
+    };
+    HttpPromiseService.getData(LOGIN_URL, params).then(function (data) {
+      console.log(data);
+      if (data.state = 1) {
+        currentUser.setUserinfo(data.user);
+        $state.go('tab.chat');
+      } else {
+        alert("登录失败");
+      }
+    });
   };
 }
 
-LoginController.$inject = ['$scope', '$ionicPopup', '$rootScope', '$ionicLoading', '$state'];
+LoginController.$inject = ['$scope', '$rootScope', '$ionicLoading', '$state', 'LOGIN_URL', 'HttpPromiseService','currentUser'];
 
-function RegisterController($scope, $ionicPopup, $rootScope, $ionicBackdrop, $ionicHistory) {
+function RegisterController($scope, $rootScope, $ionicBackdrop, $ionicHistory,REGISTER_URL,HttpPromiseService) {
   $scope.submitting = false;
-  $scope.smsCodeText = '免费获取';
-  $scope.smsCodeStatus = false;
   $scope.user = {};
   $scope.validateOptions = {
     blurTrig: false,
@@ -32,11 +41,24 @@ function RegisterController($scope, $ionicPopup, $rootScope, $ionicBackdrop, $io
 
   $scope.register = function () {
     $scope.submitting = true;
-    $scope.user.nick_name = $scope.user.username;
+    var params = {
+      username: $scope.user.username,
+      password: $scope.user.password,
+      nickname: $scope.user.username
+    };
+     HttpPromiseService.getData(REGISTER_URL, params).then(function (data) {
+      console.log(data);
+      if (data.state = 1) {
+        alert("注册成功！");
+        $state.go('login');
+      } else {
+        alert("注册失败");
+      }
+    });
   };
 
   $scope.goBack = function () {
     $ionicHistory.goBack(-1);
   }
 }
-RegisterController.$inject = ['$scope', '$ionicPopup', '$rootScope', '$ionicBackdrop', '$ionicHistory'];
+RegisterController.$inject = ['$scope', '$rootScope', '$ionicBackdrop', '$ionicHistory','REGISTER_URL','HttpPromiseService'];

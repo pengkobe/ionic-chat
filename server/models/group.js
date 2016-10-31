@@ -8,14 +8,12 @@ rongcloudSDK.init('lmxuhwagxgt9d', 'NpbRLWPxB79');
 
 var Schema = mongoose.Schema;
 var GroupSchema = new Schema({
-    // 编号
-    groupid: { type: String, unique: true },
     // 群名
-    groupname: { type: String },
+    groupname: { type: String,default:'' },
     // 群成员
     members: [Schema.Types.ObjectId],
     // 是否激活
-    isActivated: { type: Number, default: 1 }
+    groupimg: { type: String ,default:'' },
 });
 
 var GroupsModel = mongoose.model('Groups', GroupSchema);

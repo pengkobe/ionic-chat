@@ -10,7 +10,7 @@
 				<div class="weui-cell">
 					<div class="weui-cell__bd">
 						<input class="weui-input" name="username" type="text" ng-model="user.username" 
-            required ng-maxlength="11" ng-minlength="11"
+            	required ng-maxlength="11" ng-minlength="3"
 							placeholder="请输入账号" />
 					</div>
 				</div>
@@ -21,10 +21,14 @@
 				<div class="weui-cell">
 					<div class="weui-cell__bd">
 						<input class="weui-input" name="password" type="password" ng-model="user.password" 
-            required ng-pattern="/^(?=.*[0-9].*)(?=.*[A-Za-z].*).{6,20}$/"
+            	required ng-pattern="/^(?=.*[0-9].*)(?=.*[A-Za-z].*).{6,20}$/"
 							placeholder="请输入密码" />
 					</div>
 				</div>
+			</div>
+
+			<div class="weui-btn-area">
+				<a class="weui-btn weui-btn_primary" ng-click="register()">注册</a>
 			</div>
 
 			<div class="item-padding login-divider"></div>

@@ -12,32 +12,62 @@ var GroupModel = require('../models/group.js');
 var qr = require('qr-image');
 var fs = require("fs");
 var ObjectID = require('mongodb').ObjectID;
+function file(name) {
+  return fs.createWriteStream('../public/img/' + name);
+}
 
 // 注册
 router.post('/register', function (req, res) {
   var username = req.body.username;
   var password = req.body.password;
   var nickname = req.body.nickname;
-  var headimg = req.body.headimg;
+  var headimg = req.body.headimg ? req.body.headimg : '';
   var UserEntity = new UserModel({ username: username, password: password, nickname: nickname, headimg: headimg });
   UserEntity.save(function (err, doc) {
-    if (err) {
-      console.log(err)
-    }
     console.log(doc)
-    res.json({ user: doc });
+    // 生成二维码名片,默认为png
+    // var ustr = JSON.stringify(doc);
+    // qr.image(ustr, { type: 'png', ec_level: 'Q', parse_url: false, margin: 1 })
+    //   .pipe(file(doc._id + '.png'));
+    if (err) {
+      res.json({ state: -1, message: err });
+    } else {
+      res.json({ state: 1, user: doc });
+    }
   });
 });
 
-
 // 登录
+var crypto = require('crypto');
 router.post('/login', function (req, res) {
   var username = req.body.username;
   var password = req.body.password;
-  var UserEntity = new UserModel({ username: username, password: password });
-  UserEntity.login(function (err, user) {
-    res.json({ user: user });
-  });
+  var md5 = crypto.createHash('md5');
+  md5.update(password);
+  password = md5.digest('hex');
+  console.log('login username:', username);
+  console.log('login password:', password);
+  UserModel.find({ username: username, password: password })
+    .exec(function (err, users) {
+      if (err) {
+        res.json({ state: -1, message: err });
+      }
+       console.log('login users:', users);
+      if (users.length == 0) {
+        res.json({ state: -1, message: "账户或密码错误！" });
+      } else {
+        res.json(users[0]);
+      }
+    });
+
+  // var UserEntity = new UserModel({ username: username, password: password });
+  // UserEntity.login(function (err, user) {
+  //   if (err) {
+  //     res.json({ state: -1, message: err });
+  //   } else {
+  //     res.json({ state: 1, user: user });
+  //   }
+  // });
 });
 
 // 用户头像上传
@@ -129,7 +159,6 @@ router.post('/loadfriendrequest', function (req, res) {
 
 // 拉取好友进群请求
 router.post('/loadgrouprequesst', function (req, res) {
-
 });
 
 // 添加好友请求
@@ -211,15 +240,37 @@ router.post('/loadallusers', function (req, res) {
     });
 });
 
+// 加载所有用户
+router.post('/loadallgroups', function (req, res) {
+  GroupModel.find()
+    .exec(function (err, groups) {
+      if (err) { }
+      if (groups.length == 0) {
+        console.log('no group yet!');
+      } else {
+        console.log('The first group:', groups[0].username);
+        res.json(groups);
+      }
+    });
+});
 
-// router.post('/addusers', function (req, res) {
-
-// });
-
-// router.post('/addgroups', function (req, res) {
-
-// });
-
-
+// 添加群
+router.post('/addGroup', function (req, res) {
+  // 添加进用户表中group字段
+  // 在group中members中添加群成员
+  var groupname = req.body.groupname;
+  var members = req.body.members;
+  var groupimg = req.body.groupimg ? req.body.groupimg : '';
+  var GroupEntity = new GroupModel({ groupname: groupname, members: members, groupimg: groupimg });
+  GroupEntity.save(function (err, doc) {
+    console.log(doc)
+    if (err) {
+      res.json({ state: -1, message: err });
+    } else {
+      // 需要在这里发起进群请求
+      res.json({ state: 1, user: doc });
+    }
+  });
+});
 
 module.exports = router;

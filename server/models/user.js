@@ -40,9 +40,9 @@ var UserSchema = new Schema({
   // 群
   groups: [{ type: Schema.Types.ObjectId, ref: 'Group' }],
   // 邀请对方添加好友
-  requset_friends: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+  requset_friends: [{}],
   // 被邀请添加好友
-  response_friends: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+  response_friends: [{}],
   // 邀请对方加群
   requset_groups: [{}],
   // 被邀请加群
@@ -53,9 +53,48 @@ var UserSchema = new Schema({
   setting: Schema.Types.Mixed
 });
 
+/**
+ * 请求添加对方为好友SCHEMA
+ */
+var Requset_friendSchema = new Schema({ 
+  to: { type:  Schema.Types.ObjectId },
+  time:{type: Date, default: Date.now},
+  state:{type: Number, default: 0},
+ });
+
+
+ /**
+ * 被邀请添加对方为好友SCHEMA
+ */
+var Response_friendSchema = new Schema({ 
+  from: { type:  Schema.Types.ObjectId },
+  time:{type: Date, default: Date.now},
+  state:{type: Number, default: 0},
+ });
+
+ /**
+ * 邀请朋友进群
+ */
+var Requset_groupSchema = new Schema({ 
+  to: { type:  Schema.Types.ObjectId },
+  groupid:{type:  Schema.Types.ObjectId},
+  time:{type: Date, default: Date.now},
+  state:{type: Number, default: 0},
+ });
+
+ /**
+ * 被邀请进群
+ */
+var Response_groupSchema = new Schema({ 
+  from: { type:  Schema.Types.ObjectId },
+  groupid:{type:  Schema.Types.ObjectId},
+  time:{type: Date, default: Date.now},
+  state:{type: Number, default: 0},
+ });
+
+
+
 var UsersModel = mongoose.model('User', UserSchema);
-
-
 
 /**
  * 登录 (methods定义实例方法，依赖与与model实现)
@@ -66,81 +105,6 @@ UserSchema.methods.login = function (cb) {
   var md5pwd = md5.digest('hex');
   return this.model('User').find({ password: md5pwd, username: this.username }, cb);
 }
-
-
-
-/**
- * 按用户名搜索
- */
-UserSchema.statics.loadAllUsers = function (cb) {
-  // UsersModel.find()
-  //   .exec(function (err, users) {
-  //     if (err) { }
-  //     if (users.length == 0) {
-  //       console.log('no user yet!');
-  //     } else {
-  //       console.log('The first user:', users[0].username);
-  //       cb(users);
-  //     }
-  //   });
-}
-
-/**
- * 查找所有好友
- */
-UserSchema.statics.loadFriends = function (username, cb) {
-  // UsersModel.findOne({ username: username })
-  //   .populate('friends')
-  //   .exec(function (err, users) {
-  //     if (err) { }
-  //     if (users.length == 0) {
-  //       console.log('no friend yet!');
-  //     } else {
-  //       console.log('The first friend:', users.friends[0].username);
-  //       cb(users);
-  //     }
-  //   });
-}
-
-/**
- * 查找所有群
- */
-UserSchema.methods.loadGroups = function (cb) {
-  UsersModel.findOne({ username: this.username })
-    .populate('groups')
-    .exec(function (err, user) {
-      if (err) { }
-      console.log('The first group:', user.friends[0].username);
-    });
-}
-
-/**
- * 添加好友
- */
-UserSchema.statics.addFriend = function (username, friendid, cb) {
-  var query = { username: username };
-  // UsersModel.findOne(query)
-  //   .exec(function (err, doc) {
-  //     if (doc && doc.length > 0) {
-  //       var friends = [];
-  //       friends.concat(doc.friends);
-  //       // 类型转换
-  //       var friendid = mongoose.Types.ObjectId(friendid);
-  //       friends.push(friendid);
-  //       UserModel.update(
-  //         { username: username },   // condition
-  //         { friends: friends },     // doc
-  //         { multi: false },         // option
-  //         function (err, raw) {     // callback
-  //           if (err) {
-  //             // todo
-  //           }
-  //           console.log('ret:', raw);
-  //         });
-  //     }
-  //   });
-}
-
 /**
  * 密码MD5加密
  */
@@ -150,6 +114,31 @@ UserSchema.path('password').set(function (rawpwd) {
   var pwd = md5.digest('hex');
   return pwd;
 });
+
+
+/**
+ * 按用户名搜索
+ */
+UserSchema.statics.loadAllUsers = function (cb) {
+}
+
+/**
+ * 查找所有好友
+ */
+UserSchema.statics.loadFriends = function (username, cb) {
+}
+
+/**
+ * 查找所有群
+ */
+UserSchema.methods.loadGroups = function (cb) {
+}
+
+/**
+ * 添加好友
+ */
+UserSchema.statics.addFriend = function (username, friendid, cb) {
+}
 
 /**
  * 融云toke(statics定义实例方法，可直接在Model级使用)

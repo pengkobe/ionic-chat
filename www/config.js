@@ -13,6 +13,8 @@ angular.module('ionchat.config', [])
     .constant('VEDIO_CHAT_URL', 'http://localhost:54321/vediochat')
     // 热更新地址
     .constant('HOT_UPDATE_URL', 'http://115.29.51.196:4321/www/')
+     // 登录
+    .constant('LOGIN_URL', 'http://localhost:54321/login')
      // 注册
     .constant('REGISTER_URL', 'http://localhost:54321/register')
     // 加载好友列表
