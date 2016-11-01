@@ -95,6 +95,7 @@ var Response_groupSchema = new Schema({
 
 /**
  * 登录 (methods定义实例方法，依赖与与model实现)
+ * @param {Function} cb 回调函数
  */
 UserSchema.methods.login = function (cb) {
   return this.model('User').find({ password: this.password, username: this.username }, cb);
@@ -111,6 +112,7 @@ UserSchema.path('password').set(function (rawpwd) {
 
 /**
  * 查找所有好友
+ * @param {Function} cb 回调函数
  */
 UserSchema.statics.loadFriends = function (username, cb) {
   this.findOne({ username: username })
@@ -119,21 +121,122 @@ UserSchema.statics.loadFriends = function (username, cb) {
 }
 
 /**
- * 查找所有用户
- */
-UserSchema.statics.loadAllUsers = function (cb) {
-}
-
-/**
  * 查找所有群
+ * @param {Function} cb 回调函数
  */
 UserSchema.methods.loadGroups = function (cb) {
+  this.findOne({ username: username })
+    .populate('groups')
+    .exec(cb);
 }
 
 /**
  * 添加好友
+ * @param {Object} username 用户名
+ * @param {Object} friendid 好友编号
+ * @param {Function} cb 回调函数
  */
 UserSchema.statics.addFriend = function (username, friendid, cb) {
+  var that = this;
+  var mongoose_ids = [];
+  // 类型转换
+  for (var i = 0; i < _ids.length; i++) {
+    if (_ids[i] && _ids[i] != "") {
+      mongoose_ids.push(mongoose.Types.ObjectId(_ids[i]));
+    }
+  }
+
+  var query = { username: username };
+  that.find(query)
+    .exec(function (err, doc) {
+      if (err) {
+        console.log('addfriend err:', err);
+        cb(err);
+        return;
+      }
+      if (doc && doc.length > 0) {
+        var friends = [];
+        // 原有好友
+        if (doc.friends) {
+          friends = friends.concat(doc.friends);
+        }
+        // 新好友
+        friends = friends.concat(mongoose_ids);
+        console.log('friends:', friends);
+        that.update(
+          { username: username },   // condition
+          { friends: friends },     // doc
+          { multi: true },          // option
+          cb                        // callback
+        );
+      } else {
+        console.log('addfriend 0 ret:', doc);
+      }
+    });
+}
+
+/**
+ * 更新好友请求状态
+ * @param {Object} username 用户名
+ * @param {Object} friendid 好友编号
+ * @param {Object} state 状态[ 0:待确认 | 1:成为好友 ]
+ */
+UserSchema.statics.updateResponse_friendDoc = function (username, friendid, state) {
+  this.update({ username: username, "response_friends.from": friendid },
+    { $set: { "response_friends.$.state": state } })
+}
+
+
+/**
+ * queryRequset_friendsDoc [查找请求好友状态]
+ * @param {Object} username 用户名
+ * @param {Function} cb 回调函数 
+ */
+function queryRequset_friendsDoc(username, cb) {
+  var query = { username: username };
+  this.find(query)
+    .exec(function (err, requset_friends) {
+      requset_friends.find()
+        .populate('to')
+        .exec(function (err, docs) {
+          if (err) return console.log(err);
+          console.log('addRequset_friendsDoc Success!');
+          cb(docs)
+        });
+    });
+}
+
+/**
+ * addRequset_friendsDoc [添加请求好友状态]
+ * @param {Object} username 用户名
+ * @param {Object} friendid 好友编号
+ * @param {Function} cb 回调函数 
+ */
+function addRequset_friendsDoc(username, friendid, cb) {
+  var query = { username: username };
+  this.find(query)
+    .exec(function (err, doc) {
+      // doc.requset_friends.create({ to: friendid, state: 0 }); // 简便方法
+      // parent.children.id(id).remove(); // 删除
+      doc.requset_friends.unshift({ to: friendid, state: 0 });
+      var subdoc = doc.requset_friends[0];
+      subdoc.isNew;
+      doc.save(function (err) {
+        if (err) return console.log(err);
+        console.log('Success!');
+      })
+    });
+}
+
+/**
+ * updateRequset_friendsDoc [更新请求好友状态]
+ * @param {Object} username 用户名
+ * @param {Object} friendid 好友编号
+ * @param {Object} state 状态[ 0:待确认 | 1:成为好友 ]
+ */
+UserSchema.statics.updateRequset_friendsDoc = function (username, friendid, state) {
+  this.update({ username: username, "requset_friends.to": friendid },
+    { $set: { "requset_friends.$.state": state } })
 }
 
 /**

@@ -3,8 +3,6 @@ var router = express.Router();
 var https = require('https');
 var settings = require('../settings');
 
-var mongoose = require('../db-moogoose');
-
 var UserModel = require('../models/user.js');
 var GroupModel = require('../models/group.js');
 
@@ -115,17 +113,17 @@ router.post('/loadfriends', function (req, res) {
 // 拉取群列表
 router.post('/loadgroups', function (req, res) {
   var username = req.body.username;
-  UserModel.findOne({ username: username })
-    .populate('groups')
-    .exec(function (err, users) {
-      if (err) { console.log('loadfgroups err!'); }
-      if (users.length == 0) {
-        console.log('no group yet!');
-      } else {
-        console.log('The first group:', users.groups[0].groupname);
-        res.json(users.groups);
-      }
-    });
+  UserModel.loadGroups({ username: username }, function (err, users) {
+    if (err) {
+      console.log('loadgroups err!');
+    }
+    if (users.length == 0) {
+      console.log('no group yet!');
+    } else {
+      console.log('The first group:', users.groups[0].groupname);
+      res.json(users.groups);
+    }
+  });
 });
 
 // 拉取好友请求
@@ -153,47 +151,16 @@ router.post('/loadgrouprequesst', function (req, res) {
 router.post('/addfriend', function (req, res) {
   var username = req.body.username;
   var _ids = req.body._ids.split(";");
-  var mongoose_ids = [];
-  // 类型转换
-  for (var i = 0; i < _ids.length; i++) {
-    if (_ids[i] && _ids[i] != "") {
-      mongoose_ids.push(mongoose.Types.ObjectId(_ids[i]));
-    }
-  }
-
-  var query = { username: username };
-  // findOne
-  UserModel.find(query)
-    .exec(function (err, doc) {
+  UserModel.addFriend(username, ids,
+    function (err, raw) {
       if (err) {
-        console.log('addfriend err:', err);
-      }
-      if (doc && doc.length > 0) {
-        var friends = [];
-        // 原有好友
-        if (doc.friends) {
-          friends = friends.concat(doc.friends);
-        }
-        // 新好友
-        friends = friends.concat(mongoose_ids);
-        console.log('friends:', friends);
-        UserModel.update(
-          { username: username },   // condition
-          { friends: friends },     // doc
-          { multi: true },          // option
-          function (err, raw) {     // callback
-            if (err) {
-              // todo
-              res.json(err);
-            } else {
-              res.json(raw);
-            }
-            console.log('ret:', raw);
-          });
+        // todo
+        res.json(err);
       } else {
-        console.log('addfriend 0 ret:', doc);
+        res.json(raw);
       }
-    });
+      console.log('ret:', raw);
+    })
 });
 
 // 添加好友进群
