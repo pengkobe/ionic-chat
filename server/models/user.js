@@ -56,54 +56,48 @@ var UserSchema = new Schema({
 /**
  * 请求添加对方为好友SCHEMA
  */
-var Requset_friendSchema = new Schema({ 
-  to: { type:  Schema.Types.ObjectId },
-  time:{type: Date, default: Date.now},
-  state:{type: Number, default: 0},
- });
+var Requset_friendSchema = new Schema({
+  to: { type: Schema.Types.ObjectId },
+  time: { type: Date, default: Date.now },
+  state: { type: Number, default: 0 },
+});
 
 
- /**
- * 被邀请添加对方为好友SCHEMA
- */
-var Response_friendSchema = new Schema({ 
-  from: { type:  Schema.Types.ObjectId },
-  time:{type: Date, default: Date.now},
-  state:{type: Number, default: 0},
- });
+/**
+* 被邀请添加对方为好友SCHEMA
+*/
+var Response_friendSchema = new Schema({
+  from: { type: Schema.Types.ObjectId },
+  time: { type: Date, default: Date.now },
+  state: { type: Number, default: 0 },
+});
 
- /**
- * 邀请朋友进群
- */
-var Requset_groupSchema = new Schema({ 
-  to: { type:  Schema.Types.ObjectId },
-  groupid:{type:  Schema.Types.ObjectId},
-  time:{type: Date, default: Date.now},
-  state:{type: Number, default: 0},
- });
+/**
+* 邀请朋友进群
+*/
+var Requset_groupSchema = new Schema({
+  to: { type: Schema.Types.ObjectId },
+  groupid: { type: Schema.Types.ObjectId },
+  time: { type: Date, default: Date.now },
+  state: { type: Number, default: 0 },
+});
 
- /**
- * 被邀请进群
- */
-var Response_groupSchema = new Schema({ 
-  from: { type:  Schema.Types.ObjectId },
-  groupid:{type:  Schema.Types.ObjectId},
-  time:{type: Date, default: Date.now},
-  state:{type: Number, default: 0},
- });
+/**
+* 被邀请进群
+*/
+var Response_groupSchema = new Schema({
+  from: { type: Schema.Types.ObjectId },
+  groupid: { type: Schema.Types.ObjectId },
+  time: { type: Date, default: Date.now },
+  state: { type: Number, default: 0 },
+});
 
-
-
-var UsersModel = mongoose.model('User', UserSchema);
 
 /**
  * 登录 (methods定义实例方法，依赖与与model实现)
  */
 UserSchema.methods.login = function (cb) {
-  var md5 = crypto.createHash('md5');
-  md5.update(this.password);
-  var md5pwd = md5.digest('hex');
-  return this.model('User').find({ password: md5pwd, username: this.username }, cb);
+  return this.model('User').find({ password: this.password, username: this.username }, cb);
 }
 /**
  * 密码MD5加密
@@ -115,17 +109,19 @@ UserSchema.path('password').set(function (rawpwd) {
   return pwd;
 });
 
-
-/**
- * 按用户名搜索
- */
-UserSchema.statics.loadAllUsers = function (cb) {
-}
-
 /**
  * 查找所有好友
  */
 UserSchema.statics.loadFriends = function (username, cb) {
+  this.findOne({ username: username })
+    .populate('friends')
+    .exec(cb);
+}
+
+/**
+ * 查找所有用户
+ */
+UserSchema.statics.loadAllUsers = function (cb) {
 }
 
 /**
@@ -159,6 +155,8 @@ UserSchema.statics.getRongyunToken = function (userid, name, headImg, cb) {
     });
 }
 
+// must put it there or won't found any methods
+var UsersModel = mongoose.model('User', UserSchema);
 module.exports = UsersModel;
 
 

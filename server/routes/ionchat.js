@@ -38,36 +38,24 @@ router.post('/register', function (req, res) {
 });
 
 // 登录
-var crypto = require('crypto');
 router.post('/login', function (req, res) {
   var username = req.body.username;
   var password = req.body.password;
-  var md5 = crypto.createHash('md5');
-  md5.update(password);
-  password = md5.digest('hex');
-  console.log('login username:', username);
-  console.log('login password:', password);
-  UserModel.find({ username: username, password: password })
-    .exec(function (err, users) {
-      if (err) {
-        res.json({ state: -1, message: err });
-      }
-       console.log('login users:', users);
-      if (users.length == 0) {
-        res.json({ state: -1, message: "账户或密码错误！" });
-      } else {
-        res.json(users[0]);
-      }
-    });
+  console.log('login username:', this.username);
+  console.log('login password:', this.password);
 
-  // var UserEntity = new UserModel({ username: username, password: password });
-  // UserEntity.login(function (err, user) {
-  //   if (err) {
-  //     res.json({ state: -1, message: err });
-  //   } else {
-  //     res.json({ state: 1, user: user });
-  //   }
-  // });
+  var UserEntity = new UserModel({ username: username, password: password });
+  UserEntity.login(function (err, users) {
+    if (err) {
+      res.json({ state: -1, message: err });
+    }
+    console.log('login users:', users);
+    if (users.length == 0) {
+      res.json({ state: -1, message: "账户或密码错误！" });
+    } else {
+      res.json(users[0]);
+    }
+  });
 });
 
 // 用户头像上传
@@ -111,17 +99,17 @@ router.post('/update', function (req, res) {
 // 拉取好友列表
 router.post('/loadfriends', function (req, res) {
   var username = req.body.username;
-  UserModel.findOne({ username: username })
-    .populate('friends')
-    .exec(function (err, users) {
-      if (err) { console.log('loadfriends err!'); }
-      if (users.length == 0) {
-        console.log('no friend yet!');
-      } else {
-        console.log('The first friend:', users.friends[0].username);
-        res.json(users);
-      }
-    });
+  UserModel.loadFriends(username, function (err, users) {
+    if (err) {
+      console.log('loadfriends err!');
+    }
+    if (users.length == 0) {
+      console.log('no friend yet!');
+    } else {
+      console.log('The first friend:', users.friends[0].username);
+      res.json(users);
+    }
+  })
 });
 
 // 拉取群列表
