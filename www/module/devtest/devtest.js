@@ -4,7 +4,7 @@
 angular.module('devtest', ['devtest.service'])
   .controller('DevTestCtrl', function ($scope,
     Mocking_Users, Mocking_Friends, loadAllFriend,  // 好友
-    Mocking_Groups, mocking_add_Groups, test_LoadAllGroups,  // 群
+    Mocking_Groups, mocking_add_Groups, test_LoadAllGroups, mocking_loadAll_FriendRequest, // 群
     mocking_add_FriendRequest, mocking_res_FriendRequest_agree, mocking_res_FriendRequest_reject, // 好友请求
     mocking_add_GroupRequest, mocking_res_GroupRequest_agree, mocking_res_GroupRequest_reject  // 群请求
 
@@ -50,6 +50,13 @@ angular.module('devtest', ['devtest.service'])
       mocking_add_FriendRequest.init();
       console.log("模拟添加对方为好友...");
     };
+
+$scope.mockingLoadAllFriendRequest = function () {
+      alert('模拟加载所有好友请求');
+      mocking_loadAll_FriendRequest.init();
+      console.log("模拟加载所有好友请求...");
+    };
+
     $scope.mocking_resFriendRequest_agree = function () {
       alert('模拟同意添加对方为好友');
       mocking_res_FriendRequest_agree.init();

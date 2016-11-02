@@ -2,7 +2,7 @@ angular.module('devtest.service', [])
 
 
 // ========== 好友
-    .factory('Mocking_Users', function (HttpPromiseService, REGISTER_URL) {
+    .factory('Mocking_Users', function (HttpPromiseService, REGISTER_URL) { // 成功
         return {
             init: function () {
                 // 模拟数据插入数据库
@@ -49,7 +49,7 @@ angular.module('devtest.service', [])
             }
         };
     })
-    .factory('Mocking_Friends', function (HttpPromiseService, LOAD_ALL_USER_URL, ADD_FRIEND_URL) {
+    .factory('Mocking_Friends', function (HttpPromiseService, LOAD_ALL_USER_URL, ADD_FRIEND_URL) { // 成功
         // 模拟数据插入好友列表
         return {
             init: function () {
@@ -73,7 +73,7 @@ angular.module('devtest.service', [])
         }
     })
 
-    .factory('loadAllFriend', function (HttpPromiseService, LOAD_FRIENDS_URL) {
+    .factory('loadAllFriend', function (HttpPromiseService, LOAD_FRIENDS_URL) { // 成功
         // 测试加载好友数据接口
         return {
             init: function () {
@@ -107,7 +107,7 @@ angular.module('devtest.service', [])
             }
         }
     })
-    .factory('ADD_GROUP_URL', function (HttpPromiseService, LOAD_GROUPS_URL, ADD_GROUP_URL) {
+    .factory('mocking_add_Groups', function (HttpPromiseService, LOAD_GROUPS_URL, ADD_GROUP_URL) {
         return {
             init: function () {
                 var params = {
@@ -138,13 +138,29 @@ angular.module('devtest.service', [])
 
 
     // ==========好友请求相关
-     .factory('mocking_add_FriendRequest', function (HttpPromiseService, REQ_FRIEND_URL) {
+     .factory('mocking_add_FriendRequest', function (HttpPromiseService, REQ_FRIEND_URL) { // 成功
         return {
             init: function () {
+                // #/tab/friendInfo/5819b57430ac0f042104b78b/戴露/PRIVATE
                 var params = {
-                    username: 'py',
+                    username: 'zhouw',
+                    friendid:'5819b57430ac0f042104b78b' // dl
                 };
                 HttpPromiseService.getData(REQ_FRIEND_URL, params).then(function (data) {
+                    debugger;
+                    console.log(data);
+                });
+            }
+        }
+    })
+     .factory('mocking_loadAll_FriendRequest', function (HttpPromiseService, LOAD_FRIEND_REQUEST_URL) { // 成功
+        return {
+            init: function () {
+                // #/tab/friendInfo/5819b57430ac0f042104b78b/戴露/PRIVATE
+                var params = {
+                    username: 'dl',
+                };
+                HttpPromiseService.getData(LOAD_FRIEND_REQUEST_URL, params).then(function (data) {
                     debugger;
                     console.log(data);
                 });
