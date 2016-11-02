@@ -133,10 +133,10 @@ UserSchema.methods.loadGroups = function (cb) {
 /**
  * 添加好友
  * @param {Object} username 用户名
- * @param {Object} friendid 好友编号
+ * @param {Object} _ids 好友编号
  * @param {Function} cb 回调函数
  */
-UserSchema.statics.addFriend = function (username, friendid, cb) {
+UserSchema.statics.addFriend = function (username, _ids, cb) {
   var that = this;
   var mongoose_ids = [];
   // 类型转换
@@ -190,9 +190,9 @@ UserSchema.statics.updateResponse_friendDoc = function (username, friendid, stat
 /**
  * queryRequset_friendsDoc [查找请求好友状态]
  * @param {Object} username 用户名
- * @param {Function} cb 回调函数 
+ * @param {Function} cb 回调函数
  */
-function queryRequset_friendsDoc(username, cb) {
+UserSchema.statics.queryRequset_friendsDoc = function (username, cb) {
   var query = { username: username };
   this.find(query)
     .exec(function (err, requset_friends) {
@@ -210,9 +210,9 @@ function queryRequset_friendsDoc(username, cb) {
  * addRequset_friendsDoc [添加请求好友状态]
  * @param {Object} username 用户名
  * @param {Object} friendid 好友编号
- * @param {Function} cb 回调函数 
+ * @param {Function} cb 回调函数
  */
-function addRequset_friendsDoc(username, friendid, cb) {
+UserSchema.statics.addRequset_friendsDoc = function (username, friendid, cb) {
   var query = { username: username };
   this.find(query)
     .exec(function (err, doc) {

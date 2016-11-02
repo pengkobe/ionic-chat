@@ -1,19 +1,60 @@
 <ion-view view-title="devtest">
-  <ion-content class="padding" id="lala">
-    <!-- 模拟用户数据 -->
-    <div >
-	  <button class="button button-outline button-positive" ng-click="mockingUsers()">
-        模拟用户数据
-      </button></div>
-	  <!-- 模拟用户好友 -->
-      <div>
-      <button class="button button-outline button-positive" ng-click="mockingFriends()">
-        模拟用户好友
-      </button></div>
-	  <!-- 测试加载好友数据接口 -->
-      <div>
-      <button class="button button-outline button-positive" ng-click="testLoadAllFriends()">
-        测试加载好友数据接口
-      </button></div>
-  </ion-content>
+    <ion-content class="padding" id="lala">
+        <!-- 好友相关 -->
+        <div class="list card">
+                <button class="button button-outline button-positive" ng-click="mockingUsers()">
+                  模拟用户数据
+                </button>
+            <!-- 模拟用户好友 -->
+                <button class="button button-outline button-positive" ng-click="mockingFriends()">
+                    模拟用户好友
+                </button>
+            <!-- 测试加载好友数据接口 -->
+                <button class="button button-outline button-positive" ng-click="testLoadAllFriends()">
+                    测试加载好友数据接口
+                </button>
+        </div>
+
+        <!-- 群组相关 -->
+        <div class="list card">
+                <button class="button button-outline button-positive" ng-click="mockingGroups()">
+                    模拟群组数据
+                </button>
+                <button class="button button-outline button-positive" ng-click="mockingaddGroups()">
+                    模拟用户群组
+                </button>
+                <button class="button button-outline button-positive" ng-click="testLoadAllGroups()">
+                    测试加载用户群组
+                </button>
+        </div>
+
+
+
+        <!-- 好友请求相关 -->
+        <div class="list card">
+                <button class="button button-outline button-positive" ng-click="mocking_addFriendRequest()">
+                    模拟好友请求
+                </button>
+                <button class="button button-outline button-positive" ng-click="mocking_resFriendRequest_agree()">
+                    模拟用户群组(同意)
+                </button>
+                <button class="button button-outline button-positive" ng-click="mocking_resFriendRequest_reject()">
+                    模拟用户群组(拒绝)
+                </button>
+        </div>
+
+
+        <!-- 群组请求相关 -->
+        <div class="list card">
+                <button class="button button-outline button-positive" ng-click="mocking_addGroupRequest()">
+                    模拟加群请求
+                </button>
+                <button class="button button-outline button-positive" ng-click="mocking_resGroupRequest_agree()">
+                    模拟加群请求(同意)
+                </button>
+                <button class="button button-outline button-positive" ng-click="mocking_resGroupRequest_reject()">
+                    模拟加群请求(拒绝)
+                </button>
+        </div>
+    </ion-content>
 </ion-view>

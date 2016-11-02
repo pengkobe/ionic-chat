@@ -20,7 +20,8 @@ router.post('/register', function (req, res) {
   var password = req.body.password;
   var nickname = req.body.nickname;
   var headimg = req.body.headimg ? req.body.headimg : '';
-  var UserEntity = new UserModel({ username: username, password: password, nickname: nickname, headimg: headimg });
+  var UserEntity = new UserModel({ username: username,
+    password: password, nickname: nickname, headimg: headimg });
   UserEntity.save(function (err, doc) {
     console.log(doc)
     // 生成二维码名片,默认为png
@@ -151,7 +152,7 @@ router.post('/loadgrouprequesst', function (req, res) {
 router.post('/addfriend', function (req, res) {
   var username = req.body.username;
   var _ids = req.body._ids.split(";");
-  UserModel.addFriend(username, ids,
+  UserModel.addFriend(username, _ids,
     function (err, raw) {
       if (err) {
         // todo

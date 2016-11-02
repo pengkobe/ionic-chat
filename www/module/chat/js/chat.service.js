@@ -92,6 +92,7 @@ chats.factory('initRong', function ($rootScope, $state, RONGYUN_APPKEY) {
         var loaded = false;
         var friends = [];
         var userids = [];
+        var curUID = '';
         function getFriends(callback) {
             var params = {
                 username: 'py',
@@ -179,6 +180,7 @@ chats.factory('initRong', function ($rootScope, $state, RONGYUN_APPKEY) {
         return {
             // 获取好友列表
             all: function (callback) {
+                //return;
                 if (friends.length > 0) {
                     callback(friends);
                 } else {
