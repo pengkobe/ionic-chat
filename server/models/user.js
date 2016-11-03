@@ -15,7 +15,7 @@ var objID = Schema.Types.ObjectId;
  * 请求添加对方为好友SCHEMA
  */
 var Requset_friendSchema = new Schema({
-    to: { type: Schema.Types.ObjectId,ref: 'User'  },
+    to: { type: Schema.Types.ObjectId, ref: 'User' },
     time: { type: Date, default: Date.now },
     state: { type: Number, default: 0 },
 });
@@ -25,7 +25,7 @@ var Requset_friendSchema = new Schema({
  * 被邀请添加对方为好友SCHEMA
  */
 var Response_friendSchema = new Schema({
-    from: { type: Schema.Types.ObjectId,ref: 'User'  },
+    from: { type: Schema.Types.ObjectId, ref: 'User' },
     time: { type: Date, default: Date.now },
     state: { type: Number, default: 0 },
 });
@@ -34,8 +34,8 @@ var Response_friendSchema = new Schema({
  * 邀请朋友进群
  */
 var Requset_groupSchema = new Schema({
-    to: { type: Schema.Types.ObjectId, ref: 'User'  },
-    groupid: { type: Schema.Types.ObjectId , ref: 'Group' },
+    to: { type: Schema.Types.ObjectId, ref: 'User' },
+    groupid: { type: Schema.Types.ObjectId, ref: 'Group' },
     time: { type: Date, default: Date.now },
     state: { type: Number, default: 0 },
 });
@@ -44,8 +44,8 @@ var Requset_groupSchema = new Schema({
  * 被邀请进群
  */
 var Response_groupSchema = new Schema({
-    from: { type: Schema.Types.ObjectId , ref: 'User' },
-    groupid: { type: Schema.Types.ObjectId , ref: 'Group' },
+    from: { type: Schema.Types.ObjectId, ref: 'User' },
+    groupid: { type: Schema.Types.ObjectId, ref: 'Group' },
     time: { type: Date, default: Date.now },
     state: { type: Number, default: 0 },
 });
@@ -100,13 +100,13 @@ var UserSchema = new Schema({
  * 登录 (methods定义实例方法，依赖与与model实现)
  * @param {Function} cb 回调函数
  */
-UserSchema.methods.login = function(cb) {
-        return this.model('User').find({ password: this.password, username: this.username }, cb);
-    }
-    /**
-     * 密码MD5加密
-     */
-UserSchema.path('password').set(function(rawpwd) {
+UserSchema.methods.login = function (cb) {
+    return this.model('User').find({ password: this.password, username: this.username }, cb);
+}
+/**
+ * 密码MD5加密
+ */
+UserSchema.path('password').set(function (rawpwd) {
     var md5 = crypto.createHash('md5');
     md5.update(rawpwd);
     var pwd = md5.digest('hex');
@@ -117,7 +117,7 @@ UserSchema.path('password').set(function(rawpwd) {
  * 查找所有好友
  * @param {Function} cb 回调函数
  */
-UserSchema.statics.loadFriends = function(username, cb) {
+UserSchema.statics.loadFriends = function (username, cb) {
     this.findOne({ username: username })
         .populate('friends')
         .exec(cb);
@@ -127,7 +127,7 @@ UserSchema.statics.loadFriends = function(username, cb) {
  * 查找所有群
  * @param {Function} cb 回调函数
  */
-UserSchema.methods.loadGroups = function(cb) {
+UserSchema.methods.loadGroups = function (cb) {
     this.findOne({ username: username })
         .populate('groups')
         .exec(cb);
@@ -139,7 +139,7 @@ UserSchema.methods.loadGroups = function(cb) {
  * @param {Object} _ids 好友编号
  * @param {Function} cb 回调函数
  */
-UserSchema.statics.addFriend = function(username, _ids, cb) {
+UserSchema.statics.addFriend = function (username, _ids, cb) {
     var that = this;
     var mongoose_ids = [];
     // 类型转换
@@ -151,7 +151,7 @@ UserSchema.statics.addFriend = function(username, _ids, cb) {
 
     var query = { username: username };
     that.find(query)
-        .exec(function(err, doc) {
+        .exec(function (err, doc) {
             if (err) {
                 console.log('addfriend err:', err);
                 cb(err);
@@ -183,10 +183,10 @@ UserSchema.statics.addFriend = function(username, _ids, cb) {
  * @param {Object} friendid 好友编号
  * @param {Function} cb 回调函数
  */
-UserSchema.statics.addResponse_friendsDoc = function(userid, friendid, cb) {
+UserSchema.statics.addResponse_friendsDoc = function (userid, friendid, cb) {
     var query = { _id: userid };
     this.findOne(query)
-        .exec(function(err, doc) {
+        .exec(function (err, doc) {
             friendid = mongoose.Types.ObjectId(friendid);
             doc.response_friends.unshift({ from: friendid, state: 0 });
             var subdoc = doc.response_friends[0];
@@ -201,7 +201,7 @@ UserSchema.statics.addResponse_friendsDoc = function(userid, friendid, cb) {
  * @param {Object} friendid 好友编号
  * @param {Object} state 状态[ 0:待确认 | 1:成为好友 ]
  */
-UserSchema.statics.updateResponse_friendDoc = function(username, friendid, state) {
+UserSchema.statics.updateResponse_friendDoc = function (username, friendid, state) {
     this.update({ username: username, "response_friends.from": friendid }, { $set: { "response_friends.$.state": state } })
 }
 
@@ -211,13 +211,13 @@ UserSchema.statics.updateResponse_friendDoc = function(username, friendid, state
  * @param {Object} username 用户名
  * @param {Function} cb 回调函数
  */
-UserSchema.statics.queryRequset_friendsDoc = function(username, cb) {
+UserSchema.statics.queryRequset_friendsDoc = function (username, cb) {
     var query = { username: username };
     this.find(query)
-        .exec(function(err, requset_friends) {
+        .exec(function (err, requset_friends) {
             requset_friends.find()
                 .populate('to')
-                .exec(function(err, docs) {
+                .exec(function (err, docs) {
                     if (err) return console.log(err);
                     console.log('addRequset_friendsDoc Success!');
                     cb(docs)
@@ -231,28 +231,27 @@ UserSchema.statics.queryRequset_friendsDoc = function(username, cb) {
  * @param {Object} friendid 好友编号
  * @param {Function} cb 回调函数
  */
-UserSchema.statics.addRequset_friendsDoc = function(username, friendid, cb) {
+UserSchema.statics.addRequset_friendsDoc = function (username, friendid, cb) {
     var that = this;
     var query = { username: username };
     that.findOne(query)
-        .exec(function(err, doc) {
+        .exec(function (err, doc) {
             // doc.requset_friends.create({ to: friendid, state: 0 }); // 简便方法
             // parent.children.id(id).remove(); // 删除
             friendid = mongoose.Types.ObjectId(friendid);
-            if (doc  && doc.requset_friends) {
+            if (doc && doc.requset_friends) {
                 doc.requset_friends.unshift({ to: friendid, state: 0 });
                 var subdoc = doc.requset_friends[0];
-
                 subdoc.isNew;
-                doc.save(function(err, data) {
+                doc.save(function (err, data) {
                     if (err) {
                         cb(err);
                     } else {
                         that.addResponse_friendsDoc(friendid, doc._id, cb)
                     }
                 })
-            }else{
-              cb("no none like" + username);
+            } else {
+                cb("no none like" + username);
             }
         });
 }
@@ -263,16 +262,16 @@ UserSchema.statics.addRequset_friendsDoc = function(username, friendid, cb) {
  * @param {Object} friendid 好友编号
  * @param {Object} state 状态[ 0:待确认 | 1:成为好友 ]
  */
-UserSchema.statics.updateRequset_friendsDoc = function(username, friendid, state) {
+UserSchema.statics.updateRequset_friendsDoc = function (username, friendid, state) {
     this.update({ username: username, "requset_friends.to": friendid }, { $set: { "requset_friends.$.state": state } })
 }
 
 /**
  * 融云toke(statics定义实例方法，可直接在Model级使用)
  */
-UserSchema.statics.getRongyunToken = function(userid, name, headImg, cb) {
+UserSchema.statics.getRongyunToken = function (userid, name, headImg, cb) {
     rongcloudSDK.user.getToken(userid, name, headImg,
-        function(err, resultText) {
+        function (err, resultText) {
             if (err) {
                 console.log('获取融云token err:' + err);
             } else {

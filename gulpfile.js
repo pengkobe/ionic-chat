@@ -66,7 +66,7 @@ gulp.task('buildchat', function (done) {
     'www/module/chat/js/chat.route.js',
     'www/module/chat/js/chat.service.js',
     'www/module/chat/js/chat.controller.js',
-    'www/module/chat/business/**/*.js',
+    'www/module/chat/pages/**/*.js',
     'www/module/chat/js/Controllers/*.js',
     'www/module/chat/js/chat.module.js',
   ])
@@ -77,7 +77,7 @@ gulp.task('buildchat', function (done) {
   // 打包css
   gulp.src([
     'www/module/chat/css/*.css',
-    'www/module/chat/business/**/*.css',
+    'www/module/chat/pages/**/*.css',
     'www/module/chat/directives/**/*.css',
   ])
     .pipe(concat('chat.min.css'))
@@ -92,7 +92,7 @@ gulp.task('builddash', function (done) {
   gulp.src([
     'www/module/dash/js/dash.service.js',
     'www/module/dash/js/dash.controller.js',
-    'www/module/dash/business/**/*.js',
+    'www/module/dash/pages/**/*.js',
   ])
     .pipe(concat('dash.min.js'))
     .pipe(gulp.dest('www/dist/js'));
@@ -100,7 +100,7 @@ gulp.task('builddash', function (done) {
   // 打包css
   gulp.src([
     'www/module/dash/css/*.css',
-    'www/module/dash/business/**/*.css',
+    'www/module/dash/pages/**/*.css',
   ])
     .pipe(concat('dash.min.css'))
     .pipe(gulp.dest('www/dist/css'));
