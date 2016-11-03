@@ -30,6 +30,15 @@ GroupSchema.methods.loadMembers = function (cb) {
     });
 }
 
+
+GroupSchema.path('members').set(function (members) {
+    var ret =[];
+    for(var i=0; i<members.length; i++){
+        ret.push(mongoose.Types.ObjectId(members[i]));
+    }
+    return ret;
+});
+
 /**
  * 获取或同步群
  */

@@ -178,6 +178,50 @@ UserSchema.statics.addFriend = function (username, _ids, cb) {
 }
 
 /**
+ * 添加群组
+ * @param {Object} username 用户名
+ * @param {Object} goup 好友编号
+ * @param {Function} cb 回调函数
+ */
+UserSchema.statics.addGroup = function (username, _ids, cb) {
+    var that = this;
+    var mongoose_ids = [];
+    // 类型转换
+    for (var i = 0; i < _ids.length; i++) {
+        if (_ids[i] && _ids[i] != "") {
+            mongoose_ids.push(mongoose.Types.ObjectId(_ids[i]));
+        }
+    }
+
+    var query = { username: username };
+    that.find(query)
+        .exec(function (err, doc) {
+            if (err) {
+                console.log('addGroup err:', err);
+                cb(err);
+                return;
+            }
+            if (doc && doc.length > 0) {
+                var groups = [];
+                // 原有群
+                if (doc.groups) {
+                    groups = groups.concat(doc.friends);
+                }
+                // 新群
+                groups = groups.concat(mongoose_ids);
+                console.log('Groups:', groups);
+                that.update({ username: username }, // condition
+                    { groups: groups }, // doc
+                    { multi: true }, // option
+                    cb // callback
+                );
+            } else {
+                console.log('addGroup 0 ret:', doc);
+            }
+        });
+}
+
+/**
  * addRequset_friendsDoc [添加请求好友状态]
  * @param {Object} username 用户名
  * @param {Object} friendid 好友编号

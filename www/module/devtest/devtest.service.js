@@ -94,11 +94,14 @@ angular.module('devtest.service', [])
 
 
     // ==========群组
-    .factory('Mocking_Groups', function (HttpPromiseService, CREATE_GROUP_URL) {
+    .factory('Mocking_Groups', function (HttpPromiseService, CREATE_GROUP_URL) { // 成功
         return {
             init: function () {
                 var params = {
-                    username: 'py',
+                    username: 'dl',
+                    groupname: 'group1',
+                    groupimg:'',
+                    members:['5812ebdf4c0b0e79324f6cc4'] //dl id
                 };
                 HttpPromiseService.getData(CREATE_GROUP_URL, params).then(function (data) {
                     debugger;
@@ -113,7 +116,7 @@ angular.module('devtest.service', [])
                 var params = {
                     username: 'py',
                 };
-                HttpPromiseService.getData(ADD_USER_GROUP_URL, params).then(function (data) {
+                HttpPromiseService.getData(ADD_GROUP_URL, params).then(function (data) {
                     debugger;
                     console.log(data);
                 });
