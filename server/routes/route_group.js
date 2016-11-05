@@ -1,23 +1,8 @@
 var GroupModel = require('../models/group.js');
 var UserModel = require('../models/user.js');
 
-// 拉取群列表
-exports.loadgroups = function (req, res) {
-    var username = req.body.username;
-    UserModel.loadGroups({ username: username }, function (err, users) {
-        if (err) {
-            console.log('loadgroups err!');
-        }
-        if (users.length == 0) {
-            console.log('no group yet!');
-        } else {
-            console.log('The first group:', users.groups[0].groupname);
-            res.json(users.groups);
-        }
-    });
-}
 
-// 拉取群列表
+// 创建群组
 exports.createGroup = function (req, res) { //成功
     // 创建者
     var username = req.body.username;
@@ -44,11 +29,32 @@ exports.createGroup = function (req, res) { //成功
     });
 }
 
+// 加载群成员
+exports.loadGroupMembers_ = function (req, res) { //成功
+    // 群名
+    var groupname = req.body.groupname;
+    var GroupEntity = new GroupModel({ groupname: groupname });
+    GroupEntity.loadMembers(null, groupname, function (err, doc) {
+        if (err) {
+            res.json(err);
+        } else {
+            res.json(doc);
+        }
+    });
+}
+
+
 // 拉取好友进群请求
-exports.loadgrouprequesst = function (req, res) { };
+exports.loadgrouprequesst = function (req, res) { 
+
+};
 
 // 添加好友进群
-exports.addgroupmember = function (req, res) { };
+exports.addgroupmember = function (req, res) {
+
+ };
 
 // 同意/拒绝进群
-exports.res_addgroupmember = function (req, res) { };
+exports.res_addgroupmember = function (req, res) {
+    
+ };

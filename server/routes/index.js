@@ -20,6 +20,9 @@ router.post('/updatepwd', route_user.updatepwd);
 // 拉取好友列表
 router.post('/loadfriends', route_user.loadfriends);
 
+// 拉取群列表
+router.post('/loadgroups', route_user.loadgroups);
+
 // 添加好友请求(验证成功)
 router.post('/req_addfriend', route_user.req_addfriend);
 
@@ -32,12 +35,11 @@ router.post('/res_addfriend', route_user.res_addfriend);
 
 
 
-
-// 拉取群列表
-router.post('/loadgroups', route_group.loadgroups);
+// 创建群
+router.post('/creategroup', route_group.createGroup);
 
 // 创建群
-router.post('/createGroup', route_group.createGroup);
+router.post('/loadgroupmembers', route_group.loadGroupMembers_);
 
 // 拉取好友进群请求
 router.post('/loadgrouprequesst', route_group.loadgrouprequesst);
@@ -47,7 +49,6 @@ router.post('/addgroupmember', route_group.addgroupmember);
 
 // 同意/拒绝进群
 router.post('/res_addgroupmember', route_group.res_addgroupmember);
-
 
 
 // ==========FOR TEST ===========

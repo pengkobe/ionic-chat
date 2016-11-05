@@ -9,38 +9,42 @@ rongcloudSDK.init('lmxuhwagxgt9d', 'NpbRLWPxB79');
 var Schema = mongoose.Schema;
 var GroupSchema = new Schema({
     // 群名
-    groupname: { type: String,default:'' },
+    groupname: { type: String, default: '' },
     // 群成员
-    members: [Schema.Types.ObjectId],
+    members: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     // 群头像
-    groupimg: { type: String ,default:'' },
+    groupimg: { type: String, default: '' },
 });
 
-var GroupsModel = mongoose.model('Groups', GroupSchema);
 
 /**
  * 查找所有好友
  */
-GroupSchema.methods.loadMembers = function (cb) {
-  GroupsModel.findOne({ groupid: this.groupid })
-    .populate('members')
-    .exec(function (err, group) {
-      if (err) { }
-      console.log('The first friend:', group.members[0].username);
-    });
+GroupSchema.methods.loadMembers = function (groupid, groupname, cb) {
+    if (groupid) {
+        GroupsModel.findOne({ groupid: this.groupid })
+            .populate('members')
+            .exec(cb);
+    } else if (groupname) {
+        GroupsModel.findOne({ groupname: this.groupname })
+            .populate('members')
+            .exec(cb);
+    }
 }
 
-
+/**
+ * member id类型转换
+ */
 GroupSchema.path('members').set(function (members) {
-    var ret =[];
-    for(var i=0; i<members.length; i++){
+    var ret = [];
+    for (var i = 0; i < members.length; i++) {
         ret.push(mongoose.Types.ObjectId(members[i]));
     }
     return ret;
 });
 
 /**
- * 获取或同步群
+ * 获取或同步群至融云
  */
 GroupSchema.statics.findGroup = function (groupid, groupname, members, headImg, cb) {
     var that = this;
@@ -56,7 +60,7 @@ GroupSchema.statics.findGroup = function (groupid, groupname, members, headImg, 
                 }
             }
         }
-       
+
         if (!group || group.length == 0 || needUpdate) {
             var chatgroup = new GroupsModel({
                 groupid: groupid,
@@ -91,4 +95,5 @@ GroupSchema.statics.findGroup = function (groupid, groupname, members, headImg, 
     });
 }
 
+var GroupsModel = mongoose.model('Group', GroupSchema);
 module.exports = GroupsModel;

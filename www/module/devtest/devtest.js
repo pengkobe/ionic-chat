@@ -3,12 +3,16 @@
 */
 angular.module('devtest', ['devtest.service'])
   .controller('DevTestCtrl', function ($scope,
-    Mocking_Users, Mocking_Friends, loadAllFriend,  // 好友
-    Mocking_Groups, mocking_add_Groups, test_LoadAllGroups, mocking_loadAll_FriendRequest, // 群
-    mocking_add_FriendRequest, mocking_res_FriendRequest_agree, mocking_res_FriendRequest_reject, // 好友请求
-    mocking_add_GroupRequest, mocking_res_GroupRequest_agree, mocking_res_GroupRequest_reject  // 群请求
+    // 好友
+    Mocking_Users, Mocking_Friends, loadAllFriend, test_LoadAllGroups,
+    // 群
+    Mocking_Groups, mocking_load_Groupmember,
+    // 好友请求
+    mocking_add_FriendRequest, mocking_res_FriendRequest_agree, mocking_res_FriendRequest_reject, mocking_loadAll_FriendRequest,
+    // 群请求
+    mocking_add_GroupRequest, mocking_res_GroupRequest_agree, mocking_res_GroupRequest_reject
 
-    ) {
+  ) {
     // ======好友
     $scope.mockingUsers = function () {
       alert('模拟用户数据');
@@ -25,6 +29,11 @@ angular.module('devtest', ['devtest.service'])
       loadAllFriend.init();
       console.log("测试Loadfriends...");
     };
+    $scope.testLoadAllGroups = function () {
+      alert('模拟加载用户的所有群');
+      test_LoadAllGroups.init();
+      console.log("模拟加载用户的所有群...");
+    };
 
     // ======群组
     $scope.mockingGroups = function () {
@@ -32,16 +41,12 @@ angular.module('devtest', ['devtest.service'])
       Mocking_Groups.init();
       console.log("模拟群组数据...");
     };
-    $scope.mockingaddGroups = function () {
+    $scope.mockingloadGroupmember = function () {
       alert('模拟用户加群');
-      mocking_add_Groups.init();
+      mocking_load_Groupmember.init();
       console.log("模拟用户加群...");
     };
-    $scope.testLoadAllGroups = function () {
-      alert('模拟加载用户的所有群');
-      test_LoadAllGroups.init();
-      console.log("模拟加载用户的所有群...");
-    };
+
 
 
     // ======好友请求相关
@@ -51,7 +56,7 @@ angular.module('devtest', ['devtest.service'])
       console.log("模拟添加对方为好友...");
     };
 
-$scope.mockingLoadAllFriendRequest = function () {
+    $scope.mockingLoadAllFriendRequest = function () {
       alert('模拟加载所有好友请求');
       mocking_loadAll_FriendRequest.init();
       console.log("模拟加载所有好友请求...");

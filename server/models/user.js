@@ -127,7 +127,7 @@ UserSchema.statics.loadFriends = function (username, cb) {
  * 查找所有群
  * @param {Function} cb 回调函数
  */
-UserSchema.methods.loadGroups = function (cb) {
+UserSchema.statics.loadGroups = function (username, cb) {
     this.findOne({ username: username })
         .populate('groups')
         .exec(cb);
@@ -229,9 +229,11 @@ UserSchema.statics.addGroup = function (username, _ids, cb) {
  */
 UserSchema.statics.addResponse_friendsDoc = function (userid, friendid, cb) {
     var query = { _id: userid };
+    console.log('xx id:', userid);
     this.findOne(query)
         .exec(function (err, doc) {
             friendid = mongoose.Types.ObjectId(friendid);
+            console.log('xx:', doc);
             doc.response_friends.unshift({ from: friendid, state: 0 });
             var subdoc = doc.response_friends[0];
             subdoc.isNew;
@@ -275,14 +277,14 @@ UserSchema.statics.queryRequset_friendsDoc = function (username, cb) {
  * @param {Object} friendid 好友编号
  * @param {Function} cb 回调函数
  */
-UserSchema.statics.addRequset_friendsDoc = function (username, friendid, cb) {
+UserSchema.statics.addRequset_friendsDoc = function (username, rawfriendid, cb) {
     var that = this;
     var query = { username: username };
     that.findOne(query)
         .exec(function (err, doc) {
             // doc.requset_friends.create({ to: friendid, state: 0 }); // 简便方法
             // parent.children.id(id).remove(); // 删除
-            friendid = mongoose.Types.ObjectId(friendid);
+            friendid = mongoose.Types.ObjectId(rawfriendid);
             if (doc && doc.requset_friends) {
                 doc.requset_friends.unshift({ to: friendid, state: 0 });
                 var subdoc = doc.requset_friends[0];
@@ -291,7 +293,7 @@ UserSchema.statics.addRequset_friendsDoc = function (username, friendid, cb) {
                     if (err) {
                         cb(err);
                     } else {
-                        that.addResponse_friendsDoc(friendid, doc._id, cb)
+                        that.addResponse_friendsDoc(rawfriendid, doc._id, cb)
                     }
                 })
             } else {

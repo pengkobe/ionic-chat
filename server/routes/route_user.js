@@ -108,6 +108,22 @@ exports.loadfriends =  function (req, res) {
     })
 }
 
+// 拉取群列表
+exports.loadgroups = function (req, res) {
+    var username = req.body.username;
+    UserModel.loadGroups(username, function (err, users) {
+        if (err) {
+            console.log('loadgroups err!');
+        }
+        if (users.length == 0) {
+            console.log('no group yet!');
+        } else {
+            console.log('The first group:', users.groups[0].groupname);
+            res.json(users.groups);
+        }
+    });
+}
+
 // 添加好友请求(验证成功)
 exports.req_addfriend =  function (req, res) {
     var username = req.body.username;

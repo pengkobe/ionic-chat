@@ -22,6 +22,8 @@ angular.module('ionchat.config', [])
     .constant('REGISTER_URL', 'http://localhost:54321/register')
     // 加载好友列表
     .constant('LOAD_FRIENDS_URL', 'http://localhost:54321/loadfriends')
+    // 加载群组列表
+    .constant('LOAD_GROUPS_URL', 'http://localhost:54321/loadgroups')
     // 请求添加好友
     .constant('REQ_FRIEND_URL', 'http://localhost:54321/req_addfriend')
     // 回复好友请求
@@ -33,8 +35,8 @@ angular.module('ionchat.config', [])
     // =========群相关=============
     // 创建群
     .constant('CREATE_GROUP_URL', 'http://localhost:54321/creategroup')
-    // 加载群组列表
-    .constant('LOAD_GROUPS_URL', 'http://localhost:54321/loadgroups')
+    // 加载成员列表
+    .constant('LOAD_GROUPMEMBERS', 'http://localhost:54321/loadgroupmembers')
     // 请求添进群加群
     .constant('REQ_GROUP_MEMBER_URL', 'http://localhost:54321/req_addgroupmember')
     // 回复加群
@@ -51,7 +53,4 @@ angular.module('ionchat.config', [])
     .constant('LOAD_GROUP_REQUEST_URL', 'http://localhost:54321/loadgrouprequesst')
     // 直接添加好友
     .constant('ADD_FRIEND_URL', 'http://localhost:54321/addfriend')
-    // 直接添加群
-    .constant('ADD_GROUP_URL', 'http://localhost:54321/addgroup')
     .constant('LOAD_ALL_USER_URL', 'http://localhost:54321/loadallusers');
-
