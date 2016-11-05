@@ -19,10 +19,10 @@
 			<div class="weui-cells__title">请输入密码</div>
 			<div class="weui-cells">
 				<div class="weui-cell">
+					 <!--ng-pattern="/^(?=.*[0-9].*)(?=.*[A-Za-z].*).{6,20}$/"-->
 					<div class="weui-cell__bd">
-						<input class="weui-input" name="password" type="password" ng-model="user.password" 
-            	required ng-pattern="/^(?=.*[0-9].*)(?=.*[A-Za-z].*).{6,20}$/"
-							placeholder="请输入密码" />
+						<input class="weui-input" name="password" type="password" ng-model="user.password" required
+						placeholder="请输入密码" />
 					</div>
 				</div>
 			</div>

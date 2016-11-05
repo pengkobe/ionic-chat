@@ -30,7 +30,7 @@ function LoginController($scope, $rootScope, $ionicLoading, $state, LOGIN_URL, H
 
 LoginController.$inject = ['$scope', '$rootScope', '$ionicLoading', '$state', 'LOGIN_URL', 'HttpPromiseService','currentUser'];
 
-function RegisterController($scope, $rootScope, $ionicBackdrop, $ionicHistory,REGISTER_URL,HttpPromiseService) {
+function RegisterController($scope, $rootScope, $ionicBackdrop, $ionicHistory,REGISTER_URL,HttpPromiseService, $state) {
   $scope.submitting = false;
   $scope.user = {};
   $scope.validateOptions = {
@@ -61,4 +61,4 @@ function RegisterController($scope, $rootScope, $ionicBackdrop, $ionicHistory,RE
     $ionicHistory.goBack(-1);
   }
 }
-RegisterController.$inject = ['$scope', '$rootScope', '$ionicBackdrop', '$ionicHistory','REGISTER_URL','HttpPromiseService'];
+RegisterController.$inject = ['$scope', '$rootScope', '$ionicBackdrop', '$ionicHistory','REGISTER_URL','HttpPromiseService','$state'];

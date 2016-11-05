@@ -60,9 +60,9 @@ angular.module('devtest.service', [])
                         _ids += data[i]._id;
                         _ids += ";"
                     }
-                    // 给username为py的用户添加所有好友
+                    // 给userid为5812ebdf4c0b0e79324f6cc4的用户添加所有好友
                     var params = {
-                        username: 'py',
+                        userid: '5812ebdf4c0b0e79324f6cc4',  // dl
                         _ids: _ids,
                     };
                     HttpPromiseService.getData(ADD_FRIEND_URL, params).then(function (data) {
@@ -165,12 +165,12 @@ angular.module('devtest.service', [])
             }
         }
     })
-    .factory('mocking_res_FriendRequest_agree', function (HttpPromiseService, RES_FRIEND_REQUEST) {
+    .factory('mocking_res_FriendRequest_agree', function (HttpPromiseService, RES_FRIEND_REQUEST) { // 成功
         return {
             init: function () {
                 var params = {
-                    username: 'dl',
-                    username: 'zhouw',
+                    userid: '5812ebdf4c0b0e79324f6cc4',    // dl
+                    friendid: '581db8dfef1a5d19862cdc12',  // zhouw
                     state: 1
                 };
                 HttpPromiseService.getData(RES_FRIEND_REQUEST, params).then(function (data) {
@@ -180,13 +180,13 @@ angular.module('devtest.service', [])
             }
         }
     })
-    .factory('mocking_res_FriendRequest_reject', function (HttpPromiseService, RES_FRIEND_REQUEST) {
+    .factory('mocking_res_FriendRequest_reject', function (HttpPromiseService, RES_FRIEND_REQUEST) { // 成功
         return {
             init: function () {
                 var params = {
-                    username: 'dl',
-                    username: 'zhouw',
-                    state: 0
+                    userid: '5812ebdf4c0b0e79324f6cc4',     // dl
+                    friendid: '581db8dfef1a5d19862cdc12',   // zhouw
+                    state: -1
                 };
                 HttpPromiseService.getData(RES_FRIEND_REQUEST, params).then(function (data) {
                     debugger;
@@ -195,9 +195,6 @@ angular.module('devtest.service', [])
             }
         }
     })
-
-
-
 
 
     // ============群组请求相关

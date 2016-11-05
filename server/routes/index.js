@@ -83,9 +83,9 @@ router.post('/loadallgroups', function (req, res) {
 
 // 添加好友请求
 router.post('/addfriend', function (req, res) {
-    var username = req.body.username;
+    var userid = req.body.userid;
     var _ids = req.body._ids.split(";");
-    UserModel.addFriend(username, _ids,
+    UserModel.addFriend(userid, _ids,
         function (err, raw) {
             if (err) {
                 // todo

@@ -9,7 +9,6 @@ function file(name) {
     return fs.createWriteStream('../public/img/' + name);
 }
 
-
 // 注册
 exports.register = function (req, res) {
     var username = req.body.username;
@@ -75,9 +74,8 @@ exports.user_headimg = function (req, res) {
     });
 }
 
-
 // 更新密码
-exports.updatepwd =  function(req, res) {
+exports.updatepwd = function (req, res) {
     var username = req.body.username;
     var oldpassword = req.body.oldpassword;
     var newpassword = req.body.newpassword;
@@ -91,9 +89,8 @@ exports.updatepwd =  function(req, res) {
         });
 }
 
-
 // 拉取好友列表
-exports.loadfriends =  function (req, res) {
+exports.loadfriends = function (req, res) {
     var username = req.body.username;
     UserModel.loadFriends(username, function (err, users) {
         if (err) {
@@ -125,7 +122,7 @@ exports.loadgroups = function (req, res) {
 }
 
 // 添加好友请求(验证成功)
-exports.req_addfriend =  function (req, res) {
+exports.req_addfriend = function (req, res) {
     var username = req.body.username;
     var friendid = req.body.friendid;
     UserModel.addRequset_friendsDoc(username, friendid,
@@ -141,7 +138,7 @@ exports.req_addfriend =  function (req, res) {
 }
 
 // 拉取好友请求(验证成功)
-exports.loadfriendrequest =function (req, res) {
+exports.loadfriendrequest = function (req, res) {
     var username = req.body.username;
     UserModel.findOne({ username: username })
         .exec(function (err, user) {
@@ -165,6 +162,77 @@ exports.loadfriendrequest =function (req, res) {
 
 
 // 同意/拒绝好友邀请
-exports.res_addfriend =function (req, res) {
+exports.res_addfriend = function (req, res) {
+    var userid = req.body.userid;
+    var friendid = req.body.friendid;
+    var state = req.body.state;
+    console.log("userid", userid);
+    console.log("friendid", friendid);
+    console.log("state", state);
+    // 添加好友(此用法可能是循环锁还是咋的，会失败)
+    // UserModel.addFriend(userid, [friendid], function (err, doc) {
+    //     if (err) {
+    //         res.json(err);
+    //     } else {
+    //         // 添加好友
+    //         UserModel.addFriend(friendid, [userid], function (err, doc) {
+    //             if (err) {
+    //                 res.json(err);
+    //             } else {
+    //                 // 更新回复状态
+    //                 UserModel.updateResponse_friendDoc(userid, friendid, state, function (err, doc) {
+    //                     if (err) {
+    //                         res.json(err);
+    //                     } else {
+    //                         // 更新请求状态
+    //                         UserModel.updateRequset_friendsDoc(friendid, userid, state, function (err, doc) {
+    //                             if (err) {
+    //                                 res.json(err);
+    //                             } else {
+    //                                 res.json({ message: "succeed!" });
+    //                             }
+    //                         });
+    //                     }
+    //                 });
+    //             }
 
+    //         });
+    //     }
+    // });
+    // 同意添加为好友，则互相加为好友
+    if (state == 1 || state == "1") {
+        UserModel.addFriend(userid, [friendid], function (err, doc) {
+            if (err) {
+                res.json(err);
+            } else {
+
+            }
+        });
+        // 添加好友
+        UserModel.addFriend(friendid, [userid], function (err, doc) {
+            if (err) {
+                res.json(err);
+            } else {
+            }
+
+        });
+    }
+
+    // 更新回复状态
+    UserModel.updateResponse_friendDoc(userid, friendid, state, function (err, doc) {
+        if (err) {
+            res.json(err);
+        } else {
+        }
+    });
+    // 更新请求状态
+    UserModel.updateRequset_friendsDoc(friendid, userid, state, function (err, doc) {
+        if (err) {
+            res.json(err);
+        } else {
+
+        }
+    });
+
+    setTimeout(function () { res.json({ message: "succeed!" }); }, 1500)
 }
