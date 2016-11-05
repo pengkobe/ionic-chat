@@ -13,26 +13,28 @@ angular.module('ionchat.config', [])
     .constant('VEDIO_CHAT_URL', 'http://localhost:54321/vediochat')
     // 热更新地址
     .constant('HOT_UPDATE_URL', 'http://115.29.51.196:4321/www/')
-     // 登录
+
+
+    // =========好友相关=============
+    // 登录
     .constant('LOGIN_URL', 'http://localhost:54321/login')
-     // 注册
+    // 注册
     .constant('REGISTER_URL', 'http://localhost:54321/register')
     // 加载好友列表
     .constant('LOAD_FRIENDS_URL', 'http://localhost:54321/loadfriends')
-    // 加载群组列表
-    .constant('LOAD_GROUPS_URL', 'http://localhost:54321/loadgroups')
-    // 加载添加好友请求
-    .constant('LOAD_FRIEND_REQUEST_URL', 'http://localhost:54321/loadfriendrequest')
-    // 加载入群好友请求
-    .constant('LOAD_GROUP_REQUEST_URL', 'http://localhost:54321/loadgrouprequesst')
     // 请求添加好友
     .constant('REQ_FRIEND_URL', 'http://localhost:54321/req_addfriend')
     // 回复好友请求
     .constant('RES_FRIEND_REQUEST', 'http://localhost:54321/res_addfriend')
     // 删除好友
     .constant('REMOVE_FRIEND_URL', 'http://localhost:54321/removefriend')
+
+
+    // =========群相关=============
     // 创建群
     .constant('CREATE_GROUP_URL', 'http://localhost:54321/creategroup')
+    // 加载群组列表
+    .constant('LOAD_GROUPS_URL', 'http://localhost:54321/loadgroups')
     // 请求添进群加群
     .constant('REQ_GROUP_MEMBER_URL', 'http://localhost:54321/req_addgroupmember')
     // 回复加群
@@ -40,7 +42,13 @@ angular.module('ionchat.config', [])
     // 退群
     .constant('REMOVE_GROUP_URL', 'http://localhost:54321/removegroup')
 
+
+
     // =========测试用=============
+    // 加载添加好友请求
+    .constant('LOAD_FRIEND_REQUEST_URL', 'http://localhost:54321/loadfriendrequest')
+    // 加载入群好友请求
+    .constant('LOAD_GROUP_REQUEST_URL', 'http://localhost:54321/loadgrouprequesst')
     // 直接添加好友
     .constant('ADD_FRIEND_URL', 'http://localhost:54321/addfriend')
     // 直接添加群

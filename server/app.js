@@ -5,10 +5,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var settings = require('./settings');
-
 // 路由
-var route_ionchat = require('./routes/ionchat');
+var route_ionchat = require('./routes/index');
 
 var app = express();
 //设置跨域访问
@@ -17,7 +15,6 @@ app.all('*', function(req, res, next) {
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
     res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
     res.header("X-Powered-By",' yipeng-nodejs')
-    //res.header("Content-Type", "application/json;charset=utf-8");
     next();
 });
 
@@ -32,19 +29,6 @@ app.use(bodyParser.json({limit: '2mb'}));
 app.use(bodyParser.urlencoded({limit: '2mb', extended: true}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public'), {maxAge : 86400000}));
-
-// 不开启 session/mongodb
-// var session = require('express-session');
-// var MongoStore = require('connect-mongo')(session);
-
-// app.use(session({
-//   secret: settings.cookieSecret,
-//   key: settings.db,//cookie name
-//   cookie: {maxAge: 1000 * 60 * 60 * 24 * 30},//30 days
-//   store: new MongoStore({
-//     url: settings.dbUrl
-//   })
-// }));
 
 app.use(express.query());
 

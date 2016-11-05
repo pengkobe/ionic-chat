@@ -12,7 +12,7 @@ var GroupSchema = new Schema({
     groupname: { type: String,default:'' },
     // 群成员
     members: [Schema.Types.ObjectId],
-    // 是否激活
+    // 群头像
     groupimg: { type: String ,default:'' },
 });
 
@@ -61,9 +61,8 @@ GroupSchema.statics.findGroup = function (groupid, groupname, members, headImg, 
             var chatgroup = new GroupsModel({
                 groupid: groupid,
                 groupname: groupname,
-                headimg: '',
+                groupimg: '',
                 members: members,
-                isActivated: 1
             });
             // 同步群信息(群名)
             rongcloudSDK.group.create(members, groupid, groupname, 'json', function (err, data) {

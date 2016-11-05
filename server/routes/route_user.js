@@ -1,22 +1,17 @@
-var express = require('express');
-var router = express.Router();
-var https = require('https');
-var settings = require('../settings');
-
 var UserModel = require('../models/user.js');
 var GroupModel = require('../models/group.js');
 
 // 生成身份二维码
 var qr = require('qr-image');
 var fs = require("fs");
-var ObjectID = require('mongodb').ObjectID;
 
 function file(name) {
     return fs.createWriteStream('../public/img/' + name);
 }
 
+
 // 注册
-router.post('/register', function (req, res) {
+exports.register = function (req, res) {
     var username = req.body.username;
     var password = req.body.password;
     var nickname = req.body.nickname;
@@ -39,10 +34,10 @@ router.post('/register', function (req, res) {
             res.json({ state: 1, user: doc });
         }
     });
-});
+}
 
 // 登录
-router.post('/login', function (req, res) {
+exports.login = function (req, res) {
     var username = req.body.username;
     var password = req.body.password;
     console.log('login username:', this.username);
@@ -60,10 +55,10 @@ router.post('/login', function (req, res) {
             res.json(users[0]);
         }
     });
-});
+}
 
 // 用户头像上传
-router.post('/user/headimg', function (req, res) {
+exports.user_headimg = function (req, res) {
     var userid = req.body.userid;
     var imgData = req.body.imgData;
     // 过滤data:URL,已经在前端过滤
@@ -78,11 +73,11 @@ router.post('/user/headimg', function (req, res) {
             res.send("保存成功！");
         }
     });
-});
+}
 
 
 // 更新密码
-router.post('/update', function (req, res) {
+exports.updatepwd =  function(req, res) {
     var username = req.body.username;
     var oldpassword = req.body.oldpassword;
     var newpassword = req.body.newpassword;
@@ -94,11 +89,11 @@ router.post('/update', function (req, res) {
             }
             console.log('ret:', raw);
         });
-});
+}
 
 
 // 拉取好友列表
-router.post('/loadfriends', function (req, res) {
+exports.loadfriends =  function (req, res) {
     var username = req.body.username;
     UserModel.loadFriends(username, function (err, users) {
         if (err) {
@@ -111,26 +106,10 @@ router.post('/loadfriends', function (req, res) {
             res.json(users);
         }
     })
-});
-
-// 拉取群列表
-router.post('/loadgroups', function (req, res) {
-    var username = req.body.username;
-    UserModel.loadGroups({ username: username }, function (err, users) {
-        if (err) {
-            console.log('loadgroups err!');
-        }
-        if (users.length == 0) {
-            console.log('no group yet!');
-        } else {
-            console.log('The first group:', users.groups[0].groupname);
-            res.json(users.groups);
-        }
-    });
-});
+}
 
 // 添加好友请求(验证成功)
-router.post('/req_addfriend', function (req, res) {
+exports.req_addfriend =  function (req, res) {
     var username = req.body.username;
     var friendid = req.body.friendid;
     UserModel.addRequset_friendsDoc(username, friendid,
@@ -143,10 +122,10 @@ router.post('/req_addfriend', function (req, res) {
             }
             console.log('ret:', raw);
         })
-});
+}
 
 // 拉取好友请求(验证成功)
-router.post('/loadfriendrequest', function (req, res) {
+exports.loadfriendrequest =function (req, res) {
     var username = req.body.username;
     UserModel.findOne({ username: username })
         .exec(function (err, user) {
@@ -166,103 +145,10 @@ router.post('/loadfriendrequest', function (req, res) {
                 });
             }
         });
-});
+}
 
-
-
-// 拉取好友进群请求
-router.post('/loadgrouprequesst', function (req, res) { });
-
-
-
-// 添加好友进群
-router.post('/addgroupmember', function (req, res) {
-
-});
 
 // 同意/拒绝好友邀请
-router.post('/res_addfriend', function (req, res) {
+exports.res_addfriend =function (req, res) {
 
-});
-
-// 同意/拒绝进群
-router.post('/res_addgroupmember', function (req, res) {
-
-});
-
-
-
-// ==========FOR TEST ===========
-// 加载所有用户
-router.post('/loadallusers', function (req, res) {
-    UserModel.find()
-        .exec(function (err, users) {
-            if (err) { }
-            if (users.length == 0) {
-                console.log('no user yet!');
-            } else {
-                console.log('The first user:', users[0].username);
-                res.json(users);
-            }
-        });
-});
-
-// 加载所有用户
-router.post('/loadallgroups', function (req, res) {
-    GroupModel.find()
-        .exec(function (err, groups) {
-            if (err) { }
-            if (groups.length == 0) {
-                console.log('no group yet!');
-            } else {
-                console.log('The first group:', groups[0].username);
-                res.json(groups);
-            }
-        });
-});
-
-
-// 添加好友请求
-router.post('/addfriend', function (req, res) {
-    var username = req.body.username;
-    var _ids = req.body._ids.split(";");
-    UserModel.addFriend(username, _ids,
-        function (err, raw) {
-            if (err) {
-                // todo
-                res.json(err);
-            } else {
-                res.json(raw);
-            }
-            console.log('ret:', raw);
-        })
-});
-
-// 添加群
-router.post('/createGroup', function (req, res) { //成功
-    // 创建者
-    var username = req.body.username;
-    // 群名
-    var groupname = req.body.groupname;
-    // 初始用户
-    var members = req.body.members;
-    var groupimg = req.body.groupimg ? req.body.groupimg : '';
-    var GroupEntity = new GroupModel({ groupname: groupname, members: members, groupimg: groupimg });
-    GroupEntity.save(function (err, doc) {
-        console.log(doc)
-        if (err) {
-            res.json({ state: -1, message: err });
-        } else {
-            UserModel.addGroup(username, [doc._id], function (err, user) {
-                if (err) {
-                    res.json({ state: -1, message: err });
-                } else {
-                    // 需要在这里发起进群请求
-                    res.json({ state: 1, group: doc });
-                }
-            });
-        }
-    });
-});
-
-module.exports = router;
+}
