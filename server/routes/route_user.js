@@ -134,7 +134,7 @@ exports.req_addfriend = function (req, res) {
                 res.json(raw);
             }
             console.log('ret:', raw);
-        })
+        });
 }
 
 // 拉取好友请求(验证成功)
@@ -234,5 +234,5 @@ exports.res_addfriend = function (req, res) {
         }
     });
 
-    setTimeout(function () { res.json({ message: "succeed!" }); }, 1500)
+    setTimeout(function () { res.json({ message: "succeed!" }); }, 1500);
 }

@@ -1,10 +1,10 @@
 angular.module('devtest.service', [])
 
 
-    // ========== 好友
-    .factory('Mocking_Users', function (HttpPromiseService, REGISTER_URL) { // 成功
+// ========== 好友
+.factory('Mocking_Users', function(HttpPromiseService, REGISTER_URL) { // 成功
         return {
-            init: function () {
+            init: function() {
                 // 模拟数据插入数据库
                 var data = [
                     { _id: 17, username: 'ydkf', nickname: "ydkf", headimg: null },
@@ -42,18 +42,18 @@ angular.module('devtest.service', [])
                         headimg: data[i].headimg,
                         password: '123'
                     };
-                    HttpPromiseService.getData(REGISTER_URL, params).then(function (data) {
+                    HttpPromiseService.getData(REGISTER_URL, params).then(function(data) {
                         console.log(data);
                     });
                 }
             }
         };
     })
-    .factory('Mocking_Friends', function (HttpPromiseService, LOAD_ALL_USER_URL, ADD_FRIEND_URL) { // 成功
+    .factory('Mocking_Friends', function(HttpPromiseService, LOAD_ALL_USER_URL, ADD_FRIEND_URL) { // 成功
         // 模拟数据插入好友列表
         return {
-            init: function () {
-                HttpPromiseService.getData(LOAD_ALL_USER_URL, {}).then(function (data) {
+            init: function() {
+                HttpPromiseService.getData(LOAD_ALL_USER_URL, {}).then(function(data) {
                     var _ids = '';
                     // 拼凑ID字符串，以";"分隔
                     for (var i = 0; i < data.length; i++) {
@@ -62,10 +62,10 @@ angular.module('devtest.service', [])
                     }
                     // 给userid为5812ebdf4c0b0e79324f6cc4的用户添加所有好友
                     var params = {
-                        userid: '5812ebdf4c0b0e79324f6cc4',  // dl
+                        userid: '5812ebdf4c0b0e79324f6cc4', // dl
                         _ids: _ids,
                     };
-                    HttpPromiseService.getData(ADD_FRIEND_URL, params).then(function (data) {
+                    HttpPromiseService.getData(ADD_FRIEND_URL, params).then(function(data) {
                         console.log(data);
                     });
                     console.log(data);
@@ -73,27 +73,27 @@ angular.module('devtest.service', [])
             }
         }
     })
-    .factory('loadAllFriend', function (HttpPromiseService, LOAD_FRIENDS_URL) { // 成功
+    .factory('loadAllFriend', function(HttpPromiseService, LOAD_FRIENDS_URL) { // 成功
         // 测试加载好友数据接口
         return {
-            init: function () {
+            init: function() {
                 var params = {
                     username: 'py',
                 };
-                HttpPromiseService.getData(LOAD_FRIENDS_URL, params).then(function (data) {
+                HttpPromiseService.getData(LOAD_FRIENDS_URL, params).then(function(data) {
                     debugger;
                     console.log(data);
                 });
             }
         }
     })
-    .factory('test_LoadAllGroups', function (HttpPromiseService, LOAD_GROUPS_URL) { // 成功
+    .factory('test_LoadAllGroups', function(HttpPromiseService, LOAD_GROUPS_URL) { // 成功
         return {
-            init: function () {
+            init: function() {
                 var params = {
                     username: 'dl',
                 };
-                HttpPromiseService.getData(LOAD_GROUPS_URL, params).then(function (data) {
+                HttpPromiseService.getData(LOAD_GROUPS_URL, params).then(function(data) {
                     debugger;
                     console.log(data);
                 });
@@ -101,31 +101,31 @@ angular.module('devtest.service', [])
         }
     })
 
-    // ==========群组
-    .factory('Mocking_Groups', function (HttpPromiseService, CREATE_GROUP_URL) { // 成功
+// ==========群组
+.factory('Mocking_Groups', function(HttpPromiseService, CREATE_GROUP_URL) { // 成功
         return {
-            init: function () {
+            init: function() {
                 var params = {
                     username: 'dl',
                     groupname: 'group1',
                     groupimg: '',
                     members: ['5812ebdf4c0b0e79324f6cc4'] //dl id
                 };
-                HttpPromiseService.getData(CREATE_GROUP_URL, params).then(function (data) {
+                HttpPromiseService.getData(CREATE_GROUP_URL, params).then(function(data) {
                     debugger;
                     console.log(data);
                 });
             }
         }
     })
-    .factory('mocking_load_Groupmember', function (HttpPromiseService, LOAD_GROUPMEMBERS) {
+    .factory('mocking_load_Groupmember', function(HttpPromiseService, LOAD_GROUPMEMBERS) {
         // 见上述接口，实际上在创建的时候就已经配置好相关关系了
         return {
-            init: function () {
+            init: function() {
                 var params = {
                     groupname: 'group1',
                 };
-                HttpPromiseService.getData(LOAD_GROUPMEMBERS, params).then(function (data) {
+                HttpPromiseService.getData(LOAD_GROUPMEMBERS, params).then(function(data) {
                     debugger;
                     console.log(data);
                 });
@@ -134,16 +134,16 @@ angular.module('devtest.service', [])
     })
 
 
-    // ==========好友请求相关
-    .factory('mocking_add_FriendRequest', function (HttpPromiseService, REQ_FRIEND_URL) { // 成功
+// ==========好友请求相关
+.factory('mocking_add_FriendRequest', function(HttpPromiseService, REQ_FRIEND_URL) { // 成功
         return {
-            init: function () {
+            init: function() {
                 // #/tab/friendInfo/5819b57430ac0f042104b78b/戴露/PRIVATE
                 var params = {
                     username: 'zhouw',
                     friendid: '5812ebdf4c0b0e79324f6cc4' // dl
                 };
-                HttpPromiseService.getData(REQ_FRIEND_URL, params).then(function (data) {
+                HttpPromiseService.getData(REQ_FRIEND_URL, params).then(function(data) {
                     debugger;
                     console.log(data);
                 });
@@ -151,44 +151,44 @@ angular.module('devtest.service', [])
         }
     })
     // 加载所有好友向自己发起的[好友请求]
-    .factory('mocking_loadAll_FriendRequest', function (HttpPromiseService, LOAD_FRIEND_REQUEST_URL) { // 成功
+    .factory('mocking_loadAll_FriendRequest', function(HttpPromiseService, LOAD_FRIEND_REQUEST_URL) { // 成功
         return {
-            init: function () {
+            init: function() {
                 // #/tab/friendInfo/5812ebdf4c0b0e79324f6cc4/戴露/PRIVATE
                 var params = {
                     username: 'dl',
                 };
-                HttpPromiseService.getData(LOAD_FRIEND_REQUEST_URL, params).then(function (data) {
+                HttpPromiseService.getData(LOAD_FRIEND_REQUEST_URL, params).then(function(data) {
                     debugger;
                     console.log(data);
                 });
             }
         }
     })
-    .factory('mocking_res_FriendRequest_agree', function (HttpPromiseService, RES_FRIEND_REQUEST) { // 成功
+    .factory('mocking_res_FriendRequest_agree', function(HttpPromiseService, RES_FRIEND_REQUEST) { // 成功
         return {
-            init: function () {
+            init: function() {
                 var params = {
-                    userid: '5812ebdf4c0b0e79324f6cc4',    // dl
-                    friendid: '581db8dfef1a5d19862cdc12',  // zhouw
+                    userid: '5812ebdf4c0b0e79324f6cc4', // dl
+                    friendid: '581db8dfef1a5d19862cdc12', // zhouw
                     state: 1
                 };
-                HttpPromiseService.getData(RES_FRIEND_REQUEST, params).then(function (data) {
+                HttpPromiseService.getData(RES_FRIEND_REQUEST, params).then(function(data) {
                     debugger;
                     console.log(data);
                 });
             }
         }
     })
-    .factory('mocking_res_FriendRequest_reject', function (HttpPromiseService, RES_FRIEND_REQUEST) { // 成功
+    .factory('mocking_res_FriendRequest_reject', function(HttpPromiseService, RES_FRIEND_REQUEST) { // 成功
         return {
-            init: function () {
+            init: function() {
                 var params = {
-                    userid: '5812ebdf4c0b0e79324f6cc4',     // dl
-                    friendid: '581db8dfef1a5d19862cdc12',   // zhouw
+                    userid: '5812ebdf4c0b0e79324f6cc4', // dl
+                    friendid: '581db8dfef1a5d19862cdc12', // zhouw
                     state: -1
                 };
-                HttpPromiseService.getData(RES_FRIEND_REQUEST, params).then(function (data) {
+                HttpPromiseService.getData(RES_FRIEND_REQUEST, params).then(function(data) {
                     debugger;
                     console.log(data);
                 });
@@ -197,40 +197,48 @@ angular.module('devtest.service', [])
     })
 
 
-    // ============群组请求相关
-    .factory('mocking_add_GroupRequest', function (HttpPromiseService, REQ_GROUP_MEMBER_URL) {
+// ============群组请求相关
+.factory('mocking_add_GroupRequest', function(HttpPromiseService, REQ_GROUP_MEMBER_URL) {
         return {
-            init: function () {
+            init: function() {
                 var params = {
                     username: 'py',
+                    friendid: 'py',
+                    groupid: 'py',
                 };
-                HttpPromiseService.getData(REQ_GROUP_MEMBER_URL, params).then(function (data) {
+                HttpPromiseService.getData(REQ_GROUP_MEMBER_URL, params).then(function(data) {
                     debugger;
                     console.log(data);
                 });
             }
         }
     })
-    .factory('mocking_res_GroupRequest_agree', function (HttpPromiseService, RES_GROUP_REQUEST) {
+    .factory('mocking_res_GroupRequest_agree', function(HttpPromiseService, RES_GROUP_REQUEST) {
         return {
-            init: function () {
+            init: function() {
                 var params = {
                     username: 'py',
+                    friendid: 'py',
+                    groupid: 'py',
+                    state:1
                 };
-                HttpPromiseService.getData(RES_GROUP_REQUEST, params).then(function (data) {
+                HttpPromiseService.getData(RES_GROUP_REQUEST, params).then(function(data) {
                     debugger;
                     console.log(data);
                 });
             }
         }
     })
-    .factory('mocking_res_GroupRequest_reject', function (HttpPromiseService, RES_GROUP_REQUEST) {
+    .factory('mocking_res_GroupRequest_reject', function(HttpPromiseService, RES_GROUP_REQUEST) {
         return {
-            init: function () {
+            init: function() {
                 var params = {
-                    username: 'py',
+                   username: 'py',
+                    friendid: 'py',
+                    groupid: 'py',
+                    state:-1
                 };
-                HttpPromiseService.getData(RES_GROUP_REQUEST, params).then(function (data) {
+                HttpPromiseService.getData(RES_GROUP_REQUEST, params).then(function(data) {
                     debugger;
                     console.log(data);
                 });

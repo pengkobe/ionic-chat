@@ -270,19 +270,19 @@ UserSchema.statics.updateResponse_friendDoc = function (userid, friendid, state,
  * @param {Object} username 用户名
  * @param {Function} cb 回调函数
  */
-UserSchema.statics.queryRequset_friendsDoc = function (username, cb) {
-    var query = { username: username };
-    this.find(query)
-        .exec(function (err, requset_friends) {
-            requset_friends.find()
-                .populate('to')
-                .exec(function (err, docs) {
-                    if (err) return console.log(err);
-                    console.log('addRequset_friendsDoc Success!');
-                    cb(docs)
-                });
-        });
-}
+// UserSchema.statics.queryRequset_friendsDoc = function (username, cb) {
+//     var query = { username: username };
+//     this.find(query)
+//         .exec(function (err, requset_friends) {
+//             requset_friends.find()
+//                 .populate('to')
+//                 .exec(function (err, docs) {
+//                     if (err) return console.log(err);
+//                     console.log('addRequset_friendsDoc Success!');
+//                     cb(docs)
+//                 });
+//         });
+// }
 
 /**
  * addRequset_friendsDoc [添加请求好友状态]
@@ -331,6 +331,103 @@ UserSchema.statics.updateRequset_friendsDoc = function (userid, friendid, state,
         for (var i = 0; i < user.requset_friends.length; i++) {
             if (user.requset_friends[i].to == friendid) {
                 user.requset_friends[i].state = state;
+                user.markModified('state');
+                user.save(cb);
+            }
+        }
+    });
+}
+
+//===================
+/**
+ * addResponse_groupDoc [添加请求好友进群状态]
+ * @param {Object} username 用户名
+ * @param {Object} friendid 好友编号
+ * @param {Function} cb 回调函数
+ */
+UserSchema.statics.addResponse_groupDoc = function (userid, friendid, groupid, cb) {
+    var query = { _id: userid };
+    console.log('addRequset_groupDoc id:', userid);
+    this.findOne(query)
+        .exec(function (err, doc) {
+            friendid = mongoose.Types.ObjectId(friendid);
+            groupid = mongoose.Types.ObjectId(groupid);
+            console.log('addRequset_groupDoc:', doc);
+            doc.response_groups.unshift({ from: friendid, groupid:groupid,state: 0 });
+            var subdoc = doc.response_groups[0];
+            subdoc.isNew;
+            doc.save(cb)
+        });
+}
+
+/**
+ * updateResponse_groupDoc 更新群组请求回复状态
+ * @param {Object} userid 用户编号
+ * @param {Object} friendid 好友编号
+ * @param {Object} groupid 群编号
+ * @param {Object} state 状态[ 0:待确认 | 1:成为好友 ]
+ */
+UserSchema.statics.updateResponse_groupDoc = function (userid, friendid, groupid,state, cb) {
+    var query = { _id: userid };
+    this.findOne(query, function (err, user) {
+        console.log("updateResponse_groupDoc", user);
+        for (var i = 0; i < user.response_groups.length; i++) {
+            if (user.response_groups[i].from == friendid && user.response_groups[i].groupid == groupid) {
+                user.response_groups[i].state = state;
+                user.markModified('state');
+                user.save(cb);
+            }
+        }
+    });
+}
+
+
+/**
+ * addRequset_groupsDoc [添加请求好友状态]
+ * @param {Object} username 用户名
+ * @param {Object} friendid 好友编号
+ * @param {Object} rawgroupid 群编号
+ * @param {Function} cb 回调函数
+ */
+UserSchema.statics.addRequset_groupsDoc = function (username, rawfriendid,rawgroupid, cb) {
+    var that = this;
+    var query = { username: username };
+    that.findOne(query)
+        .exec(function (err, doc) {
+            var friendid = mongoose.Types.ObjectId(rawfriendid);
+            var groupid = mongoose.Types.ObjectId(rawgroupid);
+            if (doc && doc.requset_groups) {
+                doc.requset_groups.unshift({ to: friendid, groupid:groupid, state: 0 });
+                var subdoc = doc.requset_groups[0];
+                subdoc.isNew;
+                doc.save(function (err, data) {
+                    if (err) {
+                        cb(err);
+                    } else {
+                        that.addResponse_groupDoc(rawfriendid, doc._id, rawgroupid,cb)
+                    }
+                })
+            } else {
+                cb("addRequset_groupsDoc no none like" + username);
+            }
+        });
+}
+
+/**
+ * updateRequset_groupsDoc [更新请求好友入群状态]
+ * @param {Object} userid 用户编号
+ * @param {Object} friendid 好友编号
+ * @param {Object} groupid 群编号
+ * @param {Function} cb 回调函数
+ * @param {Object} state 状态[ 0:待确认 | 1:成为好友 ]
+ */
+UserSchema.statics.updateRequset_groupDoc = function (userid, friendid, groupid ,state,cb) {
+    var query = { _id: userid };
+    this.findOne(query, function (err, user) {
+        console.log("updateRequset_groupsDoc", user);
+        for (var i = 0; i < user.requset_friends.length; i++) {
+            if (user.requset_groups[i].to == friendid && user.requset_groups[i].groupid == groupid) {
+                user.requset_groups[i].state = state;
                 user.markModified('state');
                 user.save(cb);
             }
