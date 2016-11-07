@@ -64,7 +64,7 @@ angular.module('chat.controllers')
         $scope.navCharArray = [];
         $scope.navCallBack = function() {}
 
-            // 加载群组
+        // 加载群组
         Groups.all(function(data) {
             $scope.groups = data;
         });

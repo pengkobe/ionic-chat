@@ -42,7 +42,7 @@ angular.module('chat.route', [])
                 params: { messageId: null, name: null, targetId: null, conversationType: null },
                 views: {
                     'tab-chat': {
-                        templateUrl: 'module/chat/tpl/chat-detail.html',
+                        templateUrl: 'module/chat/tpl/chatdetail.html',
                         controller: 'chatDetail'
                     }
                 }

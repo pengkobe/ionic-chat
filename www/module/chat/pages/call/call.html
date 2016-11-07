@@ -1,43 +1,41 @@
 <ion-view title="视频通话" hide-back-button="true">
   <!--<ion-nav-buttons side="right">-->
-    <!--<button class="button button-icon icon" 
+  <!--<button class="button button-icon icon" 
     ng-class="{ 'ion-ios7-mic-off': muted, 'ion-ios7-mic': !muted }" ng-click="toggleMute()"-->
-      <!--ng-if="cordova.platformId === 'ios' || cordova.platformId === 'android'"></button>-->
-    <!--&lt;!&ndash;<button class="button button-icon icon ion-plus-round"-->
-            <!--ng-click="openSelectContactModal()"></button>-->
-            <!--&ndash;&gt;-->
+  <!--ng-if="cordova.platformId === 'ios' || cordova.platformId === 'android'"></button>-->
+  <!--&lt;!&ndash;<button class="button button-icon icon ion-plus-round"-->
+  <!--ng-click="openSelectContactModal()"></button>-->
+  <!--&ndash;&gt;-->
   <!--</ion-nav-buttons>-->
   <!--<ion-content on-scroll="updateVideoPosition()"
    on-scroll-complete="updateVideoPosition()" style="background-color:#eee">-->
-   <ion-content scroll="false">
-     <div class="call-portrait-div">
-       <p> 
-         <img class="call-portrait-img" 
-            ng-src="{{contactUser.portrait||'img/personPhoto.png'}}">
-         </p>
-     </div>
-     <div class="call-calling">
-       <p>正在呼叫{{ contactUser.username }}...</p>
-     </div>
+  <ion-content scroll="false">
+    <div class="call-portrait-div">
+      <p>
+        <img class="call-portrait-img" ng-src="{{contactUser.portrait||'img/personPhoto.png'}}">
+      </p>
+    </div>
+    <div class="call-calling">
+      <p>正在呼叫{{ contactUser.username }}...</p>
+    </div>
     <div class="calling-container" ng-show="isCalling && !callInProgress">
-      <button class="call-hangup" 
-      class="button button-assertive ion-android-close call-hangup" ng-click="ignore()">
+      <button class="call-hangup" class="button button-assertive ion-android-close call-hangup" ng-click="ignore()">
          挂断
       </button>
     </div>
     <div class="calling-container" ng-show="!isCalling && !callInProgress">
       <p><span class="balanced">{{ contactUser.username }}</span> 邀请你视频聊天</p>
-      <button  class="button button-balanced ion-android-call call-answer" ng-click="answer()">
+      <button class="button button-balanced ion-android-call call-answer" ng-click="answer()">
         接听
       </button>
-      <button  class="button button-assertive ion-android-close call-ignore" ng-click="ignore()">
+      <button class="button button-assertive ion-android-close call-ignore" ng-click="ignore()">
         忽略
       </button>
     </div>
     <video-view></video-view>
     <div class="calling-container1" ng-show="callInProgress">
       <p>通话中...</p>
-      <button class="button button-assertive" ng-click="end()" >
+      <button class="button button-assertive" ng-click="end()">
         结束
       </button>
     </div>

@@ -1,7 +1,6 @@
 var GroupModel = require('../models/group.js');
 var UserModel = require('../models/user.js');
 
-
 // 创建群组
 exports.createGroup = function(req, res) { //成功
     // 创建者

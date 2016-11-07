@@ -1,21 +1,22 @@
 angular.module('chat.call', [])
     // 通话
-    .controller('CallCtrl', function ($scope, $state, $rootScope, $timeout, $interval, $ionicHistory,
-        $ionicModal, $stateParams, signaling, CacheFactory, Friends, rongyunService, mediaService) {
+    .controller('CallCtrl', function ($scope, $state, $rootScope, $timeout, $ionicHistory,
+        $stateParams, signaling, Friends, rongyunService, mediaService) {
         var duplicateMessages = [];
+        // 获取联系人
+        $scope.contacts = {};
+        // 静音
+        $scope.muted = false;
         // 是否通话中
         $scope.callInProgress = false;
         // 是否主动发起
         $scope.isCalling = $stateParams.isCalling === 'true';
+
         // 响铃
         if (!$scope.isCalling) {
             mediaService.playSound();
         }
-
-        //alert('isCalling:'+ $scope.isCalling +"type:"+ typeof $scope.isCalling );
-        // 获取联系人
-        $scope.contacts = {};
-        $scope.muted = false;
+        // 查找联系人信息
         var contactUser = Friends.get($stateParams.contactName);
         if (!contactUser) {
             return;

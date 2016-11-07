@@ -27,10 +27,6 @@ angular.module('chat', chat_modules)
     };
     // watch items的变化
     var listener = $rootScope.$watch('arrMsgs', chMsg, true);
-    // $scope.$on('$destroy', function () {
-    //   console.log('destroy');
-    //   listener();
-    // });
     Signaling.on('messageReceived', function (name, message, Signaling) {
       switch (message.type) {
         case 'call':
@@ -38,7 +34,6 @@ angular.module('chat', chat_modules)
             Signaling.emit('sendMessage', name, { type: 'callInProgress' });
             return;
           }
-          // alert('收到视频通话请求，准备跳转！' + message.type);
           $state.go('call', { isCalling: false, contactName: name });
           break;
       }
