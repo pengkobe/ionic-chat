@@ -210,38 +210,36 @@ chats.factory('initRong', function ($rootScope, $state, RONGYUN_APPKEY) {
         }
     })
     // 工作组服务
-    .factory('Groups', function (getTeams, RequestUrl, Signaling, currentUser, $rootScope,
-        getGroupMembers, $interval) {
+    .factory('Groups', function (Signaling, currentUser, $rootScope,
+        $interval, LOAD_GROUPS_URL, HttpPromiseService) {
         var groups = [];
         var groupsMenmberinfo = [];
         var curUID = '';
 
         // 后台请求数据
         function loadData(callback) {
-            getTeams.load(curUID).then(function (teamList) {
-                // ==此方法会造成一段时间无数据(加载数据会造成时延)==
+            var params = {
+                username: 'dl',
+            };
+            HttpPromiseService.getData(LOAD_GROUPS_URL, params).then(function (grouplist) {
+                console.log(grouplist);
                 groups = [];
                 groupsMenmberinfo = [];
-                var dataLen = teamList.length;
-                for (var i = 0; i < dataLen; i++) {
-                    teamList[i].conversationType = 'GROUP';
-                    teamList[i].type = 'create';
-                    (function (compid) {
-                        var rid = compid.substr(4);
-                        getGroupMembers(rid, function (data) {
-                            groupsMenmberinfo.push({ id: compid, members: data.data });
-                        });
-                    })(teamList[i].id);
+                for (var i = 0; i < grouplist.length; i++) {
+                    var group = {};
+                    group.id = grouplist[i]._id;
+                    group.name = grouplist[i].groupname;
+                    group.number = 12;
+                    group.max_number = 13;
+                    group.conversationType = 'GROUP';
+                    group.type = 'create';
+                    groups.push(group); groupsMenmberinfo
+                    // groupsMenmberinfo [获取成员列表]
                 }
-                groups = teamList;
                 callback(groups)
             });
         }
 
-        //TODO:组判重
-        function groupsIsExist() { }
-        //TODO:组员判重
-        function menmberIsExist() { }
         return {
             all: function (callback) {
                 if (groups.length > 0) {
@@ -293,82 +291,30 @@ chats.factory('initRong', function ($rootScope, $state, RONGYUN_APPKEY) {
             }
         }
     })
-    // 好友请求服务
-    .service("ResFriend", function ($http, httpXhr, $timeout) {
-        ///UserID 自己
-        ///FriendID:接收人
-        ///state{0：发邀请，1:接受，-1：拒绝}
-        function ResFriend(UserID, FriendID, state, callback) {
-            var obj = { UserID: +UserID, FriendID: +FriendID, state: +state };
-            var data = JSON.stringify(obj);
-            callback([]);
-            // httpXhr.getData('UserInfo_newBLL.ResFriend', { model: data }).then(function (data) {
-            //     callback(data);
-            // });
-        }
-        return ResFriend;
-    })
-    // 群组请求服务
-    .service("ResTeam", function ($http, httpXhr, $timeout) {
-        ///groupID 群组名称
-        ///MemberID:自己
-        ///state{0：发邀请，1:接受，-1：拒绝}
-        function ResTeam(groupID, MemberID, state, callback) {
-            var obj = { groupID: groupID.substr(4), MemberID: MemberID, state: state };
-            var data = JSON.stringify(obj);
-            callback([]);
-            // httpXhr.getData('UserInfo_newBLL.ResTeam', { model: data }).then(function (data) {
-            //     callback(data);
-            // });
-        }
-        return ResTeam;
-    })
-    // 加载团队
-    .service("getTeams", function ($http, httpXhr, $timeout, $q) {
-        /// UserID
-        // function getTeams(userid, callback) {
-        //     httpXhr.getData('urk', { UserID: userid }).then(function (data) {
-        //         callback(data);
-        //     });
-        // }
-        // mock data
-        var defer = $q.defer();
-        var data = [
-            { id: 'prj_8', number: 12, max_number: 30, name: '香年广场', portrait: null },
-            { id: 'prj_11', number: 12, max_number: 30, name: '安徽大厦', portrait: null },
-            { id: 'prj_15', number: 12, max_number: 30, name: '有色大厦', portrait: null }
-        ];
-
-        $timeout(function () {
-            defer.resolve(data);
-        }, 2000);
-        this.load = function (userid) {
-            return defer.promise;
-        }
-    })
     // 加载好友请求
-    .service("FindFriendsReq", function ($http, httpXhr, $interval) {
-        /// UserID
+    .service("FindFriendsReq", function ($http, httpXhr, $interval, HttpPromiseService, LOAD_FRIEND_REQUEST_URL) {
         var friendRquestList = [];
         var intervalid = 0;
 
         function FindFriendsReq(userid, callback) {
-            callback([]);
-            // httpXhr.getData('UserInfo_newBLL.FindFriendsReq', { UserID: userid }).then(function (data) {
-            //     var retData = data.data;
-            //     var dataLen = retData.length;
-            //     friendRquestList = [];
-            //     for (var i = 0; i < dataLen; i++) {
-            //         var friendRquest = {};
-            //         friendRquest.id = retData[i].UserID;
-            //         friendRquest.name = retData[i].UserName;
-            //         friendRquest.info = "[" + retData[i].UserName + "]" + "请求添加您为好友！";
-            //         friendRquest.portrait = retData[i].headimgurl;
-            //         friendRquest.type = "PRIVATE";
-            //         friendRquestList.push(friendRquest);
-            //     }
-            //     callback(friendRquestList);
-            // });
+            var params = {
+                username: 'dl',
+            };
+            HttpPromiseService.getData(LOAD_FRIEND_REQUEST_URL, params).then(function (res_friendlist) {
+                friendRquestList = [];
+                for (var i = 0; i < res_friendlist.length; i++) {
+                    var reqfrom = res_friendlist[i].from;
+                    console.log(res_friendlist);
+                    var friendRquest = {};
+                    friendRquest.id = reqfrom._id;
+                    friendRquest.name = reqfrom.nickname;
+                    friendRquest.info = "[" + reqfrom.nickname + "]" + "请求添加您为好友！";
+                    friendRquest.portrait = reqfrom.headimg;
+                    friendRquest.type = "PRIVATE";
+                    friendRquestList.push(friendRquest);
+                }
+                callback(friendRquestList);
+            });
         }
 
         var friendsReqApi = {
@@ -378,10 +324,9 @@ chats.factory('initRong', function ($rootScope, $state, RONGYUN_APPKEY) {
                 } else {
                     FindFriendsReq(userid, callback);
                     clearInterval(intervalid);
-                    /// 10s
                     intervalid = $interval(function () {
                         FindFriendsReq(userid, callback);
-                    }, 10000);
+                    }, 20000);
                 }
             }
         };
@@ -394,7 +339,7 @@ chats.factory('initRong', function ($rootScope, $state, RONGYUN_APPKEY) {
         /// UserID
         function findTeamsReq(userid, callback) {
             callback([]);
-            // httpXhr.getData('UserInfo_newBLL.findTeamsReq', { UserID: userid }).then(function (data) {
+            // httpXhr.getData('', { UserID: userid }).then(function (data) {
             //     teamRquestList = [];
             //     var retData = data.data;
             //     var dataLen = retData.length;
@@ -426,19 +371,37 @@ chats.factory('initRong', function ($rootScope, $state, RONGYUN_APPKEY) {
         };
         return teamsReqApi;
     })
-    // 团队成员
-    .service("getGroupMembers", function ($http, httpXhr) {
-        function getGroupMembers(groupID, callback) {
-            if (!groupID) {
-                return;
-            }
+    // 好友请求服务
+    .service("ResFriend", function ($http, httpXhr, $timeout) {
+        // UserID 自己
+        // FriendID:接收人
+        // state{0：发邀请，1:接受，-1：拒绝}
+        function ResFriend(UserID, FriendID, state, callback) {
+            var obj = { UserID: +UserID, FriendID: +FriendID, state: +state };
+            var data = JSON.stringify(obj);
             callback([]);
-            // httpXhr.getData('UserInfo_newBLL.getGroupMembers', { groupID: groupID }).then(function (data) {
+            // httpXhr.getData('', { model: data }).then(function (data) {
             //     callback(data);
             // });
         }
-        return getGroupMembers;
+        return ResFriend;
     })
+    // 群组请求服务
+    .service("ResTeam", function ($http, httpXhr, $timeout) {
+        ///groupID 群组名称
+        ///MemberID:自己
+        ///state{0：发邀请，1:接受，-1：拒绝}
+        function ResTeam(groupID, MemberID, state, callback) {
+            var obj = { groupID: groupID.substr(4), MemberID: MemberID, state: state };
+            var data = JSON.stringify(obj);
+            callback([]);
+            // httpXhr.getData('', { model: data }).then(function (data) {
+            //     callback(data);
+            // });
+        }
+        return ResTeam;
+    })
+
     // 协同全局未读消息计算
     .service("chatUnreadMessage", function ($rootScope) {
         var messages = 0;

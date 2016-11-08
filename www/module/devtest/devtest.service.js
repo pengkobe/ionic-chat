@@ -213,6 +213,21 @@ angular.module('devtest.service', [])
             }
         }
     })
+    .factory('mocking_load_GroupRequest', function(HttpPromiseService, LOAD_GROUP_REQUEST_URL) {
+        return {
+            init: function() {
+                var params = {
+                    username: 'py',
+                    friendid: 'py',
+                    groupid: 'py',
+                };
+                HttpPromiseService.getData(LOAD_GROUP_REQUEST_URL, params).then(function(data) {
+                    debugger;
+                    console.log(data);
+                });
+            }
+        }
+    })
     .factory('mocking_res_GroupRequest_agree', function(HttpPromiseService, RES_GROUP_REQUEST) {
         return {
             init: function() {

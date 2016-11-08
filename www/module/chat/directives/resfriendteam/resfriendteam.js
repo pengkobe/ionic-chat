@@ -5,8 +5,8 @@ angular.module('chat.directive')
             templateUrl: 'module/chat/directives/resfriendteam/resfriendteam.tpl',
             replace: true,
             scope: {
-                friendsMessage_local: "=friendsMessagel",
                 groupinviteList_local: "=groupinviteList",
+                friendinviteList_local: "=friendinviteList",
                 responseReq_local: "&responseReq",
             },
             link: function (scope, element, attrs, controller) {
@@ -41,7 +41,7 @@ angular.module('chat.directive')
                             $timeout(function () {
                                 $ionicLoading.hide();
                             }, 750);
-                            scope.responseReq()(obj,$index);
+                            scope.responseReq()(obj, $index);
                         } else {
                             if (state == '1') {
                                 showMsg = "您已加入群" + name + "!";
@@ -62,7 +62,7 @@ angular.module('chat.directive')
                             $timeout(function () {
                                 $ionicLoading.hide();
                             }, 750);
-                            scope.responseReq()(obj,$index,type);
+                            scope.responseReq()(obj, $index, type);
                         }
                     }
                 }

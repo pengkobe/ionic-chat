@@ -154,7 +154,7 @@ exports.loadfriendrequest = function (req, res) {
                 }];
 
                 UserModel.populate(user, opts, function (err, populatedDocs) {
-                    res.json(populatedDocs)
+                    res.json(populatedDocs.response_friends)
                 });
             }
         });

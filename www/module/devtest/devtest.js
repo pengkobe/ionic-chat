@@ -10,7 +10,7 @@ angular.module('devtest', ['devtest.service'])
     // 好友请求
     mocking_add_FriendRequest, mocking_res_FriendRequest_agree, mocking_res_FriendRequest_reject, mocking_loadAll_FriendRequest,
     // 群请求
-    mocking_add_GroupRequest, mocking_res_GroupRequest_agree, mocking_res_GroupRequest_reject
+    mocking_add_GroupRequest, mocking_res_GroupRequest_agree, mocking_res_GroupRequest_reject,mocking_load_GroupRequest
 
   ) {
     // ======好友
@@ -74,11 +74,16 @@ angular.module('devtest', ['devtest.service'])
     };
 
 
-    // ======群组请求相关
+    // ======群组请求相关 
     $scope.mocking_addGroupRequest = function () {
       alert('模拟添加好友进群');
       mocking_add_GroupRequest.init();
       console.log("模拟添加好友进群...");
+    };
+    $scope.mockingLoadAllGroupRequest = function () {
+      alert('模拟加载所有进群请求');
+      mocking_load_GroupRequest.init();
+      console.log("模拟加载所有进群请求...");
     };
     $scope.mocking_resGroupRequest_agree = function () {
       alert('模拟同意进群');

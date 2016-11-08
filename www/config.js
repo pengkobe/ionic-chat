@@ -30,6 +30,8 @@ angular.module('ionchat.config', [])
     .constant('RES_FRIEND_REQUEST', 'http://localhost:54321/res_addfriend')
     // 删除好友
     .constant('REMOVE_FRIEND_URL', 'http://localhost:54321/removefriend')
+    // 加载添加好友请求
+    .constant('LOAD_FRIEND_REQUEST_URL', 'http://localhost:54321/loadfriendrequest')
 
 
     // =========群相关=============
@@ -43,14 +45,13 @@ angular.module('ionchat.config', [])
     .constant('RES_GROUP_REQUEST', 'http://localhost:54321/res_addgroupmember')
     // 退群
     .constant('REMOVE_GROUP_URL', 'http://localhost:54321/removegroup')
-
+    // 加载入群好友请求
+    .constant('LOAD_GROUP_REQUEST_URL', 'http://localhost:54321/loadgrouprequesst')
 
 
     // =========测试用=============
-    // 加载添加好友请求
-    .constant('LOAD_FRIEND_REQUEST_URL', 'http://localhost:54321/loadfriendrequest')
-    // 加载入群好友请求
-    .constant('LOAD_GROUP_REQUEST_URL', 'http://localhost:54321/loadgrouprequesst')
+
+
     // 直接添加好友
     .constant('ADD_FRIEND_URL', 'http://localhost:54321/addfriend')
     .constant('LOAD_ALL_USER_URL', 'http://localhost:54321/loadallusers');
