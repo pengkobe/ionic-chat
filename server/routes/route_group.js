@@ -4,7 +4,7 @@ var UserModel = require('../models/user.js');
 // 创建群组
 exports.createGroup = function(req, res) { //成功
     // 创建者
-    var username = req.body.username;
+    var userid = req.body.userid;
     // 群名
     var groupname = req.body.groupname;
     // 初始用户
@@ -16,7 +16,7 @@ exports.createGroup = function(req, res) { //成功
         if (err) {
             res.json({ state: -1, message: err });
         } else {
-            UserModel.addGroup(username, [doc._id], function(err, user) {
+            UserModel.addGroup(userid, [doc._id], function(err, user) {
                 if (err) {
                     res.json({ state: -1, message: err });
                 } else {
@@ -63,7 +63,7 @@ exports.loadgrouprequesst = function(req, res) {
                 }];
 
                 UserModel.populate(user, opts, function(err, populatedDocs) {
-                    res.json(populatedDocs)
+                    res.json(populatedDocs.response_groups);
                 });
             }
         });

@@ -6,7 +6,7 @@ angular.module('chat.route', [])
                 cache: false,
                 url: '/call/:contactName?isCalling',
                 controller: 'CallCtrl',
-                templateUrl: 'module/chat/business/call/call.html'
+                templateUrl: 'module/chat/pages/call/call.html'
             })
             .state('tab.chat', {
                 url: '/chat',
@@ -61,7 +61,7 @@ angular.module('chat.route', [])
                 params: { GroupID: null },
                 views: {
                     'tab-chat': {
-                        templateUrl: 'module/chat/tpl/add/addTeammate.html',
+                        templateUrl: 'module/chat/tpl/add/addgroupmember.html',
                         controller: 'addTeammateCtrl'
                     }
                 }

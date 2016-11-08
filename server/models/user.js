@@ -179,11 +179,11 @@ UserSchema.statics.addFriend = function (userid, _ids, cb) {
 
 /**
  * 添加群组
- * @param {Object} username 用户名
+ * @param {Object} userid 用户编号
  * @param {Object} goup 好友编号
  * @param {Function} cb 回调函数
  */
-UserSchema.statics.addGroup = function (username, _ids, cb) {
+UserSchema.statics.addGroup = function (userid, _ids, cb) {
     var that = this;
     var mongoose_ids = [];
     // 类型转换
@@ -193,7 +193,7 @@ UserSchema.statics.addGroup = function (username, _ids, cb) {
         }
     }
 
-    var query = { username: username };
+    var query = { _id: userid };
     that.find(query)
         .exec(function (err, doc) {
             if (err) {
@@ -205,12 +205,12 @@ UserSchema.statics.addGroup = function (username, _ids, cb) {
                 var groups = [];
                 // 原有群
                 if (doc.groups) {
-                    groups = groups.concat(doc.friends);
+                    groups = groups.concat(doc.groups);
                 }
                 // 新群
                 groups = groups.concat(mongoose_ids);
                 console.log('Groups:', groups);
-                that.update({ username: username }, // condition
+                that.update({ _id: userid }, // condition
                     { groups: groups }, // doc
                     { multi: true }, // option
                     cb // callback
@@ -425,7 +425,7 @@ UserSchema.statics.updateRequset_groupDoc = function (userid, friendid, groupid 
     var query = { _id: userid };
     this.findOne(query, function (err, user) {
         console.log("updateRequset_groupsDoc", user);
-        for (var i = 0; i < user.requset_friends.length; i++) {
+        for (var i = 0; i < user.requset_groups.length; i++) {
             if (user.requset_groups[i].to == friendid && user.requset_groups[i].groupid == groupid) {
                 user.requset_groups[i].state = state;
                 user.markModified('state');

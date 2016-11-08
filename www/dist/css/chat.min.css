@@ -432,6 +432,20 @@ p.subTitle{
 }
 
 
+.chattoolbar-img {
+    width: 45px;
+    border-radius: 50%;
+}
+.chattoolbar-div {
+   flex: 1;
+   text-align: center;
+}
+.chat-toolbar{
+   height: 65px;width:100%;
+   position: absolute;top: 60px;
+   display: flex;flex-direction: row;align-items: center;
+}
+
 .nav-container{
     position:fixed;
     right: 5px;
@@ -543,20 +557,6 @@ p.subTitle{
 }
 .message-duration{
     line-height: 38px;
-}
-
-.chattoolbar-img {
-    width: 45px;
-    border-radius: 50%;
-}
-.chattoolbar-div {
-   flex: 1;
-   text-align: center;
-}
-.chat-toolbar{
-   height: 65px;width:100%;
-   position: absolute;top: 60px;
-   display: flex;flex-direction: row;align-items: center;
 }
 
 .rj-contacts-item {

@@ -333,28 +333,29 @@ chats.factory('initRong', function ($rootScope, $state, RONGYUN_APPKEY) {
         return friendsReqApi;
     })
     // 加载团队请求
-    .service("findTeamsReq", function ($http, httpXhr, $interval) {
+    .service("findTeamsReq", function ($http, httpXhr, $interval, HttpPromiseService, LOAD_GROUP_REQUEST_URL) {
         var teamRquestList = [];
         var intervalid = 0;
-        /// UserID
-        function findTeamsReq(userid, callback) {
-            callback([]);
-            // httpXhr.getData('', { UserID: userid }).then(function (data) {
-            //     teamRquestList = [];
-            //     var retData = data.data;
-            //     var dataLen = retData.length;
-            //     for (var i = 0; i < dataLen; i++) {
-            //         var groupRquest = {};
-            //         var tempdata = retData[i];
-            //         groupRquest.id = 'cre_' + tempdata.GroupID;
-            //         groupRquest.name = tempdata.GroupName;
-            //         groupRquest.info = (tempdata.UserName == null ? "(无名)" : tempdata.UserName) + "邀您加入群:" + "[" + tempdata.GroupName + "]";
-            //         groupRquest.portrait = null;
-            //         groupRquest.type = "GROUP";
-            //         teamRquestList.push(groupRquest);
-            //     }
-            //     callback(teamRquestList);
-            // });
+        function findTeamsReq(username, callback) {
+            var params = {
+                username: 'lib'
+            };
+            HttpPromiseService.getData(LOAD_GROUP_REQUEST_URL, params).then(function (data) {
+                console.log(data);
+                teamRquestList = [];
+                var dataLen = data.length;
+                for (var i = 0; i < dataLen; i++) {
+                    var groupRquest = {};
+                    var tempdata = data[i];
+                    groupRquest.id = tempdata.groupid._id;
+                    groupRquest.name = tempdata.groupid.groupname;
+                    groupRquest.info = (tempdata.from.nickname == null ? "(无名)" : tempdata.from.nickname) + "邀您加入群:" + "[" + tempdata.groupid.groupname + "]";
+                    groupRquest.portrait = null;
+                    groupRquest.type = "GROUP";
+                    teamRquestList.push(groupRquest);
+                }
+                callback(teamRquestList);
+            });
         }
         var teamsReqApi = {
             all: function (userid, callback) {
@@ -372,32 +373,43 @@ chats.factory('initRong', function ($rootScope, $state, RONGYUN_APPKEY) {
         return teamsReqApi;
     })
     // 好友请求服务
-    .service("ResFriend", function ($http, httpXhr, $timeout) {
+    .service("ResFriend", function ($http, httpXhr, $timeout,HttpPromiseService, RES_FRIEND_REQUEST) {
         // UserID 自己
         // FriendID:接收人
         // state{0：发邀请，1:接受，-1：拒绝}
         function ResFriend(UserID, FriendID, state, callback) {
-            var obj = { UserID: +UserID, FriendID: +FriendID, state: +state };
-            var data = JSON.stringify(obj);
-            callback([]);
-            // httpXhr.getData('', { model: data }).then(function (data) {
-            //     callback(data);
-            // });
+            var params = {
+                userid: UserID,
+                friendid: FriendID,
+                state: state
+            };
+            HttpPromiseService.getData(RES_FRIEND_REQUEST, params).then(function (data) {
+                debugger;
+                console.log(data);
+                callback(data);
+            });
         }
         return ResFriend;
     })
     // 群组请求服务
-    .service("ResTeam", function ($http, httpXhr, $timeout) {
-        ///groupID 群组名称
-        ///MemberID:自己
-        ///state{0：发邀请，1:接受，-1：拒绝}
-        function ResTeam(groupID, MemberID, state, callback) {
+    .service("ResTeam", function ($http, httpXhr, $timeout,HttpPromiseService, RES_GROUP_REQUEST) {
+        // groupID 群组名称
+        // FriendID:发起请求的人
+        // MemberID:自己
+        // state{0：发邀请，1:接受，-1：拒绝}
+        function ResTeam(groupID, FriendID, MemberID, state, callback) {
             var obj = { groupID: groupID.substr(4), MemberID: MemberID, state: state };
-            var data = JSON.stringify(obj);
-            callback([]);
-            // httpXhr.getData('', { model: data }).then(function (data) {
-            //     callback(data);
-            // });
+            var params = {
+                userid: MemberID,
+                friendid: FriendID,
+                groupid: groupID,
+                state: state
+            };
+            HttpPromiseService.getData(RES_GROUP_REQUEST, params).then(function (data) {
+                debugger;
+                console.log(data);
+                callback(data);
+            });
         }
         return ResTeam;
     })

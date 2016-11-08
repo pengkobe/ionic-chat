@@ -40,7 +40,7 @@ angular.module('ionchat.config', [])
     // 加载成员列表
     .constant('LOAD_GROUPMEMBERS', 'http://localhost:54321/loadgroupmembers')
     // 请求添进群加群
-    .constant('REQ_GROUP_MEMBER_URL', 'http://localhost:54321/req_addgroupmember')
+    .constant('REQ_GROUP_MEMBER_URL', 'http://localhost:54321/addgroupmember')
     // 回复加群
     .constant('RES_GROUP_REQUEST', 'http://localhost:54321/res_addgroupmember')
     // 退群

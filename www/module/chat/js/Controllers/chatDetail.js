@@ -23,7 +23,7 @@ angular.module('chat.controllers')
             function callback(data) {
                 var data = data.data;
                 var length = data.length;
-                for (var i = 0; i < length; i++) {
+                for(var i = 0; i < length; i++) {
                     var obj = {};
                     obj.id = data[i].UserID;
                     obj.name = data[i].UserName;
