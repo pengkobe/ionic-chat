@@ -1,5 +1,5 @@
 // Ionic Starter App
-var _aaa = ['dash', 'account', 'chat','devtest','login'];// ,
+var _aaa = ['dash', 'account', 'chat', 'devtest', 'login'];// ,
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
@@ -121,7 +121,7 @@ angular.module('starter', [
   /**
    * 全局/平台样式配置
    */
-  .config(function ($ionicConfigProvider,$ocLazyLoadProvider) {
+  .config(function ($ionicConfigProvider, $ocLazyLoadProvider) {
     $ionicConfigProvider.platform.android.views.transition('android');
     $ionicConfigProvider.platform.ios.tabs.style('standard');
     $ionicConfigProvider.platform.ios.tabs.position('bottom');
@@ -184,7 +184,7 @@ angular.module('starter', [
       // ===account===
       .state('tab.devtest', {
         cache: false,
-        url: '/devtest',views: {
+        url: '/devtest', views: {
           'tab-devtest': {
             templateUrl: 'module/devtest/devtest.html',
             controller: 'DevTestCtrl'
@@ -196,12 +196,11 @@ angular.module('starter', [
         //     return $ocLazyLoad.load(root + 'dist/js/devtest.min.js');
         //   }]
         // }
-      })
+      });
 
-      ;
     // if none of the above states are matched, use this as the fallback
-   // $urlRouterProvider.otherwise('/tab/dash');
-      $urlRouterProvider.otherwise('/login');
+    // $urlRouterProvider.otherwise('/tab/dash');
+    $urlRouterProvider.otherwise('/login');
 
     // $httpProvider.interceptors.push(function ($rootScope, HotUpdateService) {
     //   return {

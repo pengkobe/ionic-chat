@@ -4,5 +4,4 @@ angular.module('login', [
   'login.service',
   'login.route'
 ])
-
 ;

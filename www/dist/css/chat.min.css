@@ -275,6 +275,20 @@ p.subTitle{
 .voice .ic-voice, .voice .ic-keyboard-grey {
     margin: 5px;
 }
+.chattoolbar-img {
+    width: 45px;
+    border-radius: 50%;
+}
+.chattoolbar-div {
+   flex: 1;
+   text-align: center;
+}
+.chat-toolbar{
+   height: 65px;width:100%;
+   position: absolute;top: 60px;
+   display: flex;flex-direction: row;align-items: center;
+}
+
 .xietong-foot-bar {
   flex-direction: column
 }
@@ -431,20 +445,6 @@ p.subTitle{
   padding-bottom: 3px;
 }
 
-
-.chattoolbar-img {
-    width: 45px;
-    border-radius: 50%;
-}
-.chattoolbar-div {
-   flex: 1;
-   text-align: center;
-}
-.chat-toolbar{
-   height: 65px;width:100%;
-   position: absolute;top: 60px;
-   display: flex;flex-direction: row;align-items: center;
-}
 
 .nav-container{
     position:fixed;

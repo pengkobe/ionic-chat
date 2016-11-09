@@ -95,5 +95,49 @@ GroupSchema.statics.findGroup = function (groupid, groupname, members, headImg, 
     });
 }
 
+/**
+ * 添加群成员
+ * @param {Object} groupid  编号
+ * @param {Array}  _ids     需要添加的成员数据
+ * @param {Function} cb     回调函数
+ */
+GroupSchema.statics.addMember = function (groupid, _ids, cb) {
+    var that = this;
+    var mongoose_ids = [];
+    // 类型转换
+    for (var i = 0; i < _ids.length; i++) {
+        if (_ids[i] && _ids[i] != "") {
+            mongoose_ids.push(mongoose.Types.ObjectId(_ids[i]));
+        }
+    }
+
+    var query = { _id: groupid };
+    that.find(query)
+        .exec(function (err, doc) {
+            if (err) {
+                console.log('addMembers err:', err);
+                cb(err);
+                return;
+            }
+            if (doc && doc.length > 0) {
+                var members = [];
+                // 原有成员
+                if (doc.members) {
+                    members = members.concat(doc.members);
+                }
+                // 新成员
+                members = members.concat(mongoose_ids);
+                console.log('members:', members);
+                that.update({ _id: groupid },   // condition
+                    { members: members },       // doc
+                    { multi: true },            // option
+                    cb                          // callback
+                );
+            } else {
+                console.log('addmembers  0 ret:', doc);
+            }
+        });
+}
+
 var GroupsModel = mongoose.model('Group', GroupSchema);
 module.exports = GroupsModel;

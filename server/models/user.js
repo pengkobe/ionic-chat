@@ -130,13 +130,15 @@ UserSchema.statics.loadFriends = function (username, cb) {
 UserSchema.statics.loadGroups = function (username, cb) {
     this.findOne({ username: username })
         .populate('groups')
-        .exec(cb);
+        .exec(function (err, doc) {
+            cb(err,doc.groups);
+        });
 }
 
 /**
  * 添加好友
  * @param {Object} userid 用户编号
- * @param {Object} _ids 好友编号
+ * @param {Array} _ids 好友编号
  * @param {Function} cb 回调函数
  */
 UserSchema.statics.addFriend = function (userid, _ids, cb) {
@@ -321,7 +323,7 @@ UserSchema.statics.addRequset_friendsDoc = function (username, rawfriendid, cb) 
  * @param {Object} friendid 好友编号
  * @param {Object} state 状态[ 0:待确认 | 1:成为好友 ]
  */
-UserSchema.statics.updateRequset_friendsDoc = function (userid, friendid, state,cb) {
+UserSchema.statics.updateRequset_friendsDoc = function (userid, friendid, state, cb) {
     // var userid = mongoose.Types.ObjectId(userid);
     // var friendid = mongoose.Types.ObjectId(friendid);
     // this.update({ _id: userid, "requset_friends.to": friendid }, { $set: { "requset_friends.$.state": state } })
@@ -353,7 +355,7 @@ UserSchema.statics.addResponse_groupDoc = function (userid, friendid, groupid, c
             friendid = mongoose.Types.ObjectId(friendid);
             groupid = mongoose.Types.ObjectId(groupid);
             console.log('addRequset_groupDoc:', doc);
-            doc.response_groups.unshift({ from: friendid, groupid:groupid,state: 0 });
+            doc.response_groups.unshift({ from: friendid, groupid: groupid, state: 0 });
             var subdoc = doc.response_groups[0];
             subdoc.isNew;
             doc.save(cb)
@@ -367,7 +369,7 @@ UserSchema.statics.addResponse_groupDoc = function (userid, friendid, groupid, c
  * @param {Object} groupid 群编号
  * @param {Object} state 状态[ 0:待确认 | 1:成为好友 ]
  */
-UserSchema.statics.updateResponse_groupDoc = function (userid, friendid, groupid,state, cb) {
+UserSchema.statics.updateResponse_groupDoc = function (userid, friendid, groupid, state, cb) {
     var query = { _id: userid };
     this.findOne(query, function (err, user) {
         console.log("updateResponse_groupDoc", user);
@@ -389,7 +391,7 @@ UserSchema.statics.updateResponse_groupDoc = function (userid, friendid, groupid
  * @param {Object} rawgroupid 群编号
  * @param {Function} cb 回调函数
  */
-UserSchema.statics.addRequset_groupsDoc = function (username, rawfriendid,rawgroupid, cb) {
+UserSchema.statics.addRequset_groupsDoc = function (username, rawfriendid, rawgroupid, cb) {
     var that = this;
     var query = { username: username };
     that.findOne(query)
@@ -397,14 +399,14 @@ UserSchema.statics.addRequset_groupsDoc = function (username, rawfriendid,rawgro
             var friendid = mongoose.Types.ObjectId(rawfriendid);
             var groupid = mongoose.Types.ObjectId(rawgroupid);
             if (doc && doc.requset_groups) {
-                doc.requset_groups.unshift({ to: friendid, groupid:groupid, state: 0 });
+                doc.requset_groups.unshift({ to: friendid, groupid: groupid, state: 0 });
                 var subdoc = doc.requset_groups[0];
                 subdoc.isNew;
                 doc.save(function (err, data) {
                     if (err) {
                         cb(err);
                     } else {
-                        that.addResponse_groupDoc(rawfriendid, doc._id, rawgroupid,cb)
+                        that.addResponse_groupDoc(rawfriendid, doc._id, rawgroupid, cb)
                     }
                 })
             } else {
@@ -421,7 +423,7 @@ UserSchema.statics.addRequset_groupsDoc = function (username, rawfriendid,rawgro
  * @param {Function} cb 回调函数
  * @param {Object} state 状态[ 0:待确认 | 1:成为好友 ]
  */
-UserSchema.statics.updateRequset_groupDoc = function (userid, friendid, groupid ,state,cb) {
+UserSchema.statics.updateRequset_groupDoc = function (userid, friendid, groupid, state, cb) {
     var query = { _id: userid };
     this.findOne(query, function (err, user) {
         console.log("updateRequset_groupsDoc", user);

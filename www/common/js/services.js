@@ -1,38 +1,5 @@
 angular.module('chat.common.services', [])
-    // 用户全局引用
-    .service("currentUser", function (CacheFactory, $rootScope) {
-        var userinfo = null;
-        var projectinfo = null;
-        // 项目切换
-        $rootScope.$on("change Project", function (evt, PCode, PName) {
-            userinfo.PCode = PCode;
-            projectinfo.PName = PName;
-        });
-        var userservive = {
-            getUserinfo: function () {
-                if (userinfo == null) {
-                    var mockdata = {
-                        "_id": "5812ebdf4c0b0e79324f6cb1", "nickname": "彭奕", "username": "py",
-                        "password": "123", "headimg": "", "EMail": "yipeng.info@gmail.com",
-                    };
-                    userinfo = mockdata;
-                }
-                return userinfo;
-            },
-            setUserinfo: function (val) {
-                userinfo = val;
-                return;
-            },
-            getProjectinfo: function () {
-                return projectinfo;
-            },
-            setProjectinfo: function (val) {
-                projectinfo = val[0];
-                return;
-            }
-        }
-        return userservive;
-    })
+
     // 照相及相册
     .factory('PhotoAndImages', function ($q) { // 照片相关
         return {

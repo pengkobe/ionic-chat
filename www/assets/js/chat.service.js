@@ -213,6 +213,7 @@ chats.factory('initRong', function ($rootScope, $state, RONGYUN_APPKEY) {
     .factory('Groups', function (Signaling, currentUser, $rootScope,
         $interval, LOAD_GROUPS_URL, HttpPromiseService) {
         var groups = [];
+        var groupsMenmberinfo = [];
         var curUID = '';
 
         // 后台请求数据
@@ -223,6 +224,7 @@ chats.factory('initRong', function ($rootScope, $state, RONGYUN_APPKEY) {
             HttpPromiseService.getData(LOAD_GROUPS_URL, params).then(function (grouplist) {
                 console.log(grouplist);
                 groups = [];
+                groupsMenmberinfo = [];
                 for (var i = 0; i < grouplist.length; i++) {
                     var group = {};
                     group.id = grouplist[i]._id;
@@ -231,8 +233,8 @@ chats.factory('initRong', function ($rootScope, $state, RONGYUN_APPKEY) {
                     group.max_number = 13;
                     group.conversationType = 'GROUP';
                     group.type = 'create';
-                    group.members = grouplist[i].members;
-                    groups.push(group); 
+                    groups.push(group); groupsMenmberinfo
+                    // groupsMenmberinfo [获取成员列表]
                 }
                 callback(groups)
             });
@@ -266,14 +268,26 @@ chats.factory('initRong', function ($rootScope, $state, RONGYUN_APPKEY) {
                 return retIndex > -1 ? groups[retIndex] : null;
             },
             // 获取组内成员
-            getGroupMembers: function (groupId, cb) {
+            getGroupMember: function (groupId, userid) {
                 var retIndex = -1;
-                for (var i = 0; i < groups.length; i++) {
-                    if (groupId == groups[i].id) {
-                        return cb(groups[i].members);
+                var arrLen = groupsMenmberinfo.length;
+                for (var i = 0; i < arrLen; i++) {
+                    var tmpgroup = groupsMenmberinfo[i];
+                    if (tmpgroup.id == groupId && tmpgroup.members) {
+                        var tmpmemLen = tmpgroup.members.length;
+                        for (var j = 0; j < tmpmemLen; j++) {
+                            var tempUser = tmpgroup.members[j];
+                            if (tempUser.UserID == userid) {
+                                return {
+                                    id: tempUser.UserID,
+                                    name: tempUser.UserName,
+                                    img: tempUser.headimgurl
+                                };
+                            };
+                        }
                     }
                 }
-                return [];
+                return null;
             }
         }
     })

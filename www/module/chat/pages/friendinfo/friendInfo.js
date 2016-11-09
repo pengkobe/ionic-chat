@@ -49,7 +49,7 @@ angular.module('chat.controllers')
         // 发送消息,跳转到聊天界面
         $scope.sendMsg = function () {
             //alert('p y is here ready to home:' + $stateParams.targetId + ":" + $stateParams.conversationType);
-            $state.go('chat.chatDetail', {
+            $state.go('tab.chatDetail', {
                 messageId: '1', name: targetName, targetId: targetId,
                 conversationType: $stateParams.conversationType
             });

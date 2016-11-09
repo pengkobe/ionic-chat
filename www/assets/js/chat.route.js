@@ -22,7 +22,7 @@ angular.module('chat.route', [])
                 cache: false,
                 views: {
                     'tab-chat': {
-                        templateUrl: 'module/chat/pages/friendinfo/friendinfo.html',
+                        templateUrl: 'module/chat/tpl/friendinfo.html',
                         controller: 'friendInfoCtrl'
                     }
                 }
@@ -32,7 +32,7 @@ angular.module('chat.route', [])
                 cache: false,
                 views: {
                     'tab-chat': {
-                        templateUrl: 'module/chat/pages/groupinfo/groupinfo.html',
+                        templateUrl: 'module/chat/tpl/groupinfo.html',
                         controller: 'groupInfoCtrl'
                     }
                 }
@@ -42,7 +42,7 @@ angular.module('chat.route', [])
                 params: { messageId: null, name: null, targetId: null, conversationType: null },
                 views: {
                     'tab-chat': {
-                        templateUrl: 'module/chat/pages/chatdetail/chatdetail.html',
+                        templateUrl: 'module/chat/tpl/chatdetail.html',
                         controller: 'chatDetail'
                     }
                 }

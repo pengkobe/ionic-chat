@@ -48,7 +48,7 @@ angular.module('chat.directive')
                     return false;
                 };
 
-                $ionicModal.fromTemplateUrl('module/chat/tpl/message/BigImage.html', {
+                $ionicModal.fromTemplateUrl('module/chat/directives/chatmessagepanel/message/BigImage.html', {
                     scope: scope,
                     animation: 'slide-in-up'
                 }).then(function (modal) {
@@ -90,7 +90,7 @@ angular.module('chat.directive')
                         default:
 
                     }
-                    return 'module/chat/tpl/message/' + tmpName + '.html';
+                    return 'module/chat/directives/chatmessagepanel/message/' + tmpName + '.html';
                 }
             }
         };

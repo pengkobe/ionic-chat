@@ -2,7 +2,8 @@ angular.module('login.controller', [])
   .controller('LoginController', LoginController)
   .controller('RegisterController', RegisterController)
 
-function LoginController($scope, $rootScope, $ionicLoading, $state, LOGIN_URL, HttpPromiseService,currentUser) {
+function LoginController($scope, $rootScope, $ionicLoading, $state, 
+LOGIN_URL, HttpPromiseService, currentUser) {
   $scope.submitting = false;
   $scope.user = {};
   $scope.validateOptions = {
@@ -28,9 +29,11 @@ function LoginController($scope, $rootScope, $ionicLoading, $state, LOGIN_URL, H
   };
 }
 
-LoginController.$inject = ['$scope', '$rootScope', '$ionicLoading', '$state', 'LOGIN_URL', 'HttpPromiseService','currentUser'];
+LoginController.$inject = ['$scope', '$rootScope', '$ionicLoading', 
+'$state', 'LOGIN_URL', 'HttpPromiseService', 'currentUser'];
 
-function RegisterController($scope, $rootScope, $ionicBackdrop, $ionicHistory,REGISTER_URL,HttpPromiseService, $state) {
+function RegisterController($scope, $rootScope, $ionicBackdrop, $ionicHistory, 
+REGISTER_URL, HttpPromiseService, $state) {
   $scope.submitting = false;
   $scope.user = {};
   $scope.validateOptions = {
@@ -46,7 +49,7 @@ function RegisterController($scope, $rootScope, $ionicBackdrop, $ionicHistory,RE
       password: $scope.user.password,
       nickname: $scope.user.username
     };
-     HttpPromiseService.getData(REGISTER_URL, params).then(function (data) {
+    HttpPromiseService.getData(REGISTER_URL, params).then(function (data) {
       console.log(data);
       if (data.state = 1) {
         alert("注册成功！");
@@ -61,4 +64,5 @@ function RegisterController($scope, $rootScope, $ionicBackdrop, $ionicHistory,RE
     $ionicHistory.goBack(-1);
   }
 }
-RegisterController.$inject = ['$scope', '$rootScope', '$ionicBackdrop', '$ionicHistory','REGISTER_URL','HttpPromiseService','$state'];
+RegisterController.$inject = ['$scope', '$rootScope', '$ionicBackdrop',
+ '$ionicHistory', 'REGISTER_URL', 'HttpPromiseService', '$state'];
