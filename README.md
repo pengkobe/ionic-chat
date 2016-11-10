@@ -1,8 +1,8 @@
-# ionic-chat
+# Ionic-Chat
 a chat app based on ionic and rongyun  
 > This project is underdevelop and it is unrunnable for the time being. 
 
-## file structure
+## File structure
    ```
    ProjectName/
     ├── hooks/
@@ -57,7 +57,7 @@ a chat app based on ionic and rongyun
     └──  LICENSE
    ```
 
-## how to build module
+## How to build module
 In gulpfile you can see this:
 ```
 // chat module for example：
@@ -95,7 +95,7 @@ gulp buildchat
 ```
 you can get what you want
 
-## back-end dependency
+## Back-End dependency
 you may click [build notes](server/README.md) for more information.   
    
 1. node with express
@@ -104,7 +104,7 @@ you may click [build notes](server/README.md) for more information.
 4. turn/stun server
 5. socket.io
 
-## how to run
+## How to run
 1. install node
 2. set up the enviroment for android/ios
 3. install ionic. please follow the instrunction on [ionicframework](http://ionicframework.com/getting-started/)
@@ -115,7 +115,7 @@ you may click [build notes](server/README.md) for more information.
 8. ionic emulate android/ios
 
 
-## how to debug on web browser
+## How to debug on web browser
 looks a little complicated here. just for your purpose of ajusting styles. 
 will support one key set soon.
 + userindex.js
@@ -139,11 +139,15 @@ will support one key set soon.
 ionic serve 
 ```
 
-## todo
+## Todo
 1. localstorage policy
 2. lazy load
 3. hot update
 5. make it beautiful and stable
 
-## licence
+## Demo
+a little glimpse of the app on Chrome:  
+![ionic-chat-demo](./demo/ionic-chat-demo.png)
+
+## Licence
 MIT@[pengkobe](yipeng.info)

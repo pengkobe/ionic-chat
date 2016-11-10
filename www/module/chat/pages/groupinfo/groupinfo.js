@@ -12,8 +12,8 @@ angular.module('chat.controllers')
                 { name: targetName, targetId: targetId, conversationType: conversationType });
         }
         // 添加群成员
-        $scope.addTeammate = function () {
-            $state.go('tab.addTeammate',
+        $scope.addGroupmember = function () {
+            $state.go('tab.addGroupmember',
                 { GroupID: targetId });
         }
         $scope.members = [];

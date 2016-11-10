@@ -28,6 +28,9 @@
 p.subTitle{
   line-height: 30px;
 }
+.button.title_icon{
+  color: #444;
+}
 
 /*wechat share*/
 .ic-weixin {

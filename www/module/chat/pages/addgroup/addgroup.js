@@ -1,11 +1,10 @@
 angular.module('chat.controllers')
-    .controller('addTeamCtrl', function ($scope, RequestUrl, CacheFactory, $ionicPopup, HttpFactory,
+    .controller('addGroupCtrl', function ($scope, RequestUrl,$ionicPopup, HttpFactory,
         $ionicHistory, $cordovaContacts, myNote, $timeout) {
-        var cache = angular.fromJson(CacheFactory.get('UserAccount'));
         $scope.task = {};
         var myPopup = $ionicPopup.show({
             template: '<input type="text" ng-model="task.title">',
-            title: '输入组名：', // 创建项目组
+            title: '输入组名：',
             scope: $scope,
             buttons: [
                 {
@@ -29,15 +28,15 @@ angular.module('chat.controllers')
         myPopup.then(function () {
             myPopup.close();
         });
-        HttpFactory.send({
-            url: RequestUrl + 'Action.ashx?Name=HYD.E3.Business.UserInfo_newBLL.getFriends',
-            data: {
-                UserID: cache.UserID
-            },
-            method: 'post'
-        }).then(function (data) {
-            $scope.friends = data.data.data;
-        });
+        // HttpFactory.send({
+        //     url: RequestUrl + '',
+        //     data: {
+        //         UserID: '123'
+        //     },
+        //     method: 'post'
+        // }).then(function (data) {
+        //     $scope.friends = data.data.data;
+        // });
         $scope.sure = function () {
             console.log($scope.friends);
             $scope.task.member = [];
@@ -50,20 +49,20 @@ angular.module('chat.controllers')
         };
 
         function createTeam(team) {
-            HttpFactory.send({
-                url: RequestUrl + 'createGroup',
-                data: {
-                    title: team.title,
-                    UserID: cache.UserID,
-                    members: angular.toJson(team.member)
-                },
-                method: 'post'
-            }).then(function () {
-                myNote.myNotice('邀请成功！', 3000);
-                $timeout(function () {
-                    $ionicHistory.goBack();
-                }, 3000);
-            });
+            // HttpFactory.send({
+            //     url: RequestUrl + 'createGroup',
+            //     data: {
+            //         title: team.title,
+            //         UserID: '123',
+            //         members: angular.toJson(team.member)
+            //     },
+            //     method: 'post'
+            // }).then(function () {
+            //     myNote.myNotice('邀请成功！', 3000);
+            //     $timeout(function () {
+            //         $ionicHistory.goBack();
+            //     }, 3000);
+            // });
         }
 
         $scope.getAllContacts = function () {

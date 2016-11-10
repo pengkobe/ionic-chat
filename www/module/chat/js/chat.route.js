@@ -47,22 +47,22 @@ angular.module('chat.route', [])
                     }
                 }
             })
-            .state('tab.addTeam', {
-                url: '/addTeam',
+            .state('tab.addGroup', {
+                url: '/addGroup',
                 views: {
                     'tab-chat': {
-                        templateUrl: 'module/chat/tpl/add/addTeam.html',
-                        controller: 'addTeamCtrl'
+                        templateUrl: 'module/chat/pages/addgroup/addgroup.html',
+                        controller: 'addGroupCtrl'
                     }
                 }
             })
-            .state('tab.addTeammate', {
-                url: '/addTeammate',
+            .state('tab.addGroupmember', {
+                url: '/addGroupmember',
                 params: { GroupID: null },
                 views: {
                     'tab-chat': {
-                        templateUrl: 'module/chat/tpl/add/addgroupmember.html',
-                        controller: 'addTeammateCtrl'
+                        templateUrl: 'module/chat/pages/addgroupmember/addgroupmember.html',
+                        controller: 'addGroupmember'
                     }
                 }
             })
@@ -70,7 +70,7 @@ angular.module('chat.route', [])
                 url: '/addFriend',
                 views: {
                     'tab-chat': {
-                        templateUrl: 'module/chat/tpl/add/addFriend.html',
+                        templateUrl: 'module/chat/pages/addfriend/addfriend.html',
                         controller: 'addFriendCtrl'
                     }
                 }
