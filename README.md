@@ -29,7 +29,7 @@ a chat app based on ionic and rongyun
     │   ├── module/
     │   │    ├── app/ (entry)
     │   │    ├── modulename/ 
-    │   │    │    ├── business/ 
+    │   │    │    ├── pages/ 
     │   │    │    ├── directives/ 
     │   │    │    ├── css/
     │   │    │    ├── js/
@@ -70,7 +70,7 @@ gulp.task('buildchat', function (done) {
     'www/module/chat/js/chat.route.js',
     'www/module/chat/js/chat.service.js',
     'www/module/chat/js/chat.controller.js',
-    'www/module/chat/business/**/*.js',
+    'www/module/chat/pages/**/*.js',
     'www/module/chat/js/Controllers/*.js',
     'www/module/chat/js/chat.module.js',
   ])
@@ -81,7 +81,7 @@ gulp.task('buildchat', function (done) {
   // pack css
   gulp.src([
     'www/module/chat/css/*.css',
-    'www/module/chat/business/**/*.css',
+    'www/module/chat/pages/**/*.css',
     'www/module/chat/directives/**/*.css',
   ])
     .pipe(concat('chat.min.css'))
@@ -139,11 +139,15 @@ will support one key set soon.
 ionic serve 
 ```
 
+## Doing
+1. lazy load
+2. hot update
+3. localstorage policy
+
 ## Todo
-1. localstorage policy
-2. lazy load
-3. hot update
-5. make it beautiful and stable
+1. make it beautiful and stable
+2. server push 
+3. compress js
 
 ## Demo
 a little glimpse of the app on Chrome:  
