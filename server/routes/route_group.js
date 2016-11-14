@@ -9,10 +9,11 @@ exports.createGroup = function (req, res) { //成功
     var groupname = req.body.groupname;
     // 初始用户
     var members = req.body.members;
+    console.log("members:",members);
     var groupimg = req.body.groupimg ? req.body.groupimg : '';
-    var GroupEntity = new GroupModel({ groupname: groupname, members: members, groupimg: groupimg });
+    var GroupEntity = new GroupModel({ groupname: groupname, members: [userid], groupimg: groupimg });
     GroupEntity.save(function (err, doc) {
-        console.log(doc)
+        console.log("createGroup err",err)
         if (err) {
             res.json({ state: -1, message: err });
         } else {
@@ -20,13 +21,26 @@ exports.createGroup = function (req, res) { //成功
                 if (err) {
                     res.json({ state: -1, message: err });
                 } else {
-                    // 需要在这里发起进群请求
+                    // 向好友发送入群邀请
+                    for (var i = 0; i < members.length; i++) {
+                        UserModel.addRequset_groupsDoc(userid, members[i], doc._id,
+                            function (err, raw) {
+                                if (err) {
+                                    // todo
+                                    res.json(err);
+                                } else {
+                                    res.json(raw);
+                                }
+                                console.log('ret:', raw);
+                            });
+                    }
                     res.json({ state: 1, group: doc });
                 }
             });
         }
     });
 }
+
 
 // 加载群成员
 exports.loadGroupMembers_ = function (req, res) { //成功
@@ -71,10 +85,10 @@ exports.loadgrouprequesst = function (req, res) {
 
 // 添加好友进群
 exports.addgroupmember = function (req, res) {
-    var username = req.body.username;
+    var userid = req.body.userid;
     var friendid = req.body.friendid;
     var groupid = req.body.groupid;
-    UserModel.addRequset_groupsDoc(username, friendid, groupid,
+    UserModel.addRequset_groupsDoc(userid, friendid, groupid,
         function (err, raw) {
             if (err) {
                 // todo
@@ -85,6 +99,16 @@ exports.addgroupmember = function (req, res) {
             console.log('ret:', raw);
         });
 };
+// UserModel.addRequset_groupsDoc(username, friendid, groupid,
+//         function (err, raw) {
+//             if (err) {
+//                 // todo
+//                 res.json(err);
+//             } else {
+//                 res.json(raw);
+//             }
+//             console.log('ret:', raw);
+//         });
 
 // 同意/拒绝进群
 exports.res_addgroupmember = function (req, res) {

@@ -232,7 +232,7 @@ chats.factory('initRong', function ($rootScope, $state, RONGYUN_APPKEY) {
                     group.conversationType = 'GROUP';
                     group.type = 'create';
                     group.members = grouplist[i].members;
-                    groups.push(group); 
+                    groups.push(group);
                 }
                 callback(groups)
             });
@@ -274,6 +274,21 @@ chats.factory('initRong', function ($rootScope, $state, RONGYUN_APPKEY) {
                     }
                 }
                 return [];
+            }
+        }
+    })
+    // 创建组
+    .factory('CreateGroups', function (HttpPromiseService, CREATE_GROUP_URL) { // 成功
+        return {
+            create: function (group) {
+                var params = {
+                    userid: '5812ebdf4c0b0e79324f6cc4', //dl id
+                    groupname: group.name,
+                    groupimg: '',
+                    members: group.member 
+                };
+
+                return HttpPromiseService.getData(CREATE_GROUP_URL, params);
             }
         }
     })
@@ -324,7 +339,7 @@ chats.factory('initRong', function ($rootScope, $state, RONGYUN_APPKEY) {
         var intervalid = 0;
         function findTeamsReq(username, callback) {
             var params = {
-                username: 'lib'
+                username: 'chengh'
             };
             HttpPromiseService.getData(LOAD_GROUP_REQUEST_URL, params).then(function (data) {
                 console.log(data);
@@ -359,7 +374,7 @@ chats.factory('initRong', function ($rootScope, $state, RONGYUN_APPKEY) {
         return teamsReqApi;
     })
     // 好友请求服务
-    .service("ResFriend", function ($http, httpXhr, $timeout,HttpPromiseService, RES_FRIEND_REQUEST) {
+    .service("ResFriend", function ($http, httpXhr, $timeout, HttpPromiseService, RES_FRIEND_REQUEST) {
         // UserID 自己
         // FriendID:接收人
         // state{0：发邀请，1:接受，-1：拒绝}
@@ -378,7 +393,7 @@ chats.factory('initRong', function ($rootScope, $state, RONGYUN_APPKEY) {
         return ResFriend;
     })
     // 群组请求服务
-    .service("ResTeam", function ($http, httpXhr, $timeout,HttpPromiseService, RES_GROUP_REQUEST) {
+    .service("ResTeam", function ($http, httpXhr, $timeout, HttpPromiseService, RES_GROUP_REQUEST) {
         // groupID 群组名称
         // FriendID:发起请求的人
         // MemberID:自己

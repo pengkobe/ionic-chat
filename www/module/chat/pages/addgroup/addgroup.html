@@ -9,7 +9,7 @@
             </div>
             <ion-checkbox  
             ng-repeat="data in friends track by $index"  ng-model="data.checked"  
-            ng-checked="data.checked">{{ data.UserName||data.Mobile }}</ion-checkbox>
+            ng-checked="data.checked">{{ data.name }}</ion-checkbox>
         </div>
     </ion-content>
 </ion-view>

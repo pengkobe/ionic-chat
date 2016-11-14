@@ -102,7 +102,7 @@ angular.module('devtest.service', [])
     })
 
     // ==========群组
-    .factory('Mocking_Groups', function (HttpPromiseService, CREATE_GROUP_URL) { // 成功
+    .factory('Mocking_Groups', function (HttpPromiseService, CREATE_GROUP_URL) { // 成功（废弃，与实际用途不符）
         return {
             init: function () {
                 var params = {

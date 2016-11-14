@@ -385,15 +385,15 @@ UserSchema.statics.updateResponse_groupDoc = function (userid, friendid, groupid
 
 
 /**
- * addRequset_groupsDoc [添加请求好友状态]
- * @param {Object} username 用户名
+ * addRequset_groupsDoc [添加请求群组状态]
+ * @param {Object} userid 用户名
  * @param {Object} friendid 好友编号
  * @param {Object} rawgroupid 群编号
  * @param {Function} cb 回调函数
  */
-UserSchema.statics.addRequset_groupsDoc = function (username, rawfriendid, rawgroupid, cb) {
+UserSchema.statics.addRequset_groupsDoc = function (userid, rawfriendid, rawgroupid, cb) {
     var that = this;
-    var query = { username: username };
+    var query = { _id: userid };
     that.findOne(query)
         .exec(function (err, doc) {
             var friendid = mongoose.Types.ObjectId(rawfriendid);
@@ -410,7 +410,7 @@ UserSchema.statics.addRequset_groupsDoc = function (username, rawfriendid, rawgr
                     }
                 })
             } else {
-                cb("addRequset_groupsDoc no none like" + username);
+                cb("addRequset_groupsDoc no one id is like:" + userid);
             }
         });
 }

@@ -37,6 +37,7 @@ GroupSchema.methods.loadMembers = function (groupid, groupname, cb) {
  */
 GroupSchema.path('members').set(function (members) {
     var ret = [];
+    console.log("members path:",members);
     for (var i = 0; i < members.length; i++) {
         ret.push(mongoose.Types.ObjectId(members[i]));
     }
