@@ -8,8 +8,12 @@
                好友列表
             </div>
             <ion-checkbox  
-            ng-repeat="data in friends track by $index"  ng-model="data.checked"  ng-disabled="data.MemberID !=''"
-            ng-checked="data.MemberID !=''">{{ data.UserName||data.Mobile }}</ion-checkbox>
+            ng-repeat="data in friends track by $index" 
+            ng-model="data.checked"  
+            ng-disabled="data.MemberID !=''"
+            ng-checked="data.MemberID !=''">
+            {{ data.name}}
+            </ion-checkbox>
         </div>
     </ion-content>
 </ion-view>

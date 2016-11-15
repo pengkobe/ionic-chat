@@ -285,10 +285,27 @@ chats.factory('initRong', function ($rootScope, $state, RONGYUN_APPKEY) {
                     userid: '5812ebdf4c0b0e79324f6cc4', //dl id
                     groupname: group.name,
                     groupimg: '',
-                    members: group.member 
+                    members: group.member
                 };
 
                 return HttpPromiseService.getData(CREATE_GROUP_URL, params);
+            }
+        }
+    })
+    // 发送入群请求
+    .factory('AddGroupRequest', function (HttpPromiseService, REQ_GROUP_MEMBER_URL) { // 成功
+        return {
+            init: function (userid,friendid,groupid, cb) {
+                var params = {
+                    userid: userid,//'5812ebdf4c0b0e79324f6cc4', //dl id
+                    friendid: friendid,// '5812ebdf4c0b0e79324f6cbc', // lib
+                    groupid: groupid//'581b38a6cf381184f5f613d5',
+                };
+                HttpPromiseService.getData(REQ_GROUP_MEMBER_URL, params).then(function (data) {
+                    debugger;
+                    console.log(data);
+                    cb(data);
+                });
             }
         }
     })
