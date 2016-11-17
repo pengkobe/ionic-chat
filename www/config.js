@@ -22,6 +22,9 @@ angular.module('ionchat.config', [])
     .constant('REGISTER_URL', 'http://localhost:54321/register')
     // 加载好友列表
     .constant('LOAD_FRIENDS_URL', 'http://localhost:54321/loadfriends')
+    // 查询好友列表
+    .constant('SEARCH_FRIENDS_URL', 'http://localhost:54321/searchfriends')
+
     // 加载群组列表
     .constant('LOAD_GROUPS_URL', 'http://localhost:54321/loadgroups')
     // 请求添加好友

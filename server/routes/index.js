@@ -20,6 +20,9 @@ router.post('/updatepwd', route_user.updatepwd);
 // 拉取好友列表
 router.post('/loadfriends', route_user.loadfriends);
 
+// 查询好友列表
+router.post('/searchfriends', route_user.searchfriends);
+
 // 拉取群列表
 router.post('/loadgroups', route_user.loadgroups);
 
