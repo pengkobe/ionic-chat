@@ -1,23 +1,5 @@
 <ion-view view-title="添加好友">
     <ion-content class="padding" style="background-color: white;">
-        <!--<div class="list ">
-            <label class="item item-input">
-                <i class="icon ion-search placeholder-icon"></i>
-                <input type="text" placeholder="手机号" ng-model="tel">
-            </label>
-        </div>
-        <div class="text-center"> 我的电话号为：{{ myTel }} </div>-->
-
-        <!--<button class="button button-block button-balanced" ng-click="search(tel)">搜索</button>
-
-        <div ng-if="friend!=1&&friend!=0" class="row" style="margin-top: 50px;">
-            <span class="col col-center">{{ friend.UserName }}</span>
-            <span class="col col-center">{{ friend.Mobile }}</span>
-            <span class="col text-right">
-                <button class="button  button-small button-balanced" ng-click="add(friend.UserID)">添加</button>
-            </span>
-        </div>-->
-
         <div class="page__bd">
             <!--<a href="javascript:;" class="weui-btn weui-btn_primary">点击展现searchBar</a>-->
             <div class="weui-search-bar weui-search-bar_focusing" id="searchBar">
@@ -36,9 +18,8 @@
                 </form>
                 <a href="javascript:" class="weui-search-bar__cancel-btn" id="searchCancel">取消</a>
             </div>
-            <div class="weui-cells searchbar-result" id="searchResult" 
+            <div class="weui-cells searchbar-result" ng-show="friends.length>0"
                 style="display: block; transform-origin: 0px 0px 0px; opacity: 1; transform: scale(1, 1);">
-              
                 <div 
                     ng-repeat="friend in friendResults track by $index"  
                     class="weui-cell weui-cell_access">
