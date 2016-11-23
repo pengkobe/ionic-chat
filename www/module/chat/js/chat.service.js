@@ -214,7 +214,7 @@ chats.factory('initRong', function ($rootScope, $state, RONGYUN_APPKEY) {
         return {
             load: function (str) {
                 var params = {
-                    username:str
+                    username: str
                 }
                 return HttpPromiseService.getData(SEARCH_FRIENDS_URL, params).then(function (data) {
                     return data;
@@ -302,6 +302,21 @@ chats.factory('initRong', function ($rootScope, $state, RONGYUN_APPKEY) {
                 };
 
                 return HttpPromiseService.getData(CREATE_GROUP_URL, params);
+            }
+        }
+    })
+    // 发送加好友请求
+    .factory('AddFriendRequest', function (HttpPromiseService, REQ_FRIEND_URL) { // 成功
+        return {
+            init: function (userid, friendid, cb) {
+                // #/tab/friendInfo/5819b57430ac0f042104b78b/戴露/PRIVATE
+                var params = {
+                    userid: userid,//'zhouw',
+                    friendid: friendid//'5812ebdf4c0b0e79324f6cc4' // dl
+                };
+                HttpPromiseService.getData(REQ_FRIEND_URL, params).then(function (data) {
+                    console.log(data);
+                });
             }
         }
     })

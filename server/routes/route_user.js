@@ -114,7 +114,7 @@ exports.searchfriends = function (req, res) {
         if (err) {
             console.log('searchfriends err!');
         } else {
-            console.log('The first friend:',  items[0].username);
+            // console.log('The first friend:',  items[0].username);
             res.json(items);
         }
     });

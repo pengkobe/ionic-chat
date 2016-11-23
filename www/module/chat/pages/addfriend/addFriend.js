@@ -1,34 +1,42 @@
 angular.module('chat.controllers')
-    .controller('addFriendCtrl', function ($scope, SearchUsers) {
+    .controller('addFriendCtrl', function ($scope, SearchUsers, AddFriendRequest) {
         $scope.friendResults = [];
         $scope.username = '';
 
-        // 计时器
-        var timer = new Date();
+        /**
+         * 监测搜索名称
+         */
         $scope.$watch('username', function (newValue, oldValue) {
-            if (newValue != oldValue) { search(newValue); }
+            if (newValue != "" && newValue != oldValue) {
+                search(newValue);
+            }
         });
 
+        /*
+        * 清空输入
+        */
+        $scope.searchClear = function () {
+            $scope.username = '';
+            $scope.friendResults = [];
+        }
         function search(name) {
             SearchUsers.load(name).then(function (data) {
                 var ret = [];
                 for (var i = 0; i < data.length; i++) {
                     ret.push({
                         nickname: data[i].nickname,
-                        _id:data[i]._id
+                        _id: data[i]._id
                     });
                 }
                 $scope.friendResults = ret;
             });
         };
 
+        /*
+        * 发起添加好友请求
+        */
         $scope.add = function (FriendID) {
-            var obj = {
-                UserID: cache.UserID,
-                FriendID: FriendID,
-                FromID: cache.UserID,
-                state: 0 // 发起请求
-            };
+            var UserID = cache.UserID;
+            //AddFriendRequest(UserID,FriendID,function(data){});
         };
-
     });
