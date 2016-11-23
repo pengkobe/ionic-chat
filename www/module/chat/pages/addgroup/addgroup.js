@@ -1,5 +1,5 @@
 angular.module('chat.controllers')
-    .controller('addGroupCtrl', function ($scope, RequestUrl, $ionicPopup, HttpFactory,
+    .controller('addGroupCtrl', function ($scope, $ionicPopup, HttpFactory,
         $ionicHistory, $cordovaContacts, myNote, $timeout, Friends, CreateGroups) {
         $scope.group = {};
         var myPopup = $ionicPopup.show({
@@ -58,7 +58,7 @@ angular.module('chat.controllers')
         }
 
         /**
-         * 从通讯录中获取好友
+         * 从通讯录中获取好友 (TODO)
          */
         $scope.getAllContacts = function () {
             var options = {};

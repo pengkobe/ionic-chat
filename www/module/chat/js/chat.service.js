@@ -209,6 +209,19 @@ chats.factory('initRong', function ($rootScope, $state, RONGYUN_APPKEY) {
             add: function (friend) { }
         }
     })
+    // 搜多用户添加好友
+    .factory('SearchUsers', function (currentUser, $interval, SEARCH_FRIENDS_URL, HttpPromiseService) {
+        return {
+            load: function (str) {
+                var params = {
+                    username:str
+                }
+                return HttpPromiseService.getData(SEARCH_FRIENDS_URL, params).then(function (data) {
+                    return data;
+                });
+            }
+        }
+    })
     // 工作组服务
     .factory('Groups', function (Signaling, currentUser, $rootScope,
         $interval, LOAD_GROUPS_URL, HttpPromiseService) {
@@ -295,7 +308,7 @@ chats.factory('initRong', function ($rootScope, $state, RONGYUN_APPKEY) {
     // 发送入群请求
     .factory('AddGroupRequest', function (HttpPromiseService, REQ_GROUP_MEMBER_URL) { // 成功
         return {
-            init: function (userid,friendid,groupid, cb) {
+            init: function (userid, friendid, groupid, cb) {
                 var params = {
                     userid: userid,//'5812ebdf4c0b0e79324f6cc4', //dl id
                     friendid: friendid,// '5812ebdf4c0b0e79324f6cbc', // lib

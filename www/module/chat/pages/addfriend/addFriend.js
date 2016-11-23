@@ -1,17 +1,25 @@
 angular.module('chat.controllers')
-    .controller('addFriendCtrl', function ($scope, SEARCH_FRIENDS_URL) {
+    .controller('addFriendCtrl', function ($scope, SearchUsers) {
         $scope.friendResults = [];
-        $scope.name = '';
+        $scope.username = '';
 
         // 计时器
-        var timer =  new Date();
-        $scope.$watch('name', function (newValue, oldValue) {
-            if (newValue === oldValue) { return; } 
-            search(newValue);
+        var timer = new Date();
+        $scope.$watch('username', function (newValue, oldValue) {
+            if (newValue != oldValue) { search(newValue); }
         });
-        
-        function search(name) {
 
+        function search(name) {
+            SearchUsers.load(name).then(function (data) {
+                var ret = [];
+                for (var i = 0; i < data.length; i++) {
+                    ret.push({
+                        nickname: data[i].nickname,
+                        _id:data[i]._id
+                    });
+                }
+                $scope.friendResults = ret;
+            });
         };
 
         $scope.add = function (FriendID) {
