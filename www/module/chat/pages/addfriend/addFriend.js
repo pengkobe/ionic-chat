@@ -36,7 +36,7 @@ angular.module('chat.controllers')
         * 发起添加好友请求
         */
         $scope.add = function (FriendID) {
-            var UserID = cache.UserID;
-            //AddFriendRequest(UserID,FriendID,function(data){});
+          
+            //AddFriendRequest(FriendID,function(data){});
         };
     });

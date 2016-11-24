@@ -99,7 +99,9 @@ exports.loadfriends = function (req, res) {
         if (users.length == 0) {
             console.log('no friend yet!');
         } else {
-            console.log('The first friend:', users.friends[0].username);
+            if (users && users.friends && users.friends.length > 0) {
+                console.log('The first friend:', users.friends[0].username);
+            }
             res.json(users);
         }
     })
@@ -109,7 +111,7 @@ exports.loadfriends = function (req, res) {
 exports.searchfriends = function (req, res) {
     var username = req.body.username;
     var regex = new RegExp(username, 'i');
-    
+
     UserModel.find({ username: regex }).exec(function (err, items) {
         if (err) {
             console.log('searchfriends err!');
@@ -126,11 +128,11 @@ exports.loadgroups = function (req, res) {
     UserModel.loadGroups(username, function (err, groups) {
         if (err) {
             console.log('loadgroups err!');
-            res.json('loadgroups err!');
+            res.json({state:-1,err:err});
         }
         if (groups.length == 0) {
             console.log('no group yet!');
-            res.json('no group yet!');
+            res.json([]);
         } else {
             var opts = [{
                 path: 'members',

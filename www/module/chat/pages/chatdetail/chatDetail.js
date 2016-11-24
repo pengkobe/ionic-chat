@@ -1,7 +1,7 @@
 angular.module('chat.controllers')
     .controller('chatDetail', function ($scope, $rootScope, $stateParams, newMessageEventService, CacheFactory,
         $ionicScrollDelegate, $timeout, $state, Friends, Groups, $interval, $ionicModal, PhotoAndImages,
-        currentUser, rongyunService, mediaService) {
+        rongyunService, mediaService) {
         var viewScroll = $ionicScrollDelegate.$getByHandle('messageDetailsScroll');
         /***
          * bugfix purpose

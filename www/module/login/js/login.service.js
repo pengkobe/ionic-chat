@@ -2,7 +2,7 @@ angular.module('login.service', [])
   /**
    * 用户全局引用
    */
-  .service("currentUser", function (CacheFactory, $rootScope) {
+  .service("UserService", function (CacheFactory, $rootScope) {
     var userinfo = null;
     var userservive = {
       getUserinfo: function () {
@@ -16,6 +16,7 @@ angular.module('login.service', [])
         return userinfo;
       },
       setUserinfo: function (val) {
+        debugger;
         userinfo = val;
         return;
       }

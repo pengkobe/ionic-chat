@@ -1,6 +1,6 @@
 angular.module('chat.controllers')
     .controller('groupInfoCtrl', function ($scope, Groups, $state,
-        $stateParams, RequestUrl, currentUser) {
+        $stateParams, RequestUrl) {
         $scope.Target = Groups.get($stateParams.targetId);
         var targetId = $stateParams.targetId;
         var targetName = $stateParams.targetName;

@@ -40,7 +40,7 @@ angular.module('chat.controllers')
         function addGroupMember(members) {
             for (var j = 0; j < members.length; j++) {
                 // userid，frindid，groupid， 
-                AddGroupRequest("1", members[i], GroupID, function (data) {
+                AddGroupRequest(members[i], GroupID, function (data) {
                     alert("请求好友们入群发送成功！");
                 });
             }

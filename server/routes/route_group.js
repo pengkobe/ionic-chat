@@ -41,7 +41,6 @@ exports.createGroup = function (req, res) { //成功
     });
 }
 
-
 // 加载群成员
 exports.loadGroupMembers_ = function (req, res) { //成功
     // 群名
@@ -55,7 +54,6 @@ exports.loadGroupMembers_ = function (req, res) { //成功
         }
     });
 }
-
 
 // 拉取好友进群请求
 exports.loadgrouprequesst = function (req, res) {
@@ -99,16 +97,6 @@ exports.addgroupmember = function (req, res) {
             console.log('ret:', raw);
         });
 };
-// UserModel.addRequset_groupsDoc(username, friendid, groupid,
-//         function (err, raw) {
-//             if (err) {
-//                 // todo
-//                 res.json(err);
-//             } else {
-//                 res.json(raw);
-//             }
-//             console.log('ret:', raw);
-//         });
 
 // 同意/拒绝进群
 exports.res_addgroupmember = function (req, res) {

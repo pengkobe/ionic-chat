@@ -1,6 +1,6 @@
 angular.module('chat.controllers')
 .controller('friendInfoCtrl', function ($scope, Friends, Blacklist, $state, $ionicLoading,
-     $stateParams, $timeout, ResFriend, currentUser) {
+     $stateParams, $timeout, ResFriend) {
         $scope.Target = Friends.get($stateParams.targetId);
         var targetId = $stateParams.targetId;
         var targetName = $stateParams.targetName;
@@ -66,8 +66,7 @@ angular.module('chat.controllers')
         // 添加陌生人为好友
         $scope.addFriend = function () {
             // 0 为发送好友请求
-            var UserID = currentUser.getUserinfo().UserID;
-            ResFriend(UserID, targetId, 0, function () {
+            ResFriend(targetId, 0, function () {
                 // 成功后删掉记录并刷新好友列表
                 var showMsg = "您已发送好友请求!";
                 $ionicLoading.show({
