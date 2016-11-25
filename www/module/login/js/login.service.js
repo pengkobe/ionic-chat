@@ -8,7 +8,7 @@ angular.module('login.service', [])
       getUserinfo: function () {
         if (userinfo == null) {
           var mockdata = {
-            "_id": "5812ebdf4c0b0e79324f6cb1", "nickname": "彭奕", "username": "py",
+            "_id": "5812ebdf4c0b0e79324f6cb1", "nickname": "yipeng", "username": "py",
             "password": "123", "headimg": "", "EMail": "yipeng.info@gmail.com",
           };
           userinfo = mockdata;
@@ -16,7 +16,6 @@ angular.module('login.service', [])
         return userinfo;
       },
       setUserinfo: function (val) {
-        debugger;
         userinfo = val;
         return;
       }

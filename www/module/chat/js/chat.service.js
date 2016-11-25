@@ -236,7 +236,6 @@ chats.factory('initRong', function ($rootScope, $state, RONGYUN_APPKEY) {
             };
             HttpPromiseService.getData(LOAD_GROUPS_URL, params).then(function (grouplist) {
                 console.log(grouplist);
-                 debugger;
                 groups = [];
                 for (var i = 0; i < grouplist.length; i++) {
                     var group = {};

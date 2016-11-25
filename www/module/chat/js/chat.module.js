@@ -12,7 +12,7 @@ angular.module('chat', chat_modules)
    * 服务初始化
    * @param  {[Object]} $state [跳转服务]
    * @param  {[Object]} Signaling [socket.io实例]
-   * @param  {[Object]} $ionicLoading [加载中弹层]
+   * @param  {[Object]} $ionicLoading [加载弹层]
    * @param  {[Object]} $rootScope [全局scope]
    * @param  {[Object]} newMessageEventService [新消息事件服务]
    */

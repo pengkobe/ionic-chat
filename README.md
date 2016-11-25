@@ -93,7 +93,7 @@ just run
 ```
 gulp buildchat
 ```
-you can get what you want
+you can get the task done!
 
 ## Back-End dependency
 you may click [build notes](server/README.md) for more information.   
@@ -140,14 +140,14 @@ ionic serve
 ```
 
 ## Doing
-1. lazy load
-2. hot update
-3. localstorage policy
+1. ~~hot update~~
+2. localstorage policy
+3. server push (ref:https://github.com/TOP-Chao/push) 
 
 ## Todo
-1. make it beautiful and stable
-2. server push 
-3. compress js
+1. lazy load
+2. compress js
+3. make it beautiful and stable
 
 ## Demo
 a little glimpse of the app on Chrome:  

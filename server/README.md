@@ -23,11 +23,22 @@
 系统消息(100+) SystemMessage(to,time,content,type)
 ```
 
-### subdoc
+## subdoc
+见代码
 
 
-### 服务端推送
+## 服务端推送
+ref:https://github.com/TOP-Chao/push，由于其基于koa2，要做改动或者另开项目。
+
+### pm2
+pm2 是一个带有负载均衡功能的Node应用的进程管理器.
 
 
+### redis
+Redis是一个key-value类型的数据库，而key全部都是字符串，value可以是集合、hash、list等等。  
+Redis是通过MULTI/DISCARD/EXEC/WATCH这4个命令来实现事务功能。  
+#### mongodb+redis
 
 
+### cluster
+node多进程管理工具，可以帮助我们简化多进程并行化程序的开发难度，轻松构建一个用于负载均衡的集群。
