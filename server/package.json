@@ -13,6 +13,7 @@
     "ejs": "~0.8.5",
     "express": "~4.2.0",
     "express-session": "^1.13.0",
+    "jsonwebtoken": "^7.1.9",
     "lodash-node": "^3.10.2",
     "mongodb": "^2.1.4",
     "mongoose": "^4.4.6",
