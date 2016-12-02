@@ -28,7 +28,27 @@
 
 
 ## 服务端推送
-ref:https://github.com/TOP-Chao/push，由于其基于koa2，要做改动或者另开项目。
+ref:https://github.com/TOP-Chao/push，由于其基于koa2，要做改动或者另开项目,有说到支持多核，
+不过自己的服务器只是单核，没必要整那呢复杂吧。
+### 集群
+集群后带来的主要问题就是异地服务器和多进程间的通讯问题，
+如果你的应用都是基于单进程颗粒的，则不需要考虑这个问题，如果你的信息在多进程则存在共享和通讯的问题，则集群后要小心处理。
+
+```javascript
+var io = require('socket.io')(3000);
+var redis = require('socket.io-redis');
+io.adapter(redis({ host: 'localhost', port: 4444 }));
+```
+
+### socket.io-emitter
+如果你要从socket.io进程发消息给非socket.io进程，如http，则需要这一个中间件
+
+```javascript
+var io = require('socket.io-emitter')({ host: '127.0.0.1', port: 4444 });
+setInterval(function(){
+  io.emit('datetime', new Date);
+}, 5000);
+```
 
 ### pm2
 pm2 是一个带有负载均衡功能的Node应用的进程管理器.
@@ -42,3 +62,8 @@ Redis是通过MULTI/DISCARD/EXEC/WATCH这4个命令来实现事务功能。
 
 ### cluster
 node多进程管理工具，可以帮助我们简化多进程并行化程序的开发难度，轻松构建一个用于负载均衡的集群。
+
+
+## 参考
+* Socket.io的集群方案  
+  https://my.oschina.net/swingcoder/blog/527648
