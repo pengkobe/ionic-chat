@@ -23,16 +23,36 @@
 系统消息(100+) SystemMessage(to,time,content,type)
 ```
 
-## subdoc
+## 使用mongoose subdoc
 见代码
 
+## Redis
+Redis 是一个开源的，先进的 key-value 存储可用于构建高性能，可扩展的 Web 应用程序的解决方案。
+key全部都是字符串，value可以是集合、hash、list等等,Redis是通过MULTI/DISCARD/EXEC/WATCH这4个命令来实现事务功能。  
+官网: https://redis.io/  
+注意: Redis 官方不支持 Windows 版本, Windows 在 [Github](https://github.com/MSOpenTech/redis) 
+上可供下载(也可以通过其源码编译出32位版本)。  
+> We officially support the 64-bit version only. Although you can build the 32-bit version from source if desired. 
 
-## 服务端推送
-ref:https://github.com/TOP-Chao/push，由于其基于koa2，要做改动或者另开项目,有说到支持多核，
-不过自己的服务器只是单核，没必要整那呢复杂吧。
-### 集群
-集群后带来的主要问题就是异地服务器和多进程间的通讯问题，
-如果你的应用都是基于单进程颗粒的，则不需要考虑这个问题，如果你的信息在多进程则存在共享和通讯的问题，则集群后要小心处理。
+Win32 安装参考: https://my.oschina.net/lujianing/blog/204103   
+
+### 用途
+1. 单纯的做存储，因为是内存数据库，可以增加访存速度。
+2. 基于 Redis Channel 可以做异构的发布/订阅，案例可参考:http://www.tuicool.com/articles/26ny6r6
+
+
+## Node with Redis
+地址: https://github.com/NodeRedis/node_redis  
+
+
+## 集群实现参考
+> 集群后带来的主要问题就是异地服务器和多进程间的通讯问题，如果是基于单进程颗粒的，则不需要考虑这个问题.  
+
+ref:https://github.com/TOP-Chao/push，由于其基于koa2，要做改动或者另开项目,有说到支持多核.
+
+### socket.io-redis
+> By running socket.io with the socket.io-redis adapter you can run multiple socket.io instances 
+in different processes or servers that can all broadcast and emit events to and from each other
 
 ```javascript
 var io = require('socket.io')(3000);
@@ -41,7 +61,7 @@ io.adapter(redis({ host: 'localhost', port: 4444 }));
 ```
 
 ### socket.io-emitter
-如果你要从socket.io进程发消息给非socket.io进程，如http，则需要这一个中间件
+使得socket.io进程可发消息给非socket.io进程，如http，则需要这一个中间件
 
 ```javascript
 var io = require('socket.io-emitter')({ host: '127.0.0.1', port: 4444 });
@@ -53,15 +73,12 @@ setInterval(function(){
 ### pm2
 pm2 是一个带有负载均衡功能的Node应用的进程管理器.
 
-
-### redis
-Redis是一个key-value类型的数据库，而key全部都是字符串，value可以是集合、hash、list等等。  
-Redis是通过MULTI/DISCARD/EXEC/WATCH这4个命令来实现事务功能。  
-#### mongodb+redis
-
-
 ### cluster
 node多进程管理工具，可以帮助我们简化多进程并行化程序的开发难度，轻松构建一个用于负载均衡的集群。
+
+
+### 疑问
+1. socket 可否加入多个房间 ：可以
 
 
 ## 参考
