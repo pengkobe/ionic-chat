@@ -51,19 +51,23 @@ Win32 安装参考: https://my.oschina.net/lujianing/blog/204103
 ref:https://github.com/TOP-Chao/push，由于其基于koa2，要做改动或者另开项目,有说到支持多核.
 
 ### socket.io-redis
+地址: https://github.com/socketio/socket.io-redis
 > By running socket.io with the socket.io-redis adapter you can run multiple socket.io instances 
-in different processes or servers that can all broadcast and emit events to and from each other
+in different processes or servers that can all broadcast and emit events to and from each other   
 
 ```javascript
 var io = require('socket.io')(3000);
 var redis = require('socket.io-redis');
+// 其中{ host: 'localhost', port: 4444 } 为redis server
 io.adapter(redis({ host: 'localhost', port: 4444 }));
 ```
 
 ### socket.io-emitter
-使得socket.io进程可发消息给非socket.io进程，如http，则需要这一个中间件
+如果你要从socket.io进程发消息给非socket.io进程，如http，则需要这一个中间件
+[socket.io-emitter](https://github.com/socketio/socket.io-emitter)
 
 ```javascript
+// 其中{ host: '127.0.0.1', port: 4444 } socket.io server
 var io = require('socket.io-emitter')({ host: '127.0.0.1', port: 4444 });
 setInterval(function(){
   io.emit('datetime', new Date);
@@ -74,7 +78,8 @@ setInterval(function(){
 pm2 是一个带有负载均衡功能的Node应用的进程管理器.
 
 ### cluster
-node多进程管理工具，可以帮助我们简化多进程并行化程序的开发难度，轻松构建一个用于负载均衡的集群。
+node多进程管理工具，可以帮助我们简化多进程并行化程序的开发难度，
+轻松构建一个用于负载均衡的集群。
 
 
 ### 疑问
@@ -82,5 +87,5 @@ node多进程管理工具，可以帮助我们简化多进程并行化程序的�
 
 
 ## 参考
-* Socket.io的集群方案  
+* Socket.io的集群方案
   https://my.oschina.net/swingcoder/blog/527648
