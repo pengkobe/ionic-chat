@@ -1,7 +1,7 @@
 <div>
       <ion-list>
             <ion-item class="item item-divider">
-                工作组
+                群组
             </ion-item>
             <ion-item class="rj-item" style="padding-left:10px" ng-repeat="group in groupsList_local"
              ng-href="#/tab/groupInfo/{{group.id}}/{{group.name}}/{{group.type}}/GROUP">

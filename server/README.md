@@ -45,6 +45,11 @@ Win32 安装参考: https://my.oschina.net/lujianing/blog/204103
 地址: https://github.com/NodeRedis/node_redis  
 
 
+## MongoDB with Redis
+好文：Caching a MongoDB Database with Redis  
+https://www.sitepoint.com/caching-a-mongodb-database-with-redis/
+
+
 ## 集群实现参考
 > 集群后带来的主要问题就是异地服务器和多进程间的通讯问题，如果是基于单进程颗粒的，则不需要考虑这个问题.  
 

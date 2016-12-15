@@ -209,7 +209,7 @@ chats.factory('initRong', function ($rootScope, $state, RONGYUN_APPKEY) {
             add: function (friend) { }
         }
     })
-    // 工作组服务
+    // 群组服务
     .factory('Groups', function (Signaling, currentUser, $rootScope,
         $interval, LOAD_GROUPS_URL, HttpPromiseService) {
         var groups = [];

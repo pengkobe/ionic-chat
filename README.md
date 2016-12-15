@@ -142,7 +142,8 @@ ionic serve
 ## Doing
 1. ~~hot update~~
 2. localstorage policy
-3. server push (ref:https://github.com/TOP-Chao/push) 
+3. server push 
+4. jwt
 
 ## Todo
 1. lazy load
