@@ -27,12 +27,14 @@
 见代码
 
 ## Redis
-教程：https://github.com/dwyl/learn-redis  
+教程1：https://github.com/dwyl/learn-redis   
+教程2：http://try.redis.io/ (30mins to learn and take notes)  
+教程3(菜鸟教程): http://www.runoob.com/redis/redis-pub-sub.html  
 Redis 是一个开源的，先进的 key-value 存储可用于构建高性能，可扩展的 Web 应用程序的解决方案。
 key全部都是字符串，value可以是集合、hash、list等等,Redis是通过MULTI/DISCARD/EXEC/WATCH这4个命令来实现事务功能。  
 官网: https://redis.io/  
 注意: Redis 官方不支持 Windows 版本, Windows 在 [Github](https://github.com/MSOpenTech/redis) 
-上可供下载(也可以通过其源码编译出32位版本)。  
+上可供下载(也可以通过其源码编译出32位版本)。  当然，也可以参考这个:[how-do-i-run-redis-on-windows](http://stackoverflow.com/questions/6476945/how-do-i-run-redis-on-windows)
 > We officially support the 64-bit version only. Although you can build the 32-bit version from source if desired. 
 
 Win32 安装参考: https://my.oschina.net/lujianing/blog/204103   
@@ -43,7 +45,8 @@ Win32 安装参考: https://my.oschina.net/lujianing/blog/204103
 
 
 ## Node with Redis
-地址: https://github.com/NodeRedis/node_redis  
+网址1(库文件): https://github.com/NodeRedis/node_redis,基于其有一个封装[redis-connection](https://github.com/dwyl/redis-connection),实现1连接多文件使用  
+网址2:https://github.com/dwyl/hapi-socketio-redis-chat-example  
 
 
 ## MongoDB with Redis

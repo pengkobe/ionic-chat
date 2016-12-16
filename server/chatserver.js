@@ -5,8 +5,10 @@
  */
 var _ = require('lodash-node');
 var _http = require('http');
-// var redis = require('redis');
-// var db = redis.createClient();
+
+// 多文件公用 redis 连接
+var pub = require('redis-connection')();
+var sub = require('redis-connection')('subscriber');
 
 var users = [];
 
@@ -17,24 +19,27 @@ var users = [];
 module.exports = function (io) {
     var UserModel = require('./models/user.js');
     var GroupModel = require('./models/group.js');
-    io.of('/chat').on('connection', function (socket) {
 
+    /**
+     * socketIO事件处理
+     */
+    function IOHandler(socket) {
         /**
-         *  用户登录
-         */
+        *  用户登录
+        */
         socket.on('login', function (userid, username, headImg) {
 
             // 删除已有用户
             var index = _.findIndex(users, { userid: userid })
             if (index !== -1) {
                 var contact = users[index];
-                console.log(contact.userid + ' 在其他地方登陆！');                      
+                console.log(contact.userid + ' 在其他地方登陆！');
                 users.splice(index, 1);
             }
 
             /* 查询token
             *  userid, username, headImg, callback
-            */   
+            */
             UserModel.getRongyunToken(userid, username, '', callback);
             function callback(err, info) {
                 if (err) {
@@ -60,7 +65,7 @@ module.exports = function (io) {
             if (!currentUser) {
                 return;
             }
-            
+
             console.log('当前所有用户:' + JSON.stringify(users));
             var userlen = users.length;
             // 查找消息发送人
@@ -74,10 +79,10 @@ module.exports = function (io) {
             if (!contact) {
                 return;
             }
-            console.log(JSON.stringify(currentUser)+' send message to:' + JSON.stringify(contact));
-            console.log('send message to(finded):' + userid 
-                      + 'currentUser.userid:'+ currentUser.userid 
-                      + 'socket:' + contact.socket);
+            console.log(JSON.stringify(currentUser) + ' send message to:' + JSON.stringify(contact));
+            console.log('send message to(finded):' + userid
+                + 'currentUser.userid:' + currentUser.userid
+                + 'socket:' + contact.socket);
             // 推送消息
             io.of('/chat').to(contact.socket).emit('messageReceived', currentUser.userid, message);
         });
@@ -126,6 +131,31 @@ module.exports = function (io) {
                 }
             }
             socket.emit('checkOnline_suc', ret);
+        });
+    }
+
+    /**
+     * Redis 事件处理
+     */
+    function RedisEvtHander(channel, message) {
+        io.of('/chat').emit(channel, message);
+    }
+
+    /**
+     * Redis pub/sub 监测处理
+     */
+    pub.on('ready', function () {
+        sub.on('ready', function () {
+            sub.subscribe('chat:messages:latest', 'chat:people:new');
+            io.of('/chat').on('connection', IOHandler);
+            sub.on('message', function (channel, message) {
+                // console.log(channel + ' : ' + message);
+                RedisEvtHander(channel, message);
+            });
+
+            return setTimeout(function () {
+                return callback();
+            }, 300); // wait for socket to boot
         });
     });
 }
