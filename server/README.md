@@ -27,6 +27,7 @@
 见代码
 
 ## Redis
+教程：https://github.com/dwyl/learn-redis  
 Redis 是一个开源的，先进的 key-value 存储可用于构建高性能，可扩展的 Web 应用程序的解决方案。
 key全部都是字符串，value可以是集合、hash、list等等,Redis是通过MULTI/DISCARD/EXEC/WATCH这4个命令来实现事务功能。  
 官网: https://redis.io/  
@@ -86,10 +87,20 @@ pm2 是一个带有负载均衡功能的Node应用的进程管理器.
 node多进程管理工具，可以帮助我们简化多进程并行化程序的开发难度，
 轻松构建一个用于负载均衡的集群。
 
-
 ### 疑问
 1. socket 可否加入多个房间 ：可以
 
+
+## 推送逻辑
+前端只需要在service中注册socket.io服务，控制器取数据的逻辑不变。
+后端需要借助redis存储最新代码，并在更新时发布事件推送到前端。
+### 一个极好的入门项目
+网址:https://github.com/dwyl/hapi-socketio-redis-chat-example
+其带有测试，且不是主流的使用mongodb，还是结合redis进行开发。框架也是使用非主流的[hapi](https://github.com/hapijs/hapi/)  
+> hapi is a simple to use configuration-centric framework with built-in support for input validation, caching, authentication, and other essential facilities for building web and services applications. hapi enables developers to focus on writing reusable application logic in a highly modular and prescriptive approach.
+
+### how-to-use-redis-publish-subscribe-with-nodejs-to-notify-clients-when-data-value
+[how-to-use-redis-publish-subscribe-with-nodejs-to-notify-clients-when-data-value](http://stackoverflow.com/questions/4441798/how-to-use-redis-publish-subscribe-with-nodejs-to-notify-clients-when-data-value)
 
 ## 参考
 * Socket.io的集群方案

@@ -11,7 +11,7 @@ angular.module('chat.controllers', [])
         $scope.clearKeyword = function (data) {
             data.scorearchword = '';
         }
-        // === tab切换 ===
+        // === tab切换[消息/联系人] ===
         if (!$scope.currentFeedsType) {
             $scope.currentFeedsType = "contacttab";
         }
@@ -277,4 +277,4 @@ angular.module('chat.controllers', [])
                 chatUnreadMessage.setUnreadMessage(messageLen);
             }, 10000);
         }
-    })
+    });

@@ -115,7 +115,7 @@ you may click [build notes](server/README.md) for more information.
 8. ionic emulate android/ios
 
 
-## How to debug on web browser
+## How to run/debug on web browser
 looks a little complicated here. just for your purpose of ajusting styles. 
 will support one key set soon.
 + userindex.js
@@ -134,8 +134,12 @@ will support one key set soon.
  // init();
 ```
   
-+ just run ionic serve under ionic-chat dir
++ just follow these commands 
 ```
+# notice : you should open your mongodb and redis service first
+cd path/to/ionic-chat/server
+node bin/www
+cd ..
 ionic serve 
 ```
 

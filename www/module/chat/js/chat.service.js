@@ -302,7 +302,6 @@ chats.factory('initRong', function ($rootScope, $state, RONGYUN_APPKEY) {
                     groupimg: '',
                     members: group.member
                 };
-
                 return HttpPromiseService.getData(CREATE_GROUP_URL, params);
             }
         }
@@ -558,7 +557,6 @@ chats.factory('initRong', function ($rootScope, $state, RONGYUN_APPKEY) {
     .factory('Blacklist', function () {
         var lists = [
             { id: 'group1', username: 'group1', portrait: 'img/personPhoto.png' },
-            // { id: 'grp6', username: 'grp6', portrait: 'img/personPhoto.png'}
         ];
         return {
             all: function () {

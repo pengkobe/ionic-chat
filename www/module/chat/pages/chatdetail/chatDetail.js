@@ -197,9 +197,6 @@ angular.module('chat.controllers')
             scrolltoBottom();
             console.log('chatdetial.enter');
         });
-        $scope.$on("$ionicView.beforeEnter", function () {
-            scrolltoBottom();
-        });
         window.addEventListener("native.keyboardshow", function (e) {
             scrolltoBottom();
         });

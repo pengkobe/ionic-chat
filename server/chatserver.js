@@ -5,6 +5,8 @@
  */
 var _ = require('lodash-node');
 var _http = require('http');
+// var redis = require('redis');
+// var db = redis.createClient();
 
 var users = [];
 
@@ -16,19 +18,24 @@ module.exports = function (io) {
     var UserModel = require('./models/user.js');
     var GroupModel = require('./models/group.js');
     io.of('/chat').on('connection', function (socket) {
+
         /**
          *  用户登录
          */
         socket.on('login', function (userid, username, headImg) {
+
+            // 删除已有用户
             var index = _.findIndex(users, { userid: userid })
             if (index !== -1) {
                 var contact = users[index];
-                console.log(contact.userid + ' 在其他地方登陆！');                              
+                console.log(contact.userid + ' 在其他地方登陆！');                      
                 users.splice(index, 1);
             }
-            // 查询token  userid, username, headImg, callback
-            UserModel.getRongyunToken(userid, username, '', callback);
 
+            /* 查询token
+            *  userid, username, headImg, callback
+            */   
+            UserModel.getRongyunToken(userid, username, '', callback);
             function callback(err, info) {
                 if (err) {
                     socket.emit('login_error', err);
@@ -49,14 +56,14 @@ module.exports = function (io) {
          *  视频/音频消息中转服务
          */
         socket.on('sendMessage', function (userid, message) {
-            console.log('send message to:' + userid);
             var currentUser = _.find(users, { socket: socket.id });
             if (!currentUser) {
                 return;
             }
-            console.log('当前用户s:' + JSON.stringify(users));
-            console.log('当前用户:' + JSON.stringify(currentUser));
+            
+            console.log('当前所有用户:' + JSON.stringify(users));
             var userlen = users.length;
+            // 查找消息发送人
             var contact;
             for (var i = 0; i < userlen; i++) {
                 if (users[i].userid == userid) {
@@ -64,12 +71,14 @@ module.exports = function (io) {
                 }
             }
             // var contact = _.find(users, { userid: userid });
-            console.log('contact:' + JSON.stringify(contact));
             if (!contact) {
                 return;
             }
-            console.log('send message to(finded):' + userid +
-                'currentUser.userid:' + userid + 'socket:' + contact.socket);
+            console.log(JSON.stringify(currentUser)+' send message to:' + JSON.stringify(contact));
+            console.log('send message to(finded):' + userid 
+                      + 'currentUser.userid:'+ currentUser.userid 
+                      + 'socket:' + contact.socket);
+            // 推送消息
             io.of('/chat').to(contact.socket).emit('messageReceived', currentUser.userid, message);
         });
 
@@ -103,21 +112,12 @@ module.exports = function (io) {
          *  检查用户在线状态(融云接口只能检查单个)
          */
         socket.on('checkOnline', function (userids) {
-            // 方法1：使用融云判断
-            // GroupModel.checkOnline(userids, callback);
-            // function callback(err, ret) {
-            //     // TODO:emit方法需要再做处理
-            //     if (err) {
-            //         socket.emit('checkOnline_err', err);
-            //     } else {
-            //         socket.emit('checkOnline_suc', ret);
-            //     }
-            // }
-            // 方法2,直接使用服务端维存的列表
+            // 直接使用服务端缓存的列表
             var useridLen = userids.length;
             var usersLen = users.length;
             var i, j;
             var ret = [];
+            // TODO: 寻找更优算法
             for (i = 0; i < useridLen; i++) {
                 for (j = 0; j < usersLen; j++) {
                     if (userids[i] == users[j].userid) {
@@ -126,12 +126,6 @@ module.exports = function (io) {
                 }
             }
             socket.emit('checkOnline_suc', ret);
-        });
-
-        /**
-         *  加入群组
-         */
-        socket.on('joinGroup', function (groupid, userid) {
         });
     });
 }
