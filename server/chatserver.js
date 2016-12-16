@@ -28,7 +28,9 @@ module.exports = function (io) {
         *  用户登录
         */
         socket.on('login', function (userid, username, headImg) {
-
+             // console.log(socket.client.conn.id + " > " + name + ' login!');
+            pub.hset('people', socket.client.conn.id, name);
+            pub.publish('chat:people:login', name);
             // 删除已有用户
             var index = _.findIndex(users, { userid: userid })
             if (index !== -1) {
@@ -36,24 +38,25 @@ module.exports = function (io) {
                 console.log(contact.userid + ' 在其他地方登陆！');
                 users.splice(index, 1);
             }
+            socket.emit('login_successful', {info:123});
 
             /* 查询token
             *  userid, username, headImg, callback
             */
-            UserModel.getRongyunToken(userid, username, '', callback);
-            function callback(err, info) {
-                if (err) {
-                    socket.emit('login_error', err);
-                } else {
-                    users.push({
-                        userid: info.userid,
-                        socket: socket.id
-                    });
-                    socket.emit('login_successful', info);
-                    socket.broadcast.emit('online', info.userid);
-                    console.log(userid + ' logged in');
-                }
-            }
+            //UserModel.getRongyunToken(userid, username, '', callback);
+            // function callback(err, info) {
+            //     if (err) {
+            //         socket.emit('login_error', err);
+            //     } else {
+            //         users.push({
+            //             userid: info.userid,
+            //             socket: socket.id
+            //         });
+            //         socket.emit('login_successful', info);
+            //         socket.broadcast.emit('online', info.userid);
+            //         console.log(userid + ' logged in');
+            //     }
+            // }
         });
 
 
@@ -138,6 +141,7 @@ module.exports = function (io) {
      * Redis 事件处理
      */
     function RedisEvtHander(channel, message) {
+        console.log("RedisEvtHander.",message);
         io.of('/chat').emit(channel, message);
     }
 
@@ -146,7 +150,7 @@ module.exports = function (io) {
      */
     pub.on('ready', function () {
         sub.on('ready', function () {
-            sub.subscribe('chat:messages:latest', 'chat:people:new');
+            sub.subscribe('chat:messages:latest', 'chat:people:login');
             io.of('/chat').on('connection', IOHandler);
             sub.on('message', function (channel, message) {
                 // console.log(channel + ' : ' + message);
@@ -154,7 +158,8 @@ module.exports = function (io) {
             });
 
             return setTimeout(function () {
-                return callback();
+                console.log('Feeling Chatty?', 'listening on: http://127.0.0.1:' + process.env.PORT);
+                //return callback();
             }, 300); // wait for socket to boot
         });
     });

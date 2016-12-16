@@ -58,8 +58,9 @@ a chat app based on ionic and rongyun
    ```
 
 ## How to build module
-In gulpfile you can see this:
-```
+In gulpfile you can see this:  
+
+```javascript
 // chat module for example：
 gulp.task('buildchat', function (done) {
   // pack js
@@ -90,7 +91,8 @@ gulp.task('buildchat', function (done) {
 ```   
 
 just run 
-```
+
+```bash
 gulp buildchat
 ```
 you can get the task done!
@@ -119,23 +121,23 @@ you may click [build notes](server/README.md) for more information.
 looks a little complicated here. just for your purpose of ajusting styles. 
 will support one key set soon.
 + userindex.js
-```
+```javascript
 //initRong.init(user.rongyunToken);
 ```
   
 + contacts
-```
+```javascript
  //init();
  initTest();
 ```
     
 + chatDetail
-```
+```javascript
  // init();
 ```
   
 + just follow these commands 
-```
+```bash
 # notice : you should open your mongodb and redis service first
 cd path/to/ionic-chat/server
 node bin/www

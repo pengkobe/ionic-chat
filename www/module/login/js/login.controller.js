@@ -2,8 +2,8 @@ angular.module('login.controller', [])
   .controller('LoginController', LoginController)
   .controller('RegisterController', RegisterController)
 
-function LoginController($scope, $rootScope, $ionicLoading, $state, 
-LOGIN_URL, HttpPromiseService, UserService) {
+function LoginController($scope, $rootScope, $ionicLoading, $state,
+  LOGIN_URL, HttpPromiseService, UserService,Signaling) {
   $scope.submitting = false;
   $scope.user = {};
   $scope.validateOptions = {
@@ -21,7 +21,12 @@ LOGIN_URL, HttpPromiseService, UserService) {
       console.log(data);
       if (data.state = 1) {
         UserService.setUserinfo(data);
-        $state.go('tab.chat');
+        Signaling.emit('login','cc','cc','cc');
+        Signaling.on('login_successful', function (info) {
+          debugger;
+            $state.go('tab.chat');
+        });
+      
       } else {
         alert("登录失败");
       }
@@ -29,11 +34,11 @@ LOGIN_URL, HttpPromiseService, UserService) {
   };
 }
 
-LoginController.$inject = ['$scope', '$rootScope', '$ionicLoading', 
-'$state', 'LOGIN_URL', 'HttpPromiseService', 'UserService'];
+LoginController.$inject = ['$scope', '$rootScope', '$ionicLoading',
+  '$state', 'LOGIN_URL', 'HttpPromiseService', 'UserService'];
 
-function RegisterController($scope, $rootScope, $ionicBackdrop, $ionicHistory, 
-REGISTER_URL, HttpPromiseService, $state) {
+function RegisterController($scope, $rootScope, $ionicBackdrop, $ionicHistory,
+  REGISTER_URL, HttpPromiseService, $state) {
   $scope.submitting = false;
   $scope.user = {};
   $scope.validateOptions = {
@@ -65,4 +70,4 @@ REGISTER_URL, HttpPromiseService, $state) {
   }
 }
 RegisterController.$inject = ['$scope', '$rootScope', '$ionicBackdrop',
- '$ionicHistory', 'REGISTER_URL', 'HttpPromiseService', '$state'];
+  '$ionicHistory', 'REGISTER_URL', 'HttpPromiseService', '$state'];

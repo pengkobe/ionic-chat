@@ -10,7 +10,7 @@ angular.module('ionchat.config', [])
     // 基地址
     .constant('BASE_URL', 'http://localhost:54321/')
     // 视频聊天基地址
-    .constant('VEDIO_CHAT_URL', 'http://localhost:54321/vediochat')
+    .constant('VEDIO_CHAT_URL', 'http://localhost:54321/chat')
     // 热更新地址
     .constant('HOT_UPDATE_URL', 'http://115.29.51.196:4321/www/')
 
