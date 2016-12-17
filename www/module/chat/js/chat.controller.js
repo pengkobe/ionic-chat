@@ -6,9 +6,9 @@ angular.module('chat.controllers', [])
         newMessageEventService, FindFriendsReq, findTeamsReq, rongyunService,
         unreadMessages, chatUnreadMessage,Signaling) {
         Signaling.emit('login', 'cc', 'cc', 'cc');
+        // 标记在线
         Signaling.on('login_successful', function (info) {
-            debugger;
-            $state.go('tab.chat');
+            console.log('i am here!');
         });
         $scope.data = {
             searchword: ''

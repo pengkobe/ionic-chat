@@ -142,6 +142,11 @@ module.exports = function (io) {
      * Redis 事件处理
      */
     function RedisEvtHander(channel, message) {
+        /**
+         * 1. 拉取好友列表(MongoDB)
+         * 2. 拉取群组(群成员 MongoDB)
+         * 3. 拉取在线列表(Redis)
+         */
         console.log("RedisEvtHander.",message);
         io.of('/chat').emit(channel, message);
     }
