@@ -1,27 +1,6 @@
 ;
 var chats = angular.module('chat.services', []);
 
-/**
- * Signaling
- * socket.io视频服务实例
- */
-chats.provider('Signaling', function () {
-    this.backendUrl = "";
-    this.setBackendUrl = function (newUrl) {
-        if (this.backendUrl == "") {
-            this.backendUrl = newUrl;
-        }
-    }
-    this.$get = function ($http, socketFactory) {
-        var self = this;
-        var myIoSocket = io.connect(self.backendUrl);
-        mySocket = socketFactory({
-            ioSocket: myIoSocket
-        });
-        return myIoSocket;
-    }
-});
-
 // 用户全局引用
 chats.factory('initRong', function ($rootScope, $state, RONGYUN_APPKEY) {
     function initRong(token) {

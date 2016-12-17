@@ -1,4 +1,5 @@
 angular.module('login.service', [])
+
   /**
    * 用户全局引用
    */

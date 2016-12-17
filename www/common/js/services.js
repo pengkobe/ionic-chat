@@ -1,5 +1,24 @@
 angular.module('chat.common.services', [])
-
+    /**
+     * Signaling
+     * socket.io视频服务实例
+     */
+    .provider('Signaling', function () {
+        this.backendUrl = "";
+        this.setBackendUrl = function (newUrl) {
+            if (this.backendUrl == "") {
+                this.backendUrl = newUrl;
+            }
+        }
+        this.$get = function ($http, socketFactory) {
+            var self = this;
+            var myIoSocket = io.connect(self.backendUrl);
+            mySocket = socketFactory({
+                ioSocket: myIoSocket
+            });
+            return myIoSocket;
+        }
+    })
     // 照相及相册
     .factory('PhotoAndImages', function ($q) { // 照片相关
         return {

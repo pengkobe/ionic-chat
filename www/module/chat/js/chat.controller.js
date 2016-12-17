@@ -4,7 +4,12 @@ angular.module('chat.controllers', [])
     .controller('contacts', function ($scope, $state,
         $ionicScrollDelegate, $timeout, $interval, Friends, Groups, $rootScope,
         newMessageEventService, FindFriendsReq, findTeamsReq, rongyunService,
-        unreadMessages, chatUnreadMessage) {
+        unreadMessages, chatUnreadMessage,Signaling) {
+        Signaling.emit('login', 'cc', 'cc', 'cc');
+        Signaling.on('login_successful', function (info) {
+            debugger;
+            $state.go('tab.chat');
+        });
         $scope.data = {
             searchword: ''
         };
@@ -62,7 +67,7 @@ angular.module('chat.controllers', [])
         Groups.all(function (data) {
             $scope.groups = data;
         });
-          // 加载好友邀请
+        // 加载好友邀请
         FindFriendsReq.all(function (data) {
             $scope.friendinviteList = data;
         });

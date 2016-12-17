@@ -28,9 +28,10 @@ module.exports = function (io) {
         *  用户登录
         */
         socket.on('login', function (userid, username, headImg) {
-             // console.log(socket.client.conn.id + " > " + name + ' login!');
-            pub.hset('people', socket.client.conn.id, name);
-            pub.publish('chat:people:login', name);
+            console.log(socket.client.conn.id + " > " + username + ' login!');
+            // 选用redis维护在线列表 or 直接选用程序数组维护
+            pub.hset('people', socket.client.conn.id, username);
+            pub.publish('chat:people:login', username);
             // 删除已有用户
             var index = _.findIndex(users, { userid: userid })
             if (index !== -1) {
@@ -158,7 +159,7 @@ module.exports = function (io) {
             });
 
             return setTimeout(function () {
-                console.log('Feeling Chatty?', 'listening on: http://127.0.0.1:' + process.env.PORT);
+                console.log('ionic-chat:', 'listening on: http://127.0.0.1:' + process.env.PORT);
                 //return callback();
             }, 300); // wait for socket to boot
         });

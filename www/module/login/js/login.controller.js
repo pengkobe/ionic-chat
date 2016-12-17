@@ -3,7 +3,7 @@ angular.module('login.controller', [])
   .controller('RegisterController', RegisterController)
 
 function LoginController($scope, $rootScope, $ionicLoading, $state,
-  LOGIN_URL, HttpPromiseService, UserService,Signaling) {
+  LOGIN_URL, HttpPromiseService, UserService) {
   $scope.submitting = false;
   $scope.user = {};
   $scope.validateOptions = {
@@ -21,12 +21,7 @@ function LoginController($scope, $rootScope, $ionicLoading, $state,
       console.log(data);
       if (data.state = 1) {
         UserService.setUserinfo(data);
-        Signaling.emit('login','cc','cc','cc');
-        Signaling.on('login_successful', function (info) {
-          debugger;
-            $state.go('tab.chat');
-        });
-      
+        $state.go('tab.chat');
       } else {
         alert("登录失败");
       }
