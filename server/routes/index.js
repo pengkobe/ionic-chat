@@ -1,15 +1,19 @@
 var express = require('express');
 var router = express.Router();
-
+var verify_token = require('../middlewares/verify_token.js');
 
 var route_user = require('./route_user.js');
 var route_group = require('./route_group.js');
+var jwt_route = require('./jwt.js');
+
+// 生成token
+router.post('/register', jwt_route.createToken);
 
 // 注册
 router.post('/register', route_user.register);
 
 // 登录
-router.post('/login', route_user.login);
+router.post('/login',verify_token, route_user.login);
 
 // 用户头像上传
 router.post('/user/headimg', route_user.user_headimg);

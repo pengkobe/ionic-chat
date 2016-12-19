@@ -13,7 +13,7 @@ angular.module('starter', [
     $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
     
     // 使用jwt验证(该token在登录成功后，由服务端生成返回)
-    $httpProvider.defaults.headers.common = { 'Authorization' : 'value' };
+    $httpProvider.defaults.headers.common = { 'Authorization' : 'ionchat xxxxxx' };
 
     var param = function (obj) {
       var query = '', name, value, fullSubName, subName, subValue, innerObj, i;

@@ -5,6 +5,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var jwt = require("jsonwebtoken");
+
 // 路由
 var route_ionchat = require('./routes/index');
 
@@ -31,6 +33,15 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public'), {maxAge : 86400000}));
 
 app.use(express.query());
+
+/**
+ * 鉴权
+ */
+jwt.co_verify = function (jwtString, secretOrPublicKey, options) {
+  return function (cb) {
+    jwt.verify(jwtString, secretOrPublicKey, options, cb);
+  }
+}
 
 app.use('/', route_ionchat);
 

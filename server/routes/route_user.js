@@ -34,7 +34,7 @@ exports.register = function (req, res) {
         }
     });
 }
-
+const verify_token = require('../middlewares/verify_token.js');
 // 登录
 exports.login = function (req, res) {
     var username = req.body.username;

@@ -104,6 +104,9 @@ node多进程管理工具，可以帮助我们简化多进程并行化程序的�
   - 计划 Redis 管理所有用户的在线与非在线标识[ HASH ]
 * 是整理成多个事件，还是一个事件分发不同数据?
 
+## jwt
+http://www.haomou.net/2014/08/13/2014_web_token/  
+
 ### 一个极好的入门项目
 网址:https://github.com/dwyl/hapi-socketio-redis-chat-example
 其带有测试，且不是主流的使用mongodb，还是结合redis进行开发。框架也是使用非主流的[hapi](https://github.com/hapijs/hapi/)  
