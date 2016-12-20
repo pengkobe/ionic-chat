@@ -63,7 +63,7 @@ exports.loadgrouprequesst = function (req, res) {
             if (err) {
                 console.log('loadfriendrequest err!');
             }
-            if (user.length == 0) {
+            if (user && user.length == 0) {
                 console.log('username no exist!');
             } else {
                 var opts = [{

@@ -9,7 +9,8 @@ var sh = require('shelljs');
 
 var paths = {
   sass: ['./scss/**/*.scss'],
-  chat: ['./www/module/chat/**/*']
+  chat: ['./www/module/chat/**/*'],
+  login: ['./www/module/login/**/*']
 };
 
 gulp.task('default', ['sass']);
@@ -33,7 +34,7 @@ gulp.task('sass', function (done) {
 gulp.task('watch', function () {
   gulp.watch(paths.sass, ['sass']);
   gulp.watch(paths.chat, ['buildchat']);
-
+  gulp.watch(paths.login, ['buildlogin']);
 });
 
 gulp.task('install', ['git-check'], function () {
@@ -84,7 +85,8 @@ gulp.task('buildchat', function (done) {
     'www/module/chat/directives/**/*.css',
   ])
     .pipe(concat('chat.min.css'))
-    .pipe(gulp.dest('www/dist/css'));
+    .pipe(gulp.dest('www/dist/css'))
+    .on('end', done);;
 });
 
 /**
@@ -106,7 +108,8 @@ gulp.task('builddash', function (done) {
     'www/module/dash/pages/**/*.css',
   ])
     .pipe(concat('dash.min.css'))
-    .pipe(gulp.dest('www/dist/css'));
+    .pipe(gulp.dest('www/dist/css'))
+    .on('end', done);;
 });
 
 /**
@@ -126,7 +129,8 @@ gulp.task('buildaccount', function (done) {
     'www/module/account/css/*.css',
   ])
     .pipe(concat('account.min.css'))
-    .pipe(gulp.dest('www/dist/css'));
+    .pipe(gulp.dest('www/dist/css'))
+    .on('end', done);;
 });
 
 /**
@@ -135,10 +139,10 @@ gulp.task('buildaccount', function (done) {
 gulp.task('buildlogin', function (done) {
   // 打包js
   gulp.src([
+    'www/module/login/js/login.js',
     'www/module/login/js/login.service.js',
     'www/module/login/js/login.route.js',
     'www/module/login/js/login.controller.js',
-    'www/module/login/js/login.js',
   ])
     .pipe(concat('login.min.js'))
     .pipe(gulp.dest('www/dist/js'));
@@ -148,7 +152,8 @@ gulp.task('buildlogin', function (done) {
     'www/module/login/css/*.css',
   ])
     .pipe(concat('login.min.css'))
-    .pipe(gulp.dest('www/dist/css'));
+    .pipe(gulp.dest('www/dist/css'))
+    .on('end', done);;
 });
 
 
@@ -169,7 +174,8 @@ gulp.task('builddevtest', function (done) {
     'www/module/devtest/*.css',
   ])
     .pipe(concat('devtest.min.css'))
-    .pipe(gulp.dest('www/dist/css'));
+    .pipe(gulp.dest('www/dist/css'))
+    .on('end', done);;
 });
 
 /**
@@ -178,5 +184,6 @@ gulp.task('builddevtest', function (done) {
 gulp.task('buildcss', function (done) {
   gulp.src(['www/**/*.css', '!www/lib/**/*.css'])
     .pipe(concat('style.css'))
-    .pipe(gulp.dest('www/dist/css'));
+    .pipe(gulp.dest('www/dist/css'))
+    .on('end', done);;
 });

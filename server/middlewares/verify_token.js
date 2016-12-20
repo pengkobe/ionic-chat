@@ -1,7 +1,7 @@
 "use strict"
 var config = require('../config/config.js'),
     jwt = require("jsonwebtoken");
-module.exports = function (req, res,next) {
+module.exports = function (req, res, next) {
     var authorization = '';
     if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'ionchat') {
         var authorization = req.headers.authorization.split(' ')[1];
@@ -12,7 +12,8 @@ module.exports = function (req, res,next) {
         console.log("jsonwebtoken err", '401 no token detected in http header \'Authorization\'');
     }
     var token = authorization.split(' ')[1];
-
+    console.log("req jsonwebtoken:", authorization);
+    console.log("config.jwt.cert:", config.jwt.cert);
     var tokenContent;
     try {
         jwt.co_verify(token, config.jwt.cert)(function (tokenContent) {
@@ -23,5 +24,5 @@ module.exports = function (req, res,next) {
     } catch (err) {
         console.log("jsonwebtoken err", err);
     }
-    
+
 };

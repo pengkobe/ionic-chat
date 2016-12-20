@@ -23,6 +23,7 @@ angular.module('login.service', [])
     }
     return userservive;
   })
+
   .factory('LogoutService', ['$state', '$ionicHistory',
     function ($state, $ionicHistory) {
       var _logout = function () {

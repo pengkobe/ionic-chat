@@ -1,10 +1,12 @@
 // 创建群组
 var jwt = require("jsonwebtoken");
+var config = require("../config/config");
+var cert = config.jwt.cert;
 exports.createToken = function (req, res) { //成功
     var username = req.body.username,
         password = req.body.password;
     var user = {
-        username: 'py',
+        username: 'chengh',
         password: '123',
     };
     if (user !== null) {
@@ -14,14 +16,7 @@ exports.createToken = function (req, res) { //成功
                 name: user.name,
                 exp: Math.floor(Date.now() / 1000) + 24 * 60 * 60 //1 hours
             }, cert);
-            req.json({
-                success: true,
-                data: {
-                    uid: user._id,
-                    name: user.name,
-                    token,
-                }
-            });
+            return token;
         } else {
             console.log('401 密码错误')
         }

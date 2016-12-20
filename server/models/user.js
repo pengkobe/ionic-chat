@@ -131,7 +131,11 @@ UserSchema.statics.loadGroups = function (username, cb) {
     this.findOne({ username: username })
         .populate('groups')
         .exec(function (err, doc) {
-            cb(err,doc.groups);
+            if (err) {
+                cb(err);
+            } else if (doc) {
+                cb(err, doc.groups);
+            }
         });
 }
 

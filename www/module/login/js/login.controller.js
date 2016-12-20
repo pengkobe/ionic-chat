@@ -3,7 +3,7 @@ angular.module('login.controller', [])
   .controller('RegisterController', RegisterController)
 
 function LoginController($scope, $rootScope, $ionicLoading, $state,
-  LOGIN_URL, HttpPromiseService, UserService) {
+  LOGIN_URL, HttpPromiseService, UserService,ServerTokenService) {
   $scope.submitting = false;
   $scope.user = {};
   $scope.validateOptions = {
@@ -20,7 +20,10 @@ function LoginController($scope, $rootScope, $ionicLoading, $state,
     HttpPromiseService.getData(LOGIN_URL, params).then(function (data) {
       console.log(data);
       if (data.state = 1) {
-        UserService.setUserinfo(data);
+        UserService.setUserinfo(data.user);
+        var token = data.token;
+
+        ServerTokenService.setToken(token);
         $state.go('tab.chat');
       } else {
         alert("登录失败");
@@ -30,7 +33,7 @@ function LoginController($scope, $rootScope, $ionicLoading, $state,
 }
 
 LoginController.$inject = ['$scope', '$rootScope', '$ionicLoading',
-  '$state', 'LOGIN_URL', 'HttpPromiseService', 'UserService'];
+  '$state', 'LOGIN_URL', 'HttpPromiseService', 'UserService','ServerTokenService'];
 
 function RegisterController($scope, $rootScope, $ionicBackdrop, $ionicHistory,
   REGISTER_URL, HttpPromiseService, $state) {

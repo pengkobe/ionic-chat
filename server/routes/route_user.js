@@ -1,5 +1,6 @@
 var UserModel = require('../models/user.js');
 var GroupModel = require('../models/group.js');
+var jwt = require('./jwt.js');
 
 // 生成身份二维码
 var qr = require('qr-image');
@@ -47,11 +48,15 @@ exports.login = function (req, res) {
         if (err) {
             res.json({ state: -1, message: err });
         }
-        console.log('login users:', users);
-        if (users.length == 0) {
+
+        if (users && users.length == 0) {
             res.json({ state: -1, message: "账户或密码错误！" });
         } else {
-            res.json(users[0]);
+            var token = jwt.createToken(req, res);
+            users[0].token = token;
+            console.log('login users:', users);
+            console.log('login users token:', token);
+            res.json({ state: 1, user: users[0] ,token:token});
         }
     });
 }
@@ -96,7 +101,7 @@ exports.loadfriends = function (req, res) {
         if (err) {
             console.log('loadfriends err!');
         }
-        if (users.length == 0) {
+        if (users && users.length == 0) {
             console.log('no friend yet!');
         } else {
             if (users && users.friends && users.friends.length > 0) {
@@ -128,7 +133,7 @@ exports.loadgroups = function (req, res) {
     UserModel.loadGroups(username, function (err, groups) {
         if (err) {
             console.log('loadgroups err!');
-            res.json({state:-1,err:err});
+            res.json({ state: -1, err: err });
         }
         if (groups.length == 0) {
             console.log('no group yet!');

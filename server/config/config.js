@@ -1,7 +1,7 @@
 "use strict";
 var config = {
-  'jwt': {
-    'cert': 'ionchat'
+  jwt: {
+    cert: 'ionchat'
   }
 }
 

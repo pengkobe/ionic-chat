@@ -7,13 +7,13 @@ var route_group = require('./route_group.js');
 var jwt_route = require('./jwt.js');
 
 // 生成token
-router.post('/register', jwt_route.createToken);
+router.post('/register');
 
 // 注册
 router.post('/register', route_user.register);
 
 // 登录
-router.post('/login',verify_token, route_user.login);
+router.post('/login', route_user.login);
 
 // 用户头像上传
 router.post('/user/headimg', route_user.user_headimg);
@@ -22,7 +22,7 @@ router.post('/user/headimg', route_user.user_headimg);
 router.post('/updatepwd', route_user.updatepwd);
 
 // 拉取好友列表
-router.post('/loadfriends', route_user.loadfriends);
+router.post('/loadfriends', verify_token,route_user.loadfriends);
 
 // 查询好友列表
 router.post('/searchfriends', route_user.searchfriends);

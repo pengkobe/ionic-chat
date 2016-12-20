@@ -19,6 +19,18 @@ angular.module('chat.common.services', [])
             return myIoSocket;
         }
     })
+    .factory("ServerTokenService", function (CacheFactory) {
+        var token = null;
+        return {
+            getToken: function () {
+                return token;
+            },
+            setToken: function (val) {
+                token = val;
+                return;
+            }
+        }
+    })
     // 照相及相册
     .factory('PhotoAndImages', function ($q) { // 照片相关
         return {
@@ -68,7 +80,7 @@ angular.module('chat.common.services', [])
     })
 
     // ajax请求服务
-    .factory('HttpFactory', function ($http, $ionicPopup, $ionicLoading, myNote, $timeout) {
+    .factory('HttpFactory', function ($http, $ionicPopup, $ionicLoading, myNote, $timeout, ServerTokenService) {
 
         /**
          * method – {string} – HTTP method (e.g. 'GET', 'POST', etc)
@@ -93,8 +105,11 @@ angular.module('chat.common.services', [])
             !!config.mask && $ionicLoading.show({
                 template: typeof config.mask == "boolean" ? '请稍等...' : config.mask
             });
-
-            config.headers = { 'Content-Type': 'application/x-www-form-urlencoded' };
+            var token = ServerTokenService.getToken();
+            if (token != null) {
+                config.headers = { 'Authorization': 'ionchat ' + token };
+            }
+            // config.headers = { 'Content-Type': 'application/x-www-form-urlencoded' };
 
             config.method == 'post' && (config.data = config.data || {});
 
