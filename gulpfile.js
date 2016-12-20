@@ -7,6 +7,8 @@ var minifyCss = require('gulp-minify-css');
 var rename = require('gulp-rename');
 var sh = require('shelljs');
 
+var sourcemaps = require('gulp-sourcemaps');
+
 var paths = {
   sass: ['./scss/**/*.scss'],
   chat: ['./www/module/chat/**/*'],
@@ -74,9 +76,13 @@ gulp.task('buildchat', function (done) {
     'www/module/chat/js/Controllers/*.js',
     'www/module/chat/js/chat.module.js',
   ])
+    .pipe(sourcemaps.init())
     // .pipe(uglify())
     .pipe(concat('chat.min.js'))
-    .pipe(gulp.dest('www/dist/js'));
+    .pipe(sourcemaps.write()) //'./maps' inline
+    .pipe(gulp.dest('www/dist/js'))
+
+    ;
 
   // 打包css
   gulp.src([
