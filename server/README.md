@@ -39,6 +39,10 @@ key全部都是字符串，value可以是集合、hash、list等等,Redis是通�
 
 Win32 安装参考: https://my.oschina.net/lujianing/blog/204103   
 
+### 命令参考
+* http://doc.redisfans.com/  
+* http://www.redis.net.cn/order/  
+
 ### 用途
 1. 单纯的做存储，因为是内存数据库，可以增加访存速度。
 2. 基于 Redis Channel 可以做异构的发布/订阅，案例可参考:http://www.tuicool.com/articles/26ny6r6
@@ -96,7 +100,7 @@ node多进程管理工具，可以帮助我们简化多进程并行化程序的�
 
 ## 推送逻辑
 前端只需要在service中注册socket.io服务，控制器取数据的逻辑不变。
-后端需要借助redis存储最新代码，并在更新时发布事件推送到前端。
+后端需要借助 redis 存储最新代码，并在更新时发布事件推送到前端。
 * Redis事件中不需要存储所有数据，只要在合适的时候提醒前端拉取数据即可(非经常访问的数据)
   - 存储数据容易，但是要经常更新数据(Redis &&　前台)
   - 虽只需要推送部分数据，但是大大前台对数据处理的复杂度，需要针对每个接口写Redis层

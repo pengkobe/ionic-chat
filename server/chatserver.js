@@ -10,7 +10,10 @@ var _http = require('http');
 var pub = require('redis-connection')();
 var sub = require('redis-connection')('subscriber');
 
-var users = [];
+// 方案1,数组存储
+// var users = [];
+// 方案2,对象存储
+var users_socket = {};
 
 /**
  * 视频聊天中转服务器
@@ -29,22 +32,42 @@ module.exports = function (io) {
         */
         socket.on('login', function (userid, username, headImg) {
             console.log(socket.client.conn.id + " > " + username + ' login!');
-            // 选用redis维护在线列表 or 直接选用程序数组维护
-            pub.hset('people', socket.client.conn.id, username);
+            pub.hget("pushlist", userid, function (err, friends) {
+                if (err) {
+                    // TODO
+                    console.log('hget pushlist err', err);
+                    return [];
+                }
+                if (!friends) {
+                    console.log('114 hget pushlist null:', []);
+                    return [];
+                }
+                console.log('friends', friends);
+                var friends = JSON.parse(friends);
+                // 若果好友已在线，则将在线消息推送至相关好友。
+                for (var i = 0; i < friends.length; i++) {
+                    var friendid = friends[i]._id;
+                    if (users_socket["" + friendid]) {
+                        users_socket["" + friendid].emit('friend_online', userid, username)
+                    }
+                }
+            });
+            // just for test
             pub.publish('chat:people:login', username);
-            // 删除已有用户
-            var index = _.findIndex(users, { userid: userid })
-            if (index !== -1) {
-                var contact = users[index];
-                console.log(contact.userid + ' 在其他地方登陆！');
-                users.splice(index, 1);
-            }
-            socket.emit('login_successful', {info:123});
+            socket.emit('login_successful', { info: 123 });
+            /* 
+            * 1：在线,
+            * 0: 不在线
+            */
+            pub.hset('people', userid, 1);
+            pub.hset('socket', socket.client.conn.id, userid);
+            // 保存当前socket用户连接
+            users_socket["" + userid] = socket;
 
             /* 查询token
             *  userid, username, headImg, callback
             */
-            //UserModel.getRongyunToken(userid, username, '', callback);
+            // UserModel.getRongyunToken(userid, username, '', callback);
             // function callback(err, info) {
             //     if (err) {
             //         socket.emit('login_error', err);
@@ -65,56 +88,49 @@ module.exports = function (io) {
          *  视频/音频消息中转服务
          */
         socket.on('sendMessage', function (userid, message) {
-            var currentUser = _.find(users, { socket: socket.id });
-            if (!currentUser) {
+            if (!users_socket[userid]) {
                 return;
             }
-
-            console.log('当前所有用户:' + JSON.stringify(users));
-            var userlen = users.length;
+            console.log('当前所有用户:' + JSON.stringify(users_socket));
             // 查找消息发送人
-            var contact;
-            for (var i = 0; i < userlen; i++) {
-                if (users[i].userid == userid) {
-                    contact = users[i];
-                }
-            }
-            // var contact = _.find(users, { userid: userid });
-            if (!contact) {
-                return;
-            }
-            console.log(JSON.stringify(currentUser) + ' send message to:' + JSON.stringify(contact));
+            var contact_socket = users_socket[userid];
+            var currentuserid = pub.hget('socket', socket.client.conn.id);
+            console.log(currentuserid + ' send message to:' + userid);
             console.log('send message to(finded):' + userid
-                + 'currentUser.userid:' + currentUser.userid
-                + 'socket:' + contact.socket);
+                + 'currentUser.userid:' + currentuserid
+                + 'socket:' + contact_socket);
             // 推送消息
-            io.of('/chat').to(contact.socket).emit('messageReceived', currentUser.userid, message);
+            io.of('/chat').to(contact_socket).emit('messageReceived', currentuserid, message);
         });
 
         /**
          *  离线处理
          */
         socket.on('disconnect', function () {
-            var index = _.findIndex(users, { socket: socket.id });
-            if (index !== -1) {
-                socket.broadcast.emit('offline', users[index].userid);
-                console.log(users[index].userid + ' 失联了！');
-                users.splice(index, 1);
-            }
-        });
-
-        /**
-         *  创建群组
-         */
-        socket.on('findGroup', function (groupid, groupname, userids, headImg) {
-            GroupModel.findGroup(groupid, groupname, userids, headImg, callback);
-            function callback(err, ret) {
+            var userid = pub.hget('socket', socket.client.conn.id);
+            pub.hset('people', userid, 0);
+            users_socket["" + userid] = null;
+            pub.hget("pushlist", userid, function (err, friends) {
                 if (err) {
-                    socket.emit('findGroup_err', err);
-                } else {
-                    socket.emit('findGroup_successful', ret);
+                    // TODO
+                    console.log('hget pushlist err', err);
+                    return [];
                 }
-            }
+                if (!friends) {
+                    console.log('114 hget pushlist null:', err);
+                    return [];
+                }
+                console.log('disconnect push friends', friends);
+                var friends = JSON.parse(friends);
+                // 若果好友已在线，则将在线消息推送至相关好友。
+                for (var i = 0; i < friends.length; i++) {
+                    var friendid = friends[i]._id;
+                    if (users_socket["" + friendid]) {
+                        users_socket["" + friendid].emit('friend_offline', userid)
+                    }
+                }
+            });
+            console.log(userid + ' 失联了！');
         });
 
         /**
@@ -122,16 +138,14 @@ module.exports = function (io) {
          */
         socket.on('checkOnline', function (userids) {
             // 直接使用服务端缓存的列表
-            var useridLen = userids.length;
-            var usersLen = users.length;
-            var i, j;
+
+            var i;
             var ret = [];
             // TODO: 寻找更优算法
+            var useridLen = userids.length;
             for (i = 0; i < useridLen; i++) {
-                for (j = 0; j < usersLen; j++) {
-                    if (userids[i] == users[j].userid) {
-                        ret.push({ id: userids[i], state: 1 });
-                    }
+                if (users_socket.userids[i]) {
+                    ret.push({ id: userids[i], state: 1 });
                 }
             }
             socket.emit('checkOnline_suc', ret);
@@ -147,7 +161,7 @@ module.exports = function (io) {
          * 2. 拉取群组(群成员 MongoDB)
          * 3. 拉取在线列表(Redis)
          */
-        console.log("RedisEvtHander.",message);
+        console.log("RedisEvtHander.", message);
         io.of('/chat').emit(channel, message);
     }
 

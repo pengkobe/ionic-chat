@@ -1,6 +1,8 @@
 var UserModel = require('../models/user.js');
 var GroupModel = require('../models/group.js');
 var jwt = require('./jwt.js');
+// 发布事件
+var pub = require('redis-connection')();
 
 // 生成身份二维码
 var qr = require('qr-image');
@@ -98,6 +100,8 @@ exports.updatepwd = function (req, res) {
 exports.loadfriends = function (req, res) {
     var username = req.body.username;
     UserModel.loadFriends(username, function (err, users) {
+        
+
         if (err) {
             console.log('loadfriends err!');
         }
@@ -105,6 +109,7 @@ exports.loadfriends = function (req, res) {
             console.log('no friend yet!');
         } else {
             if (users && users.friends && users.friends.length > 0) {
+                pub.hset("pushlist", users._id, JSON.stringify(users.friends));
                 console.log('The first friend:', users.friends[0].username);
             }
             res.json(users);
