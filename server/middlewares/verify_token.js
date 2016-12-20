@@ -2,27 +2,28 @@
 var config = require('../config/config.js'),
     jwt = require("jsonwebtoken");
 module.exports = function (req, res, next) {
-    var authorization = '';
+    var token = '';
     if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'ionchat') {
-        var authorization = req.headers.authorization.split(' ')[1];
+        var token = req.headers.authorization.split(' ')[1];
     } else if (req.query && req.query.token) {
-        var authorization = req.query.token;
+        var token = req.query.token;
     }
-    if ('' === authorization) {
+    if ('' === token) {
         console.log("jsonwebtoken err", '401 no token detected in http header \'Authorization\'');
     }
-    var token = authorization.split(' ')[1];
-    console.log("req jsonwebtoken:", authorization);
+    console.log("req jsonwebtoken:", token);
     console.log("config.jwt.cert:", config.jwt.cert);
     var tokenContent;
-    try {
-        jwt.co_verify(token, config.jwt.cert)(function (tokenContent) {
+    jwt.co_verify(token, config.jwt.cert)(function (err, tokenContent) {
+        if (err) {
+            // 处理错误
+            console.log("Authorization err", err);
+            var err = new Error('Authorization err');
+            err.status = 401;
+            next(err);
+        } else {
             console.log("Authorization tokenContent", tokenContent);
-            // ctx.token = tokenContent;
             next();
-        });
-    } catch (err) {
-        console.log("jsonwebtoken err", err);
-    }
-
+        }
+    });
 };

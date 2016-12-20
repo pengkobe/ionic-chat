@@ -39,6 +39,7 @@ app.use(express.query());
  */
 jwt.co_verify = function (jwtString, secretOrPublicKey, options) {
   return function (cb) {
+    console.log("jwtString, secretOrPublicKey",jwtString+":"+secretOrPublicKey);
     jwt.verify(jwtString, secretOrPublicKey, options, cb);
   }
 }
