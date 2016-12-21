@@ -2,6 +2,7 @@
 a chat app based on ionic and rongyun  
 > This project is underdevelop and it is unrunnable for the time being. 
 
+
 ## File structure
    ```
    ProjectName/
@@ -58,9 +59,10 @@ a chat app based on ionic and rongyun
    ```
 
 ## How to build module
-In gulpfile you can see this:  
+In gulpfile.js you can see configs like :  
 
 ```javascript
+
 // chat module for example：
 gulp.task('buildchat', function (done) {
   // pack js
@@ -91,23 +93,23 @@ gulp.task('buildchat', function (done) {
 ```   
 
 just run 
-
 ```bash
-gulp buildchat
+gulp watch
 ```
-you can get the task done!
+to watch file changes, it'll run tasks automatically.
 
 ## Back-End dependency
 you may click [build notes](server/README.md) for more information.   
    
 1. node with express
 2. mongodb with mongoose
-3. rongyun cloud cordova plugin
-4. turn/stun server
-5. socket.io
+3. redis with redis-connection
+4. rongyuncloud cordova plugin
+5. turn/stun server
+6. socket.io
 
 ## How to run
-1. install node
+1. install node/redis/mongodb
 2. set up the enviroment for android/ios
 3. install ionic. please follow the instrunction on [ionicframework](http://ionicframework.com/getting-started/)
 4. git clone https://github.com/pengkobe/ionic-chat.git
@@ -147,13 +149,13 @@ ionic serve
 
 ## Doing
 1. ~~hot update~~
-2. localstorage policy
+2. ~~localstorage policy~~
 3. server push 
-4. jwt
+4. ~~jwt~~
 
 ## Todo
-1. lazy load
-2. compress js
+1. lazy load( for H5 )
+2. compress js( special config for angular )
 3. make it beautiful and stable
 
 ## Demo

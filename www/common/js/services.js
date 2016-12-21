@@ -105,6 +105,8 @@ angular.module('chat.common.services', [])
             !!config.mask && $ionicLoading.show({
                 template: typeof config.mask == "boolean" ? '请稍等...' : config.mask
             });
+
+            // 配合服务端 JWT 验证
             var token = ServerTokenService.getToken();
             if (token != null) {
                 config.headers = { 'Authorization': 'ionchat ' + token };
@@ -138,6 +140,7 @@ angular.module('chat.common.services', [])
                         template: '错误信息都在这了：' + JSON.stringify(error.data)
                     }
                 }
+                // 统一错误处理
                 // $ionicPopup.alert({
                 //     title: '悲剧了...',
                 //     template: error.data.template,
