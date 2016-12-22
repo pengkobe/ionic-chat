@@ -193,3 +193,9 @@ gulp.task('buildcss', function (done) {
     .pipe(gulp.dest('www/dist/css'))
     .on('end', done);;
 });
+
+
+// var taskList = require('fs').readdirSync('./gulp/tasks/');
+// taskList.forEach(function (file) {
+//   require('./tasks/' + file)(gulp, config, $, args);
+// });
