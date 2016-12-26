@@ -17,7 +17,9 @@
   },
   "devDependencies": {
     "bower": "^1.3.3",
+    "browser-sync": "^2.18.5",
     "gulp-util": "^2.2.14",
+    "run-sequence": "^1.2.2",
     "shelljs": "^0.3.0"
   },
   "cordovaPlugins": [
