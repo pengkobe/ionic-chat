@@ -5,15 +5,14 @@ module.exports = function (gulp, config, $, args) {
     // Copy image files
     gulp.task('copy:images', ['clean:images'], function () {
         config.fn.log('Compressing and copying images');
-
-        return copy(config.resource.images, config.build.dev + 'static/images');
+        return copy(config.resource.images, config.dist.dev + 'static/images');
     });
 
     // Copy font files
     gulp.task('copy:fonts', ['clean:fonts'], function () {
         config.fn.log('Copying all fonts files');
 
-        return copy(config.resource.fonts, config.build.dev + 'static/fonts');
+        return copy(config.resource.fonts, config.dist.dev + 'static/fonts');
     });
 
     // Copy javascript files
@@ -42,10 +41,10 @@ module.exports = function (gulp, config, $, args) {
     });
 
     // Copy bower dependency files
-    gulp.task('copy:vendor', ['clean:vendor'], function () {
+    gulp.task('copy:vendor', [], function () {//'clean:vendor'
         config.fn.log('Copying bower dependency files');
 
-        return copy(config.bower.source + '/**/*', config.bower.target);
+        return copy(config.bower.source + '**/*', config.bower.target);
     });
 
     // Optimize and Copy image files to prod folder

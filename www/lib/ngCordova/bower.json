@@ -22,7 +22,7 @@
     "CODE_OF_CONDUCT.md"
   ],
   "dependencies": {
-    "angular": ">= 1.2.23"
+    "ionic": ">=1.3.1"
   },
   "keywords": [
     "ngCordova",

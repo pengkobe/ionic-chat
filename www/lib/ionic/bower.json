@@ -1,0 +1,25 @@
+{
+  "name": "ionic",
+  "version": "1.3.1",
+  "description": "",
+  "authors": [
+    ""
+  ],
+  "main": [
+    "js/ionic.min.js"
+  ],
+  "keywords": [
+    "ionic"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "vendor",
+    "example",
+    "test",
+    "tests",
+    ".idea"
+  ]
+}

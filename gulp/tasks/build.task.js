@@ -4,8 +4,8 @@ module.exports = function (gulp, config, $, args) {
 
     // Build for development environment
     gulp.task('build:dev', [], function (done) { // 'lint' 'clean', 
-        runSeq('styles', //'inject:bower',
-            'inject:js:css', done);// , ['copy:images', 'copy:fonts']
+        runSeq('styles','inject:bower', //
+            'inject:js:css', ['copy:images', 'copy:fonts'], done);// ,
     });
 
     // Build for production environment

@@ -28,6 +28,6 @@
     ".idea"
   ],
   "dependencies": {
-    "angular": "~1.2.9"
+    "ionic": "~1.2.9"
   }
 }

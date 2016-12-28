@@ -13,7 +13,7 @@ module.exports = function (gulp, config, $, args) {
     });
 
     // Inject all the bower dependencies
-    gulp.task('inject:bower', [], function () { // 'copy:vendor'
+    gulp.task('inject:bower', ['copy:vendor'], function () { // 
         config.fn.log('Wiring the bower dependencies into the html');
 
         var wiredep = require('wiredep').stream;

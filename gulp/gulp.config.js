@@ -24,7 +24,7 @@ module.exports = function () {
     // node dependency
     var nodeModules = _root + 'node_modules/';
     // bower dependency
-    var bowerFiles = wiredep({ devDependencies: true })['js'];
+    // var bowerFiles = wiredep({ devDependencies: true })['js'];
     var bower = {
         json: bowerJson,
         source: _root + 'lib/',
@@ -59,11 +59,16 @@ module.exports = function () {
                 ]
             },
             order: [
-                '**/directives/**/*.js',
-                '**/*.filter.js',
-                '**/*.service.js',
-                '**/*.js',
-                '**/*.module.js'
+                '*/js/*.service.js',
+                '*/js/*.route.js',
+                '*/js/*.filter.js',
+                '*/js/*.directive.js',
+                '*/js/*.controller.js',
+                '*/directives/**/*.js',
+                '*/pages/**/*.js',
+                '*/**/*.module.js',
+                '*/js/*.js',
+                'app/js/app.js',
             ]
         },
         // css
