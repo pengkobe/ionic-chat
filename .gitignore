@@ -7,3 +7,4 @@ plugins/
 case_study/
 server/node_modules
 npm-debug.log
+www/dist/

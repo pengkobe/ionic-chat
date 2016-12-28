@@ -4,23 +4,30 @@
   "repository": "pengkobe/ionic-chat",
   "license": "MIT",
   "description": "ionic-chat: An Ionic project",
-  "dependencies": {
+  "dependencies": {},
+  "devDependencies": {
+    "bower": "^1.3.3",
+    "browser-sync": "^2.18.5",
+    "del": "^2.2.2",
     "gulp": "^3.5.6",
+    "gulp-autoprefixer": "^3.1.1",
     "gulp-concat": "^2.2.0",
+    "gulp-flatten": "^0.3.1",
+    "gulp-if": "^2.0.2",
+    "gulp-inject": "^4.2.0",
     "gulp-load-plugins": "^1.4.0",
     "gulp-minify-css": "^0.3.0",
+    "gulp-order": "^1.1.1",
+    "gulp-plumber": "^1.1.0",
     "gulp-rename": "^1.2.0",
     "gulp-sass": "^2.0.4",
     "gulp-sourcemaps": "^1.9.1",
     "gulp-task-listing": "^1.0.1",
-    "yargs": "^6.5.0"
-  },
-  "devDependencies": {
-    "bower": "^1.3.3",
-    "browser-sync": "^2.18.5",
     "gulp-util": "^2.2.14",
     "run-sequence": "^1.2.2",
-    "shelljs": "^0.3.0"
+    "shelljs": "^0.3.0",
+    "wiredep": "^4.0.0",
+    "yargs": "^6.5.0"
   },
   "cordovaPlugins": [
     "cordova-plugin-device",

@@ -3,9 +3,9 @@ module.exports = function (gulp, config, $, args) {
     var runSeq = require('run-sequence');
 
     // Build for development environment
-    gulp.task('build:dev', ['lint'], function (done) {
-        runSeq('clean','styles', 'inject:bower',
-            'inject:js:css', ['copy:images', 'copy:fonts'], done);
+    gulp.task('build:dev', [], function (done) { // 'lint' 'clean', 
+        runSeq('styles', //'inject:bower',
+            'inject:js:css', done);// , ['copy:images', 'copy:fonts']
     });
 
     // Build for production environment

@@ -10,7 +10,7 @@ module.exports = function () {
     // base folder
     var _root = './www/';
     var _moduleBase = _root + 'module/';
-    var _distBase = _moduleBase + 'www/dist/';
+    var _distBase = _root + 'dist/';
     // moudle folder
     var moudle = {
         base: _moduleBase,
@@ -150,9 +150,9 @@ module.exports = function () {
     // Helper function for gulp-inject
     function inject(src, label, order) {
         var options = {
-            read: false,
+            //read: false,
             relative: true,
-            ignorePath: '/moudle/dist/dev'
+            ignorePath: '/www/dist/dev'
         };
         if (label) {
             options.name = 'inject:' + label;

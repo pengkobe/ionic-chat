@@ -7,7 +7,7 @@
 
 
 ## 引入新插件
-* browser-sync : 能让浏览器实时、快速响应您的文件更改（html、js、css、sass、less等）并自动刷新页面，  
+* browser-sync ( 无用,使用ionic-cli即可 ): 能让浏览器实时、快速响应您的文件更改（html、js、css、sass、less等）并自动刷新页面，  
                  Browsersync可以同时在PC、平板、手机等设备下进项调试。[文档](http://www.browsersync.cn/docs)  
 * gulp-load-plugins ：加载插件，可以按需加载
 * yargs : 用来接收命令行参数 

@@ -9,11 +9,11 @@ module.exports = function (gulp, config, $, args) {
             .src(config.html.target)
             .pipe(config.fn.inject(config.css.target))
             .pipe(config.fn.inject(config.js.app.target, '', config.js.order))
-            .pipe(gulp.dest(config.build.dev));
+            .pipe(gulp.dest(config.dist.dev));
     });
 
     // Inject all the bower dependencies
-    gulp.task('inject:bower', ['copy:vendor'], function () {
+    gulp.task('inject:bower', [], function () { // 'copy:vendor'
         config.fn.log('Wiring the bower dependencies into the html');
 
         var wiredep = require('wiredep').stream;
@@ -29,7 +29,7 @@ module.exports = function (gulp, config, $, args) {
             .src(config.html.target)
             .pipe(wiredep(options))
             .pipe(config.fn.inject(mockDeps, 'mockDeps'))
-            .pipe(gulp.dest(config.build.dev));
+            .pipe(gulp.dest(config.dist.dev));
     });
 
     // Compile all template files to $templateCache
@@ -45,7 +45,7 @@ module.exports = function (gulp, config, $, args) {
                 config.templateCache.target,
                 config.templateCache.options
             ))
-            .pipe(gulp.dest(config.build.temp));
+            .pipe(gulp.dest(config.dist.temp));
     });
 
     ///////////

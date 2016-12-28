@@ -44,10 +44,36 @@
 	<!-- hot update -->
 	<script src="lib/cordova-app-loader/dist/cordova-app-loader-complete.min.js"></script>
 	<script type="text/javascript" timeout="5000" manifest="manifest.json" src="lib/cordova-app-loader/dist/bootstrap.js"></script>
+	<!-- build:css static/styles/lib.css -->
+	<!-- bower:css -->
+	<!-- endbower -->
+	<!-- endbuild -->
+
+	<!-- build:css static/styles/app.css -->
+	<!-- inject:css -->
+	<!-- endinject -->
+	<!-- endbuild -->
+
 </head>
 
 <body ng-app="starter">
 	<ion-nav-view> </ion-nav-view>
+
+
+	<!-- build:js static/js/lib.js -->
+	<!-- bower:js -->
+	<!-- endbower -->
+	<!-- inject:mockDeps:js -->
+	<!-- endinject -->
+	<!-- endbuild -->
+
+	<!-- build:js static/js/app.js -->
+	<!-- inject:js -->
+	<!-- endinject -->
+
+	<!-- inject:templates:js -->
+	<!-- endinject -->
+	<!-- endbuild -->
 </body>
 
 </html>
