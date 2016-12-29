@@ -15,8 +15,9 @@ module.exports = function (gulp, config, $, args) {
         return copy(config.resource.fonts, config.dist.dev + 'static/fonts');
     });
 
+
     // Copy javascript files
-    gulp.task('copy:js', [], function () { //'clean:js'
+    gulp.task('copy:js', ['clean:js'], function () { 
         config.fn.log('Copying all javascript files');
 
         // ignore production files when building for dev
@@ -41,7 +42,7 @@ module.exports = function (gulp, config, $, args) {
     });
 
     // Copy bower dependency files
-    gulp.task('copy:vendor', [], function () {//'clean:vendor'
+    gulp.task('copy:vendor', ['clean:vendor'], function () {//
         config.fn.log('Copying bower dependency files');
 
         return copy(config.bower.source + '**/*', config.bower.target);
@@ -51,7 +52,7 @@ module.exports = function (gulp, config, $, args) {
     gulp.task('copy:images:prod', function () {
         return gulp
             .src(config.build.dev + 'static/images/**/*')
-            .pipe($.imagemin({optimizationLevel: 4}))
+            .pipe($.imagemin({ optimizationLevel: 4 }))
             .pipe(gulp.dest(config.build.prod + 'static/images'));
 
     });
@@ -63,7 +64,7 @@ module.exports = function (gulp, config, $, args) {
 
     ////////
 
-    function copy (src, dest) {
+    function copy(src, dest) {
         return gulp
             .src(src)
             .pipe(gulp.dest(dest));

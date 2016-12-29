@@ -83,8 +83,12 @@ module.exports = function () {
         },
         // html
         html: {
+            moudle_source: [
+                _root + 'module/**/*.html',
+                _root +'common/**/*.html',
+            ],
             source: _root + 'index.html',
-            target: dist.dev + 'index.html'
+            target: dist.dev + 'static/index.html'
         },
         templateCache: {
             sourceJade: moudle.app + '**/*.jade',
@@ -101,7 +105,7 @@ module.exports = function () {
         },
         resource: {
             images: _root + 'assets/**/*.*',
-            fonts: bower.source + 'mdi/fonts/*.*',
+            fonts: bower.source + 'font/*.*',
         },
         bower: bower,
         browserSync: {

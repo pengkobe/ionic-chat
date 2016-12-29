@@ -1,6 +1,21 @@
 module.exports = function (gulp, config, $, args) {
     var merge = require('merge-stream');
 
+    gulp.task('copy:html', ['clean:html'], function () {
+        config.fn.log('copy html templates to html files');
+        // 首页
+        var htmlStream = gulp
+            .src(config.html.source)
+            .pipe(gulp.dest(config.dist.dev + 'static'));
+        // 模块内HTML
+        var module_Stream = gulp
+            .src(config.html.moudle_source)
+            .pipe(gulp.dest(config.dist.dev + 'static'));
+        // jade用法
+        // var templateStream = jade(config.templateCache.sourceJade, config.dist.dev + 'static');
+        return merge(htmlStream, module_Stream);;
+    });
+
     // Inject all js/css files into the index.html file
     gulp.task('inject:js:css', ['copy:js'], function () {
         config.fn.log('Wire up css into the html, after files are ready');
@@ -39,7 +54,7 @@ module.exports = function (gulp, config, $, args) {
         return gulp
             .src(config.templateCache.sourceHtml)
             .pipe($.if(args.verbose, $.bytediff.start()))
-            .pipe($.minifyHtml({empty: true}))
+            .pipe($.minifyHtml({ empty: true }))
             .pipe($.if(args.verbose, $.bytediff.stop(bytediffFormatter)))
             .pipe($.angularTemplatecache(
                 config.templateCache.target,
@@ -50,7 +65,7 @@ module.exports = function (gulp, config, $, args) {
 
     ///////////
 
-    function bytediffFormatter (data) {
+    function bytediffFormatter(data) {
         var difference = (data.savings > 0) ? ' smaller.' : ' larger.';
         return data.fileName + ' went from ' +
             (data.startSize / 1000).toFixed(2) + ' kB to ' +
@@ -62,5 +77,18 @@ module.exports = function (gulp, config, $, args) {
         return (num * 100).toFixed(precision);
     }
 
+    function jade (src, dest) {
+        // change `app` variable based on --mock parameter
+        var data = {
+            app: args.mock ? 'appTest' : 'app'
+        };
+        return gulp
+            .src(src)
+            .pipe($.jade({
+                pretty: true,
+                locals: data
+            }))
+            .pipe(gulp.dest(dest));
+    }
 
 };
