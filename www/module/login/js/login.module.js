@@ -1,6 +1,6 @@
 'use strict';
 angular.module('login', [
-  'chat.common.services',
+  'app.service',
   'login.controller',
   'login.service',
   'login.route',

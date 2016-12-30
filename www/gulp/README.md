@@ -21,5 +21,6 @@
 * gulp-plumber ： Prevent pipe breaking caused by errors from gulp plugins(exit gracefully if something fails after this)
 * gulp-flatten ： remove or replace relative path for files
 
+* gulp-angular-templatecache : 把html模板转换为angularjs模板 
 * gulp-ng-annotate : 解决依赖注入的小问题( source-map支持否？ )
 * gulp-order : 解决angular依赖顺序问题  [gulp-order](https://github.com/sirlantis/gulp-order)

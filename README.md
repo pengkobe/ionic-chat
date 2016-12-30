@@ -4,7 +4,7 @@ a chat app based on ionic and rongyun
 
 
 ## File structure
-   ```
+   ```javascript
    ProjectName/
     ├── hooks/
     ├── node_modules/  
@@ -13,25 +13,27 @@ a chat app based on ionic and rongyun
     ├── scss
     │   ├── ionic.app.scss
     │   └── ...
-    ├── www
-    │   ├── lib/
+    ├── server/                   
+    ├── www/                      
     │   ├── assets/
-    │   ├── dist/
-    │   │    ├── js/
-    │   │    │    ├── modulename.min.js
-    │   │    │    └── ... 
-    │   │    └── css/
-    │   │    │    ├── modulename.min.css
-    │   │    │    └── ... 
-    │   ├── common/
-    │   │    ├── css/
-    │   │    ├── js/
-    │   │    └── tpl/
+    │   ├── dist/dev/static 
+    │   ├── lib/
+    │   ├── gulp/ 
+    │   │   ├── tasks/
+    │   │   ├── gulp.config.js
+    │   │   ├── index.js
+    │   │   └── README.md
     │   ├── module/
+    │   │    ├── common/
+    │   │    │    ├── js/
+    │   │    │    │    ├── config.js 
+    │   │    │    │    └── ...
+    │   │    │    ├── css/
+    │   │    │    └── tpl/
     │   │    ├── app/ (entry)
     │   │    ├── modulename/ 
-    │   │    │    ├── pages/ 
     │   │    │    ├── directives/ 
+    │   │    │    ├── pages/ 
     │   │    │    ├── css/
     │   │    │    ├── js/
     │   │    │    │    ├── modulename.controller.js
@@ -42,9 +44,8 @@ a chat app based on ionic and rongyun
     │   │    │    │    └── modulename.service.js
     │   │    │    └── tpl/
     │   │    └── ... 
-    │   ├── config.js 
+    │   ├── index_dev.html 
     │   ├── index.html
-    │   ├── service-worker.js (todo)
     │   └── manifest.json 
     ├──  config.xml
     ├──  ionic.project
@@ -57,46 +58,6 @@ a chat app based on ionic and rongyun
     ├──  README.md
     └──  LICENSE
    ```
-
-## How to build module
-In gulpfile.js you can see configs like :  
-
-```javascript
-
-// chat module for example：
-gulp.task('buildchat', function (done) {
-  // pack js
-  gulp.src([
-    'www/module/chat/js/chat.directive.js',
-    'www/module/chat/directives/**/*.js',
-    'www/module/chat/js/chat.filter.js',
-    'www/module/chat/js/chat.route.js',
-    'www/module/chat/js/chat.service.js',
-    'www/module/chat/js/chat.controller.js',
-    'www/module/chat/pages/**/*.js',
-    'www/module/chat/js/Controllers/*.js',
-    'www/module/chat/js/chat.module.js',
-  ])
-    // .pipe(uglify())
-    .pipe(concat('chat.min.js'))
-    .pipe(gulp.dest('www/dist/js'));
-
-  // pack css
-  gulp.src([
-    'www/module/chat/css/*.css',
-    'www/module/chat/pages/**/*.css',
-    'www/module/chat/directives/**/*.css',
-  ])
-    .pipe(concat('chat.min.css'))
-    .pipe(gulp.dest('www/dist/css'));
-});
-```   
-
-just run 
-```bash
-gulp watch
-```
-to watch file changes, it'll run tasks automatically.
 
 ## Back-End dependency
 you may click [build notes](server/README.md) for more information.   
@@ -159,7 +120,7 @@ ionic serve
 3. make it beautiful and stable
 
 ## Demo
-a little glimpse of the app on Chrome:  
+a little glimpse of ionic-chat on Chrome:  
 ![ionic-chat-demo](./demo/ionic-chat-demo.png)
 
 ## Licence

@@ -1,7 +1,7 @@
 module.exports = function () {
     // dependencies used in this file
     var wiredep = require('wiredep');
-    var bowerJson = require('../bower.json');
+    var bowerJson = require('../../bower.json');
     var gulp = require('gulp');
     var gUtil = require('gulp-util');
     var gInject = require('gulp-inject');
@@ -92,8 +92,8 @@ module.exports = function () {
                 _root + 'module/**/*.html',
                 _root + 'common/**/*.html',
             ],
-            source: _root + 'index.html',
-            target: dist.dev + 'index.html'
+            source:_root + 'index_dev.html', //_root + 'index.html',
+            target:_root + 'index.html' //dist.dev + 'index.html'
         },
         templateCache: {
             sourceJade: moudle.app + '**/*.jade',

@@ -8,7 +8,7 @@ version="0.0.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.a
   <author email="yipeng.info@gmail.com" href="http://yipeng.info/">
       yipeng | kobepeng
     </author>
-  <content src="dist/dev/index.html"/>
+  <content src="index.html"/>
   <access origin="*"/>
   <preference name="webviewbounce" value="false"/>
   <preference name="UIWebViewBounce" value="false"/>

@@ -6,7 +6,8 @@ module.exports = function (gulp, config, $, args) {
         // 首页
         var htmlStream = gulp
             .src(config.html.source)
-            .pipe(gulp.dest(config.dist.dev));
+            .pipe($.rename("index.html"))
+            .pipe(gulp.dest(config.root));
         // 模块内HTML
         var module_Stream = gulp
             .src(config.html.moudle_source)
@@ -24,7 +25,7 @@ module.exports = function (gulp, config, $, args) {
             .src(config.html.target)
             .pipe(config.fn.inject(config.css.target))
             .pipe(config.fn.inject(config.js.app.target, '', config.js.order))
-            .pipe(gulp.dest(config.dist.dev));
+            .pipe(gulp.dest(config.root));
     });
 
     // Inject all the bower dependencies
@@ -44,7 +45,7 @@ module.exports = function (gulp, config, $, args) {
             .src(config.html.target)
             .pipe(wiredep(options))
             .pipe(config.fn.inject(mockDeps, 'mockDeps'))
-            .pipe(gulp.dest(config.dist.dev));
+            .pipe(gulp.dest(config.root));
     });
 
     // Compile all template files to $templateCache

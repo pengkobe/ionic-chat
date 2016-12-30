@@ -2,4 +2,4 @@
  * gulp entry
  */
 
-require('./gulp/');
+require('./www/gulp/');

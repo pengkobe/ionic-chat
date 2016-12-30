@@ -20,11 +20,33 @@
 	<script type="text/javascript" timeout="5000" manifest="manifest.json" src="lib/cordova-app-loader/dist/bootstrap.js"></script>
 	<!-- build:css static/styles/lib.css -->
 	<!-- bower:css -->
+	<link rel="stylesheet" href="dist/dev/static/lib/nsPopover/src/nsPopover.css" />
 	<!-- endbower -->
 	<!-- endbuild -->
 
 	<!-- build:css static/styles/app.css -->
 	<!-- inject:css -->
+	<link rel="stylesheet" href="dist/dev/static/styles/account.min.css">
+	<link rel="stylesheet" href="dist/dev/static/styles/addfriend.min.css">
+	<link rel="stylesheet" href="dist/dev/static/styles/aircondition.min.css">
+	<link rel="stylesheet" href="dist/dev/static/styles/app.min.css">
+	<link rel="stylesheet" href="dist/dev/static/styles/call.min.css">
+	<link rel="stylesheet" href="dist/dev/static/styles/chat.min.css">
+	<link rel="stylesheet" href="dist/dev/static/styles/chatinput.min.css">
+	<link rel="stylesheet" href="dist/dev/static/styles/chatmessagepanel.min.css">
+	<link rel="stylesheet" href="dist/dev/static/styles/chattoolbar.min.css">
+	<link rel="stylesheet" href="dist/dev/static/styles/contactnav.min.css">
+	<link rel="stylesheet" href="dist/dev/static/styles/dash.min.css">
+	<link rel="stylesheet" href="dist/dev/static/styles/devtest.min.css">
+	<link rel="stylesheet" href="dist/dev/static/styles/ionic.app.min.css">
+	<link rel="stylesheet" href="dist/dev/static/styles/ionic.app.min.min.css">
+	<link rel="stylesheet" href="dist/dev/static/styles/login.min.css">
+	<link rel="stylesheet" href="dist/dev/static/styles/messagelist.min.css">
+	<link rel="stylesheet" href="dist/dev/static/styles/phonecontact.min.css">
+	<link rel="stylesheet" href="dist/dev/static/styles/qqface.min.css">
+	<link rel="stylesheet" href="dist/dev/static/styles/resfriendteam.min.css">
+	<link rel="stylesheet" href="dist/dev/static/styles/searchautocomplete.min.css">
+	<link rel="stylesheet" href="dist/dev/static/styles/weui.min.css">
 	<!-- endinject -->
 	<!-- endbuild -->
 
@@ -36,6 +58,13 @@
 
 	<!-- build:js static/js/lib.js -->
 	<!-- bower:js -->
+	<script src="dist/dev/static/lib/ionic/js/ionic.bundle.js"></script>
+	<script src="dist/dev/static/lib/ngCordova/dist/ng-cordova.js"></script>
+	<script src="dist/dev/static/lib/nsPopover/src/nsPopover.js"></script>
+	<script src="dist/dev/static/lib/oclazyload/dist/ocLazyLoad.js"></script>
+	<script src="dist/dev/static/lib/angular-sanitize/angular-sanitize.js"></script>
+	<script src="dist/dev/static/lib/angular-socket-io/socket.js"></script>
+	<script src="dist/dev/static/lib/cordova-app-loader/dist/CordovaAppLoader.js"></script>
 	<!-- endbower -->
 	<!-- inject:mockDeps:js -->
 	<!-- endinject -->
@@ -43,6 +72,44 @@
 	
 	<!-- build:js static/js/app.js -->
 	<!-- inject:js -->
+	<script src="dist/dev/static/devtest/devtest.service.js"></script>
+	<script src="dist/dev/static/common/js/config.js"></script>
+	<script src="dist/dev/static/common/js/socket.io.js"></script>
+	<script src="dist/dev/static/common/js/Util.js"></script>
+	<script src="dist/dev/static/app/js/app.service.js"></script>
+	<script src="dist/dev/static/chat/js/chat.service.js"></script>
+	<script src="dist/dev/static/dash/js/dash.service.js"></script>
+	<script src="dist/dev/static/login/js/login.service.js"></script>
+	<script src="dist/dev/static/chat/js/chat.route.js"></script>
+	<script src="dist/dev/static/login/js/login.route.js"></script>
+	<script src="dist/dev/static/chat/js/chat.filter.js"></script>
+	<script src="dist/dev/static/app/js/app.directive.js"></script>
+	<script src="dist/dev/static/chat/js/chat.directive.js"></script>
+	<script src="dist/dev/static/account/js/account.controller.js"></script>
+	<script src="dist/dev/static/chat/js/chat.controller.js"></script>
+	<script src="dist/dev/static/dash/js/dash.controller.js"></script>
+	<script src="dist/dev/static/login/js/login.controller.js"></script>
+	<script src="dist/dev/static/chat/directives/chatinput/chatinput.js"></script>
+	<script src="dist/dev/static/chat/directives/chatmessagepanel/chatmessagepanel.js"></script>
+	<script src="dist/dev/static/chat/directives/chattoolbar/chattoolbar.js"></script>
+	<script src="dist/dev/static/chat/directives/contactnav/contactnav.js"></script>
+	<script src="dist/dev/static/chat/directives/messagelist/messagelist.js"></script>
+	<script src="dist/dev/static/chat/directives/phonecontact/phonecontact.js"></script>
+	<script src="dist/dev/static/chat/directives/qqface/qqface.js"></script>
+	<script src="dist/dev/static/chat/directives/resfriendteam/resfriendteam.js"></script>
+	<script src="dist/dev/static/chat/directives/searchautocomplete/searchautocomplete.js"></script>
+	<script src="dist/dev/static/chat/pages/addfriend/addFriend.js"></script>
+	<script src="dist/dev/static/chat/pages/addgroup/addgroup.js"></script>
+	<script src="dist/dev/static/chat/pages/addgroupmember/addgroupmember.js"></script>
+	<script src="dist/dev/static/chat/pages/call/call.js"></script>
+	<script src="dist/dev/static/chat/pages/chatdetail/chatDetail.js"></script>
+	<script src="dist/dev/static/chat/pages/friendinfo/friendInfo.js"></script>
+	<script src="dist/dev/static/chat/pages/groupinfo/groupinfo.js"></script>
+	<script src="dist/dev/static/dash/pages/aircondition/aircondition.js"></script>
+	<script src="dist/dev/static/app/js/app.module.js"></script>
+	<script src="dist/dev/static/chat/js/chat.module.js"></script>
+	<script src="dist/dev/static/devtest/devtest.module.js"></script>
+	<script src="dist/dev/static/login/js/login.module.js"></script>
 	<!-- endinject -->
 
 	<!-- inject:templates:js -->
