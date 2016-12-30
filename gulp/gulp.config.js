@@ -14,6 +14,7 @@ module.exports = function () {
     // moudle folder
     var moudle = {
         base: _moduleBase,
+        common: _root + 'common/'
     };
     // dist folder
     var dist = {
@@ -28,9 +29,9 @@ module.exports = function () {
     var bower = {
         json: bowerJson,
         source: _root + 'lib/',
-        target: dist.dev + 'static/vendor/',
+        target: dist.dev + 'static/lib/',
         mockDeps: [
-            dist.dev + 'static/vendor/angular-mocks/angular-mocks.js'
+            dist.dev + 'static/lib/angular-mocks/angular-mocks.js'
         ]
     };
 
@@ -52,13 +53,14 @@ module.exports = function () {
                 ],
                 target: [
                     dist.dev + 'static/**/*.js',
-                    '!' + dist.dev + 'static/vendor/**/*.*'
+                    '!' + dist.dev + 'static/lib/**/*.*'
                 ],
                 production: [
                     moudle.base + '**/production/*.js'
                 ]
             },
             order: [
+                'common/*/*.js',
                 '*/js/*.service.js',
                 '*/js/*.route.js',
                 '*/js/*.filter.js',
@@ -68,16 +70,19 @@ module.exports = function () {
                 '*/pages/**/*.js',
                 '*/**/*.module.js',
                 '*/js/*.js',
-                'app/js/app.js',
+                'app/js/app.*.js',
+                'app/js/app.js'
             ]
         },
         // css
         css: {
             source_sass: moudle.base + '**/*.scss',
-            source: moudle.base + '**/*.css',
+            source: [
+                moudle.base + '**/*.css'
+            ],
             target: [
                 dist.dev + 'static/**/*.css',
-                '!' + dist.dev + 'static/vendor/**/*.*'
+                '!' + dist.dev + 'static/lib/**/*.*'
             ],
             singleSource: './scss/**/*.scss'
         },
@@ -85,16 +90,16 @@ module.exports = function () {
         html: {
             moudle_source: [
                 _root + 'module/**/*.html',
-                _root +'common/**/*.html',
+                _root + 'common/**/*.html',
             ],
             source: _root + 'index.html',
-            target: dist.dev + 'static/index.html'
+            target: dist.dev + 'index.html'
         },
         templateCache: {
             sourceJade: moudle.app + '**/*.jade',
             sourceHtml: [
                 dist.dev + 'static/**/*.html',
-                '!' + dist.dev + 'static/vendor/**/*.*',
+                '!' + dist.dev + 'static/lib/**/*.*',
             ],
             target: 'templates.js',
             options: {

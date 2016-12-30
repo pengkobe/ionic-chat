@@ -6,7 +6,7 @@ module.exports = function (gulp, config, $, args) {
         // 首页
         var htmlStream = gulp
             .src(config.html.source)
-            .pipe(gulp.dest(config.dist.dev + 'static'));
+            .pipe(gulp.dest(config.dist.dev));
         // 模块内HTML
         var module_Stream = gulp
             .src(config.html.moudle_source)

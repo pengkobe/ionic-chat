@@ -1,4 +1,4 @@
-angular.module('chat.common.services', [])
+angular.module('app.service', [])
     /**
      * Signaling
      * socket.io视频服务实例

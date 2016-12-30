@@ -6,7 +6,7 @@
     ""
   ],
   "main": [
-    "js/ionic.min.js"
+    "js/ionic.bundle.js"
   ],
   "keywords": [
     "ionic"

@@ -1,7 +1,7 @@
 /**
  * 指令集
  */
-angular.module('chat.common.directive', [])
+angular.module('app.directive', [])
     // 微信分享
     .directive("clickShare", ["$ionicActionSheet", function ($ionicActionSheet) {
         return {

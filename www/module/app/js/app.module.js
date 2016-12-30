@@ -5,7 +5,7 @@ var _aaa = ['dash', 'account', 'chat', 'devtest', 'login'];// ,
 // the 2nd parameter is an array of 'requires'
 angular.module('starter', [
   'ionic',
-  'chat.common.directive', 'chat.common.services',
+  'app.directive', 'app.service',
   "ionchat.config", "oc.lazyLoad",
   'nsPopover', 'ngCordova', 'btford.socket-io'].concat(_aaa),
   function ($httpProvider) {
