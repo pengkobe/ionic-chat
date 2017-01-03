@@ -35,6 +35,7 @@ module.exports = function (gulp, config, $, args) {
             .src(config.html.target)
             .pipe($.plumber())
             .pipe(config.fn.inject(templateCache, 'templates'))
+            .pipe($.useref())
             //.pipe(assets) // Gather all assets from the html with useref
             // Get the css
             .pipe(cssFilter)
@@ -54,7 +55,7 @@ module.exports = function (gulp, config, $, args) {
             .pipe($.rev())
             // Apply the concat and file replacement with useref
             //.pipe(assets.restore())
-            .pipe($.useref())
+            
             // Replace the file names in the html with rev numbers
             .pipe($.revReplace())
             .pipe(gulp.dest(config.dist.prod));

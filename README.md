@@ -16,6 +16,7 @@ a chat app based on ionic and rongyun
     ├── server/                   
     ├── www/                      
     │   ├── assets/
+    │   ├── prod/
     │   ├── dist/dev/static 
     │   ├── lib/
     │   ├── gulp/ 
