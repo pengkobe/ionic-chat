@@ -21,6 +21,7 @@ module.exports = function () {
         base: _distBase,
         dev: _distBase + 'dev/',
         temp: _distBase + '.temp/',
+        prod: _root + 'prod/'
     };
     // node dependency
     var nodeModules = _root + 'node_modules/';
@@ -29,7 +30,9 @@ module.exports = function () {
     var bower = {
         json: bowerJson,
         source: _root + 'lib/',
-        target: dist.dev + 'static/lib/',
+        // target: dist.dev + 'static/lib/',
+        // 这块暂时不需移动
+        target: _root + 'lib/',
         mockDeps: [
             dist.dev + 'static/lib/angular-mocks/angular-mocks.js'
         ]

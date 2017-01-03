@@ -20,6 +20,14 @@
 * merge-stream ：  顾名思义即可，[merge-stream](https://github.com/grncdr/merge-stream)
 * gulp-plumber ： Prevent pipe breaking caused by errors from gulp plugins(exit gracefully if something fails after this)
 * gulp-flatten ： remove or replace relative path for files
+* gulp-useref ： 可以把html里零碎的引入合并成一个文件，不负责代码压缩。[gulp-useref](https://www.npmjs.com/package/gulp-useref)
+* gulp-fliter : [gulp-filter](https://www.npmjs.com/package/gulp-filter)
+* gulp-csso : [gulp-csso](https://www.npmjs.com/package/gulp-csso)
+* gulp-uglify : 压缩
+* gulp-header : 头标注
+* gulp-rev : Static asset revisioning by appending content hash to filenames: unicorn.css → unicorn-d41d8cd98f.css
+* gulp-rev-replace : Rewrite occurences of filenames which have been renamed by gulp-rev
+* 
 
 * gulp-angular-templatecache : 把html模板转换为angularjs模板 
 * gulp-ng-annotate : 解决依赖注入的小问题( source-map支持否？ )
