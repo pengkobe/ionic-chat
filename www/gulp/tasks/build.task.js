@@ -67,7 +67,7 @@ module.exports = function (gulp, config, $, args) {
         var pkg = require('../../../package.json');
         var template = ['/**',
             ' * <%= pkg.name %> - <%= pkg.description %>',
-            ' * @authors <%= pkg.authors %>',
+            ' * @authors <%= pkg.author %>',
             ' * @version v<%= pkg.version %>',
             ' * @link <%= pkg.homepage %>',
             ' * @license <%= pkg.license %>',

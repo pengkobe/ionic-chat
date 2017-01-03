@@ -8,7 +8,7 @@ module.exports = function (gulp, config, $, args) {
      * --mock: inject mock files
      */
     gulp.task('serve:dev', ['build:dev'], function () {
-        startBrowserSync(true);
+        monitorFileChanges(true);
     });
 
     /**
@@ -16,12 +16,12 @@ module.exports = function (gulp, config, $, args) {
      * --mock: inject mock files
      */
     gulp.task('serve:prod', ['build:prod'], function () {
-        startBrowserSync(false);
+        monitorFileChanges(false);
     });
 
     ///////////
 
-    function startBrowserSync (isDev) {
+    function monitorFileChanges (isDev) {
         config.fn.log('Starting BrowserSync on port ' + port);
 
         // only watch files for development environment
