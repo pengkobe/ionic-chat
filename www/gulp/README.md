@@ -27,6 +27,7 @@
 * gulp-header : 头标注
 * gulp-rev : Static asset revisioning by appending content hash to filenames: unicorn.css → unicorn-d41d8cd98f.css
 * gulp-rev-replace : Rewrite occurences of filenames which have been renamed by gulp-rev
+* gulp-watch : 
 
 
 * gulp-angular-templatecache : 把html模板转换为angularjs模板 
