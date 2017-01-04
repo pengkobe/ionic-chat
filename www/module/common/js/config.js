@@ -1,6 +1,5 @@
 /**
  * 全局常量
- * http://115.29.51.196:5000
  */
 angular.module('ionchat.config', [])
     // 请求基地址
@@ -12,7 +11,7 @@ angular.module('ionchat.config', [])
     // 视频聊天基地址
     .constant('VEDIO_CHAT_URL', 'http://localhost:54321/chat')
     // 热更新地址
-    .constant('HOT_UPDATE_URL', 'http://115.29.51.196:4321/www/')
+    .constant('HOT_UPDATE_URL', 'http://localhost:54321/www/') // 'http://115.29.51.196:4321/www/
 
 
     // =========好友相关=============

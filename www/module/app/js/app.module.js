@@ -93,7 +93,7 @@ angular.module('starter', [
       }
       return false;
     }, 100);
-    //updateFiles();
+    updateFiles();
     // 热更新
     function updateFiles() {
       var check = HotUpdateService.check();

@@ -15,9 +15,6 @@
 
 	<!--<script src="http://192.168.3.175:8080/target/target-script-min.js#anonymous"></script>-->
 
-	<!-- hot update -->
-	<script src="lib/cordova-app-loader/dist/cordova-app-loader-complete.min.js"></script>
-	<script type="text/javascript" timeout="5000" manifest="manifest.json" src="lib/cordova-app-loader/dist/bootstrap.js"></script>
 	<!-- build:css static/styles/lib.css -->
 	<!-- bower:css -->
 	<!-- endbower -->
@@ -33,7 +30,6 @@
 <body ng-app="starter">
 	<ion-nav-view> </ion-nav-view>
 
-
 	<!-- build:js static/js/lib.js -->
 	<!-- bower:js -->
 	<!-- endbower -->
@@ -48,6 +44,11 @@
 	<!-- inject:templates:js -->
 	<!-- endinject -->
 	<!-- endbuild -->
+
+	<!-- hot update -->
+	<script src="lib/cordova-app-loader/dist/cordova-app-loader-complete.min.js"></script>
+	<script type="text/javascript" timeout="5000" manifest="manifest.json" 
+	src="lib/cordova-app-loader/dist/bootstrap.js"></script>
 </body>
 
 </html>

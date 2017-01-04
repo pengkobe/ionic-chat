@@ -27,8 +27,7 @@
 * gulp-header : 头标注
 * gulp-rev : Static asset revisioning by appending content hash to filenames: unicorn.css → unicorn-d41d8cd98f.css
 * gulp-rev-replace : Rewrite occurences of filenames which have been renamed by gulp-rev
-* gulp-watch : 
-
+* gulp-watch : gulp.watch 无法检测文件的新增与删除，解决方法是使用 gulp-watch，[链接](http://stackoverflow.com/questions/22391527/gulps-gulp-watch-not-triggered-for-new-or-deleted-files)
 
 * gulp-angular-templatecache : 把html模板转换为angularjs模板 
 * gulp-ng-annotate : 解决依赖注入的小问题( source-map支持否？ )

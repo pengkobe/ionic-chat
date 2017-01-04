@@ -1,24 +1,13 @@
 {
   "files": {
-    "js_account": {
-      "version": "3e70f2873de3d9c91e31271c1a59b32e8002ac211",
-      "filename": "dist/js/account.min.js"
-    },
     "css_account": {
       "version": "6e76f36f27bf29402a70c8adfee0f84b8a5959711",
       "filename": "dist/css/account.min.css"
-    },
-    "js_chat": {
-      "version": "8c99369a825644e68e21433d78ed8b396351cc711",
-      "filename": "dist/js/chat.min.js"
     },
      "css_chat": {
       "version": "6e76f36f27bf29402a70c8adfee4324111",
       "filename": "dist/css/chat.min.css"
     }
   },
-  "load": [
-    "dist/js/account.min.js",
-    "dist/css/account.min.css"
-  ]
+  "load": []
 }
