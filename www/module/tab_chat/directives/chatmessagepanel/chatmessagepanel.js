@@ -2,7 +2,7 @@ angular.module('chat.directive')
     .directive('chatMessagePanel', function ($ionicModal, $timeout) {
         return {
             restrict: "E",
-            templateUrl: 'module/chat/directives/chatmessagepanel/chatmessagepanel.tpl',
+            templateUrl: 'dist/dev/static/tab_chat/directives/chatmessagepanel/chatmessagepanel.tpl',
             replace: true,
             scope: {
                 messageList: "=messageList",
@@ -48,7 +48,7 @@ angular.module('chat.directive')
                     return false;
                 };
 
-                $ionicModal.fromTemplateUrl('module/chat/directives/chatmessagepanel/message/BigImage.html', {
+                $ionicModal.fromTemplateUrl('dist/dev/static/tab_chat/directives/chatmessagepanel/message/BigImage.html', {
                     scope: scope,
                     animation: 'slide-in-up'
                 }).then(function (modal) {
@@ -90,7 +90,7 @@ angular.module('chat.directive')
                         default:
 
                     }
-                    return 'module/chat/directives/chatmessagepanel/message/' + tmpName + '.html';
+                    return 'dist/dev/static/tab_chat/directives/chatmessagepanel/message/' + tmpName + '.html';
                 }
             }
         };

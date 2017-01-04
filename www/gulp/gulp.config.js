@@ -92,8 +92,8 @@ module.exports = function () {
         // html
         html: {
             moudle_source: [
+                _root + 'module/**/*.tpl',
                 _root + 'module/**/*.html',
-                _root + 'common/**/*.html',
             ],
             source:_root + 'index_dev.html', //_root + 'index.html',
             target:_root + 'index.html' //dist.dev + 'index.html'

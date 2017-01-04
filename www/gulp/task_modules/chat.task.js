@@ -9,15 +9,15 @@ module.exports = function (gulp, config, $, args) {
         // console.log('js task');
         // 打包js
         gulp.src([
-                'www/module/chat/js/chat.directive.js',
-                'www/module/chat/directives/**/*.js',
-                'www/module/chat/js/chat.filter.js',
-                'www/module/chat/js/chat.route.js',
-                'www/module/chat/js/chat.service.js',
-                'www/module/chat/js/chat.controller.js',
-                'www/module/chat/pages/**/*.js',
-                'www/module/chat/js/Controllers/*.js',
-                'www/module/chat/js/chat.module.js',
+                'www/dist/dev/static/tab_chat/js/chat.directive.js',
+                'www/dist/dev/static/tab_chat/directives/**/*.js',
+                'www/dist/dev/static/tab_chat/js/chat.filter.js',
+                'www/dist/dev/static/tab_chat/js/chat.route.js',
+                'www/dist/dev/static/tab_chat/js/chat.service.js',
+                'www/dist/dev/static/tab_chat/js/chat.controller.js',
+                'www/dist/dev/static/tab_chat/pages/**/*.js',
+                'www/dist/dev/static/tab_chat/js/Controllers/*.js',
+                'www/dist/dev/static/tab_chat/js/chat.module.js',
             ])
             .pipe(sourcemaps.init())
             // .pipe(uglify())
@@ -30,9 +30,9 @@ module.exports = function (gulp, config, $, args) {
     // 打包css
     gulp.task('buildchat_css', function (done) {
         return gulp.src([
-                'www/module/chat/css/*.css',
-                'www/module/chat/pages/**/*.css',
-                'www/module/chat/directives/**/*.css',
+                'www/dist/dev/static/tab_chat/css/*.css',
+                'www/dist/dev/static/tab_chat/pages/**/*.css',
+                'www/dist/dev/static/tab_chat/directives/**/*.css',
             ])
             .pipe(concat('chat.min.css'))
             .pipe(gulp.dest('www/dist/css'))

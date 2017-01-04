@@ -2,7 +2,7 @@ angular.module('chat.directive')
     .directive('chatInput', function (PhotoAndImages, $timeout) {
         return {
             restrict: "E",
-            templateUrl: 'module/chat/directives/chatinput/chatinput.tpl',
+            templateUrl: 'dist/dev/static/tab_chat/directives/chatinput/chatinput.tpl',
             replace: true,
             scope: {
                 sendmessage: "=textMessage",

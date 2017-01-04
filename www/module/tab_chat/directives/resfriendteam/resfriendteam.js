@@ -2,7 +2,7 @@ angular.module('chat.directive')
     .directive('resFriendTeam', function ($ionicLoading, $timeout, ResFriend, ResTeam) {
         return {
             restrict: "E",
-            templateUrl: 'module/chat/directives/resfriendteam/resfriendteam.tpl',
+            templateUrl: 'dist/dev/static/tab_chat/directives/resfriendteam/resfriendteam.tpl',
             replace: true,
             scope: {
                 groupinviteList_local: "=groupinviteList",

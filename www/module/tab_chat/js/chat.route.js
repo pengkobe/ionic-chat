@@ -6,13 +6,13 @@ angular.module('chat.route', [])
                 cache: false,
                 url: '/call/:contactName?isCalling',
                 controller: 'CallCtrl',
-                templateUrl: 'module/chat/pages/call/call.html'
+                templateUrl: 'dist/dev/static/tab_chat/pages/call/call.html'
             })
             .state('tab.chat', {
                 url: '/chat',
                 views: {
                     'tab-chat': {
-                        templateUrl: 'module/chat/tpl/contacts.html',
+                        templateUrl: 'dist/dev/static/tab_chat/tpl/contacts.html',
                         controller: 'contacts'
                     }
                 }
@@ -22,7 +22,7 @@ angular.module('chat.route', [])
                 cache: false,
                 views: {
                     'tab-chat': {
-                        templateUrl: 'module/chat/pages/friendinfo/friendinfo.html',
+                        templateUrl: 'dist/dev/static/tab_chat/pages/friendinfo/friendinfo.html',
                         controller: 'friendInfoCtrl'
                     }
                 }
@@ -32,7 +32,7 @@ angular.module('chat.route', [])
                 cache: false,
                 views: {
                     'tab-chat': {
-                        templateUrl: 'module/chat/pages/groupinfo/groupinfo.html',
+                        templateUrl: 'dist/dev/static/tab_chat/pages/groupinfo/groupinfo.html',
                         controller: 'groupInfoCtrl'
                     }
                 }
@@ -42,7 +42,7 @@ angular.module('chat.route', [])
                 params: { messageId: null, name: null, targetId: null, conversationType: null },
                 views: {
                     'tab-chat': {
-                        templateUrl: 'module/chat/pages/chatdetail/chatdetail.html',
+                        templateUrl: 'dist/dev/static/tab_chat/pages/chatdetail/chatdetail.html',
                         controller: 'chatDetail'
                     }
                 }
@@ -51,7 +51,7 @@ angular.module('chat.route', [])
                 url: '/addGroup',
                 views: {
                     'tab-chat': {
-                        templateUrl: 'module/chat/pages/addgroup/addgroup.html',
+                        templateUrl: 'dist/dev/static/tab_chat/pages/addgroup/addgroup.html',
                         controller: 'addGroupCtrl'
                     }
                 }
@@ -61,7 +61,7 @@ angular.module('chat.route', [])
                 params: { GroupID: null },
                 views: {
                     'tab-chat': {
-                        templateUrl: 'module/chat/pages/addgroupmember/addgroupmember.html',
+                        templateUrl: 'dist/dev/static/tab_chat/pages/addgroupmember/addgroupmember.html',
                         controller: 'addGroupmember'
                     }
                 }
@@ -70,7 +70,7 @@ angular.module('chat.route', [])
                 url: '/addFriend',
                 views: {
                     'tab-chat': {
-                        templateUrl: 'module/chat/pages/addfriend/addfriend.html',
+                        templateUrl: 'dist/dev/static/tab_chat/pages/addfriend/addfriend.html',
                         controller: 'addFriendCtrl'
                     }
                 }

@@ -159,14 +159,14 @@ angular.module('starter', [
         url: '/tab',
         controller: 'tabCtrl',
         abstract: true,
-        templateUrl: 'module/app/tpl/tabs.html'
+        templateUrl: 'dist/dev/static/app/tpl/tabs.html'
       })
       // ===dash===
       .state('tab.dash', {
         url: '/dash',
         views: {
           'tab-dash': {
-            templateUrl: 'module/dash/tpl/tab-dash.html',
+            templateUrl: 'dist/dev/static/tab_dash/tpl/tab-dash.html',
             controller: 'DashCtrl'
           }
         }
@@ -176,7 +176,7 @@ angular.module('starter', [
         url: '/account',
         views: {
           'tab-account': {
-            templateUrl: 'module/account/tpl/tab-account.html',
+            templateUrl: 'dist/dev/static/tab_account/tpl/tab-account.html',
             controller: 'AccountCtrl'
           }
         }
@@ -186,7 +186,7 @@ angular.module('starter', [
         cache: false,
         url: '/devtest', views: {
           'tab-devtest': {
-            templateUrl: 'module/devtest/devtest.html',
+            templateUrl: 'dist/dev/static/tab_devtest/devtest.html',
             controller: 'DevTestCtrl'
           }
         }

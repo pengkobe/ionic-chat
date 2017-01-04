@@ -9,3 +9,6 @@ server/node_modules
 npm-debug.log
 www/dist/
 www/prod/
+
+start_mongo.bat
+start_redis.bat
