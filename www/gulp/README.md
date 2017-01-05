@@ -31,4 +31,9 @@
 
 * gulp-angular-templatecache : 把html模板转换为angularjs模板 
 * gulp-ng-annotate : 解决依赖注入的小问题( source-map支持否？ )
-* gulp-order : 解决angular依赖顺序问题  [gulp-order](https://github.com/sirlantis/gulp-order)
+* gulp-order : 解决angular依赖顺序问题  [gulp-order](https://github.com/sirlantis/gulp-order)  
+
+* gulp-bytediff : Compare file sizes before and after your gulp build process.
+* gulp-minify-html : Minify html with minimize.
+                     This package has been deprecated in favor of gulp-htmlmin, which should be faster and more comprehensive.
+* gulp-imagemin : Minify PNG, JPEG, GIF and SVG images

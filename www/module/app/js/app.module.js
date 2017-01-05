@@ -4,7 +4,7 @@ var _aaa = ['dash', 'account', 'chat', 'devtest', 'login'];// ,
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 angular.module('starter', [
-  'ionic',
+  'ionic','app.core',
   'app.directive', 'app.service',
   "ionchat.config", "oc.lazyLoad",
   'nsPopover', 'ngCordova', 'btford.socket-io'].concat(_aaa),

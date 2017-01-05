@@ -46,7 +46,8 @@ Win32 安装参考: https://my.oschina.net/lujianing/blog/204103
 ### 用途
 1. 单纯的做存储，因为是内存数据库，可以增加访存速度。
 2. 基于 Redis Channel 可以做异构的发布/订阅，案例可参考:http://www.tuicool.com/articles/26ny6r6
-
+3. 虽然不严谨，但是也可以看看，[你真的懂redis吗？](http://www.jianshu.com/p/3862ce5d3f5b)
+4. worktile，也使用到了Redis,[参考链接](http://www.cnblogs.com/Terrylee/p/the-worktile-tech-stack.html)
 
 ## Node with Redis
 网址1(库文件): https://github.com/NodeRedis/node_redis,基于其有一个封装[redis-connection](https://github.com/dwyl/redis-connection),实现1连接多文件使用  

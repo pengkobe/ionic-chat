@@ -102,12 +102,13 @@ module.exports = function () {
             sourceJade: moudle.app + '**/*.jade',
             sourceHtml: [
                 dist.dev + 'static/**/*.html',
+                dist.dev + 'static/**/*.tpl',
                 '!' + dist.dev + 'static/lib/**/*.*',
             ],
             target: 'templates.js',
             options: {
                 module: 'app.core',
-                root: 'static/',
+                root: 'dist/dev/static/',
                 standAlone: false
             }
         },

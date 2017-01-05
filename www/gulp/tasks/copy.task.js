@@ -51,15 +51,15 @@ module.exports = function (gulp, config, $, args) {
     // Optimize and Copy image files to prod folder
     gulp.task('copy:images:prod', function () {
         return gulp
-            .src(config.build.dev + 'static/images/**/*')
+            .src(config.dist.dev + 'static/images/**/*')
             .pipe($.imagemin({ optimizationLevel: 4 }))
-            .pipe(gulp.dest(config.build.prod + 'static/images'));
+            .pipe(gulp.dest(config.dist.prod + 'static/images'));
 
     });
 
     // Copy fonts files to prod folder
     gulp.task('copy:fonts:prod', function () {
-        return copy(config.build.dev + 'static/fonts/**/*', config.build.prod + 'static/fonts');
+        return copy(config.dist.dev + 'static/fonts/**/*', config.dist.prod + 'static/fonts');
     });
 
     ////////
