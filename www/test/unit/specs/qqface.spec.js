@@ -12,12 +12,13 @@ describe('qqFace Directive', function () {
         scope.showWXFace = true;
         element = $compile('<qq-face ng-show="showWXFace" select-qq-face="selectQQFace"></qq-face>')(scope);
         // spy needs to be put before $digest
-        spyOn(element[0], 'focus');
+        // spyOn(element[0], '');// chooseFace
     }));
 
-    it('should make element lose focus when attribute is false', function () {
-        scope.showWXFace = false;
+    it('test unit test!', function () {
+        scope.showWXFace = true;
         scope.$digest();
-        expect(element[0].selectQqFace).not.toHaveBeenCalled();
+        // expect(element[0].chooseFace).not.toHaveBeenCalled();
+        expect(element[0].chooseFace).toEqual(undefined);
     });
 });

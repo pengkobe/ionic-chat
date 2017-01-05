@@ -207,8 +207,9 @@ module.exports = function () {
         var options = {
             files: [].concat(
                 bowerFiles,
-                moudle.testbase + '**/*.module.js',
+                moudle.testbase + '**/*.directive.js',
                 moudle.testbase + '**/*.js',
+                moudle.testbase + '**/*.module.js',
                 config.js.test.unit.specs
             ),
             exclude: [],

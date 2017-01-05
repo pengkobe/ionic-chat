@@ -1,3 +1,9 @@
+(function () {
+    'use strict';
+    angular
+        .module('app.core', []);
+	})();
+
 // Ionic Starter App
 var _aaa = ['dash', 'account', 'chat', 'devtest', 'login'];// ,
 // angular.module is a global place for creating, registering and retrieving Angular modules
