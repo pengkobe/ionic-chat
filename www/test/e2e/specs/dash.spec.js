@@ -5,7 +5,7 @@
 var DashPage = function () {
     var self = this;
 
-    self.url = '';
+    self.url = 'dash';
     self.ele = _getAllElements();
 
     self.load = load;

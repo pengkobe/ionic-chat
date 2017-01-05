@@ -30,6 +30,5 @@
     "bardjs": "~0.1.2"
   },
   "resolutions": {
-    "angular": "1.3.20"
   }
 }

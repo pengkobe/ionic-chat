@@ -15,7 +15,9 @@ module.exports = function () {
     var moudle = {
         base: _moduleBase,
         common: _root + 'common/',
-        test:_root + 'test'
+        test:_root + 'test/',
+        testbase:'./module/',
+        testtest:'./test/',
     };
     // dist folder
     var dist = {
@@ -79,11 +81,11 @@ module.exports = function () {
             ],
             test: {
                 stubs: [
-                    moudle.test + 'e2e/mocks/**/e2e.*.js'
+                    moudle.testtest + 'e2e/mocks/**/e2e.*.js'
                 ],
                 unit: {
                     specs: [
-                        moudle.test + 'unit/specs/**/*.spec.js'
+                        moudle.testtest + 'unit/specs/**/*.spec.js'
                     ]
                 }
             },
@@ -205,20 +207,20 @@ module.exports = function () {
         var options = {
             files: [].concat(
                 bowerFiles,
-                moudle.base + '**/*.module.js',
-                moudle.base + '**/*.js',
+                moudle.testbase + '**/*.module.js',
+                moudle.testbase + '**/*.js',
                 config.js.test.unit.specs
             ),
             exclude: [],
             coverage: {
-                dir: moudle.test + 'unit/results/coverage',
+                dir: moudle.testtest + 'unit/results/coverage',
                 reporters: [
                     // reporters not supporting the `file` property
                     { type: 'html', subdir: '.' },
                     { type: 'text-summary' }
                 ]
             },
-            junit: moudle.test + 'unit/results/unit-test-results.xml',
+            junit: moudle.testtest + 'unit/results/unit-test-results.xml',
             preprocessors: {}
         };
         options.preprocessors[config.js.test.unit.specs] = ['coverage'];
@@ -229,15 +231,12 @@ module.exports = function () {
     function getProtractorOptions() {
         // options used in protractor.conf.js need to be based on it's own path
         return {
-            specs: [moudle.test + 'e2e/specs/*.spec.js'],
+            specs: [moudle.testtest + 'e2e/specs/*.spec.js'],
             suites: {
-                home: '.' + moudle.test + 'e2e/specs/dash.spec.js',
-                login: '.' + moudle.test + 'e2e/specs/login.spec.js',
-                dashboard: '.' + moudle.test + 'e2e/specs/chat.spec.js',
-                phone: '.' + moudle.test + 'e2e/specs/account.spec.js'
+                home: '.' + moudle.testtest + 'e2e/specs/dash.spec.js',
             },
-            helper: '.' + moudle.test + 'e2e/helper',
-            screenshotDir: moudle.test + 'e2e/screenshots/'
+            helper: '.' + moudle.testtest + 'e2e/helper',
+            screenshotDir: moudle.testtest + 'e2e/screenshots/'
         };
     }
 
