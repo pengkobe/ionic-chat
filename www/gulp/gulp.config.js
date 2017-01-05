@@ -14,7 +14,8 @@ module.exports = function () {
     // moudle folder
     var moudle = {
         base: _moduleBase,
-        common: _root + 'common/'
+        common: _root + 'common/',
+        test:_root + 'test'
     };
     // dist folder
     var dist = {
@@ -26,12 +27,12 @@ module.exports = function () {
     // node dependency
     var nodeModules = _root + 'node_modules/';
     // bower dependency
-    // var bowerFiles = wiredep({ devDependencies: true })['js'];
+    var bowerFiles = wiredep({ devDependencies: true })['js'];
     var bower = {
         json: bowerJson,
         source: _root + 'lib/',
         // target: dist.dev + 'static/lib/',
-        // 这块暂时不需移动
+        // 暂时不移动
         target: _root + 'lib/',
         mockDeps: [
             dist.dev + 'static/lib/angular-mocks/angular-mocks.js'
@@ -75,7 +76,17 @@ module.exports = function () {
                 '*/js/*.js',
                 'app/js/app.*.js',
                 'app/js/app.js'
-            ]
+            ],
+            test: {
+                stubs: [
+                    moudle.test + 'e2e/mocks/**/e2e.*.js'
+                ],
+                unit: {
+                    specs: [
+                        moudle.test + 'unit/specs/**/*.spec.js'
+                    ]
+                }
+            },
         },
         // css
         css: {
@@ -95,8 +106,8 @@ module.exports = function () {
                 _root + 'module/**/*.tpl',
                 _root + 'module/**/*.html',
             ],
-            source:_root + 'index_dev.html', //_root + 'index.html',
-            target:_root + 'index.html' //dist.dev + 'index.html'
+            source: _root + 'index_dev.html', //_root + 'index.html',
+            target: _root + 'index.html' //dist.dev + 'index.html'
         },
         templateCache: {
             sourceJade: moudle.app + '**/*.jade',
@@ -133,7 +144,10 @@ module.exports = function () {
         ]
     };
 
+    
+    config.karmaOption = getKarmaOptions();
     config.wiredepOption = getWiredepDefaultOptions();
+    config.protractorOption = getProtractorOptions();
 
     // common functions used by multiple tasks
     config.fn = {};
@@ -185,4 +199,46 @@ module.exports = function () {
             .src(src)
             .pipe(gIf(order, gOrder(order)));
     }
+
+    // Options for karma
+    function getKarmaOptions() {
+        var options = {
+            files: [].concat(
+                bowerFiles,
+                moudle.base + '**/*.module.js',
+                moudle.base + '**/*.js',
+                config.js.test.unit.specs
+            ),
+            exclude: [],
+            coverage: {
+                dir: moudle.test + 'unit/results/coverage',
+                reporters: [
+                    // reporters not supporting the `file` property
+                    { type: 'html', subdir: '.' },
+                    { type: 'text-summary' }
+                ]
+            },
+            junit: moudle.test + 'unit/results/unit-test-results.xml',
+            preprocessors: {}
+        };
+        options.preprocessors[config.js.test.unit.specs] = ['coverage'];
+        return options;
+    }
+
+    // Options for protractor
+    function getProtractorOptions() {
+        // options used in protractor.conf.js need to be based on it's own path
+        return {
+            specs: [moudle.test + 'e2e/specs/*.spec.js'],
+            suites: {
+                home: '.' + moudle.test + 'e2e/specs/dash.spec.js',
+                login: '.' + moudle.test + 'e2e/specs/login.spec.js',
+                dashboard: '.' + moudle.test + 'e2e/specs/chat.spec.js',
+                phone: '.' + moudle.test + 'e2e/specs/account.spec.js'
+            },
+            helper: '.' + moudle.test + 'e2e/helper',
+            screenshotDir: moudle.test + 'e2e/screenshots/'
+        };
+    }
+
 };
