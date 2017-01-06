@@ -1,4 +1,5 @@
 module.exports = function (gulp, config, $, args) {
+    var sh = require('shelljs');
     gulp.task('git-check', function (done) {
         if (!sh.which('git')) {
             console.log(

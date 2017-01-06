@@ -45,6 +45,7 @@
    ```bash
    node node_modules/protractor/bin/webdriver-manager update
    ```
-2. asmine.getEnv().currentSpec returns undefined  
+   
+2. jasmine.getEnv().currentSpec returns undefined  
    解决方案:https://github.com/jasmine/jasmine/issues/1212
    
