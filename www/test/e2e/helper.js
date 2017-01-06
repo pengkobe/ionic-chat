@@ -4,7 +4,7 @@
 module.exports = function () {
     return {
         gotoUrl: gotoUrl,
-        getHeader: getHeader,
+        // getHeader: getHeader,
         takeScreenshotIfFail: takeScreenshotIfFail,
         expectUrlToMatch: expectUrlToMatch
     };
@@ -29,8 +29,11 @@ module.exports = function () {
 
     function takeScreenshotIfFail () {
         var fs = require('fs');
-        var currentSpec = jasmine.getEnv().currentSpec;
-        var passed = currentSpec.results().passed();
+        // currentSpec no longer supported in 2.0
+        //var currentSpec = jasmine.getEnv().currentSpec;
+        //console.log("=======currentSpec=======",currentSpec);
+        //var passed = currentSpec.results().passed();
+        var passed = true;
         if (!passed) {
             browser.takeScreenshot().then(function (png) {
                 browser.getCapabilities().then(function (capabilities) {

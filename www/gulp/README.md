@@ -37,3 +37,14 @@
 * gulp-minify-html : Minify html with minimize.
                      This package has been deprecated in favor of gulp-htmlmin, which should be faster and more comprehensive.
 * gulp-imagemin : Minify PNG, JPEG, GIF and SVG images
+
+
+## 报错
+1. Error: No selenium server jar found at the specified location,
+   解决方案: http://floatincode.net/post/running-protractor-selenium-tests-with-grunt    
+   ```bash
+   node node_modules/protractor/bin/webdriver-manager update
+   ```
+2. asmine.getEnv().currentSpec returns undefined  
+   解决方案:https://github.com/jasmine/jasmine/issues/1212
+   

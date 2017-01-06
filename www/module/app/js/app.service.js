@@ -275,7 +275,7 @@ angular.module('app.service', [])
             },
             // Update the local files with a new version just downloaded
             update: function (reload) {
-                alert('ok');
+                // alert('ok');
                 return loader.update(reload);
             },
             // Check wether the HTML file is cached

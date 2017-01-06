@@ -4,5 +4,5 @@
    "watchPatterns": [
         "dist/dev/*"
    ],
-   "gulpStartupTasks": ["build:dev"]  
+   "gulpStartupTasks": []  
 }

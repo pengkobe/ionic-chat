@@ -5,7 +5,7 @@
 var DashPage = function () {
     var self = this;
 
-    self.url = 'dash';
+    self.url = '#/tab/chat';
     self.ele = _getAllElements();
 
     self.load = load;
@@ -17,7 +17,7 @@ var DashPage = function () {
         return {
             //'headerTitle': header.title,
             //'headerLoginBtn': header.loginBtn,
-            'box_blue_title': $('div.box.blue > h1'),
+            'box_blue_title':$('.item.item-divider'),
             // 'subTitle': $('.card > .subtitle'),
             // 'getStartedBtn': $('.card > a')
         };
@@ -43,7 +43,7 @@ describe('Dash Page:', function () {
     });
 
     it('should display the correct title', function () {
-        expect(page.ele.box_blue_title.getText()).toEqual('公用模块1');
+        expect(page.ele.box_blue_title.getText()).toEqual('群组');
     });
 
     // it('should display correct header', function () {

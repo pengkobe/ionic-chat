@@ -133,7 +133,7 @@ module.exports = function () {
         browserSync: {
             hostName: 'localhost',
             reloadDelay: 1000,
-            defaultPort: 8088
+            defaultPort: 8100
         },
         optimized: {
             allCSS: '*.css',
@@ -232,12 +232,12 @@ module.exports = function () {
     function getProtractorOptions() {
         // options used in protractor.conf.js need to be based on it's own path
         return {
-            specs: [moudle.testtest + 'e2e/specs/*.spec.js'],
+            specs: [moudle.test + 'e2e/specs/*.spec.js'],
             suites: {
-                home: '.' + moudle.testtest + 'e2e/specs/dash.spec.js',
+                home: '.' +  moudle.testtest + 'e2e/specs/dash.spec.js',
             },
-            helper: '.' + moudle.testtest + 'e2e/helper',
-            screenshotDir: moudle.testtest + 'e2e/screenshots/'
+            helper:'.' + moudle.testtest + 'e2e/helper.js',
+            screenshotDir: moudle.test + 'e2e/screenshots/'
         };
     }
 
