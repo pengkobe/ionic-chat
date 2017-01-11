@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-	<title>Ionic-Chat-APP</title>
+	<title>EFOS</title>
 	<link href="assets/font/iconfont.css" rel="stylesheet">
 	<!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
     <link href="css/ionic.app.css" rel="stylesheet">
@@ -46,11 +46,6 @@
 	<!-- endinject -->
 	<!-- endbuild -->
 
-</head>
-
-<body ng-app="starter">
-	<ion-nav-view> </ion-nav-view>
-
 	<!-- build:js static/js/lib.js -->
 	<!-- bower:js -->
 	<script src="lib/ionic/js/ionic.bundle.js"></script>
@@ -64,6 +59,16 @@
 	<!-- inject:mockDeps:js -->
 	<!-- endinject -->
 	<!-- endbuild -->
+
+		<!-- hot update -->
+	<script src="lib/cordova-app-loader/dist/cordova-app-loader-complete.min.js"></script>
+	<script type="text/javascript" timeout="5000" manifest="manifest.json" 
+	src="lib/cordova-app-loader/dist/bootstrap.js"></script>
+
+</head>
+
+<body>
+	<ion-nav-view> </ion-nav-view>
 	
 	<!-- build:js static/js/app.js -->
 	<!-- inject:js -->
@@ -101,8 +106,8 @@
 	<script src="dist/dev/static/tab_chat/pages/friendinfo/friendInfo.js"></script>
 	<script src="dist/dev/static/tab_chat/pages/groupinfo/groupinfo.js"></script>
 	<script src="dist/dev/static/tab_dash/pages/aircondition/aircondition.js"></script>
-	<script src="dist/dev/static/app/js/app.module.js"></script>
-	<script src="dist/dev/static/login/js/login.module.js"></script>
+	<!--<script src="dist/dev/static/app/js/app.module.js"></script>-->
+	<!--<script src="dist/dev/static/login/js/login.module.js"></script>-->
 	<script src="dist/dev/static/tab_chat/js/chat.module.js"></script>
 	<script src="dist/dev/static/tab_devtest/devtest.module.js"></script>
 	<!-- endinject -->
@@ -111,10 +116,7 @@
 	<!-- endinject -->
 	<!-- endbuild -->
 
-	<!-- hot update -->
-	<script src="lib/cordova-app-loader/dist/cordova-app-loader-complete.min.js"></script>
-	<script type="text/javascript" timeout="5000" manifest="manifest.json" 
-	src="lib/cordova-app-loader/dist/bootstrap.js"></script>
+
 </body>
 
 </html>

@@ -1,13 +1,24 @@
 {
   "files": {
     "css_account": {
-      "version": "6e76f36f27bf29402a70c8adfee0f84b8a5959711",
+      "version": "6e76f36f27bf29402a70c8adfee0f84b8a5959711x__",
       "filename": "dist/css/account.min.css"
     },
-     "css_chat": {
-      "version": "6e76f36f27bf29402a70c8adfee4324111",
+    "css_chat": {
+      "version": "6e76f36f27bf29402a70c8adfee4324111x",
       "filename": "dist/css/chat.min.css"
+    },
+    "login_chat": {
+      "version": "6e76f36f27bf29402a70c8adfee4324111xjs_",
+      "filename": "dist/dev/static/login/js/login.module.js"
+    },
+    "app_chat": {
+      "version": "6e76f36f27bf29402a70c8adfee4324111xjs",
+      "filename": "dist/dev/static/app/js/app.module.js"
     }
   },
-  "load": []
+  "load": [
+    "dist/dev/static/login/js/login.module.js",
+    "dist/dev/static/app/js/app.module.js"
+  ]
 }

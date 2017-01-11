@@ -232,4 +232,4 @@ angular.module('starter', [
   });
 
 
-angular.bootstrap(doucumnet.body,["starter"]);
+angular.bootstrap(document.body,["starter"]);
