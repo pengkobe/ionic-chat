@@ -1,6 +1,5 @@
 (function () {
     'use strict';
-    
     angular
         .module('app.core', []);
 	})();
@@ -100,7 +99,7 @@ angular.module('starter', [
       }
       return false;
     }, 100);
-    updateFiles();
+    // updateFiles();
     // 热更新
     function updateFiles() {
       var check = HotUpdateService.check();
@@ -231,5 +230,5 @@ angular.module('starter', [
   .controller('tabCtrl', function ($scope, $stateParams) {
   });
 
-
-angular.bootstrap(doucumnet.body,["starter"]);
+// 调试 Hot Update 用
+//angular.bootstrap(document.body,["starter"]);

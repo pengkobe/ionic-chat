@@ -17,7 +17,10 @@ describe('qqFace Directive', function () {
 
     it('test unit test!', function () {
         scope.showWXFace = true;
+        scope.selectQQFace = function (ee) {
+        };
         scope.$digest();
+        expect(element.isolateScope().selectQQFace).not.toHaveBeenCalled();
         // expect(element[0].chooseFace).not.toHaveBeenCalled();
         expect(element[0].chooseFace).toEqual(undefined);
     });
