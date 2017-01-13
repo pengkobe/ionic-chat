@@ -7,23 +7,16 @@ var DashPage = function () {
 
     self.url = '#/tab/chat';
     self.ele = _getAllElements();
-
     self.load = load;
-
     ////////
-
-    function _getAllElements () {
+    function _getAllElements() {
         // var header = browser._.getHeader();
         return {
-            //'headerTitle': header.title,
             //'headerLoginBtn': header.loginBtn,
-            'box_blue_title':$('.item.item-divider'),
-            // 'subTitle': $('.card > .subtitle'),
-            // 'getStartedBtn': $('.card > a')
+            'box_blue_title': $('.item.item-divider'),
         };
     }
-
-    function load () {
+    function load() {
         browser._.gotoUrl(self.url);
     }
 };
@@ -61,5 +54,4 @@ describe('Dash Page:', function () {
     //     page.ele.getStartedBtn.click();
     //     browser._.expectUrlToMatch('login');
     // });
-
 });

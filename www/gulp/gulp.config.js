@@ -207,6 +207,8 @@ module.exports = function () {
         var options = {
             files: [].concat(
                 bowerFiles,
+                'lib/cordova-app-loader/dist/cordova-app-loader-complete.min.js',
+                'lib/cordova-app-loader/dist/bootstrap.js',
                 moudle.testbase + 'common/**/*.js',
                 moudle.testbase + '**/*.directive.js',
                 moudle.testbase + '**/*.service.js',

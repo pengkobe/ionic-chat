@@ -15,6 +15,10 @@ angular.module('chat.directive')
                         scope.selectQqFace()("[" + event.srcElement.title + "]");
                     }
                 }
+                // just for unit test
+                scope.justTest = function () {
+                    return true;
+                }
             }
         };
     });
