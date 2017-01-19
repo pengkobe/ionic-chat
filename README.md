@@ -1,40 +1,47 @@
 # Ionic-Chat
-a chat app based on ionic and rongyun  
-> This project is underdevelop and it is unrunnable for the time being. 
+a chat app based on ionic and rongyun
+> This project is underdevelop and it is unrunnable for the time being.
+
+## Features
+* server code and fe code are both provided
+* automatically build dev&prod with gulp
+* support unit&e2e test with karma&jamine and protractor
 
 
 ## File structure
    ```javascript
    ProjectName/
     ├── hooks/
-    ├── node_modules/  
-    ├── platforms/ 
-    ├── plugins/ 
+    ├── node_modules/
+    ├── platforms/
+    ├── plugins/
     ├── scss
     │   ├── ionic.app.scss
     │   └── ...
-    ├── server/                   
-    ├── www/                      
+    ├── server/
+    ├── www/
     │   ├── assets/
     │   ├── prod/
-    │   ├── dist/dev/static 
+    │   ├── dist/dev/static
     │   ├── lib/
-    │   ├── gulp/ 
+    │   ├── gulp/
     │   │   ├── tasks/
     │   │   ├── gulp.config.js
+    │   │   ├── karma.conf.js
+    │   │   ├── protratcor.conf.js
     │   │   ├── index.js
     │   │   └── README.md
     │   ├── module/
     │   │    ├── common/
     │   │    │    ├── js/
-    │   │    │    │    ├── config.js 
+    │   │    │    │    ├── config.js
     │   │    │    │    └── ...
     │   │    │    ├── css/
     │   │    │    └── tpl/
     │   │    ├── app/ (entry)
-    │   │    ├── modulename/ 
-    │   │    │    ├── directives/ 
-    │   │    │    ├── pages/ 
+    │   │    ├── modulename/
+    │   │    │    ├── directives/
+    │   │    │    ├── pages/
     │   │    │    ├── css/
     │   │    │    ├── js/
     │   │    │    │    ├── modulename.controller.js
@@ -44,10 +51,10 @@ a chat app based on ionic and rongyun
     │   │    │    │    ├── modulename.route.js
     │   │    │    │    └── modulename.service.js
     │   │    │    └── tpl/
-    │   │    └── ... 
-    │   ├── index_dev.html 
+    │   │    └── ...
+    │   ├── index_dev.html
     │   ├── index.html
-    │   └── manifest.json 
+    │   └── manifest.json
     ├──  config.xml
     ├──  ionic.project
     ├──  package.json
@@ -61,8 +68,8 @@ a chat app based on ionic and rongyun
    ```
 
 ## Back-End dependency
-you may click [build notes](server/README.md) for more information.   
-   
+you may click [build notes](server/README.md) for more information.
+
 1. node with express
 2. mongodb with mongoose
 3. redis with redis-connection
@@ -82,46 +89,46 @@ you may click [build notes](server/README.md) for more information.
 
 
 ## How to run/debug on web browser
-looks a little complicated here. just for your purpose of ajusting styles. 
+looks a little complicated here. just for your purpose of ajusting styles.
 will support one key set soon.
 + userindex.js
 ```javascript
 //initRong.init(user.rongyunToken);
 ```
-  
+
 + contacts
 ```javascript
  //init();
  initTest();
 ```
-    
+
 + chatDetail
 ```javascript
  // init();
 ```
-  
-+ just follow these commands 
+
++ just follow these commands
 ```bash
 # notice : you should open your mongodb and redis service first
 cd path/to/ionic-chat/server
 node bin/www
 cd ..
-ionic serve 
+ionic serve
 ```
 
 ## Doing
 1. ~~hot update~~
 2. ~~localstorage policy~~
-3. server push 
+3. server push
 4. ~~jwt~~
 
 ## Todo
 1. lazy load( for H5 )
-2. compress js( special config for angular )
+2. ~~compress js( special config for angular )~~
 3. make it beautiful and stable
 
 ## Demo
-a little glimpse of ionic-chat on Chrome:  
+a little glimpse of ionic-chat on Chrome:
 ![ionic-chat-demo](./demo/ionic-chat-demo.png)
 
 ## Licence
