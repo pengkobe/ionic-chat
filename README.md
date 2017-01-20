@@ -128,7 +128,7 @@ ionic serve
 3. make it beautiful and stable
 
 ## Demo
-a little glimpse of ionic-chat on Chrome:
+a little glimpse of ionic-chat on Chrome:  
 ![ionic-chat-demo](./demo/ionic-chat-demo.png)
 
 ## Licence
