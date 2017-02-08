@@ -1,7 +1,3 @@
-/**
- * 10-29
- */
-'use strict';
 angular.module('login.route', [])
   .config(['$stateProvider', function ($stateProvider) {
     $stateProvider

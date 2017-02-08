@@ -26,7 +26,7 @@ function LoginController($scope, $rootScope, $ionicLoading, $state,
         ServerTokenService.setToken(token);
         $state.go('tab.chat');
       } else {
-        alert("登录失败");
+        alert("登录失败!");
       }
     });
   };
@@ -58,7 +58,7 @@ function RegisterController($scope, $rootScope, $ionicBackdrop, $ionicHistory,
         alert("注册成功！");
         $state.go('login');
       } else {
-        alert("注册失败");
+        alert("注册失败!");
       }
     });
   };

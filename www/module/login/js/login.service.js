@@ -1,8 +1,4 @@
 angular.module('login.service', [])
-
-  /**
-   * 用户全局引用
-   */
   .service("UserService", function (CacheFactory, $rootScope) {
     var userinfo = null;
     var userservive = {

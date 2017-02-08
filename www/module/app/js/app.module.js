@@ -4,18 +4,14 @@
         .module('app.core', []);
 	})();
 
-// Ionic Starter App
-var _aaa = ['dash', 'account', 'chat', 'devtest', 'login'];// ,
-// angular.module is a global place for creating, registering and retrieving Angular modules
-// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
-// the 2nd parameter is an array of 'requires'
+var _modules = ['dash', 'account', 'chat', 'devtest', 'login'];
 angular.module('starter', [
   'ionic','app.core',
   'app.directive', 'app.service',
   "ionchat.config", "oc.lazyLoad",
-  'nsPopover', 'ngCordova', 'btford.socket-io'].concat(_aaa),
-  function ($httpProvider) {
-    // AngularJS默认为JSON，这里全局修改为:x-www-form-urlencoded
+  'nsPopover', 'ngCordova', 
+  'btford.socket-io'].concat(_modules),
+  function ($httpProvider) { // 修改 http 请求头
     $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
     var param = function (obj) {
       var query = '', name, value, fullSubName, subName, subValue, innerObj, i;
@@ -72,7 +68,7 @@ angular.module('starter', [
       window.BOOTSTRAP_OK = true;
     });
 
-    // 退出应用/ 物理按键事件注册
+    // 退出应用/ 物理按键事件注册( android )
     $ionicPlatform.registerBackButtonAction(function (e) {
       e.preventDefault();
       function showConfirm() {
@@ -99,8 +95,8 @@ angular.module('starter', [
       }
       return false;
     }, 100);
-    // updateFiles();
     // 热更新
+    // updateFiles();
     function updateFiles() {
       var check = HotUpdateService.check();
       check.then(function (result) {
@@ -108,18 +104,15 @@ angular.module('starter', [
           var download = HotUpdateService.download();
           download.then(function () {
             HotUpdateService.update(false);
-          },
-            function (error) {
+          },function (error) {
               console.log(JSON.stringify(error));
             }
           );
-        } else {
+        } else { // 无可用更新
           console.log('not update available');
         }
-      },
-        function (error) {
-          console.log('no update available');
-          console.log(JSON.stringify(error));
+      },function (error) { // 检查更新出错
+          console.log("error:",JSON.stringify(error));
         });
     }
   })
@@ -147,27 +140,21 @@ angular.module('starter', [
     $ionicConfigProvider.backButton.previousTitleText(false);
   })
   .config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
-    // Ionic uses AngularUI Router which uses the concept of states
-    // Learn more here: https://github.com/angular-ui/ui-router
-    // Set up the various states which the app can be in.
-    // Each state's controller can be found in controllers.js
     // 获取加载地址(缓存 or 本地)
-    //var manifest = localStorage.getItem("manifest");
-    var root = '';
+    // var manifest = localStorage.getItem("manifest");
+    // var root = '';
     // if (manifest) {
     //   manifest = JSON.parse(manifest)
     //   root = (manifest.root + '/') || '';
     // }
 
     $stateProvider
-      // setup an abstract state for the tabs directive
       .state('tab', {
         url: '/tab',
         controller: 'tabCtrl',
         abstract: true,
         templateUrl: 'dist/dev/static/app/tpl/tabs.html'
       })
-      // ===dash===
       .state('tab.dash', {
         url: '/dash',
         views: {
@@ -177,7 +164,6 @@ angular.module('starter', [
           }
         }
       })
-      // ===account===
       .state('tab.account', {
         url: '/account',
         views: {
@@ -187,7 +173,6 @@ angular.module('starter', [
           }
         }
       })
-      // ===account===
       .state('tab.devtest', {
         cache: false,
         url: '/devtest', views: {
@@ -231,4 +216,4 @@ angular.module('starter', [
   });
 
 // 调试 Hot Update 用
-//angular.bootstrap(document.body,["starter"]);
+// angular.bootstrap(document.body,["starter"]);

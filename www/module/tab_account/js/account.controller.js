@@ -3,9 +3,7 @@ angular.module('account', [])
     $scope.settings = {
       enableFriends: true
     };
-    /**
-     * 退出app(在安卓手机上有用) 
-     **/
+    // for android
     $scope.exit = function () {
       CacheFactory.removeAll();
       ionic.Platform.exitApp();

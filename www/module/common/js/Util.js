@@ -1,5 +1,8 @@
 /**
- * Created by Administrator on 2015/9/10.
+ * 辅助库:
+ * 1. 用于消息解析
+ * 2. SHA1 加密
+ * 3. 中文首拼解析
  */
 String.stringFormat = function (str) {
   for (var i = 1; i < arguments.length; i++) {
