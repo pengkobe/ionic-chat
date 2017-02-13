@@ -1,4 +1,4 @@
-# Ionic-Chat
+# Ionic Chat
 a chat app based on ionic and rongyun
 > This project is underdevelop and it is unrunnable for the time being.
 
