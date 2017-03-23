@@ -68,7 +68,7 @@ a chat app based on ionic and rongyun
    ```
 
 ## Back-End dependency
-you may click [build notes](server/README.md) for more information.
+you may click [build notes](https://github.com/pengkobe/project-notes/tree/master/ionic-chat/server) for more information.
 
 1. node with express
 2. mongodb with mongoose
