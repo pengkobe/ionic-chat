@@ -1,10 +1,10 @@
 (function () {
-    'use strict';
+   /** for templatecache */
     angular
         .module('app.core', []);
 	})();
 
-var _modules = ['dash', 'account', 'chat', 'devtest', 'login'];
+var _modules = ['dash', 'account', 'chat', 'login'];
 angular.module('starter', [
   'ionic','app.core',
   'app.directive', 'app.service',
@@ -173,24 +173,14 @@ angular.module('starter', [
           }
         }
       })
-      .state('tab.devtest', {
-        cache: false,
-        url: '/devtest', views: {
-          'tab-devtest': {
-            templateUrl: 'dist/dev/static/tab_devtest/devtest.html',
-            controller: 'DevTestCtrl'
-          }
-        }
         // resolve: { // Any property in resolve should return a promise and is executed before the view is loaded
         //   loadMyCtrl: ['$ocLazyLoad', function ($ocLazyLoad) {
         //     // you can lazy load files for an existing module
         //     return $ocLazyLoad.load(root + 'dist/js/devtest.min.js');
         //   }]
         // }
-      });
+      ;
 
-    // if none of the above states are matched, use this as the fallback
-    // $urlRouterProvider.otherwise('/tab/dash');
     $urlRouterProvider.otherwise('/login');
 
     // $httpProvider.interceptors.push(function ($rootScope, HotUpdateService) {
