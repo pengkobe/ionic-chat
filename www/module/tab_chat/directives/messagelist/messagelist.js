@@ -2,7 +2,7 @@ angular.module('chat.directive')
     .directive('messageList', function ($ionicPopup) {
         return {
             restrict: "E",
-            templateUrl: 'dist/dev/static/tab_chat/directives/messagelist/messagelist.tpl',
+            templateUrl: 'dev/static/tab_chat/directives/messagelist/messagelist.tpl',
             replace: true,
             scope: {
                 friendsMessage: "=friendsMessage",
@@ -19,7 +19,7 @@ angular.module('chat.directive')
                 scope.popupMessageOpthins = function (message) {
                     scope.popup.index = scope.friendsMessage.indexOf(message);
                     scope.popup.optionsPopup = $ionicPopup.show({
-                        templateUrl: "dist/dev/static/tab_chat/directives/messagelist/popup.html",
+                        templateUrl: "dev/static/tab_chat/directives/messagelist/popup.html",
                         scope: scope,
                     });
                     scope.popup.isPopup = true;

@@ -10,17 +10,17 @@
     },
     "login_chat": {
       "version": "6e76f36f27bf29402a70c8adfee4324111xjs_",
-      "filename": "dist/dev/static/login/js/login.module.js"
+      "filename": "dev/static/login/js/login.module.js"
     },
     "app_chat": {
       "version": "6e76f36f27bf29402a70c8adfee4324111xjs_",
-      "filename": "dist/dev/static/app/js/app.module.js"
+      "filename": "dev/static/app/js/app.module.js"
     }
   },
   "load": [
     "dist/css/account.min.css",
     "dist/css/chat.min.css",
-    "dist/dev/static/login/js/login.module.js",
-    "dist/dev/static/app/js/app.module.js"
+    "dev/static/login/js/login.module.js",
+    "dev/static/app/js/app.module.js"
   ]
 }

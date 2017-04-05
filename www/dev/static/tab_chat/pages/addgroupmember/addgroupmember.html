@@ -1,0 +1,19 @@
+<ion-view view-title="添加成员">
+    <ion-nav-buttons side="right">
+        <button class="button button-balanced" ng-click="sure()">确定</button>
+    </ion-nav-buttons>
+    <ion-content class="padding" style="background-color: white;">
+        <div class="list">
+            <div class="item item-divider">
+               好友列表
+            </div>
+            <ion-checkbox  
+            ng-repeat="data in friends track by $index" 
+            ng-model="data.checked"  
+            ng-disabled="data.MemberID !=''"
+            ng-checked="data.MemberID !=''">
+            {{ data.name}}
+            </ion-checkbox>
+        </div>
+    </ion-content>
+</ion-view>

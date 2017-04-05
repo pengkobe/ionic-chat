@@ -3,7 +3,7 @@ angular.module('chat.directive')
         $ionicScrollDelegate, $timeout) {
         return {
             restrict: "E",
-            templateUrl: 'dist/dev/static/tab_chat/directives/phonecontact/phonecontact.tpl',
+            templateUrl: 'dev/static/tab_chat/directives/phonecontact/phonecontact.tpl',
             replace: true,
             transclude : true,
             scope: {

@@ -10,7 +10,7 @@ describe('qqFace Directive', function () {
 
     beforeEach(inject(function ($rootScope, $compile,_$httpBackend_) {
         $httpBackend = _$httpBackend_;
-        $httpBackend.when('GET', 'dist/dev/static/tab_chat/directives/qqface/qqface.tpl').respond( 
+        $httpBackend.when('GET', 'dev/static/tab_chat/directives/qqface/qqface.tpl').respond( 
             ['<div class="qq_face " ng-click="chooseFace($event)">',
 '            <a title="微笑" type="qq" class="face qqface0">微笑</a>',
 '            <a title="撇嘴" type="qq" class="face qqface1">撇嘴</a>',

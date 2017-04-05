@@ -1,0 +1,34 @@
+<ion-view view-title="群组信息">
+  <ion-content >
+    <ion-list>
+
+      <ion-item class="item item-divider">
+        成员列表
+      </ion-item>
+      <ion-item ng-repeat="member in members" class="rj-groupmember" 
+        href="#/YIPENG/friendInfo/{{member.id}}/{{member.name}}/PRIVATE">
+        <div class="rj-contacts-pic">
+          <img ng-src="{{member.portrait||'assets/img/personPhoto.png'}}" style="margin-left:0px;">
+        </div>
+        <h2>{{member.name}}</h2>
+      </ion-item>
+
+      <ion-item class="item-icon-right">
+        名称:{{Target.name}}
+        <i class="icon ion-chevron-right icon-accessory"></i>
+      </ion-item>
+      <ion-item class="item-icon-right">
+        人数:{{Target.number}}
+        <i class="icon ion-chevron-right icon-accessory"></i>
+      </ion-item>
+
+      </ion-item>
+      <button class="button button-block button-balanced" ng-click='sendMsg()'>
+         发起群聊
+      </button>
+      <button class="button button-block" ng-click='addGroupmember()'>
+         添加新成员
+      </button>
+    </ion-list>
+  </ion-content>
+</ion-view>

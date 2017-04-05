@@ -1,0 +1,34 @@
+<!--
+Create tabs with an icon and label, using the tabs-positive style.
+Each tab's child <ion-nav-view> directive will have its own
+navigation history that also transitions its views in and out.
+-->
+<ion-nav-bar class="nav-title-slide-ios7">
+	<ion-nav-back-button class="button-clear" style="color:#111">
+		<i class="ion-arrow-left-c"></i> Back
+	</ion-nav-back-button>
+	<!-- fix Cannot read property 'enableMenuWithBackViews' of undefined,这部分适用于侧边栏，放在这会报错
+		<ion-nav-buttons side="left">
+		<button class="button  button-clear title_icon" menu-toggle="left">
+                    <i class="icon-uniE901" style="font-size: 18pt;line-height: 34px;"></i>
+                </button>
+	</ion-nav-buttons>-->
+</ion-nav-bar>
+<ion-tabs class="tabs-icon-top tabs-color-active-positive" ng-class="{'tabs-item-hide': hideTabsxietong}">
+
+	<!-- Dashboard Tab -->
+	<ion-tab title="状态" icon-off="ion-ios-pulse" icon-on="ion-ios-pulse-strong" ui-sref="tab.dash">
+		<ion-nav-view name="tab-dash"></ion-nav-view>
+	</ion-tab>
+
+	<!-- Chats Tab -->
+	<ion-tab title="聊天" icon-off="ion-ios-chatboxes-outline" icon-on="ion-ios-chatboxes" ui-sref="tab.chat">
+		<ion-nav-view name="tab-chat"></ion-nav-view>
+	</ion-tab>
+
+	<!-- Account Tab -->
+	<ion-tab title="账户" icon-off="ion-ios-gear-outline" icon-on="ion-ios-gear" ui-sref="tab.account">
+		<ion-nav-view name="tab-account"></ion-nav-view>
+	</ion-tab>
+
+</ion-tabs>

@@ -22,7 +22,7 @@ a chat app based on ionic and rongyun
     ├── www/
     │   ├── assets/
     │   ├── prod/
-    │   ├── dist/dev/static
+    │   ├── dev/static
     │   ├── lib/
     │   ├── gulp/
     │   │   ├── tasks/

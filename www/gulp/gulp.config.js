@@ -14,7 +14,7 @@ module.exports = function () {
     // 源代码
     var _moduleBase = _root + 'module/';
     // 打包目录
-    var _devBase = _root + 'dist/';
+    var _devBase = _root + 'dev/';
 
     // src_module folder
     var src_module = {
@@ -126,7 +126,7 @@ module.exports = function () {
             target: 'templates.js',
             options: {
                 module: 'app.core',
-                root: 'dist/dev/static/',
+                root: 'dev/static/',
                 standAlone: false
             }
         },

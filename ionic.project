@@ -2,7 +2,7 @@
   "name": "ionic-chat",
   "app_id": "",
    "watchPatterns": [
-        "dist/dev/*"
+        "dev/*"
    ],
    "gulpStartupTasks": []  
 }

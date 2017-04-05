@@ -2,7 +2,7 @@ angular.module('chat.directive')
     .directive('chatToolBar', function(PhotoAndImages) {
         return {
             restrict: "E",
-            templateUrl: 'dist/dev/static/tab_chat/directives/chattoolbar/chattoolbar.tpl',
+            templateUrl: 'dev/static/tab_chat/directives/chattoolbar/chattoolbar.tpl',
             replace: true,
             scope: {
                 sendPhoto: "&sendPhoto",

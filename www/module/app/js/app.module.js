@@ -153,13 +153,13 @@ angular.module('starter', [
         url: '/tab',
         controller: 'tabCtrl',
         abstract: true,
-        templateUrl: 'dist/dev/static/app/tpl/tabs.html'
+        templateUrl: 'dev/static/app/tpl/tabs.html'
       })
       .state('tab.dash', {
         url: '/dash',
         views: {
           'tab-dash': {
-            templateUrl: 'dist/dev/static/tab_dash/tpl/tab-dash.html',
+            templateUrl: 'dev/static/tab_dash/tpl/tab-dash.html',
             controller: 'DashCtrl'
           }
         }
@@ -168,7 +168,7 @@ angular.module('starter', [
         url: '/account',
         views: {
           'tab-account': {
-            templateUrl: 'dist/dev/static/tab_account/tpl/tab-account.html',
+            templateUrl: 'dev/static/tab_account/tpl/tab-account.html',
             controller: 'AccountCtrl'
           }
         }
