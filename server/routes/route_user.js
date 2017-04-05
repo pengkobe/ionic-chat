@@ -151,8 +151,6 @@ exports.loadgroups = function (req, res) {
             GroupModel.populate(groups, opts, function (err, populatedDocs) {
                 res.json(populatedDocs)
             });
-            // console.log('The first group:', users.groups[0].groupname);
-            // res.json(users.groups);
         }
     });
 }

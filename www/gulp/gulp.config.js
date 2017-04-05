@@ -1,24 +1,30 @@
 module.exports = function () {
-    // dependencies used in this file
-    var wiredep = require('wiredep');
-    var bowerJson = require('../../bower.json');
     var gulp = require('gulp');
     var gUtil = require('gulp-util');
     var gInject = require('gulp-inject');
     var gIf = require('gulp-if');
     var gOrder = require('gulp-order');
-    // base folder
+
+    // 加载 bower 安装的第三方模块
+    var wiredep = require('wiredep');
+    var bowerJson = require('../../bower.json');
+
+    // base 文件夹
     var _root = './www/';
+    // 源代码
     var _moduleBase = _root + 'module/';
+    // 打包目录
     var _distBase = _root + 'dist/';
-    // moudle folder
-    var moudle = {
+
+    // src_module folder
+    var src_module = {
         base: _moduleBase,
         common: _root + 'common/',
-        test:_root + 'test/',
-        testbase:'./module/',
-        testtest:'./test/',
+        test: _root + 'test/',
+        test_src_dir: './module/',
+        test_base_dir: './test/',
     };
+    
     // dist folder
     var dist = {
         base: _distBase,
@@ -45,24 +51,24 @@ module.exports = function () {
     var config = {
         // folders
         root: _root,
-        moudle: moudle,
+        src_module: src_module,
         dist: dist,
         // js
         js: {
             all: [
-                moudle.base + '**/*.js',
+                src_module.base + '**/*.js',
                 _root + '*.js'
             ],
             app: {
                 source: [
-                    moudle.base + '**/*.js'
+                    src_module.base + '**/*.js'
                 ],
                 target: [
                     dist.dev + 'static/**/*.js',
                     '!' + dist.dev + 'static/lib/**/*.*'
                 ],
                 production: [
-                    moudle.base + '**/production/*.js'
+                    src_module.base + '**/production/*.js'
                 ]
             },
             order: [
@@ -81,20 +87,20 @@ module.exports = function () {
             ],
             test: {
                 stubs: [
-                    moudle.testtest + 'e2e/mocks/**/e2e.*.js'
+                    src_module.test_base_dir + 'e2e/mocks/**/e2e.*.js'
                 ],
                 unit: {
                     specs: [
-                        moudle.testtest + 'unit/specs/**/*.spec.js'
+                        src_module.test_base_dir + 'unit/specs/**/*.spec.js'
                     ]
                 }
             },
         },
         // css
         css: {
-            source_sass: moudle.base + '**/*.scss',
+            source_sass: src_module.base + '**/*.scss',
             source: [
-                moudle.base + '**/*.css'
+                src_module.base + '**/*.css'
             ],
             target: [
                 dist.dev + 'static/**/*.css',
@@ -104,15 +110,14 @@ module.exports = function () {
         },
         // html
         html: {
-            moudle_source: [
+            src_module_source: [
                 _root + 'module/**/*.tpl',
                 _root + 'module/**/*.html',
             ],
-            source: _root + 'index_dev.html', //_root + 'index.html',
-            target: _root + 'index.html' //dist.dev + 'index.html'
+            source: _root + 'index_dev.html', 
+            target: _root + 'index.html' 
         },
         templateCache: {
-            sourceJade: moudle.app + '**/*.jade',
             sourceHtml: [
                 dist.dev + 'static/**/*.html',
                 dist.dev + 'static/**/*.tpl',
@@ -146,7 +151,7 @@ module.exports = function () {
         ]
     };
 
-    
+
     config.karmaOption = getKarmaOptions();
     config.wiredepOption = getWiredepDefaultOptions();
     config.protractorOption = getProtractorOptions();
@@ -209,23 +214,23 @@ module.exports = function () {
                 bowerFiles,
                 'lib/cordova-app-loader/dist/cordova-app-loader-complete.min.js',
                 'lib/cordova-app-loader/dist/bootstrap.js',
-                moudle.testbase + 'common/**/*.js',
-                moudle.testbase + '**/*.directive.js',
-                moudle.testbase + '**/*.service.js',
-                moudle.testbase + '**/*.js',
-                moudle.testbase + '**/*.module.js',
+                src_module.test_src_dir + 'common/**/*.js',
+                src_module.test_src_dir + '**/*.directive.js',
+                src_module.test_src_dir + '**/*.service.js',
+                src_module.test_src_dir + '**/*.js',
+                src_module.test_src_dir + '**/*.module.js',
                 config.js.test.unit.specs
             ),
             exclude: [],
             coverage: {
-                dir: moudle.testtest + 'unit/results/coverage',
+                dir: src_module.test_base_dir + 'unit/results/coverage',
                 reporters: [
                     // reporters not supporting the `file` property
                     { type: 'html', subdir: '.' },
                     { type: 'text-summary' }
                 ]
             },
-            junit: moudle.testtest + 'unit/results/unit-test-results.xml',
+            junit: src_module.test_base_dir + 'unit/results/unit-test-results.xml',
             preprocessors: {}
         };
         options.preprocessors[config.js.test.unit.specs] = ['coverage'];
@@ -236,12 +241,12 @@ module.exports = function () {
     function getProtractorOptions() {
         // options used in protractor.conf.js need to be based on it's own path
         return {
-            specs: [moudle.test + 'e2e/specs/*.spec.js'],
+            specs: [src_module.test + 'e2e/specs/*.spec.js'],
             suites: {
-                home: '.' +  moudle.testtest + 'e2e/specs/dash.spec.js',
+                home: '.' + src_module.test_base_dir + 'e2e/specs/dash.spec.js',
             },
-            helper:'.' + moudle.testtest + 'e2e/helper.js',
-            screenshotDir: moudle.test + 'e2e/screenshots/'
+            helper: '.' + src_module.test_base_dir + 'e2e/helper.js',
+            screenshotDir: src_module.test + 'e2e/screenshots/'
         };
     }
 
