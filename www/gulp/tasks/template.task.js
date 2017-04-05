@@ -75,19 +75,4 @@ module.exports = function (gulp, config, $, args) {
     function formatPercent (num, precision) {
         return (num * 100).toFixed(precision);
     }
-
-    function jade (src, dest) {
-        // change `app` variable based on --mock parameter
-        var data = {
-            app: args.mock ? 'appTest' : 'app'
-        };
-        return gulp
-            .src(src)
-            .pipe($.jade({
-                pretty: true,
-                locals: data
-            }))
-            .pipe(gulp.dest(dest));
-    }
-
 };
