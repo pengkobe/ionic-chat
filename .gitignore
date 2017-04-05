@@ -7,7 +7,7 @@ plugins/
 case_study/
 server/node_modules
 npm-debug.log
-www/dist/
+www/dev/
 www/prod/
 www/test/unit/results/coverage
 start_mongo.bat

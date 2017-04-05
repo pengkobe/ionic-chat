@@ -10,7 +10,7 @@ module.exports = function (gulp, config, $, args) {
 
     // Run unit test and watch for file changes then re-run tests
     gulp.task('test:tdd', function (done) {
-        startUnitTests(false , done);
+        startUnitTests(false, done);
     });
 
     // Run e2e test
@@ -35,7 +35,7 @@ module.exports = function (gulp, config, $, args) {
 
     /////////////
 
-    function startUnitTests (singleRun, done) {
+    function startUnitTests(singleRun, done) {
         var child;
         var fork = require('child_process').fork;
         var karma = require('karma').server;
@@ -56,7 +56,7 @@ module.exports = function (gulp, config, $, args) {
 
         ////////////////
 
-        function karmaCompleted (karmaResult) {
+        function karmaCompleted(karmaResult) {
             config.fn.log('Karma completed');
             if (child) {
                 config.fn.log('shutting down the child process');
