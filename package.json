@@ -5,6 +5,14 @@
   "author": "pengkobe",
   "license": "MIT",
   "description": "ionic-chat: An Ionic project",
+  "scripts": {
+    "serve:dev": "gulp serve:dev",
+    "serve:prod": "gulp serve:prod",
+    "build": "gulp build:dev",
+    "prod": "gulp build:prod",
+    "test:e2e": "gulp test:e2e",
+    "test:unit": "gulp test:unit"
+  },
   "dependencies": {},
   "devDependencies": {
     "bower": "^1.3.3",

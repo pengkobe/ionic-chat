@@ -22,7 +22,7 @@ angular.module('chat.directive')
                 "minLengthUser": "@minlength",
                 "matchClass": "@matchclass"
             },
-            templateUrl: 'dist/dev/static/tab_chat/directives/searchautocomplete/searchautocomplete.tpl',
+            templateUrl: 'dev/static/tab_chat/directives/searchautocomplete/searchautocomplete.tpl',
             link: function ($scope, elem, attrs) {
                 $scope.lastSearchTerm = null;
                 $scope.currentIndex = null;

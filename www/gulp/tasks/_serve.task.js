@@ -47,7 +47,7 @@ module.exports = function (gulp, config, $, args) {
     }
 
     function changeEvent (event) {
-        var srcPattern = new RegExp('/.*(?=/' + config.moudle.base + ')/');
+        var srcPattern = new RegExp('/.*(?=/' + config.src_module.base + ')/');
         config.fn.log('File ' + event.path.replace(srcPattern, '') + ' ' + event.type);
     }
 

@@ -1,10 +1,10 @@
 (function () {
-    'use strict';
+   /** for templatecache */
     angular
         .module('app.core', []);
 	})();
 
-var _modules = ['dash', 'account', 'chat', 'devtest', 'login'];
+var _modules = ['dash', 'account', 'chat', 'login'];
 angular.module('starter', [
   'ionic','app.core',
   'app.directive', 'app.service',
@@ -153,13 +153,13 @@ angular.module('starter', [
         url: '/tab',
         controller: 'tabCtrl',
         abstract: true,
-        templateUrl: 'dist/dev/static/app/tpl/tabs.html'
+        templateUrl: 'dev/static/app/tpl/tabs.html'
       })
       .state('tab.dash', {
         url: '/dash',
         views: {
           'tab-dash': {
-            templateUrl: 'dist/dev/static/tab_dash/tpl/tab-dash.html',
+            templateUrl: 'dev/static/tab_dash/tpl/tab-dash.html',
             controller: 'DashCtrl'
           }
         }
@@ -168,29 +168,19 @@ angular.module('starter', [
         url: '/account',
         views: {
           'tab-account': {
-            templateUrl: 'dist/dev/static/tab_account/tpl/tab-account.html',
+            templateUrl: 'dev/static/tab_account/tpl/tab-account.html',
             controller: 'AccountCtrl'
           }
         }
       })
-      .state('tab.devtest', {
-        cache: false,
-        url: '/devtest', views: {
-          'tab-devtest': {
-            templateUrl: 'dist/dev/static/tab_devtest/devtest.html',
-            controller: 'DevTestCtrl'
-          }
-        }
         // resolve: { // Any property in resolve should return a promise and is executed before the view is loaded
         //   loadMyCtrl: ['$ocLazyLoad', function ($ocLazyLoad) {
         //     // you can lazy load files for an existing module
         //     return $ocLazyLoad.load(root + 'dist/js/devtest.min.js');
         //   }]
         // }
-      });
+      ;
 
-    // if none of the above states are matched, use this as the fallback
-    // $urlRouterProvider.otherwise('/tab/dash');
     $urlRouterProvider.otherwise('/login');
 
     // $httpProvider.interceptors.push(function ($rootScope, HotUpdateService) {

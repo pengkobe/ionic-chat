@@ -10,10 +10,8 @@ module.exports = function (gulp, config, $, args) {
             .pipe(gulp.dest(config.root));
         // 模块内HTML
         var module_Stream = gulp
-            .src(config.html.moudle_source)
+            .src(config.html.src_module_source)
             .pipe(gulp.dest(config.dist.dev + 'static'));
-        // jade用法
-        // var templateStream = jade(config.templateCache.sourceJade, config.dist.dev + 'static');
         return merge(htmlStream, module_Stream);;
     });
 
@@ -77,19 +75,4 @@ module.exports = function (gulp, config, $, args) {
     function formatPercent (num, precision) {
         return (num * 100).toFixed(precision);
     }
-
-    function jade (src, dest) {
-        // change `app` variable based on --mock parameter
-        var data = {
-            app: args.mock ? 'appTest' : 'app'
-        };
-        return gulp
-            .src(src)
-            .pipe($.jade({
-                pretty: true,
-                locals: data
-            }))
-            .pipe(gulp.dest(dest));
-    }
-
 };
