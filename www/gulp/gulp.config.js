@@ -14,7 +14,7 @@ module.exports = function () {
     // 源代码
     var _moduleBase = _root + 'module/';
     // 打包目录
-    var _distBase = _root + 'dist/';
+    var _devBase = _root + 'dist/';
 
     // src_module folder
     var src_module = {
@@ -27,9 +27,9 @@ module.exports = function () {
     
     // dist folder
     var dist = {
-        base: _distBase,
-        dev: _distBase + 'dev/',
-        temp: _distBase + '.temp/',
+        base: _devBase,
+        dev: _devBase + '/',
+        temp: _devBase + '.temp/',
         prod: _root + 'prod/'
     };
     // node dependency
