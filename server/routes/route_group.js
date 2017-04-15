@@ -1,6 +1,10 @@
 var GroupModel = require('../models/group.js');
 var UserModel = require('../models/user.js');
 
+// 日志
+var log4js = require('../log');
+
+
 // 创建群组
 exports.createGroup = function (req, res) { //成功
     // 创建者
@@ -9,16 +13,18 @@ exports.createGroup = function (req, res) { //成功
     var groupname = req.body.groupname;
     // 初始用户
     var members = req.body.members;
-    console.log("members:",members);
+    log4js.log("members:", members);
     var groupimg = req.body.groupimg ? req.body.groupimg : '';
     var GroupEntity = new GroupModel({ groupname: groupname, members: [userid], groupimg: groupimg });
     GroupEntity.save(function (err, doc) {
-        console.log("createGroup err",err)
+        log4js.log("createGroup err", err)
         if (err) {
+            log4js.err(err);
             res.json({ state: -1, message: err });
         } else {
             UserModel.addGroup(userid, [doc._id], function (err, user) {
                 if (err) {
+                    log4js.err(err);
                     res.json({ state: -1, message: err });
                 } else {
                     // 向好友发送入群邀请
@@ -26,12 +32,12 @@ exports.createGroup = function (req, res) { //成功
                         UserModel.addRequset_groupsDoc(userid, members[i], doc._id,
                             function (err, raw) {
                                 if (err) {
-                                    // todo
+                                    log4js.err(err);
                                     res.json(err);
                                 } else {
                                     res.json(raw);
                                 }
-                                console.log('ret:', raw);
+                                log4js.log('ret:', raw);
                             });
                     }
                     res.json({ state: 1, group: doc });
@@ -61,10 +67,10 @@ exports.loadgrouprequesst = function (req, res) {
     UserModel.findOne({ username: username })
         .exec(function (err, user) {
             if (err) {
-                console.log('loadfriendrequest err!');
+                log4js.err(err);
             }
             if (user && user.length == 0) {
-                console.log('username no exist!');
+                log4js.log('username no exist!');
             } else {
                 var opts = [{
                     path: 'response_groups.from',
@@ -75,8 +81,8 @@ exports.loadgrouprequesst = function (req, res) {
                 }];
 
                 UserModel.populate(user, opts, function (err, populatedDocs) {
-                    if(err){
-                        console.log(err);
+                    if (err) {
+                        log4js.err(err);
                     }
                     if (populatedDocs && populatedDocs.response_groups) {
                         res.json(populatedDocs.response_groups);
@@ -96,12 +102,13 @@ exports.addgroupmember = function (req, res) {
     UserModel.addRequset_groupsDoc(userid, friendid, groupid,
         function (err, raw) {
             if (err) {
+                log4js.err(err);
                 // todo
                 res.json(err);
             } else {
                 res.json(raw);
             }
-            console.log('ret:', raw);
+            log4js.log('ret:', raw);
         });
 };
 
@@ -111,12 +118,13 @@ exports.res_addgroupmember = function (req, res) {
     var friendid = req.body.friendid;
     var groupid = req.body.groupid;
     var state = req.body.state;
-    console.log("userid", userid);
-    console.log("friendid", friendid);
-    console.log("state", state);
+    log4js.log("userid", userid);
+    log4js.log("friendid", friendid);
+    log4js.log("state", state);
     if (state == 1 || state == "1") {
         UserModel.addGroup(userid, [groupid], function (err, doc) {
             if (err) {
+                log4js.err(err);
                 res.json(err);
             } else {
 
@@ -124,6 +132,7 @@ exports.res_addgroupmember = function (req, res) {
         });
         GroupModel.addMember(groupid, [userid], function (err, doc) {
             if (err) {
+                log4js.err(err);
                 res.json(err);
             } else {
 
@@ -134,12 +143,14 @@ exports.res_addgroupmember = function (req, res) {
     // 更新回复状态
     UserModel.updateResponse_groupDoc(userid, friendid, groupid, state, function (err, doc) {
         if (err) {
+            log4js.err(err);
             res.json(err);
         } else { }
     });
     // 更新请求状态
     UserModel.updateRequset_groupDoc(friendid, userid, groupid, state, function (err, doc) {
         if (err) {
+            log4js.err(err);
             res.json(err);
         } else { }
     });

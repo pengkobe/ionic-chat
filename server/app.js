@@ -7,6 +7,9 @@ var bodyParser = require('body-parser');
 
 var jwt = require("jsonwebtoken");
 
+// 日志
+var log4js = require('./log');
+log4js.log("日志开起来了！");
 // 路由
 var route_ionchat = require('./routes/index');
 
@@ -33,6 +36,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public'), {maxAge : 86400000}));
 
 app.use(express.query());
+
+
 
 /**
  * 鉴权
