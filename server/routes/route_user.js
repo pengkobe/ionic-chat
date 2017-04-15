@@ -58,7 +58,7 @@ exports.login = function (req, res) {
             users[0].token = token;
             console.log('login users:', users);
             console.log('login users token:', token);
-            res.json({ state: 1, user: users[0] ,token:token});
+            res.json({ state: 1, user: users[0], token: token });
         }
     });
 }
@@ -100,7 +100,7 @@ exports.updatepwd = function (req, res) {
 exports.loadfriends = function (req, res) {
     var username = req.body.username;
     UserModel.loadFriends(username, function (err, users) {
-        
+
 
         if (err) {
             console.log('loadfriends err!');
@@ -179,8 +179,9 @@ exports.loadfriendrequest = function (req, res) {
             if (err) {
                 console.log('loadfriendrequest err!');
             }
-            if (user.length == 0) {
+            if (user && user.length == 0) {
                 console.log('username no exist!');
+                res.json([]);
             } else {
                 var opts = [{
                     path: 'response_friends.from',
@@ -188,7 +189,14 @@ exports.loadfriendrequest = function (req, res) {
                 }];
 
                 UserModel.populate(user, opts, function (err, populatedDocs) {
-                    res.json(populatedDocs.response_friends)
+                    if(err){
+                        console.log(err);
+                    }
+                    if (populatedDocs && populatedDocs.response_friends) {
+                        res.json(populatedDocs.response_friends);
+                    } else {
+                        res.json([]);
+                    }
                 });
             }
         });

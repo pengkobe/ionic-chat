@@ -79,7 +79,11 @@ chats.factory('initRong', function ($rootScope, $state, RONGYUN_APPKEY) {
             };
             HttpPromiseService.getData(LOAD_FRIENDS_URL, params).then(function (data) {
                 console.log(data);
-                callback(data.friends);
+                if (data && data.friends) {
+                    callback(data.friends);
+                } else {
+                    callback([]);
+                }
             });
         }
         function loadData(callback) {
@@ -291,7 +295,8 @@ chats.factory('initRong', function ($rootScope, $state, RONGYUN_APPKEY) {
         return {
             init: function (friendid, cb) {
                 var params = {
-                    userid: currentUser._id,
+                    // userid: currentUser._id,
+                    username: currentUser.username,
                     friendid: friendid
                 };
                 HttpPromiseService.getData(REQ_FRIEND_URL, params).then(function (data) {
@@ -419,15 +424,16 @@ chats.factory('initRong', function ($rootScope, $state, RONGYUN_APPKEY) {
         return ResFriend;
     })
     // 群组请求服务
-    .service("ResTeam", function ($http, httpXhr, $timeout, HttpPromiseService, RES_GROUP_REQUEST) {
+    .service("ResTeam", function ($http, httpXhr, $timeout, HttpPromiseService,UserService, RES_GROUP_REQUEST) {
         // groupID 群组名称
         // FriendID:发起请求的人
-        // MemberID:自己
+        // userid:自己
         // state{0：发邀请，1:接受，-1：拒绝}
-        function ResTeam(groupID, FriendID, MemberID, state, callback) {
-            var obj = { groupID: groupID.substr(4), MemberID: MemberID, state: state };
+         var currentUser = UserService.getUserinfo();
+        function ResTeam(groupID, FriendID,  state, callback) {
+            var obj = { groupID: groupID.substr(4), userid: currentUser._id, state: state };
             var params = {
-                userid: MemberID,
+                userid: userid,
                 friendid: FriendID,
                 groupid: groupID,
                 state: state

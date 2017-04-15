@@ -12,10 +12,11 @@ angular.module('chat.directive')
             link: function (scope, element, attrs, controller) {
                 scope.responseReq_local = function (id, name, type, state, $index) {
                     if (type == "PRIVATE") {
-                        // 好友请求 UserID, FriendID, state
-                        ResFriend(curUID, id, state, callback);
+                        // 好友请求  FriendID, state
+                        ResFriend(id, state, callback);
                     } else {
                         // 团队邀请 groupID, MemberID, state
+                        alert("暂未实现？");
                         ResTeam(id, curUID, state, callback);
                     }
                     var showMsg = '';

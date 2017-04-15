@@ -303,7 +303,7 @@ UserSchema.statics.addRequset_friendsDoc = function (username, rawfriendid, cb) 
         .exec(function (err, doc) {
             // doc.requset_friends.create({ to: friendid, state: 0 }); // 简便方法
             // parent.children.id(id).remove(); // 删除
-            friendid = mongoose.Types.ObjectId(rawfriendid);
+            var friendid = mongoose.Types.ObjectId(rawfriendid);
             if (doc && doc.requset_friends) {
                 doc.requset_friends.unshift({ to: friendid, state: 0 });
                 var subdoc = doc.requset_friends[0];

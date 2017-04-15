@@ -36,7 +36,6 @@ angular.module('chat.controllers')
         * 发起添加好友请求
         */
         $scope.add = function (FriendID) {
-          
-            //AddFriendRequest(FriendID,function(data){});
+            AddFriendRequest.init(FriendID,function(data){});
         };
     });

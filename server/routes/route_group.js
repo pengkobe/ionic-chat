@@ -75,7 +75,14 @@ exports.loadgrouprequesst = function (req, res) {
                 }];
 
                 UserModel.populate(user, opts, function (err, populatedDocs) {
-                    res.json(populatedDocs.response_groups);
+                    if(err){
+                        console.log(err);
+                    }
+                    if (populatedDocs && populatedDocs.response_groups) {
+                        res.json(populatedDocs.response_groups);
+                    } else {
+                        res.json([]);
+                    }
                 });
             }
         });
