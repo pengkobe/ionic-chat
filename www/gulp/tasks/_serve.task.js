@@ -35,10 +35,9 @@ module.exports = function (gulp, config, $, args) {
             watchedFiles = watchedFiles.concat(config.js.test.stubs);
         }
         if (isDev) {
-            // gulp.watch(watchedFiles, ['build:dev'])
-            //     .on('change', changeEvent);
             // 此方法可以监视文件的添加与删除
             watch(watchedFiles,function (evt) {
+                changeEvent(evt);
                 gulp.start('build:dev');
             });
         }
@@ -48,7 +47,7 @@ module.exports = function (gulp, config, $, args) {
 
     function changeEvent (event) {
         var srcPattern = new RegExp('/.*(?=/' + config.src_module.base + ')/');
-        config.fn.log('File ' + event.path.replace(srcPattern, '') + ' ' + event.type);
+        config.fn.log('File Changed:' + event.path.replace(srcPattern, '')); 
     }
 
 };
