@@ -24,6 +24,7 @@
     "rongcloud-sdk": "^1.0.3",
     "socket.io": "^1.4.5",
     "static-favicon": "~1.0.0",
-    "xss-escape": "0.0.5"
+    "xss-escape": "0.0.5",
+    "log4js": "^1.1.1"
   }
 }
