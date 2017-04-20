@@ -144,7 +144,7 @@ module.exports = function (io) {
             // TODO: 寻找更优算法
             var useridLen = userids.length;
             for (i = 0; i < useridLen; i++) {
-                if (users_socket.userids[i]) {
+                if (users_socket && users_socket[""+userids[i]]) {
                     ret.push({ id: userids[i], state: 1 });
                 }
             }

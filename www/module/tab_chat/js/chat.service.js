@@ -68,6 +68,7 @@ chats.factory('initRong', function ($rootScope, $state, RONGYUN_APPKEY) {
 })
     // 好友服务
     .factory('Friends', function (RequestUrl, Signaling, UserService, $interval, LOAD_FRIENDS_URL, HttpPromiseService) {
+        var intervalid = 0;
         var currentUser = UserService.getUserinfo();
         var loaded = false;
         var friends = [];
@@ -169,7 +170,7 @@ chats.factory('initRong', function ($rootScope, $state, RONGYUN_APPKEY) {
                     callback(friends);
                 } else {
                     loadData(callback);
-                    $interval(function () {
+                    intervalid = $interval(function () {
                         loadData(callback);
                     }, 20000);
                 }
@@ -190,7 +191,11 @@ chats.factory('initRong', function ($rootScope, $state, RONGYUN_APPKEY) {
                 friends = val;
             },
             //（未启用）
-            add: function (friend) { }
+            add: function (friend) { },
+            stopReq: function () {
+                loaded = false;
+                $interval.cancel(intervalid);
+            }
         }
     })
     // 搜多用户添加好友
@@ -395,11 +400,14 @@ chats.factory('initRong', function ($rootScope, $state, RONGYUN_APPKEY) {
                     callback(teamRquestList);
                 } else {
                     findTeamsReq(userid, callback);
-                    clearInterval(intervalid);
+                    $interval.cancel(intervalid);
                     intervalid = $interval(function () {
                         findTeamsReq(userid, callback);
                     }, 10000);
                 }
+            },
+            stopReq: function () {
+                $interval.cancel(intervalid);
             }
         };
         return teamsReqApi;
@@ -424,13 +432,13 @@ chats.factory('initRong', function ($rootScope, $state, RONGYUN_APPKEY) {
         return ResFriend;
     })
     // 群组请求服务
-    .service("ResTeam", function ($http, httpXhr, $timeout, HttpPromiseService,UserService, RES_GROUP_REQUEST) {
+    .service("ResTeam", function ($http, httpXhr, $timeout, HttpPromiseService, UserService, RES_GROUP_REQUEST) {
         // groupID 群组名称
         // FriendID:发起请求的人
         // userid:自己
         // state{0：发邀请，1:接受，-1：拒绝}
-         var currentUser = UserService.getUserinfo();
-        function ResTeam(groupID, FriendID,  state, callback) {
+        var currentUser = UserService.getUserinfo();
+        function ResTeam(groupID, FriendID, state, callback) {
             var obj = { groupID: groupID.substr(4), userid: currentUser._id, state: state };
             var params = {
                 userid: userid,
