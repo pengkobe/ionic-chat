@@ -228,18 +228,18 @@ UserSchema.statics.addGroup = function (userid, _ids, cb) {
 }
 
 /**
- * addRequset_friendsDoc [添加请求好友状态]
+ * addResponse_friendsDoc [添加请求好友状态]
  * @param {Object} username 用户名
  * @param {Object} friendid 好友编号
  * @param {Function} cb 回调函数
  */
 UserSchema.statics.addResponse_friendsDoc = function (userid, friendid, cb) {
     var query = { _id: userid };
-    console.log('xx id:', userid);
+    console.log('添加请求好友状态 id:', userid);
     this.findOne(query)
         .exec(function (err, doc) {
             friendid = mongoose.Types.ObjectId(friendid);
-            console.log('xx:', doc);
+            console.log('添加请求好友状态 doc:', doc);
             doc.response_friends.unshift({ from: friendid, state: 0 });
             var subdoc = doc.response_friends[0];
             subdoc.isNew;
@@ -257,10 +257,9 @@ UserSchema.statics.updateResponse_friendDoc = function (userid, friendid, state,
     // var userid = mongoose.Types.ObjectId(userid);
     // var friendid = mongoose.Types.ObjectId(friendid);
     // this.update({ _id: userid, "response_friends.from": friendid }, { $set: { "response_friends.$.state": state } });
-
     var query = { _id: userid };
     this.findOne(query, function (err, user) {
-        console.log("updateResponse_friendDoc", user);
+        console.log("更新好友请求状态", user);
         for (var i = 0; i < user.response_friends.length; i++) {
             if (user.response_friends[i].from == friendid) {
                 user.response_friends[i].state = state;
@@ -271,24 +270,6 @@ UserSchema.statics.updateResponse_friendDoc = function (userid, friendid, state,
     });
 }
 
-/**
- * queryRequset_friendsDoc [查找请求好友状态]
- * @param {Object} username 用户名
- * @param {Function} cb 回调函数
- */
-// UserSchema.statics.queryRequset_friendsDoc = function (username, cb) {
-//     var query = { username: username };
-//     this.find(query)
-//         .exec(function (err, requset_friends) {
-//             requset_friends.find()
-//                 .populate('to')
-//                 .exec(function (err, docs) {
-//                     if (err) return console.log(err);
-//                     console.log('addRequset_friendsDoc Success!');
-//                     cb(docs)
-//                 });
-//         });
-// }
 
 /**
  * addRequset_friendsDoc [添加请求好友状态]
@@ -304,6 +285,10 @@ UserSchema.statics.addRequset_friendsDoc = function (username, rawfriendid, cb) 
             // doc.requset_friends.create({ to: friendid, state: 0 }); // 简便方法
             // parent.children.id(id).remove(); // 删除
             var friendid = mongoose.Types.ObjectId(rawfriendid);
+            if(friendid == doc._id){
+                 cb("不能添加自己为好友！");
+                 return;
+            }
             if (doc && doc.requset_friends) {
                 doc.requset_friends.unshift({ to: friendid, state: 0 });
                 var subdoc = doc.requset_friends[0];
@@ -344,7 +329,6 @@ UserSchema.statics.updateRequset_friendsDoc = function (userid, friendid, state,
     });
 }
 
-//===================
 /**
  * addResponse_groupDoc [添加请求好友进群状态]
  * @param {Object} username 用户名

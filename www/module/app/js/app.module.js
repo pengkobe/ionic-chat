@@ -5,6 +5,7 @@
 	})();
 
 var _modules = ['dash', 'account', 'chat', 'login'];
+
 angular.module('starter', [
   'ionic','app.core',
   'app.directive', 'app.service',

@@ -1,6 +1,9 @@
 var UserModel = require('../models/user.js');
 var GroupModel = require('../models/group.js');
 var jwt = require('./jwt.js');
+var log4js = require('../log');
+log4js.log("日志开起来了！");
+
 // 发布事件
 var pub = require('redis-connection')();
 
@@ -155,7 +158,7 @@ exports.loadgroups = function (req, res) {
     });
 }
 
-// 添加好友请求(验证成功)
+// 添加好友请求
 exports.req_addfriend = function (req, res) {
     var username = req.body.username;
     var friendid = req.body.friendid;
@@ -171,7 +174,7 @@ exports.req_addfriend = function (req, res) {
         });
 }
 
-// 拉取好友请求(验证成功)
+// 拉取好友请求
 exports.loadfriendrequest = function (req, res) {
     var username = req.body.username;
     UserModel.findOne({ username: username })
@@ -189,11 +192,19 @@ exports.loadfriendrequest = function (req, res) {
                 }];
 
                 UserModel.populate(user, opts, function (err, populatedDocs) {
-                    if(err){
+                    if (err) {
                         console.log(err);
                     }
+                    // 返回暂未同意的好友请求
                     if (populatedDocs && populatedDocs.response_friends) {
-                        res.json(populatedDocs.response_friends);
+                        var ret = [];
+                        var res_friends = populatedDocs.response_friends;
+                        for (var i = 0; i < res_friends.length; i++) {
+                            if (res_friends[i].state == 0) {
+                                ret.push(res_friends[i]);
+                            }
+                        }
+                        res.json(ret);
                     } else {
                         res.json([]);
                     }
