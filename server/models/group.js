@@ -122,14 +122,14 @@ GroupSchema.statics.addMember = function(groupid, _ids, cb) {
 
   var query = { _id: mongoose.Types.ObjectId(groupid) };
   console.log("addMembers _ids:", _ids);
-  that.find(query).exec(function(err, doc) {
+  that.findOne(query).exec(function(err, doc) {
     console.log("addMembers doc:", doc);
     if (err) {
       console.log("addMembers err:", err);
       cb(err);
       return;
     }
-    if (doc && doc.length > 0) {
+    if (doc && doc._id) {
       var members = [];
       // 原有成员
       if (doc.members) {
