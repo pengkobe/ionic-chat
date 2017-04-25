@@ -229,7 +229,7 @@ chats.factory('initRong', function ($rootScope, $state, RONGYUN_APPKEY) {
                     var group = {};
                     group.id = grouplist[i]._id;
                     group.name = grouplist[i].groupname;
-                    group.number = 12;
+                    group.number = grouplist.length;
                     group.max_number = 13;
                     group.conversationType = 'GROUP';
                     group.type = 'create';
