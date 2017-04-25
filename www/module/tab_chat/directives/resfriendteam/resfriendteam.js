@@ -7,17 +7,16 @@ angular.module('chat.directive')
             scope: {
                 groupinviteList_local: "=groupinviteList",
                 friendinviteList_local: "=friendinviteList",
-                responseReq_local: "&responseReq",
+                responseReq: "&responseReq2",
             },
             link: function (scope, element, attrs, controller) {
-                scope.responseReq_local = function (id, name, type, state, $index) {
+                scope.responseReq_local = function (id, name, type, state, $index, friendid) {
                     if (type == "PRIVATE") {
-                        // 好友请求  FriendID, state
-                        ResFriend(id, state, callback);
+                        // 好友请求  friendid, state,callback
+                        ResFriend(id, state, callback.bind(scope));
                     } else {
-                        // 团队邀请 groupID, MemberID, state
-                        alert("暂未实现？");
-                        ResTeam(id, curUID, state, callback);
+                        // 团队邀请 groupID, friendid, state,callback
+                        ResTeam(id, friendid, state, callback.bind(scope));
                     }
                     var showMsg = '';
                     function callback(data) {

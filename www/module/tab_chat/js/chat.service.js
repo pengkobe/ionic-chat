@@ -384,6 +384,7 @@ chats.factory('initRong', function ($rootScope, $state, RONGYUN_APPKEY) {
                 for (var i = 0; i < dataLen; i++) {
                     var groupRquest = {};
                     var tempdata = data[i];
+                    groupRquest.friendid = tempdata.from._id;
                     groupRquest.id = tempdata.groupid._id;
                     groupRquest.name = tempdata.groupid.groupname;
                     groupRquest.info = (tempdata.from.nickname == null ? "(无名)" : tempdata.from.nickname) + "邀您加入群:" + "[" + tempdata.groupid.groupname + "]";
@@ -439,15 +440,14 @@ chats.factory('initRong', function ($rootScope, $state, RONGYUN_APPKEY) {
         // state{0：发邀请，1:接受，-1：拒绝}
         var currentUser = UserService.getUserinfo();
         function ResTeam(groupID, FriendID, state, callback) {
-            var obj = { groupID: groupID.substr(4), userid: currentUser._id, state: state };
+            // var obj = { groupID: groupID.substr(4), userid: currentUser._id, state: state };
             var params = {
-                userid: userid,
+                userid: currentUser._id,
                 friendid: FriendID,
                 groupid: groupID,
                 state: state
             };
             HttpPromiseService.getData(RES_GROUP_REQUEST, params).then(function (data) {
-                debugger;
                 console.log(data);
                 callback(data);
             });

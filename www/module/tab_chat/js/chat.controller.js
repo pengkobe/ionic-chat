@@ -78,8 +78,8 @@ angular.module('chat.controllers', [])
         findTeamsReq.all(function (data) {
             $scope.groupinviteList = data;
         });
-        // 同意与拒绝请求,成功后删掉记录并刷新好友列表
-        function responseReq(obj, $index, type) {
+        // 同意与拒绝请求,成功后删掉记录并刷新好友列表 
+        $scope.responseReq = function(obj, $index, type) {
             if (type == "PRIVATE") {
                 $scope.friends_list.unshift(obj);
                 $timeout(function () {
