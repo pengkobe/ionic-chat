@@ -195,18 +195,19 @@ UserSchema.statics.addGroup = function(userid, _ids, cb) {
     }
   }
 
-  var query = { _id: userid };
-  that.find(query).exec(function(err, doc) {
+  var query = { _id: mongoose.Types.ObjectId(userid) };
+  that.findOne(query).exec(function(err, doc) {
     if (err) {
       console.log("addGroup err:", err);
       cb(err);
       return;
     }
-    if (doc && doc.length > 0) {
+    if (doc && doc._id) {
       var groups = [];
       // 原有群
       if (doc.groups) {
         groups = groups.concat(doc.groups);
+        console.log("原有群 doc.groups:", doc.groups);
       }
       // 新群
       groups = groups.concat(mongoose_ids);

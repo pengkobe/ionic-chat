@@ -20,8 +20,8 @@ exports.createGroup = function(req, res) {
     members: [userid],
     groupimg: groupimg
   });
+  // 第一步，创建组
   GroupEntity.save(function(err, doc) {
-    log4js.log("createGroup err", err);
     if (err) {
       log4js.err(err);
       res.json({ state: -1, message: err });
@@ -31,7 +31,7 @@ exports.createGroup = function(req, res) {
           log4js.err(err);
           res.json({ state: -1, message: err });
         } else {
-          // 向好友发送入群邀请
+          // 第二步，向好友发送入群邀请
           for (var i = 0; i < members.length; i++) {
             UserModel.addRequset_groupsDoc(
               userid,
@@ -57,7 +57,6 @@ exports.createGroup = function(req, res) {
 
 // 加载群成员
 exports.loadGroupMembers_ = function(req, res) {
-  //成功
   // 群名
   var groupname = req.body.groupname;
   var GroupEntity = new GroupModel({ groupname: groupname });
