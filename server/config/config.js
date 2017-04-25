@@ -1,8 +1,8 @@
 "use strict";
 var config = {
   jwt: {
-    cert: 'ionchat'
+    cert: "ionchat"
   }
-}
+};
 
 module.exports = config;
