@@ -81,7 +81,7 @@ angular.module('app.service', [])
 
     // ajax请求服务
     .factory('HttpFactory', function ($http, $ionicPopup, $ionicLoading, myNote, $timeout, ServerTokenService) {
-
+        
         /**
          * method – {string} – HTTP method (e.g. 'GET', 'POST', etc)
          * url – {string} – Absolute or relative URL of the resource that is being requested.

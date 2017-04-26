@@ -1,21 +1,30 @@
-<ion-view view-title="Account">
+<ion-view view-title="账户">
 	<ion-content>
-		<ion-list>
-			<ion-toggle ng-model="settings.enableFriends">
-				Enable Friends
-			</ion-toggle>
-			<div class="account-div">I am account tab!</div>
-		</ion-list>
+
 		<a class="weui-cell weui-cell_access js_item" data-id="input" href="javascript:;">
 			<div class="weui-cell__bd">
-				<p>完善信息</p>
+				<p> {{userinfo.username}} </p>
 			</div>
 			<div class="weui-cell__ft"></div>
 		</a>
-		 <a class="item item-icon-left item-icon-right" click-share href="#">
-                <i class="icon ion-share"></i>
-                分享
-                <i class="icon ion-ios-arrow-right"></i>
-         </a>
+
+		<!--<div class="account-div"></div>-->
+		<ion-list>
+			<ion-toggle ng-model="settings.enableFriends">
+				开启推送
+			</ion-toggle>
+		</ion-list>
+
+		<a class="item item-icon-left item-icon-right" click-share href="javascript:void(0);">
+			<i class="icon ion-share"></i> 分享
+			<i class="icon ion-ios-arrow-right"></i>
+		</a>
+
+		<a class="item item-icon-left item-icon-right" href="javascript:void(0);" ng-click="SwitchAccount()">
+			<i class="icon ion-logout"></i>
+			切换账号
+			<i class="icon ion-ios-arrow-right"></i>
+		</a>
+
 	</ion-content>
 </ion-view>
