@@ -24,7 +24,7 @@ angular.module('login.service', [])
     function ($state, $ionicHistory) {
       var _logout = function () {
         $ionicHistory.clearHistory();
-        $state.go('tab.login');
+        $state.go('login');
       };
       return {
         logout: _logout,

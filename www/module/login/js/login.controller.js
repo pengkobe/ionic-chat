@@ -22,7 +22,6 @@ function LoginController($scope, $rootScope, $ionicLoading, $state,
       if (data.state = 1) {
         UserService.setUserinfo(data.user);
         var token = data.token;
-
         ServerTokenService.setToken(token);
         $state.go('tab.chat');
       } else {
