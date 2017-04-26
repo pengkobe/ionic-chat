@@ -14,7 +14,6 @@ angular
     };
 
     $scope.SwitchAccount = function(){
-        
     }
 
   });

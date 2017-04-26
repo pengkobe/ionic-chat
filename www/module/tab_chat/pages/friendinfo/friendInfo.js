@@ -1,15 +1,18 @@
 angular.module('chat.controllers')
 .controller('friendInfoCtrl', function ($scope, Friends, Blacklist, $state, $ionicLoading,
-     $stateParams, $timeout, ResFriend) {
+     $stateParams, $timeout, ResFriend, UserService) {
         $scope.Target = Friends.get($stateParams.targetId);
         var targetId = $stateParams.targetId;
         var targetName = $stateParams.targetName;
         $scope.isFriend = true;
 
-        // 非好友
+        // 非好友 & 非自身
         if ($scope.Target == null) {
-            $scope.isFriend = false;
-            $scope.Target = { name: targetName, id: targetId };
+             $scope.Target = { name: targetName, id: targetId };
+             var userinfo = UserService.getUserinfo();
+             if(targetId != userinfo._id){
+                $scope.isFriend = false;
+             }
         }
 
         $scope.settings = {
@@ -55,7 +58,6 @@ angular.module('chat.controllers')
             });
         }
 
-        //////////////////////////////////////ws////////////////////////////////////////////////
         // 直接视频聊天
         $scope.vedioChat = function () {
             //alert('chatdetial:' + $stateParams.targetId);
