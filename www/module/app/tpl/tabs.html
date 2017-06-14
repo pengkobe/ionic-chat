@@ -16,11 +16,6 @@ navigation history that also transitions its views in and out.
 </ion-nav-bar>
 <ion-tabs class="tabs-icon-top tabs-color-active-positive" ng-class="{'tabs-item-hide': hideTabsxietong}">
 
-	<!-- Dashboard Tab -->
-	<ion-tab title="关于" icon-off="ion-ios-pulse" icon-on="ion-ios-pulse-strong" ui-sref="tab.dash">
-		<ion-nav-view name="tab-dash"></ion-nav-view>
-	</ion-tab>
-
 	<!-- Chats Tab -->
 	<ion-tab title="聊天" icon-off="ion-ios-chatboxes-outline" icon-on="ion-ios-chatboxes" ui-sref="tab.chat">
 		<ion-nav-view name="tab-chat"></ion-nav-view>
@@ -29,6 +24,11 @@ navigation history that also transitions its views in and out.
 	<!-- Account Tab -->
 	<ion-tab title="账户" icon-off="ion-ios-gear-outline" icon-on="ion-ios-gear" ui-sref="tab.account">
 		<ion-nav-view name="tab-account"></ion-nav-view>
+	</ion-tab>
+
+	<!-- Dashboard Tab -->
+	<ion-tab title="关于" icon-off="ion-ios-pulse" icon-on="ion-ios-pulse-strong" ui-sref="tab.dash">
+		<ion-nav-view name="tab-dash"></ion-nav-view>
 	</ion-tab>
 
 </ion-tabs>

@@ -17,7 +17,6 @@ angular
       CacheFactory.removeAll();
       ionic.Platform.exitApp();
     };
-
     /**
      * 切换账户
      */
