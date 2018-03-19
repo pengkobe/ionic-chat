@@ -11,7 +11,7 @@
     "connect-mongo": "^1.1.0",
     "cookie-parser": "~1.0.1",
     "debug": "~0.7.4",
-    "ejs": "~0.8.5",
+    "ejs": "~2.5.5",
     "express": "~4.2.0",
     "express-session": "^1.13.0",
     "jsonwebtoken": "^7.1.9",
